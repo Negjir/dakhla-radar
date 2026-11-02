@@ -48,19 +48,35 @@ CHL_CANDIDATES = CFG.get("chl_datasets") or [
 
 
 # ----------------------------------------------------------------- data access
+UA = {"User-Agent": "Mozilla/5.0 (dakhla-radar; +https://github.com/Negjir/dakhla-radar)"}
+
+
+def http_get(url, timeout=240):
+    """GET with a browser-like User-Agent (some servers refuse Python's default one)."""
+    import urllib.request
+
+    with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=timeout) as resp:
+        return resp.read()
+
+
 def _open(dataset_id, var, day, box):
     import copernicusmarine as cm
 
-    ds = cm.open_dataset(
+    kw = dict(
         dataset_id=dataset_id,
         variables=[var],
         minimum_longitude=box["lon_min"],
         maximum_longitude=box["lon_max"],
         minimum_latitude=box["lat_min"],
         maximum_latitude=box["lat_max"],
-        start_datetime=f"{day - dt.timedelta(days=3)}T00:00:00",
+        # ocean colour arrives 3-5 days late: ask for a wide window and keep the newest day that has data
+        start_datetime=f"{day - dt.timedelta(days=8)}T00:00:00",
         end_datetime=f"{day}T23:59:59",
     )
+    try:
+        ds = cm.open_dataset(coordinates_selection_method="inside", **kw)   # clip the window to what exists
+    except TypeError:   # older toolbox without this option
+        ds = cm.open_dataset(**kw)
     da = ds[var]
     if "depth" in da.dims:
         da = da.isel(depth=0)
@@ -69,8 +85,10 @@ def _open(dataset_id, var, day, box):
         frame = da.isel(time=t)
         if np.isfinite(frame.values).mean() > 0.2:
             used = str(np.datetime_as_string(frame["time"].values, unit="D"))
+            if (day - dt.date.fromisoformat(used)).days > MAX_AGE_DAYS:
+                raise RuntimeError(f"newest data is {used}, too old")
             return frame, used
-    raise RuntimeError("no valid data in the last 3 days")
+    raise RuntimeError("no valid data in the last 8 days")
 
 
 def fetch(candidates, day, box, label):
@@ -92,7 +110,8 @@ def fetch(candidates, day, box, label):
 # NASA / NOAA data through ERDDAP servers: no account needed.
 SST_ERDDAP = CFG.get("sst_erddap") or [
     # NASA JPL MUR SST, 0.01 deg (~1 km), daily, multi-satellite (MODIS, VIIRS, AVHRR, AMSR2 microwave)
-    {"name": "NASA MUR 1km", "base": "https://coastwatch.pfeg.noaa.gov/erddap/griddap/jplMURSST41", "var": "analysed_sst", "alt": False, "stride": 3},
+    {"name": "NASA MUR 1km", "base": "https://coastwatch.pfeg.noaa.gov/erddap/griddap/jplMURSST41",
+     "mirrors": ["https://upwell.pfeg.noaa.gov/erddap/griddap/jplMURSST41"], "var": "analysed_sst", "alt": False, "stride": 3},
 ]
 CHL_ERDDAP = CFG.get("chl_erddap") or [
     # NOAA VIIRS (S-NPP + NOAA-20) chlorophyll, gap-filled DINEOF, ~9 km, daily
@@ -105,7 +124,6 @@ SOURCES = {}   # what was actually used today, shown in the message and page
 def erddap(src, day, box):
     """Download one day (or the latest available) from an ERDDAP griddap dataset. Returns a 2-D DataArray (lat descending) and its date."""
     import tempfile
-    import urllib.request
 
     import xarray as xr
 
@@ -115,12 +133,12 @@ def erddap(src, day, box):
     alt = "[(0.0)]" if src.get("alt") else ""
     times = [f"({d}T12:00:00Z)" for d in (day, day - dt.timedelta(days=1), day - dt.timedelta(days=2))] + ["(last)"]
     last_err = None
-    for tq in times:
-        url = f"{src['base']}.nc?{src['var']}[{tq}]{alt}{sp}"
+    for tq, base in [(t, b) for b in [src["base"]] + src.get("mirrors", []) for t in times]:
+        url = f"{base}.nc?{src['var']}[{tq}]{alt}{sp}"
         try:
+            data = http_get(url)
             with tempfile.NamedTemporaryFile(suffix=".nc", delete=False) as f:
-                with urllib.request.urlopen(url, timeout=240) as resp:
-                    f.write(resp.read())
+                f.write(data)
                 path = f.name
             ds = xr.open_dataset(path)
             da = ds[src["var"]]

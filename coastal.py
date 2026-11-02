@@ -66,10 +66,19 @@ def mur_sst():
     import xarray as xr
 
     lat0, lat1, lon0, lon1 = all_box()
-    url = f"{ERDDAP}.nc?analysed_sst[(last)][({lat0:.3f}):({lat1:.3f})][({lon0:.3f}):({lon1:.3f})]"
+    q = f".nc?analysed_sst[(last)][({lat0:.3f}):({lat1:.3f})][({lon0:.3f}):({lon1:.3f})]"
+    data, err = None, None
+    for base in [ERDDAP, ERDDAP.replace("coastwatch.pfeg.noaa.gov", "upwell.pfeg.noaa.gov")]:
+        try:
+            data = radar.http_get(base + q, timeout=180)
+            break
+        except Exception as e:  # noqa: BLE001
+            err = e
+            print(f"[skip] MUR from {base.split('/')[2]}: {e}")
+    if data is None:
+        raise RuntimeError(err)
     with tempfile.NamedTemporaryFile(suffix=".nc", delete=False) as f:
-        with urllib.request.urlopen(url, timeout=180) as r:
-            f.write(r.read())
+        f.write(data)
         path = f.name
     ds = xr.open_dataset(path)
     da = ds["analysed_sst"].isel(time=0).sortby("latitude", ascending=False)
@@ -107,8 +116,7 @@ def chlorophyll(day):
 
 
 def get_json(url):
-    with urllib.request.urlopen(url, timeout=60) as r:
-        return json.loads(r.read().decode())
+    return json.loads(radar.http_get(url, timeout=60).decode())
 
 
 def conditions(p):
