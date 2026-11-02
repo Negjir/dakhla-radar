@@ -249,7 +249,7 @@ def message(days, zones_by_day, cui, today):
             lines.append(f"{DAYS_AR[d.weekday()]} (+{k + 1}): لا جبهة قوية متوقعة.")
             continue
         z = zs[0]
-        lines.append(f"{DAYS_AR[d.weekday()]} (+{k + 1}): {radar.pos(z['lat'], z['lon'])} · {z['distance_nm']} nm · {z['bearing_deg']}° · ثقة {z['confidence']}%")
+        lines.append(f"{DAYS_AR[d.weekday()]} (+{k + 1}): {radar.pos(z['lat'], z['lon'])} · {radar.ltr(f"{z['distance_nm']} nm · {z['bearing_deg']}°")} · ثقة {z['confidence']}%")
     lines += ["", "توقعات تقديرية، تتأكد صباحاً بخريطة الأقمار وبالسونار."]
     return "\n".join(lines)
 

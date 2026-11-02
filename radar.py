@@ -270,22 +270,31 @@ def score_field(lats, lons, sst, chl, reports):
 
     ocean = np.isfinite(sst)
     step_km = abs(lats[1] - lats[0]) * 111
-    filled = np.where(ocean, sst, np.nanmean(sst))
-    sm = gaussian_filter(filled, 1.2)
+    # land-aware smoothing: land cells don't leak a fake front into the coast
+    w = gaussian_filter(ocean.astype("float32"), 1.2)
+    sm = gaussian_filter(np.where(ocean, sst, 0), 1.2) / np.maximum(w, 1e-3)
+    sm = np.where(w > 0.5, sm, np.nan)
+    sm = np.where(np.isfinite(sm), sm, np.nanmean(sm))
     coslat = math.cos(math.radians(float(np.mean(lats))))
     gx = sobel(sm, axis=1) / (8 * step_km * coslat)
     gy = sobel(sm, axis=0) / (8 * step_km)
     grad = np.hypot(gx, gy)  # deg C per km
     grad[~ocean] = 0
+    grad[w < 0.85] = 0      # last cells before land: gradient not reliable
     grad_s = gaussian_filter(grad, 1.5)
     ref = np.nanpercentile(grad_s[ocean], 97) or 1e-6
     front = np.clip(grad_s / ref, 0, 1)
 
-    lc = np.log10(np.where(np.isfinite(chl) & (chl > 0), chl, 0.1))
+    has_chl = np.isfinite(chl) & (chl > 0)
+    lc = np.log10(np.where(has_chl, chl, 0.1))
     chl_ok = np.exp(-((lc - CFG.get("chl_best_log10", 0.25)) ** 2) / 0.35)
+    if has_chl[ocean].mean() < 0.15:          # no chlorophyll today: rank on temperature fronts only
+        chl_ok = np.full_like(chl_ok, 0.5)
 
     dist_km = distance_transform_edt(ocean) * step_km
-    dist_w = np.where(dist_km < 4, 0.2, np.exp(-np.clip(dist_km - CFG.get("max_offshore_km", 150), 0, None) / 60))
+    # big vessels: coastal strip gets little weight (min_offshore_km, then a ramp), far offshore fades out
+    near = np.clip((dist_km - CFG.get("min_offshore_km", 6)) / CFG.get("offshore_ramp_km", 8), 0, 1)
+    dist_w = near * np.exp(-np.clip(dist_km - CFG.get("max_offshore_km", 150), 0, None) / 60)
 
     s = (front * 0.62 + chl_ok * 0.38) * dist_w
     LON, LAT = np.meshgrid(lons, lats)
@@ -295,7 +304,22 @@ def score_field(lats, lons, sst, chl, reports):
         s = s + 0.18 * w * np.exp(-d2 / 0.02)
     s[~ocean] = 0
     mx = s.max() or 1
+    SCORE_PARTS.update(front_abs=grad_s, chl_ok=chl_ok, has_chl=has_chl[ocean].mean() >= 0.15)
     return np.power(s / mx, 2.4), grad
+
+
+SCORE_PARTS = {}
+
+
+def confidence(j, i):
+    """How strong the signal is at this spot in absolute terms (not relative to today's best):
+    front strength in degC/km + chlorophyll suitability, lowered when chlorophyll is missing. Capped at 95%."""
+    if not SCORE_PARTS:
+        return None
+    f = float(np.clip(SCORE_PARTS["front_abs"][j, i] / CFG.get("strong_front_c_per_km", 0.10), 0, 1))
+    c = float(SCORE_PARTS["chl_ok"][j, i])
+    q = 1.0 if SCORE_PARTS["has_chl"] else 0.85
+    return round(min(0.95, (0.30 + 0.50 * f + 0.20 * c) * q) * 100)
 
 
 def pick_zones(lats, lons, score, n=5):
@@ -314,11 +338,12 @@ def pick_zones(lats, lons, score, n=5):
         cand.append((float(score[j, i]), la, lo, dnm))
     cand.sort(reverse=True)
     out = []
+    idx = {(float(lats[j]), float(lons[i])): (j, i) for j, i in zip(*np.nonzero(peaks))}
     for v, la, lo, dnm in cand:
         if all(math.hypot(la - z["lat"], (lo - z["lon"]) * 0.92) > 0.45 for z in out):
             b = bearing(port["lat"], port["lon"], la, lo)
             out.append({"id": "ABCDE"[len(out)], "lat": round(la, 4), "lon": round(lo, 4),
-                        "confidence": round(v * 100), "distance_nm": round(dnm),
+                        "confidence": confidence(*idx[(la, lo)]) if SCORE_PARTS else round(v * 100), "distance_nm": round(dnm),
                         "bearing_deg": round(b),
                         "fuel_l": round(dnm * 2 * CFG.get("fuel_l_per_nm", 15))})
         if len(out) == n:
@@ -334,8 +359,13 @@ def dm(v, width, hemi):
     return f"{d:0{width}d}°{m:04.1f}'{hemi[0] if v >= 0 else hemi[1]}"
 
 
+def ltr(t):
+    """Keep coordinates/numbers left-to-right inside Arabic text (WhatsApp, web)."""
+    return f"\u2066{t}\u2069"
+
+
 def pos(la, lo):
-    return f"{dm(la, 2, 'NS')} {dm(lo, 3, 'EW')}"
+    return ltr(f"{dm(la, 2, 'NS')} {dm(lo, 3, 'EW')}")
 
 
 COMPASS_AR = ["شمال", "شمال شرق", "شرق", "جنوب شرق", "جنوب", "جنوب غرب", "غرب", "شمال غرب"]
@@ -348,18 +378,18 @@ def message(zones, data_day):
     z = zones[0]
     k = round(z["bearing_deg"] / 45) % 8
     lines = [
-        f"🐟 رادار الصيد · {data_day}",
+        f"🐟 رادار الصيد · {ltr(data_day)}",
         f"أفضل منطقة: {z['id']} (ثقة {z['confidence']}%)",
         f"الموقع: {pos(z['lat'], z['lon'])}",
-        f"من الميناء: {z['distance_nm']} nm · {z['bearing_deg']}° {COMPASS[k]} ({COMPASS_AR[k]})",
-        f"الوقود ذهاباً وإياباً ≈ {z['fuel_l']:,} L",
+        f"من الميناء: {ltr(f"{z['distance_nm']} nm · {z['bearing_deg']}° {COMPASS[k]}")} ({COMPASS_AR[k]})",
+        f"الوقود ذهاباً وإياباً ≈ {ltr(f"{z['fuel_l']:,} L")}",
         "",
         "مناطق أخرى:",
     ]
     for o in zones[1:]:
-        lines.append(f"{o['id']}: {pos(o['lat'], o['lon'])} · {o['distance_nm']} nm · {o['confidence']}%")
+        lines.append(f"المنطقة {o['id']}: {pos(o['lat'], o['lon'])} · {ltr(f"{o['distance_nm']} nm")} · ثقة {o['confidence']}%")
     if SOURCES:
-        lines += ["", "المصادر: " + " · ".join(f"{'حرارة' if k == 'SST' else 'كلوروفيل'} {v}" for k, v in SOURCES.items())]
+        lines += ["", "المصادر: " + " · ".join(f"{'حرارة' if lab == 'SST' else 'كلوروفيل'} {ltr(v)}" for lab, v in SOURCES.items())]
     lines += ["", "بعد الصيد أرسل: الموقع، الكمية، النوع، ساعات البحث."]
     return "\n".join(lines)
 
@@ -430,7 +460,7 @@ def draw_map(lats, lons, sst, chl, score, grad, zones, data_day, path, only_inde
 def write_page(zones, msg, data_day, demo):
     rows = "".join(
         f"<tr><td>{z['id']}</td><td>{z['confidence']}%</td><td dir='ltr'>{pos(z['lat'], z['lon'])}</td>"
-        f"<td>{z['distance_nm']} nm · {z['bearing_deg']}°</td><td>{z['fuel_l']:,} L</td></tr>" for z in zones)
+        f"<td dir='ltr'>{z['distance_nm']} nm · {z['bearing_deg']}°</td><td dir='ltr'>{z['fuel_l']:,} L</td></tr>" for z in zones)
     warn = "<p class='w'>بيانات تجريبية (demo) وليست قراءات حقيقية.</p>" if demo else ""
     page = f"""<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>رادار الصيد · الداخلة</title>
