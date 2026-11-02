@@ -1,3 +1,29 @@
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>رادار الصيد · الداخلة</title>
-<style>body{margin:0;background:#06121d;color:#e6eef3;font-family:system-ui,sans-serif;display:grid;place-items:center;min-height:100vh;padding:16px;text-align:center}</style></head>
-<body><div><h1>رادار الصيد · الداخلة</h1><p>في انتظار أول تشغيل ببيانات الأقمار الصناعية.</p></div></body></html>
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>رادار الصيد · الداخلة</title>
+<style>body{margin:0;background:#06121d;color:#e6eef3;font-family:system-ui,sans-serif;padding:16px}
+main{max-width:1100px;margin:auto}img{width:100%;border-radius:12px;border:1px solid #1c3448}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:8px;border-bottom:1px solid #1c3448;text-align:start}
+pre{white-space:pre-wrap;background:#0a2a22;border:1px solid #1f5b49;border-radius:12px;padding:12px;font:15px/1.7 system-ui}
+button{background:#4fe3d6;border:0;border-radius:999px;padding:12px 18px;font-weight:700;font-size:15px}
+.w{color:#ffb547}.s{color:#8aa3b4;font-size:13px}.t{overflow-x:auto}</style></head><body><main>
+<h1>رادار الصيد · الداخلة</h1><p><a style="color:#4fe3d6;font-weight:700" href="forecast.html">← توقعات الأيام الثلاثة القادمة</a></p><p><a style="color:#4fe3d6;font-weight:700" href="coastal/">← رادار الساحل للقوارب التقليدية</a></p><p class="s">بيانات يوم 2026-11-01 · تحديث 2026-11-02 13:10 UTC</p>
+<img src="captain.png?v=2026-11-01" alt="خريطة مؤشر الصيد للربابنة"><p class="s">الصورة أعلاه للإرسال إلى الربابنة. التفاصيل الكاملة: <a style="color:#4fe3d6" href="map.png?v=2026-11-01">الحرارة والكلوروفيل</a></p>
+<h2>رسالة الربابنة</h2><pre id="m">🐟 رادار الصيد · 2026-11-01
+أفضل منطقة: A (ثقة 100%)
+الموقع: 25°31.5&#x27;N 014°49.5&#x27;W
+من الميناء: 125 nm · 29° NE (شمال شرق)
+الوقود ذهاباً وإياباً ≈ 3,738 L
+
+مناطق أخرى:
+B: 24°43.5&#x27;N 014°58.5&#x27;W · 80 nm · 99%
+C: 23°34.5&#x27;N 016°01.5&#x27;W · 10 nm · 98%
+D: 23°10.5&#x27;N 017°10.5&#x27;W · 76 nm · 83%
+E: 24°13.5&#x27;N 015°25.5&#x27;W · 42 nm · 83%
+
+المصادر: حرارة Copernicus 2026-11-01 · كلوروفيل NOAA VIIRS 9km 2026-10-30
+
+بعد الصيد أرسل: الموقع، الكمية، النوع، ساعات البحث.</pre>
+<button onclick="navigator.clipboard.writeText(document.getElementById('m').innerText).then(()=>this.textContent='تم النسخ')">نسخ الرسالة</button>
+<h2>المناطق</h2><div class="t"><table><tr><th></th><th>الثقة</th><th>الموقع</th><th>المسافة</th><th>وقود ذهاب وإياب</th></tr><tr><td>A</td><td>100%</td><td dir='ltr'>25°31.5'N 014°49.5'W</td><td>125 nm · 29°</td><td>3,738 L</td></tr><tr><td>B</td><td>99%</td><td dir='ltr'>24°43.5'N 014°58.5'W</td><td>80 nm · 40°</td><td>2,409 L</td></tr><tr><td>C</td><td>98%</td><td dir='ltr'>23°34.5'N 016°01.5'W</td><td>10 nm · 215°</td><td>286 L</td></tr><tr><td>D</td><td>83%</td><td dir='ltr'>23°10.5'N 017°10.5'W</td><td>76 nm · 245°</td><td>2,274 L</td></tr><tr><td>E</td><td>83%</td><td dir='ltr'>24°13.5'N 015°25.5'W</td><td>42 nm · 41°</td><td>1,246 L</td></tr></table></div>
+<p class="s">المؤشر يجمع الجبهات الحرارية والكلوروفيل وتقارير الربابنة. مساعدة في القرار وليس ضماناً للصيد. احترم مناطق المنع والحصص الرسمية.</p>
+</main></body></html>

@@ -1,0 +1,52 @@
+{
+  "data_day": "2026-11-01",
+  "demo": false,
+  "reports_used": 0,
+  "zones": [
+    {
+      "id": "A",
+      "lat": 25.525,
+      "lon": -14.825,
+      "confidence": 100,
+      "distance_nm": 125,
+      "bearing_deg": 29,
+      "fuel_l": 3738
+    },
+    {
+      "id": "B",
+      "lat": 24.725,
+      "lon": -14.975,
+      "confidence": 99,
+      "distance_nm": 80,
+      "bearing_deg": 40,
+      "fuel_l": 2409
+    },
+    {
+      "id": "C",
+      "lat": 23.575,
+      "lon": -16.025,
+      "confidence": 98,
+      "distance_nm": 10,
+      "bearing_deg": 215,
+      "fuel_l": 286
+    },
+    {
+      "id": "D",
+      "lat": 23.175,
+      "lon": -17.175,
+      "confidence": 83,
+      "distance_nm": 76,
+      "bearing_deg": 245,
+      "fuel_l": 2274
+    },
+    {
+      "id": "E",
+      "lat": 24.225,
+      "lon": -15.425,
+      "confidence": 83,
+      "distance_nm": 42,
+      "bearing_deg": 41,
+      "fuel_l": 1246
+    }
+  ]
+}
