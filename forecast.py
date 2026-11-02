@@ -308,7 +308,7 @@ def main():
     msg = message(days, zones_by_day, cui, today)
     (OUT / "forecast_message.txt").write_text(msg, encoding="utf-8")
     (OUT / "forecast.json").write_text(json.dumps({
-        "issued": str(today), "demo": a.demo, "model": src,
+        "issued": str(today), "demo": a.demo, "model": src, "headline": (msg.split("\n") + [""])[1],
         "days": [{"date": str(d), "zones": zs} for d, zs in zip(days, zones_by_day)],
         "upwelling_index": [{"lat": p[0], "lon": p[1], "daily": c} for p, c in zip(COAST_POINTS, cui)],
     }, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -317,6 +317,7 @@ def main():
             for z in zs:
                 f.write(f"{today},{d},D+{k + 1},{z['id']},{z['lat']},{z['lon']},{z['confidence']}\n")
     page(msg, days, today, a.demo)
+    radar.build_console()   # refresh the console with the new 3-day outlook
     print(msg)
 
 

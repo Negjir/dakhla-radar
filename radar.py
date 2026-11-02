@@ -480,7 +480,56 @@ button{{background:#4fe3d6;border:0;border-radius:999px;padding:12px 18px;font-w
 <h2>المناطق</h2><div class="t"><table><tr><th></th><th>الثقة</th><th>الموقع</th><th>المسافة</th><th>وقود ذهاب وإياب</th></tr>{rows}</table></div>
 <p class="s">المؤشر يجمع الجبهات الحرارية والكلوروفيل وتقارير الربابنة. مساعدة في القرار وليس ضماناً للصيد. احترم مناطق المنع والحصص الرسمية.</p>
 </main></body></html>"""
-    (OUT / "index.html").write_text(page, encoding="utf-8")
+    (OUT / "simple.html").write_text(page, encoding="utf-8")   # plain version; docs/index.html is the console
+
+
+# ----------------------------------------------------------------- console (docs/index.html)
+def write_console_data(lats, lons, sst, chl, score, zones, data_day, demo):
+    """Everything the web console needs, in docs/radar.json (grids packed as small integers)."""
+    ocean = np.isfinite(sst)
+
+    def pack(a, k):
+        return [None if (not o or not np.isfinite(v)) else int(round(float(v) * k)) for v, o in zip(a.ravel(), ocean.ravel())]
+
+    chl_log = np.log10(np.where(np.isfinite(chl) & (chl > 0), chl, np.nan))
+    for z in zones:   # what made each spot stand out
+        j, i = int(np.argmin(abs(lats - z["lat"]))), int(np.argmin(abs(lons - z["lon"])))
+        if SCORE_PARTS:
+            z["f"] = {"front": round(float(np.clip(SCORE_PARTS["front_abs"][j, i] / CFG.get("strong_front_c_per_km", 0.10), 0, 1)), 2),
+                      "chl": round(float(SCORE_PARTS["chl_ok"][j, i]), 2) if SCORE_PARTS["has_chl"] else None}
+        z["sst"] = round(float(sst[j, i]), 1) if np.isfinite(sst[j, i]) else None
+        z["chl_mg"] = round(float(chl[j, i]), 2) if np.isfinite(chl[j, i]) else None
+    cond = None
+    try:   # wind, waves and sea level at the port (Open-Meteo)
+        if demo:
+            raise RuntimeError("demo")
+        import coastal
+        cond = coastal.conditions({"lat": CFG["port"]["lat"], "lon": CFG["port"]["lon"]})
+    except Exception as e:  # noqa: BLE001
+        print("[info] port conditions:", e)
+    data = {"day": data_day, "made": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "demo": demo,
+            "port": {**CFG["port"], "ar": CFG["port"].get("ar", "ميناء الداخلة"), "fr": CFG["port"].get("fr", "Port de Dakhla")},
+            "range_nm": CFG.get("max_range_nm", 150), "fuel_l_per_nm": CFG.get("fuel_l_per_nm", 15),
+            "sources": dict(SOURCES), "zones": zones, "conditions": cond,
+            "grid": {"n": int(len(lats)), "m": int(len(lons)), "lat0": round(float(lats[0]), 4), "lon0": round(float(lons[0]), 4),
+                     "cell": round(float(abs(lats[1] - lats[0])), 5), "score": pack(score, 99), "sst": pack(sst, 10), "chl": pack(chl_log, 100)}}
+    (OUT / "radar.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+
+
+def build_console():
+    """docs/index.html = radar_console.html + today's radar.json + the latest forecast.json (called by radar.py and forecast.py)."""
+    rj, fj, tpl = OUT / "radar.json", OUT / "forecast.json", ROOT / "radar_console.html"
+    if not rj.exists() or not tpl.exists():
+        return
+    data = json.loads(rj.read_text(encoding="utf-8"))
+    if fj.exists():
+        fc = json.loads(fj.read_text(encoding="utf-8"))
+        data["forecast"] = {"issued": fc.get("issued"), "headline": fc.get("headline"), "days": [d for d in fc.get("days", []) if d["date"] > data["day"]][:3]}
+    js = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+    head = ('<!doctype html>\n<html lang="ar"><head><meta charset="utf-8">'
+            '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>\n')
+    html_ = tpl.read_text(encoding="utf-8").replace("/*DATA*/null", js)
+    (OUT / "index.html").write_text(head + html_ + "\n</body></html>\n", encoding="utf-8")
 
 
 # ----------------------------------------------------------------- main
@@ -513,6 +562,8 @@ def main():
         for z in zones:
             f.write(f"{data_day},{z['id']},{z['lat']},{z['lon']},{z['confidence']},{z['distance_nm']}\n")
     write_page(zones, msg, data_day, a.demo)
+    write_console_data(lats, lons, sst, chl, score, zones, data_day, a.demo)
+    build_console()
     print(msg)
 
 

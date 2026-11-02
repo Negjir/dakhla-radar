@@ -46,6 +46,8 @@ button,input{font:inherit;color:inherit}
 .langs{display:inline-flex;border:1px solid var(--edge);border-radius:8px;overflow:hidden;direction:ltr;flex:none}
 .langs button{border:0;background:none;padding:7px 10px;font:600 12px var(--tech);color:var(--mute);cursor:pointer;min-height:34px}
 .langs button[aria-pressed="true"]{background:rgba(79,230,255,.16);color:var(--ink)}
+.xlink{flex:none;border:1px solid var(--edge2);border-radius:8px;padding:7px 11px;font-weight:600;font-size:12.5px;color:var(--cyan);text-decoration:none;white-space:nowrap}
+.xlink:hover{background:rgba(79,230,255,.12)}
 .demo{font:700 11px var(--mono);color:#1a1000;background:var(--amber);border-radius:5px;padding:3px 7px;letter-spacing:.08em;direction:ltr}
 
 /* map */
@@ -153,6 +155,7 @@ button,input{font:inherit;color:inherit}
     <div class="langs" role="group" aria-label="Language">
       <button data-l="ar" aria-pressed="true">ع</button><button data-l="fr" aria-pressed="false">FR</button><button data-l="en" aria-pressed="false">EN</button>
     </div>
+    <a class="xlink" id="xlink" href="../"></a>
   </header>
 
   <section class="mapbox glass" aria-label="map">
@@ -205,21 +208,21 @@ const T={
   km:"كم",from:"من",shore:"من الشاطئ",eta:"الوصول",fuel:"وقود",high:"ثقة مرتفعة",medium:"ثقة متوسطة",low:"ثقة منخفضة",none:"لا توجد جبهات واضحة قرب الساحل اليوم.",
   wave:"الموج",up:"صعود المياه",tides:"المد",hi:"عالٍ",lo:"منخفض",species:"الكوربين · التاسرگال · البوري · البونيت",clouds:"غيوم",nochl:"لا كلوروفيل اليوم (غيوم)",
   score:"مؤشر المنطقة",sstl:"حرارة الماء °C",chll:"كلوروفيل mg/m³",zone:"المنطقة",strong:"قوي",weak:"ضعيف",mod:"متوسط",now:"الآن",data:"بيانات",radar:"رادار الساحل",
-  comp:["شمال","شمال شرق","شرق","جنوب شرق","جنوب","جنوب غرب","غرب","شمال غرب"],min:"د"},
+  comp:["شمال","شمال شرق","شرق","جنوب شرق","جنوب","جنوب غرب","غرب","شمال غرب"],min:"د",xlink:"← رادار السفن الكبيرة"},
  fr:{zones:"Meilleures zones du jour",why:"Pourquoi cette zone",boat:"Votre barque et le carburant",speed:"Vitesse",cons:"Conso.",copy:"Copier le message WhatsApp",copied:"Copié",
   note:"Indice satellite quotidien des eaux les plus favorables. Il ne garantit pas la présence de poisson. Marée et état de mer approximatifs, pas pour la navigation.",
   tide:"Marée et vent · 30 h",wind:"Vent",front:"Front thermique",chl:"Chlorophylle (nourriture)",cold:"Remontée d'eau froide",sst:"Temp.",chlv:"Chloro.",rt:"aller-retour",
   km:"km",from:"de",shore:"de la côte",eta:"Trajet",fuel:"Carburant",high:"confiance élevée",medium:"confiance moyenne",low:"confiance faible",none:"Pas de front net près de la côte aujourd'hui.",
   wave:"Houle",up:"Upwelling",tides:"Marée",hi:"PM",lo:"BM",species:"Courbine · Tassergal · Mulet · Bonite",clouds:"nuages",nochl:"Pas de chlorophylle aujourd'hui (nuages)",
   score:"Indice de zone",sstl:"Température de l'eau °C",chll:"Chlorophylle mg/m³",zone:"Zone",strong:"fort",weak:"faible",mod:"moyen",now:"maint.",data:"données",radar:"Radar côtier",
-  comp:["N","NE","E","SE","S","SO","O","NO"],min:"min"},
+  comp:["N","NE","E","SE","S","SO","O","NO"],min:"min",xlink:"Radar large →"},
  en:{zones:"Best zones today",why:"Why this spot",boat:"Your boat and fuel",speed:"Speed",cons:"Burn",copy:"Copy WhatsApp message",copied:"Copied",
   note:"Daily satellite index of the most favourable water. It does not guarantee fish. Tide and sea state are approximate and not for navigation.",
   tide:"Tide and wind · 30 h",wind:"Wind",front:"Thermal front",chl:"Chlorophyll (food)",cold:"Cold upwelled water",sst:"SST",chlv:"Chl",rt:"round trip",
   km:"km",from:"from",shore:"off shore",eta:"Run",fuel:"Fuel",high:"high confidence",medium:"medium confidence",low:"low confidence",none:"No clear front near the coast today.",
   wave:"Waves",up:"Upwelling",tides:"Tide",hi:"High",lo:"Low",species:"Meagre · Bluefish · Mullet · Bonito",clouds:"clouds",nochl:"No chlorophyll today (clouds)",
   score:"Zone score",sstl:"Water temperature °C",chll:"Chlorophyll mg/m³",zone:"Zone",strong:"strong",weak:"weak",mod:"moderate",now:"now",data:"data",radar:"Coast radar",
-  comp:["N","NE","E","SE","S","SW","W","NW"],min:"min"}};
+  comp:["N","NE","E","SE","S","SW","W","NW"],min:"min",xlink:"Offshore radar →"}};
 const NAME={ar:p=>p.ar,fr:p=>p.fr,en:p=>p.fr};
 const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
 let L="ar",PI=0,ZI=0,layer="score";
@@ -466,7 +469,7 @@ function header(){
   $("#leds").innerHTML=`<span><i></i>SST MUR 1km</span><span><i class="${cov>.15?"":"w"}"></i>CHL ${cov>.15?Math.round(cov*100)+"%":t("clouds")}</span><span><i class="${P.conditions&&P.conditions.series?"":"w"}"></i>WIND·TIDE</span>`;
   $("#hpt").textContent=(NAME[L](P.point)+" · "+t("radar")).toUpperCase();$("#hday").textContent=`SST ${DATA.sst_day} · BUILT ${DATA.made||""}`;
   $("#hsrc").textContent="NASA MUR SST · Copernicus Marine · Open-Meteo";
-  $("#species").textContent=t("species");$("#species").classList.toggle("num",false);
+  $("#species").textContent=t("species");$("#species").classList.toggle("num",false);$("#xlink").textContent=t("xlink");
 }
 function texts(){
   const con=$("#con");con.dir=L==="ar"?"rtl":"ltr";con.lang=L;document.documentElement.lang=L;
