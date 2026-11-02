@@ -5,48 +5,48 @@
   "zones": [
     {
       "id": "A",
-      "lat": 24.33,
-      "lon": -15.36,
-      "confidence": 100,
-      "distance_nm": 49,
-      "bearing_deg": 39,
-      "fuel_l": 1459
+      "lat": 21.69,
+      "lon": -17.52,
+      "confidence": 82,
+      "distance_nm": 150,
+      "bearing_deg": 216,
+      "fuel_l": 4491
     },
     {
       "id": "B",
-      "lat": 22.62,
-      "lon": -16.44,
-      "confidence": 100,
-      "distance_nm": 71,
-      "bearing_deg": 204,
-      "fuel_l": 2131
+      "lat": 22.11,
+      "lon": -17.16,
+      "confidence": 80,
+      "distance_nm": 118,
+      "bearing_deg": 216,
+      "fuel_l": 3526
     },
     {
       "id": "C",
-      "lat": 21.48,
-      "lon": -17.04,
-      "confidence": 97,
-      "distance_nm": 147,
-      "bearing_deg": 205,
-      "fuel_l": 4413
+      "lat": 22.68,
+      "lon": -17.22,
+      "confidence": 81,
+      "distance_nm": 94,
+      "bearing_deg": 229,
+      "fuel_l": 2828
     },
     {
       "id": "D",
-      "lat": 22.11,
-      "lon": -17.34,
-      "confidence": 92,
-      "distance_nm": 124,
-      "bearing_deg": 219,
-      "fuel_l": 3708
+      "lat": 24.21,
+      "lon": -17.19,
+      "confidence": 69,
+      "distance_nm": 76,
+      "bearing_deg": 294,
+      "fuel_l": 2271
     },
     {
       "id": "E",
-      "lat": 22.26,
-      "lon": -16.83,
-      "confidence": 90,
-      "distance_nm": 100,
-      "bearing_deg": 210,
-      "fuel_l": 3002
+      "lat": 25.5,
+      "lon": -15.48,
+      "confidence": 66,
+      "distance_nm": 110,
+      "bearing_deg": 13,
+      "fuel_l": 3312
     }
   ]
 }
