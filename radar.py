@@ -377,17 +377,20 @@ def message(zones, data_day):
         return f"رادار الصيد · {data_day}\nلا توجد جبهات قوية اليوم في مدى {CFG.get('max_range_nm',150)} ميل."
     z = zones[0]
     k = round(z["bearing_deg"] / 45) % 8
+    away = ltr("%s nm · %s° %s" % (z["distance_nm"], z["bearing_deg"], COMPASS[k]))
+    fuel = ltr("{:,} L".format(z["fuel_l"]))
     lines = [
         f"🐟 رادار الصيد · {ltr(data_day)}",
         f"أفضل منطقة: {z['id']} (ثقة {z['confidence']}%)",
         f"الموقع: {pos(z['lat'], z['lon'])}",
-        f"من الميناء: {ltr(f"{z['distance_nm']} nm · {z['bearing_deg']}° {COMPASS[k]}")} ({COMPASS_AR[k]})",
-        f"الوقود ذهاباً وإياباً ≈ {ltr(f"{z['fuel_l']:,} L")}",
+        f"من الميناء: {away} ({COMPASS_AR[k]})",
+        f"الوقود ذهاباً وإياباً ≈ {fuel}",
         "",
         "مناطق أخرى:",
     ]
     for o in zones[1:]:
-        lines.append(f"المنطقة {o['id']}: {pos(o['lat'], o['lon'])} · {ltr(f"{o['distance_nm']} nm")} · ثقة {o['confidence']}%")
+        dist = ltr("%s nm" % o["distance_nm"])
+        lines.append(f"المنطقة {o['id']}: {pos(o['lat'], o['lon'])} · {dist} · ثقة {o['confidence']}%")
     if SOURCES:
         lines += ["", "المصادر: " + " · ".join(f"{'حرارة' if lab == 'SST' else 'كلوروفيل'} {ltr(v)}" for lab, v in SOURCES.items())]
     lines += ["", "بعد الصيد أرسل: الموقع، الكمية، النوع، ساعات البحث."]
