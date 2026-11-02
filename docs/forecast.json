@@ -2,54 +2,55 @@
   "issued": "2026-11-02",
   "demo": false,
   "model": "cmems_mod_glo_phy-thetao_anfc_0.083deg_P1D-m",
+  "headline": "لا حدث رياح قوي في الأيام الثلاثة القادمة. أقوى يوم: الخميس.",
   "days": [
     {
       "date": "2026-11-03",
       "zones": [
         {
           "id": "A",
-          "lat": 24.5833,
-          "lon": -15.1667,
-          "confidence": 90,
-          "distance_nm": 67,
-          "bearing_deg": 38,
-          "fuel_l": 2013
-        },
-        {
-          "id": "B",
-          "lat": 23.5833,
-          "lon": -16.0,
-          "confidence": 78,
-          "distance_nm": 8,
-          "bearing_deg": 209,
-          "fuel_l": 252
-        },
-        {
-          "id": "C",
           "lat": 22.1667,
           "lon": -17.3333,
-          "confidence": 72,
+          "confidence": 60,
           "distance_nm": 121,
           "bearing_deg": 220,
           "fuel_l": 3622
         },
         {
-          "id": "D",
+          "id": "B",
+          "lat": 25.0833,
+          "lon": -15.0,
+          "confidence": 59,
+          "distance_nm": 97,
+          "bearing_deg": 31,
+          "fuel_l": 2908
+        },
+        {
+          "id": "C",
           "lat": 24.25,
           "lon": -17.0833,
-          "confidence": 33,
+          "confidence": 52,
           "distance_nm": 71,
           "bearing_deg": 297,
           "fuel_l": 2143
         },
         {
-          "id": "E",
+          "id": "D",
           "lat": 23.8333,
           "lon": -16.8333,
-          "confidence": 33,
+          "confidence": 54,
           "distance_nm": 50,
           "bearing_deg": 279,
           "fuel_l": 1514
+        },
+        {
+          "id": "E",
+          "lat": 23.5833,
+          "lon": -16.1667,
+          "confidence": 51,
+          "distance_nm": 15,
+          "bearing_deg": 241,
+          "fuel_l": 455
         }
       ]
     },
@@ -58,48 +59,48 @@
       "zones": [
         {
           "id": "A",
-          "lat": 24.9167,
-          "lon": -14.9167,
-          "confidence": 80,
-          "distance_nm": 91,
-          "bearing_deg": 37,
-          "fuel_l": 2737
-        },
-        {
-          "id": "B",
-          "lat": 23.6667,
-          "lon": -16.0,
-          "confidence": 66,
-          "distance_nm": 5,
-          "bearing_deg": 241,
-          "fuel_l": 142
-        },
-        {
-          "id": "C",
           "lat": 22.25,
           "lon": -17.25,
-          "confidence": 64,
+          "confidence": 53,
           "distance_nm": 114,
           "bearing_deg": 220,
           "fuel_l": 3418
         },
         {
-          "id": "D",
+          "id": "B",
+          "lat": 25.0833,
+          "lon": -15.0833,
+          "confidence": 51,
+          "distance_nm": 95,
+          "bearing_deg": 29,
+          "fuel_l": 2839
+        },
+        {
+          "id": "C",
           "lat": 24.25,
           "lon": -17.0833,
-          "confidence": 34,
+          "confidence": 46,
           "distance_nm": 71,
           "bearing_deg": 297,
           "fuel_l": 2143
         },
         {
-          "id": "E",
+          "id": "D",
           "lat": 23.8333,
           "lon": -16.8333,
-          "confidence": 32,
+          "confidence": 48,
           "distance_nm": 50,
           "bearing_deg": 279,
           "fuel_l": 1514
+        },
+        {
+          "id": "E",
+          "lat": 23.5833,
+          "lon": -16.1667,
+          "confidence": 45,
+          "distance_nm": 15,
+          "bearing_deg": 241,
+          "fuel_l": 455
         }
       ]
     },
@@ -108,48 +109,48 @@
       "zones": [
         {
           "id": "A",
-          "lat": 24.9167,
-          "lon": -14.9167,
-          "confidence": 70,
-          "distance_nm": 91,
-          "bearing_deg": 37,
-          "fuel_l": 2737
-        },
-        {
-          "id": "B",
-          "lat": 23.6667,
-          "lon": -16.0,
-          "confidence": 56,
-          "distance_nm": 5,
-          "bearing_deg": 241,
-          "fuel_l": 142
-        },
-        {
-          "id": "C",
           "lat": 22.3333,
           "lon": -17.1667,
-          "confidence": 50,
+          "confidence": 45,
           "distance_nm": 107,
           "bearing_deg": 220,
           "fuel_l": 3214
         },
         {
+          "id": "B",
+          "lat": 25.0833,
+          "lon": -15.0833,
+          "confidence": 44,
+          "distance_nm": 95,
+          "bearing_deg": 29,
+          "fuel_l": 2839
+        },
+        {
+          "id": "C",
+          "lat": 24.25,
+          "lon": -17.0833,
+          "confidence": 40,
+          "distance_nm": 71,
+          "bearing_deg": 297,
+          "fuel_l": 2143
+        },
+        {
           "id": "D",
           "lat": 23.8333,
           "lon": -16.8333,
-          "confidence": 29,
+          "confidence": 41,
           "distance_nm": 50,
           "bearing_deg": 279,
           "fuel_l": 1514
         },
         {
           "id": "E",
-          "lat": 24.25,
-          "lon": -17.0833,
-          "confidence": 29,
-          "distance_nm": 71,
-          "bearing_deg": 297,
-          "fuel_l": 2143
+          "lat": 23.5833,
+          "lon": -16.1667,
+          "confidence": 39,
+          "distance_nm": 15,
+          "bearing_deg": 241,
+          "fuel_l": 455
         }
       ]
     }
