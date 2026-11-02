@@ -10,7 +10,8 @@
       "confidence": 82,
       "distance_nm": 150,
       "bearing_deg": 216,
-      "fuel_l": 4491
+      "fuel_l": 4491,
+      "depth_m": 643
     },
     {
       "id": "B",
@@ -19,7 +20,8 @@
       "confidence": 80,
       "distance_nm": 118,
       "bearing_deg": 216,
-      "fuel_l": 3526
+      "fuel_l": 3526,
+      "depth_m": 61
     },
     {
       "id": "C",
@@ -28,7 +30,8 @@
       "confidence": 81,
       "distance_nm": 94,
       "bearing_deg": 229,
-      "fuel_l": 2828
+      "fuel_l": 2828,
+      "depth_m": 369
     },
     {
       "id": "D",
@@ -37,7 +40,8 @@
       "confidence": 69,
       "distance_nm": 76,
       "bearing_deg": 294,
-      "fuel_l": 2271
+      "fuel_l": 2271,
+      "depth_m": 1658
     },
     {
       "id": "E",
@@ -46,7 +50,8 @@
       "confidence": 66,
       "distance_nm": 110,
       "bearing_deg": 13,
-      "fuel_l": 3312
+      "fuel_l": 3312,
+      "depth_m": 151
     }
   ]
 }
