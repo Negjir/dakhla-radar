@@ -96,6 +96,14 @@ button,input{font:inherit;color:inherit}
 .copy{border:0;border-radius:9px;background:var(--cyan);color:#021018;font-weight:700;padding:11px 14px;cursor:pointer;font-size:14px;min-height:42px}
 .copy.ok{background:var(--green)}
 #msgfb{width:100%;min-height:150px;background:rgba(4,17,30,.7);border:1px solid var(--edge);border-radius:8px;color:var(--ink);font:13px/1.6 var(--ar);padding:8px}
+.crow{display:grid;grid-template-columns:42px 1fr auto;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid rgba(80,220,255,.12)}
+.crow b{font:600 13px var(--mono);direction:ltr;unicode-bidi:isolate;text-align:start;overflow-wrap:anywhere}
+[dir="rtl"] .crow b{text-align:right}
+.cbtn{border:1px solid var(--edge);background:rgba(4,17,30,.7);border-radius:7px;padding:5px 10px;font-size:12px;cursor:pointer;min-height:32px}
+.cbtn.ok{border-color:var(--green);color:var(--green)}
+.navbtns{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.nbtn{display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--edge2);background:rgba(79,230,255,.1);color:var(--cyan);border-radius:9px;padding:10px;font-weight:600;font-size:13px;cursor:pointer;text-decoration:none;min-height:42px;text-align:center}
+.nbtn.ok{border-color:var(--green);color:var(--green)}
 .note{font-size:11.5px;line-height:1.6;color:var(--mute);margin:0}
 
 /* conditions */
@@ -181,6 +189,10 @@ button,input{font:inherit;color:inherit}
       <div class="facts" id="facts"></div>
     </section>
     <section class="glass sec">
+      <h2><span class="lbl" id="t-nav"></span><span class="lbl" id="navz"></span></h2>
+      <div id="nav"></div>
+    </section>
+    <section class="glass sec">
       <h2><span class="lbl" id="t-boat"></span></h2>
       <div class="boat">
         <label><span id="t-speed"></span><input id="spd" type="number" min="4" max="25" step="1" value="10"><span class="num">kn</span></label>
@@ -209,7 +221,7 @@ const DATA=RAW&&(()=>{const g=RAW.grid,base={point:RAW.port,grid:g,conditions:RA
   return {...RAW,points,sst_day:RAW.day,range_km:RAW.range_nm*1.852}})();
 const $=s=>document.querySelector(s);
 const T={
- ar:{zones:"أفضل المناطق",why:"لماذا هذه المنطقة",boat:"سفينتك والوقود",speed:"السرعة",cons:"الاستهلاك",copy:"نسخ رسالة الربان",copied:"تم النسخ",
+ ar:{nav:"الذهاب إلى المنطقة",copyc:"نسخ",copiedc:"تم",openapp:"فتح في تطبيق الملاحة",gpx:"تنزيل GPX",gpxok:"تم التنزيل",navnote:"أدخل النقطة في جهاز الملاحة (GPS) وراجع الطريق على الخريطة البحرية الرسمية. ملف GPX فيه كل المناطق والميناء، ويُفتح في تطبيقات الملاحة وفي كثير من أجهزة Chartplotter عبر بطاقة الذاكرة.",zones:"أفضل المناطق",why:"لماذا هذه المنطقة",boat:"سفينتك والوقود",speed:"السرعة",cons:"الاستهلاك",copy:"نسخ رسالة الربان",copied:"تم النسخ",
   note:"مؤشر من الأقمار الصناعية (حرارة الماء والكلوروفيل) يدل على أنسب ظروف الماء، ولا يضمن وجود السمك. تأكد بالسونار. احترم مناطق المنع والحصص.",
   tide:"مستوى البحر والريح · 30 ساعة",wind:"الريح",front:"جبهة حرارية",chl:"كلوروفيل (غذاء)",cold:"مياه صاعدة باردة",sst:"حرارة",chlv:"كلوروفيل",rt:"ذهاب وإياب",
   km:"ميل",from:"من",shore:"",eta:"الوصول",fuel:"وقود",high:"ثقة مرتفعة",medium:"ثقة متوسطة",low:"ثقة منخفضة",none:"لا توجد جبهات قوية في المدى اليوم.",
@@ -217,7 +229,7 @@ const T={
   score:"مؤشر الصيد",sstl:"حرارة الماء °C",chll:"كلوروفيل mg/m³",zone:"المنطقة",strong:"قوي",weak:"ضعيف",mod:"متوسط",now:"الآن",data:"بيانات",radar:"رادار الصيد",
   comp:["شمال","شمال شرق","شرق","جنوب شرق","جنوب","جنوب غرب","غرب","شمال غرب"],min:"د",h:"س",confp:"ثقة",today:"اليوم",
   fcnote:"توقع من نموذج المحيط والرياح. الخريطة الملونة هي أقمار اليوم، والمناطق هي المتوقعة لذلك اليوم.",depth:"العمق",depthl:"عمق القاع m (GEBCO)",xlink:"رادار الساحل ←",src:"المصادر"},
- fr:{zones:"Meilleures zones",why:"Pourquoi cette zone",boat:"Votre navire et le carburant",speed:"Vitesse",cons:"Conso.",copy:"Copier le message capitaine",copied:"Copié",
+ fr:{nav:"Aller à la zone",copyc:"Copier",copiedc:"OK",openapp:"Ouvrir dans l'app de navigation",gpx:"Télécharger GPX",gpxok:"Téléchargé",navnote:"Entrez le point dans le GPS et vérifiez la route sur la carte marine officielle. Le fichier GPX contient toutes les zones et le port ; il s'ouvre dans les apps de navigation et de nombreux chartplotters via carte mémoire.",zones:"Meilleures zones",why:"Pourquoi cette zone",boat:"Votre navire et le carburant",speed:"Vitesse",cons:"Conso.",copy:"Copier le message capitaine",copied:"Copié",
   note:"Indice satellite (température et chlorophylle) des eaux les plus favorables. Il ne garantit pas le poisson : confirmez au sonar. Respectez zones interdites et quotas.",
   tide:"Niveau de la mer et vent · 30 h",wind:"Vent",front:"Front thermique",chl:"Chlorophylle (nourriture)",cold:"Remontée d'eau froide",sst:"Temp.",chlv:"Chloro.",rt:"aller-retour",
   km:"nm",from:"de",shore:"",eta:"Route",fuel:"Carburant",high:"confiance élevée",medium:"confiance moyenne",low:"confiance faible",none:"Aucun front fort à portée aujourd'hui.",
@@ -225,7 +237,7 @@ const T={
   score:"Indice de pêche",sstl:"Température de l'eau °C",chll:"Chlorophylle mg/m³",zone:"Zone",strong:"fort",weak:"faible",mod:"moyen",now:"maint.",data:"données",radar:"Radar de pêche",
   comp:["N","NE","E","SE","S","SO","O","NO"],min:"min",h:"h",confp:"confiance",today:"Aujourd'hui",
   fcnote:"Prévision (modèle océan + vent). La carte colorée est le satellite du jour, les zones sont celles prévues pour ce jour.",depth:"Profondeur",depthl:"Profondeur m (GEBCO)",xlink:"Radar côtier →",src:"Sources"},
- en:{zones:"Best zones",why:"Why this spot",boat:"Your vessel and fuel",speed:"Speed",cons:"Burn",copy:"Copy captain message",copied:"Copied",
+ en:{nav:"Go to the zone",copyc:"Copy",copiedc:"Done",openapp:"Open in navigation app",gpx:"Download GPX",gpxok:"Downloaded",navnote:"Enter the point in the GPS and check the route on the official nautical chart. The GPX file holds every zone and the port; it opens in navigation apps and many chartplotters from a memory card.",zones:"Best zones",why:"Why this spot",boat:"Your vessel and fuel",speed:"Speed",cons:"Burn",copy:"Copy captain message",copied:"Copied",
   note:"Satellite index (sea temperature and chlorophyll) of the most favourable water. It does not guarantee fish: confirm on sonar. Respect closed areas and quotas.",
   tide:"Sea level and wind · 30 h",wind:"Wind",front:"Thermal front",chl:"Chlorophyll (food)",cold:"Cold upwelled water",sst:"SST",chlv:"Chl",rt:"round trip",
   km:"nm",from:"from",shore:"",eta:"Run",fuel:"Fuel",high:"high confidence",medium:"medium confidence",low:"low confidence",none:"No strong front within range today.",
@@ -431,6 +443,27 @@ function side(){
    <div class="fact"><span class="lbl">${t("chlv")}</span><b>${z.chl_mg??"—"}<small> mg</small></b></div>
    <div class="fact"><span class="lbl">${t("fuel")}</span><b>${tr.fuel.toLocaleString("en-US")}<small> L</small></b><span class="lbl" style="letter-spacing:0;text-transform:none">${t("rt")}</span></div>`:"";
   $("#copy").textContent=t("copy");
+  navPanel();
+}
+/* ---------- navigation: coordinates in 3 formats, GPX, open in app ---------- */
+function dms(v,p,n,w){let a=Math.abs(v),d=Math.floor(a),mf=(a-d)*60,m=Math.floor(mf),s=Math.round((mf-m)*60);if(s===60){s=0;m++}if(m===60){m=0;d++}
+  return String(d).padStart(w,"0")+"°"+String(m).padStart(2,"0")+"'"+String(s).padStart(2,"0")+'"'+(v>=0?p:n)}
+function copyText(v,btn,okTxt,back){const ok=()=>{btn.textContent=okTxt;btn.classList.add("ok");setTimeout(()=>{btn.textContent=back;btn.classList.remove("ok")},1400)};
+  const fb=()=>{const ta=$("#msgfb");ta.hidden=false;ta.value=v;ta.focus();ta.select()};try{navigator.clipboard.writeText(v).then(ok,fb)}catch(e){fb()}}
+function gpxFile(){
+  const P0=P.point,day=(P.date||DATA.day||"").slice(5).replace("-",""),tag="DFR",esc=x=>String(x).replace(/[<>&"]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;"}[c]));
+  const w=(la,lo,nm,ds)=>`<wpt lat="${la.toFixed(5)}" lon="${lo.toFixed(5)}"><name>${esc(nm)}</name><desc>${esc(ds)}</desc><sym>Fishing Area</sym></wpt>`;
+  const body=w(P0.lat,P0.lon,tag+"-PORT",P0.fr||"")+P.zones.map(z=>w(z.lat,z.lon,tag+"-"+z.id+day,`${z.km} nm ${z.brg}deg ${z.pct!=null?z.pct+"%":z.conf}${z.depth_m?" depth "+z.depth_m+"m":""} ${P.date||DATA.day}`)).join("");
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Dakhla Fish Radar" xmlns="http://www.topografix.com/GPX/1/1"><metadata><name>${esc(tag+" "+(P.date||DATA.day))}</name></metadata>${body}</gpx>`}
+function navPanel(){
+  const z=P.zones[ZI],box=$("#nav");if(!z){box.innerHTML="";$("#navz").textContent="";return}
+  $("#navz").textContent=`${t("zone")} ${z.id}`;
+  const rows=[["DDM",pos(z)],["DD",z.lat.toFixed(4)+", "+z.lon.toFixed(4)],["DMS",dms(z.lat,"N","S",2)+" "+dms(z.lon,"E","W",3)]];
+  box.innerHTML=rows.map(([k,v],i)=>`<div class="crow"><span class="lbl">${k}</span><b>${v}</b><button class="cbtn" type="button" data-i="${i}">${t("copyc")}</button></div>`).join("")+
+    `<div class="navbtns"><button class="nbtn" type="button" id="gpxb">⬇ ${t("gpx")}</button><a class="nbtn" href="geo:${z.lat},${z.lon}?q=${z.lat},${z.lon}(${encodeURIComponent("Zone "+z.id)})">${t("openapp")}</a></div><p class="note">${t("navnote")}</p>`;
+  box.querySelectorAll(".cbtn").forEach(b=>b.onclick=()=>copyText(rows[+b.dataset.i][1],b,t("copiedc"),t("copyc")));
+  $("#gpxb").onclick=function(){const b=this;try{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([gpxFile()],{type:"application/gpx+xml"}));
+    a.download=`dakhla-${"radar"}-${P.date||DATA.day}.gpx`;document.body.appendChild(a);a.click();a.remove();b.textContent="✓ "+t("gpxok");setTimeout(()=>b.textContent="⬇ "+t("gpx"),1600)}catch(e){copyText(gpxFile(),b,t("copiedc"),"⬇ "+t("gpx"))}};
 }
 
 /* ---------- conditions ---------- */
@@ -501,7 +534,7 @@ function header(){
 }
 function texts(){
   const con=$("#con");con.dir=L==="ar"?"rtl":"ltr";con.lang=L;document.documentElement.lang=L;
-  [["#t-zones","zones"],["#t-why","why"],["#t-boat","boat"],["#t-speed","speed"],["#t-cons","cons"],["#t-note","note"],["#t-tide","tide"],["#t-wind","wind"]].forEach(([s,k])=>$(s).textContent=t(k));
+  [["#t-nav","nav"],["#t-zones","zones"],["#t-why","why"],["#t-boat","boat"],["#t-speed","speed"],["#t-cons","cons"],["#t-note","note"],["#t-tide","tide"],["#t-wind","wind"]].forEach(([s,k])=>$(s).textContent=t(k));
   document.querySelectorAll(".langs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===L));
 }
 document.querySelectorAll(".langs button").forEach(b=>b.onclick=()=>{L=b.dataset.l;try{localStorage.setItem("rr_l",L)}catch(e){}texts();header();side();conditions();raster()});
