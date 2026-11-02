@@ -420,7 +420,7 @@ def draw_map(lats, lons, sst, chl, score, grad, zones, data_day, path, only_inde
         if only_index:
             ax.text(z["lon"] - 0.12, z["lat"], f"{z['distance_nm']} nm", color="white", ha="right", va="center",
                     fontsize=8, bbox=dict(fc="#06121d", ec="none", alpha=0.7, pad=1.5))
-    src = "DEMO DATA" if demo else "Copernicus Marine"
+    src = "DEMO DATA" if demo else " · ".join(v.rsplit(" ", 1)[0] for v in SOURCES.values()) or "Copernicus Marine"
     fig.suptitle(f"Dakhla Fish Radar · {data_day} · {src}", color="#e6eef3", fontsize=13)
     fig.tight_layout()
     fig.savefig(path, facecolor=fig.get_facecolor())
