@@ -329,6 +329,8 @@ def grid_json(r):
 
     out = {"n": int(r["S"].shape[0]), "m": int(r["S"].shape[1]), "lat0": round(float(r["glat"][0]), 4), "lon0": round(float(r["glon"][0]), 4),
            "cell": CELL, "score": pack(S, 99, r["ocean"]), "sst": pack(r["sst"], 10, r["ocean"])}
+    if r.get("depth") is not None:
+        out["depth"] = pack(r["depth"], 1, r["ocean"])
     if r["chl"] is not None:
         out["chl"] = pack(np.log10(np.clip(r["chl"], 0.01, 100)), 100, r["ocean"])
     return out
@@ -355,7 +357,8 @@ def message(p, r, cond, day, sst_day):
     else:
         for z in r["zones"]:
             lines.append(f"{z['id']}: {radar.pos(z['lat'], z['lon'])}")
-            lines.append(f"   {z['km']} كم {COMP_AR[round(z['brg'] / 45) % 8]} من {p['ar']} · {z['shore_km']} كم من الشاطئ · ثقة {CONF_AR[z['conf']]}")
+            dep = f" · عمق ~{radar.ltr(str(z['depth_m']) + ' m')}" if z.get("depth_m") else ""
+            lines.append(f"   {z['km']} كم {COMP_AR[round(z['brg'] / 45) % 8]} من {p['ar']} · {z['shore_km']} كم من الشاطئ{dep} · ثقة {CONF_AR[z['conf']]}")
     lines.append("")
     if cond.get("tides"):
         lines.append("المد (تقريبي): " + " · ".join(("عالٍ " if k == "high" else "منخفض ") + t[11:16] for k, t in cond["tides"]))
@@ -367,6 +370,8 @@ def message(p, r, cond, day, sst_day):
     if sea:
         lines.append("البحر: " + " · ".join(sea))
     lines += ["", f"مصدر: أقمار صناعية (حرارة {sst_day}{', كلوروفيل' if r and r['cover'] > 0.15 else ''}). المؤشر يدل على أنسب ظروف الماء، ولا يضمن وجود السمك."]
+    if r and r.get("depth") is not None:
+        lines.append("العمق من خريطة GEBCO، تقريبي ولا يصلح للملاحة.")
     return "\n".join(lines)
 
 
@@ -392,6 +397,9 @@ def draw(p, r, path, day, demo):
     except Exception:
         pass
     ax.contour(r["glon"], r["glat"], r["dist"], levels=[MAX_KM], colors="#4fe3d6", linewidths=0.8, linestyles="--")
+    if r.get("depth") is not None and np.isfinite(r["depth"]).any():
+        cs = ax.contour(r["glon"], r["glat"], r["depth"], levels=[5, 10, 20, 50], colors="#9fd3ff", linewidths=0.6, alpha=0.6, linestyles=":")
+        ax.clabel(cs, fontsize=6, fmt="%d m", colors="#9fd3ff")
     from scipy.ndimage import gaussian_filter
     sm = gaussian_filter(r["ocean"].astype(float), 1.2)
     ax.contourf(r["glon"], r["glat"], sm, levels=[-1, 0.5], colors=["#2a2418"], zorder=3)
@@ -470,6 +478,15 @@ def main():
             da, la, lo, _ = ch
             chl_all = (da[la].values, da[lo].values, da.values.astype("float32"))
 
+    import bathy
+    BATHY = None
+    if not a.demo:
+        try:   # GEBCO 15 arc-second (~450 m), whole coastal strip, cached in data/bathy_coast.npz
+            lat0, lat1, lon0, lon1 = all_box()
+            BATHY = bathy.load("coast", round(lat0, 3), round(lat1, 3), round(lon0, 3), round(lon1, 3), 1)
+        except Exception as e:  # noqa: BLE001
+            print("[warn] no bathymetry:", e)
+
     items, out = [], []
     for p in POINTS:
         try:
@@ -481,6 +498,15 @@ def main():
         if r is None:
             print(f"[skip] {p['id']}: no ocean pixels")
             continue
+        if a.demo:
+            r["depth"] = bathy.demo_depth(r["glat"], r["glon"], [23.0, 23.2, 23.6, 24.08, 24.37, 24.6], [-16.15, -16.08, -15.98, -15.55, -15.25, -15.05])
+        else:
+            r["depth"] = bathy.depth_on(BATHY, r["glat"], r["glon"]) if BATHY is not None else None
+        if r["depth"] is not None:
+            r["depth"][~r["ocean"]] = np.nan
+            for z in r["zones"]:
+                j, i = int(np.argmin(abs(r["glat"] - z["lat"]))), int(np.argmin(abs(r["glon"] - z["lon"])))
+                z["depth_m"] = int(round(float(r["depth"][j, i]))) if np.isfinite(r["depth"][j, i]) else None
         msg = message(p, r, cond, day, sst_day)
         draw(p, r, OUT / f"{p['id']}.png", day, a.demo)
         items.append({"p": p, "msg": msg})

@@ -163,7 +163,7 @@ button,input{font:inherit;color:inherit}
     <canvas id="map" dir="ltr"></canvas>
     <div class="hud tl"><b id="hpt"></b><span id="hday"></span><span id="hsrc"></span></div>
     <div class="layers" id="layers">
-      <button data-v="score" aria-pressed="true">SCORE</button><button data-v="sst" aria-pressed="false">SST °C</button><button data-v="chl" aria-pressed="false">CHL</button>
+      <button data-v="score" aria-pressed="true">SCORE</button><button data-v="sst" aria-pressed="false">SST °C</button><button data-v="chl" aria-pressed="false">CHL</button><button data-v="depth" aria-pressed="false">DEPTH</button>
     </div>
     <button class="reset" id="reset" type="button">⟲ FIT</button>
     <div class="legend"><span id="lgt"></span><canvas id="lg" width="150" height="8"></canvas><div><span id="lg0"></span><span id="lg1"></span></div></div>
@@ -216,7 +216,7 @@ const T={
   wave:"الموج",up:"صعود المياه",tides:"المد",hi:"عالٍ",lo:"منخفض",species:"السردين · الماكريل · السردينيلا",clouds:"غيوم",nochl:"لا كلوروفيل لهذه المنطقة",
   score:"مؤشر الصيد",sstl:"حرارة الماء °C",chll:"كلوروفيل mg/m³",zone:"المنطقة",strong:"قوي",weak:"ضعيف",mod:"متوسط",now:"الآن",data:"بيانات",radar:"رادار الصيد",
   comp:["شمال","شمال شرق","شرق","جنوب شرق","جنوب","جنوب غرب","غرب","شمال غرب"],min:"د",h:"س",confp:"ثقة",today:"اليوم",
-  fcnote:"توقع من نموذج المحيط والرياح. الخريطة الملونة هي أقمار اليوم، والمناطق هي المتوقعة لذلك اليوم.",xlink:"رادار الساحل ←",src:"المصادر"},
+  fcnote:"توقع من نموذج المحيط والرياح. الخريطة الملونة هي أقمار اليوم، والمناطق هي المتوقعة لذلك اليوم.",depth:"العمق",depthl:"عمق القاع m (GEBCO)",xlink:"رادار الساحل ←",src:"المصادر"},
  fr:{zones:"Meilleures zones",why:"Pourquoi cette zone",boat:"Votre navire et le carburant",speed:"Vitesse",cons:"Conso.",copy:"Copier le message capitaine",copied:"Copié",
   note:"Indice satellite (température et chlorophylle) des eaux les plus favorables. Il ne garantit pas le poisson : confirmez au sonar. Respectez zones interdites et quotas.",
   tide:"Niveau de la mer et vent · 30 h",wind:"Vent",front:"Front thermique",chl:"Chlorophylle (nourriture)",cold:"Remontée d'eau froide",sst:"Temp.",chlv:"Chloro.",rt:"aller-retour",
@@ -224,7 +224,7 @@ const T={
   wave:"Houle",up:"Upwelling",tides:"Marée",hi:"PM",lo:"BM",species:"Sardine · Maquereau · Sardinelle",clouds:"nuages",nochl:"Pas de chlorophylle pour cette zone",
   score:"Indice de pêche",sstl:"Température de l'eau °C",chll:"Chlorophylle mg/m³",zone:"Zone",strong:"fort",weak:"faible",mod:"moyen",now:"maint.",data:"données",radar:"Radar de pêche",
   comp:["N","NE","E","SE","S","SO","O","NO"],min:"min",h:"h",confp:"confiance",today:"Aujourd'hui",
-  fcnote:"Prévision (modèle océan + vent). La carte colorée est le satellite du jour, les zones sont celles prévues pour ce jour.",xlink:"Radar côtier →",src:"Sources"},
+  fcnote:"Prévision (modèle océan + vent). La carte colorée est le satellite du jour, les zones sont celles prévues pour ce jour.",depth:"Profondeur",depthl:"Profondeur m (GEBCO)",xlink:"Radar côtier →",src:"Sources"},
  en:{zones:"Best zones",why:"Why this spot",boat:"Your vessel and fuel",speed:"Speed",cons:"Burn",copy:"Copy captain message",copied:"Copied",
   note:"Satellite index (sea temperature and chlorophyll) of the most favourable water. It does not guarantee fish: confirm on sonar. Respect closed areas and quotas.",
   tide:"Sea level and wind · 30 h",wind:"Wind",front:"Thermal front",chl:"Chlorophyll (food)",cold:"Cold upwelled water",sst:"SST",chlv:"Chl",rt:"round trip",
@@ -232,7 +232,7 @@ const T={
   wave:"Waves",up:"Upwelling",tides:"Tide",hi:"High",lo:"Low",species:"Sardine · Mackerel · Sardinella",clouds:"clouds",nochl:"No chlorophyll for this spot",
   score:"Fishing index",sstl:"Water temperature °C",chll:"Chlorophyll mg/m³",zone:"Zone",strong:"strong",weak:"weak",mod:"moderate",now:"now",data:"data",radar:"Fish radar",
   comp:["N","NE","E","SE","S","SW","W","NW"],min:"min",h:"h",confp:"confidence",today:"Today",
-  fcnote:"Forecast (ocean + wind model). The coloured map is today's satellite; the zones are those forecast for that day.",xlink:"Coastal radar →",src:"Sources"}};
+  fcnote:"Forecast (ocean + wind model). The coloured map is today's satellite; the zones are those forecast for that day.",depth:"Depth",depthl:"Sea-floor depth m (GEBCO)",xlink:"Coastal radar →",src:"Sources"}};
 const NAME={ar:p=>p.ar,fr:p=>p.fr,en:p=>p.fr};
 const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
 let L="ar",PI=0,ZI=0,layer="score";
@@ -252,7 +252,7 @@ function trip(z){const b=boat(),h=z.km/b.s;return{min:Math.round(h*60),fuel:Math
 let P,G,NAN;
 function decode(p){
   const g=p.grid,N=g.n*g.m,f=(a,k)=>{const o=new Float32Array(N);for(let i=0;i<N;i++)o[i]=a&&a[i]!=null?a[i]/k:NaN;return o};
-  return {n:g.n,m:g.m,lat0:g.lat0,lon0:g.lon0,cell:g.cell,score:f(g.score,99),sst:f(g.sst,10),chl:g.chl?f(g.chl,100):null,
+  return {n:g.n,m:g.m,lat0:g.lat0,lon0:g.lon0,cell:g.cell,score:f(g.score,99),sst:f(g.sst,10),chl:g.chl?f(g.chl,100):null,depth:g.depth?f(g.depth,1):null,
     cos:Math.cos(p.point.lat*Math.PI/180)};
 }
 const gx=(g,lon)=>(lon-g.lon0)/g.cell, gy=(g,lat)=>(g.lat0-lat)/g.cell;
@@ -261,9 +261,11 @@ const gx=(g,lon)=>(lon-g.lon0)/g.cell, gy=(g,lat)=>(g.lat0-lat)/g.cell;
 function ramp(stops){return v=>{v=Math.max(0,Math.min(1,v));for(let i=1;i<stops.length;i++){const[a,ca]=stops[i-1],[b,cb]=stops[i];if(v<=b){const k=(v-a)/(b-a||1);return ca.map((c,j)=>c+(cb[j]-c)*k)}}return stops[stops.length-1][1]}}
 const R={score:ramp([[0,[6,22,38]],[.25,[12,52,80]],[.5,[18,110,112]],[.72,[214,156,58]],[.88,[255,181,71]],[1,[255,96,70]]]),
  sst:ramp([[0,[30,40,140]],[.3,[30,120,210]],[.55,[60,210,200]],[.75,[250,220,90]],[1,[255,90,60]]]),
- chl:ramp([[0,[8,20,60]],[.35,[20,90,110]],[.6,[40,170,90]],[.82,[190,220,60]],[1,[255,240,140]]])};
+ chl:ramp([[0,[8,20,60]],[.35,[20,90,110]],[.6,[40,170,90]],[.82,[190,220,60]],[1,[255,240,140]]]),
+ depth:ramp([[0,[150,235,240]],[.25,[60,175,205]],[.55,[25,95,160]],[.8,[14,45,105]],[1,[6,16,48]]])};
 function range(){
   if(layer==="score")return[0,1,v=>v,"%"];
+  if(layer==="depth"){if(!G.depth)return[0,1,v=>v,""];const v=[];for(const x of G.depth)if(!isNaN(x))v.push(x);v.sort((x,y)=>x-y);const hi=v[Math.floor(v.length*.98)]||100;return[0,hi,x=>Math.sqrt(Math.max(0,x)/hi)]}
   const a=layer==="sst"?G.sst:G.chl;if(!a)return[0,1,v=>v,""];
   const v=[];for(const x of a)if(!isNaN(x))v.push(x);v.sort((x,y)=>x-y);
   const lo=v[Math.floor(v.length*.02)]??0,hi=v[Math.floor(v.length*.98)]??1;return[lo,hi,x=>(x-lo)/((hi-lo)||1)];
@@ -273,7 +275,7 @@ function range(){
 let img;
 function raster(){
   const c=document.createElement("canvas");c.width=G.m;c.height=G.n;const x=c.getContext("2d"),d=x.createImageData(G.m,G.n);
-  const [lo,hi,nf]=range(),a=layer==="score"?G.score:layer==="sst"?G.sst:G.chl,rp=R[layer];
+  const [lo,hi,nf]=range(),a=layer==="score"?G.score:layer==="sst"?G.sst:layer==="depth"?G.depth:G.chl,rp=R[layer];
   for(let i=0;i<G.n*G.m;i++){const o=i*4,land=isNaN(G.sst[i]);
     if(land){d.data[o]=44;d.data[o+1]=38;d.data[o+2]=24;d.data[o+3]=255;continue}
     const v=a?a[i]:NaN;
@@ -282,8 +284,9 @@ function raster(){
   x.putImageData(d,0,0);img=c;
   // legend
   const lg=$("#lg").getContext("2d");for(let i=0;i<150;i++){const c3=rp(i/149);lg.fillStyle=`rgb(${c3.map(Math.round)})`;lg.fillRect(i,0,1,8)}
-  $("#lgt").textContent=layer==="score"?t("score"):layer==="sst"?t("sstl"):t("chll");
+  $("#lgt").textContent=layer==="score"?t("score"):layer==="sst"?t("sstl"):layer==="depth"?t("depthl"):t("chll");
   if(layer==="score"){$("#lg0").textContent=t("weak");$("#lg1").textContent=t("strong")}
+  else if(layer==="depth"){$("#lg0").textContent="0 m";$("#lg1").textContent=Math.round(hi)+" m"}
   else if(layer==="sst"){$("#lg0").textContent=lo.toFixed(1)+"°";$("#lg1").textContent=hi.toFixed(1)+"°"}
   else{$("#lg0").textContent=a?(10**lo).toFixed(2):"—";$("#lg1").textContent=a?(10**hi).toFixed(1):"—"}
 }
@@ -300,7 +303,7 @@ function iso(a,n,m,lev){
     for(const[i,j]of T2)seg.push(e[i][0],e[i][1],e[j][0],e[j][1]);
   }return seg;
 }
-let ISO=[],COAST=[];
+let ISO=[],COAST=[],ISOB=[];
 function contours(){
   ISO=[];const v=[];for(const x of G.sst)if(!isNaN(x))v.push(x);v.sort((a,b)=>a-b);
   const lo=v[Math.floor(v.length*.03)],hi=v[Math.floor(v.length*.97)],st=(hi-lo)>3?0.5:(hi-lo)>1.2?0.25:0.1;
@@ -310,6 +313,7 @@ function contours(){
   const s=new Float32Array(o.length);
   for(let r=0;r<G.n;r++)for(let c=0;c<G.m;c++){let a=0,w=0;for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++){const rr=r+dr,cc=c+dc;if(rr<0||cc<0||rr>=G.n||cc>=G.m)continue;const k=(dr||dc)?(dr&&dc?.5:1):2;a+=o[rr*G.m+cc]*k;w+=k}s[r*G.m+c]=a/w}
   COAST=iso(s,G.n,G.m,.5);
+  ISOB=G.depth?[50,100,200,500,1000].map(l=>({l,s:iso(G.depth,G.n,G.m,l)})).filter(o=>o.s.length):[];
 }
 
 /* ---------- view ---------- */
@@ -337,6 +341,16 @@ function frame(now){
   const seg=(s,off=.5)=>{cx.beginPath();for(let i=0;i<s.length;i+=4){cx.moveTo(sx(s[i]+off),sy(s[i+1]+off));cx.lineTo(sx(s[i+2]+off),sy(s[i+3]+off))}cx.stroke()};
   // isotherms
   cx.save();cx.lineCap="round";cx.strokeStyle=layer==="sst"?"rgba(2,10,18,.45)":"rgba(230,246,255,.28)";cx.lineWidth=.8;for(const c of ISO)seg(c.s);cx.restore();
+  // isobaths (GEBCO): dashed, labelled once per line
+  cx.save();cx.setLineDash([4,4]);cx.lineWidth=layer==="depth"?1.1:.8;cx.strokeStyle=layer==="depth"?"rgba(230,246,255,.75)":"rgba(140,210,255,.38)";
+  cx.font="600 10px JetBrains Mono, monospace";cx.textAlign="center";cx.textBaseline="middle";
+  const placed=[];
+  for(const o of ISOB){seg(o.s);const nS=o.s.length/4;let best=null;
+    for(const fr of[.5,.35,.65,.2,.8,.1,.9]){const k=Math.floor(nS*fr)*4,lx=sx(o.s[k]+.5),ly=sy(o.s[k+1]+.5);
+      if(lx<40||ly<40||lx>W-40||ly>H-40)continue;if(placed.every(([px,py])=>Math.hypot(px-lx,py-ly)>80)){best=[lx,ly];break}}
+    if(!best)continue;placed.push(best);const[lx,ly]=best;
+    const lab=o.l+" m",w=cx.measureText(lab).width+8;cx.fillStyle="rgba(2,10,18,.75)";cx.fillRect(lx-w/2,ly-7,w,14);cx.fillStyle=layer==="depth"?"#e6f6ff":"#9fd3ff";cx.fillText(lab,lx,ly)}
+  cx.restore();
   // coastline glow
   cx.save();cx.lineCap="round";cx.strokeStyle="rgba(230,210,170,.35)";cx.lineWidth=5;seg(COAST);cx.strokeStyle="#e6d2aa";cx.lineWidth=1.4;seg(COAST);cx.restore();
   const p=P.point,X0=sx(gx(G,p.lon)+.5),Y0=sy(gy(G,p.lat)+.5),kmPx=view.s/(G.cell*111.2),nmPx=kmPx*1.852;
@@ -398,7 +412,8 @@ function readout(X,Y){const[c,r]=fromS(X,Y),ci=Math.round(c-.5),ri=Math.round(r-
   const i=ri*G.m+ci,lat=G.lat0-ri*G.cell,lon=G.lon0+ci*G.cell;
   if(isNaN(G.sst[i])){el.innerHTML=`${dm(lat,"N","S",2)} ${dm(lon,"E","W",3)}<br>LAND`;return}
   const ch=G.chl&&!isNaN(G.chl[i])?(10**G.chl[i]).toFixed(2)+" mg/m³":"—";
-  el.innerHTML=`${dm(lat,"N","S",2)} ${dm(lon,"E","W",3)}<br>SST <b>${G.sst[i].toFixed(1)}°C</b> · CHL <b>${ch}</b><br>SCORE <b>${Math.round(G.score[i]*100)}</b>`}
+  const dp=G.depth&&!isNaN(G.depth[i])?Math.round(G.depth[i])+" m":"—";
+  el.innerHTML=`${dm(lat,"N","S",2)} ${dm(lon,"E","W",3)}<br>SST <b>${G.sst[i].toFixed(1)}°C</b> · CHL <b>${ch}</b><br>DEPTH <b>${dp}</b> · SCORE <b>${Math.round(G.score[i]*100)}</b>`}
 
 /* ---------- side panel ---------- */
 function side(){
@@ -406,7 +421,7 @@ function side(){
   if(!Z.length){box.innerHTML=`<p class="note">${t("none")}</p>`}
   Z.forEach((z,i)=>{const tr=trip(z),b=document.createElement("button");b.className="zone";b.type="button";b.setAttribute("aria-pressed",i===ZI);
     b.innerHTML=`<span class="zid c-${z.conf}">${z.id}</span><span class="zpos">${pos(z)}</span><span class="pill c-${z.conf}"><span class="num">${z.pct}%</span></span>
-    <span class="zsub"><span><b class="num">${z.km}</b> ${t("km")} ${comp(z.brg)} <span class="num">(${z.brg}°)</span></span><span>${t("eta")} <b class="num">${hm(tr.min)}</b></span><span>${t("fuel")} <b class="num">${tr.fuel.toLocaleString("en-US")} L</b></span></span>`;
+    <span class="zsub"><span><b class="num">${z.km}</b> ${t("km")} ${comp(z.brg)} <span class="num">(${z.brg}°)</span></span>${z.depth_m?`<span>${t("depth")} <b class="num">${z.depth_m} m</b></span>`:""}<span>${t("eta")} <b class="num">${hm(tr.min)}</b></span><span>${t("fuel")} <b class="num">${tr.fuel.toLocaleString("en-US")} L</b></span></span>`;
     b.onclick=()=>{ZI=i;side()};box.appendChild(b)});
   const z=Z[ZI];$("#whyz").textContent=z?`${t("zone")} ${z.id}`:"";
   const f=z?z.f||{}:{},row=(k,v)=>`<div class="bar"><span>${t(k)}</span><span class="t"><i style="width:${v==null?0:Math.round(v*100)}%"></i></span><span class="v">${v==null?"—":Math.round(v*100)}</span></div>`;
@@ -481,7 +496,7 @@ function header(){
   const S=DATA.sources||{},led=(on,txt)=>`<span><i class="${on?"":"w"}"></i>${txt}</span>`;
   $("#leds").innerHTML=led(!!S.SST,"SST "+(S.SST||"—"))+led(!!S.CHL,"CHL "+(S.CHL||t("clouds")))+led(!!(P.conditions&&P.conditions.series),"WIND·WAVES");
   $("#hpt").textContent=(t("radar")+" · "+tabName(P)).toUpperCase();$("#hday").textContent=`${P.date} · BUILT ${DATA.made||""}`;
-  $("#hsrc").textContent="NASA MUR SST · Copernicus Marine · Open-Meteo";
+  $("#hsrc").textContent="NASA MUR SST · Copernicus Marine · GEBCO · Open-Meteo";
   $("#species").textContent=t("species");$("#species").classList.toggle("num",false);$("#xlink").textContent=t("xlink");
 }
 function texts(){
@@ -493,6 +508,7 @@ document.querySelectorAll(".langs button").forEach(b=>b.onclick=()=>{L=b.dataset
 document.querySelectorAll("#layers button").forEach(b=>b.onclick=()=>{layer=b.dataset.v;document.querySelectorAll("#layers button").forEach(q=>q.setAttribute("aria-pressed",q===b));raster()});
 function select(i){PI=i;ZI=0;try{localStorage.setItem("rr_p",i)}catch(e){}P=DATA.points[i];G=decode(P);
   $("#layers button[data-v=chl]").disabled=!G.chl;if(!G.chl&&layer==="chl")layer="score";
+  $("#layers button[data-v=depth]").disabled=!G.depth;if(!G.depth&&layer==="depth")layer="score";
   raster();contours();fit();header();side();conditions()}
 
 /* ---------- boot ---------- */

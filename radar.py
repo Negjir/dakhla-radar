@@ -309,6 +309,8 @@ def score_field(lats, lons, sst, chl, reports):
 
 
 SCORE_PARTS = {}
+DEPTH = None            # sea-floor depth (m) on the radar grid, from GEBCO
+SOURCES_EXTRA = {}
 
 
 def confidence(j, i):
@@ -382,7 +384,7 @@ def message(zones, data_day):
     lines = [
         f"🐟 رادار الصيد · {ltr(data_day)}",
         f"أفضل منطقة: {z['id']} (ثقة {z['confidence']}%)",
-        f"الموقع: {pos(z['lat'], z['lon'])}",
+        f"الموقع: {pos(z['lat'], z['lon'])}" + (f" · عمق ~{ltr(str(z['depth_m']) + ' m')}" if z.get("depth_m") else ""),
         f"من الميناء: {away} ({COMPASS_AR[k]})",
         f"الوقود ذهاباً وإياباً ≈ {fuel}",
         "",
@@ -390,9 +392,12 @@ def message(zones, data_day):
     ]
     for o in zones[1:]:
         dist = ltr("%s nm" % o["distance_nm"])
-        lines.append(f"المنطقة {o['id']}: {pos(o['lat'], o['lon'])} · {dist} · ثقة {o['confidence']}%")
+        dep = f" · عمق ~{ltr(str(o['depth_m']) + ' m')}" if o.get("depth_m") else ""
+        lines.append(f"المنطقة {o['id']}: {pos(o['lat'], o['lon'])} · {dist} · ثقة {o['confidence']}%{dep}")
     if SOURCES:
-        lines += ["", "المصادر: " + " · ".join(f"{'حرارة' if lab == 'SST' else 'كلوروفيل'} {ltr(v)}" for lab, v in SOURCES.items())]
+        lines += ["", "المصادر: " + " · ".join(f"{'حرارة' if lab == 'SST' else 'كلوروفيل'} {ltr(v)}" for lab, v in SOURCES.items())
+                  + (f" · عمق {ltr(SOURCES_EXTRA['DEPTH'])}" if "DEPTH" in SOURCES_EXTRA else "")]
+        lines += ["العمق تقريبي (GEBCO) ولا يصلح للملاحة."] if "DEPTH" in SOURCES_EXTRA else []
     lines += ["", "بعد الصيد أرسل: الموقع، الكمية، النوع، ساعات البحث."]
     return "\n".join(lines)
 
@@ -439,6 +444,10 @@ def draw_map(lats, lons, sst, chl, score, grad, zones, data_day, path, only_inde
         cb.ax.tick_params(colors="#8aa3b4", labelsize=7)
         ax.plot(port["lon"], port["lat"], "o", color="#4fe3d6", ms=6, mec="#06121d")
     ax = axes[0]
+    if DEPTH is not None:
+        cs = ax.contour(lons, lats, np.where(ocean, DEPTH, np.nan), levels=[50, 100, 200, 500, 1000],
+                        colors="#9fd3ff", linewidths=0.6, alpha=0.55, linestyles="--")
+        ax.clabel(cs, fontsize=6, fmt="%d m", colors="#9fd3ff")
     fy, fx = np.nonzero((grad > gref) & ocean)
     ax.scatter(lons[fx], lats[fy], s=1.2, c="white", alpha=0.6, linewidths=0)
     for z in CFG.get("closed_zones", []):
@@ -510,9 +519,10 @@ def write_console_data(lats, lons, sst, chl, score, zones, data_day, demo):
     data = {"day": data_day, "made": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "demo": demo,
             "port": {**CFG["port"], "ar": CFG["port"].get("ar", "ميناء الداخلة"), "fr": CFG["port"].get("fr", "Port de Dakhla")},
             "range_nm": CFG.get("max_range_nm", 150), "fuel_l_per_nm": CFG.get("fuel_l_per_nm", 15),
-            "sources": dict(SOURCES), "zones": zones, "conditions": cond,
+            "sources": {**SOURCES, **SOURCES_EXTRA}, "zones": zones, "conditions": cond,
             "grid": {"n": int(len(lats)), "m": int(len(lons)), "lat0": round(float(lats[0]), 4), "lon0": round(float(lons[0]), 4),
-                     "cell": round(float(abs(lats[1] - lats[0])), 5), "score": pack(score, 99), "sst": pack(sst, 10), "chl": pack(chl_log, 100)}}
+                     "cell": round(float(abs(lats[1] - lats[0])), 5), "score": pack(score, 99), "sst": pack(sst, 10), "chl": pack(chl_log, 100),
+                     "depth": pack(DEPTH, 1) if DEPTH is not None else None}}
     (OUT / "radar.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
 
@@ -545,9 +555,22 @@ def main():
     day = dt.date.fromisoformat(a.date) if a.date else dt.date.today()
     box = CFG["box"]
     lats, lons, sst, chl, data_day = (load_demo if a.demo else load_real)(day, box)
+    global DEPTH
+    import bathy
+    if a.demo:
+        DEPTH = bathy.demo_depth(lats, lons, [21.0, 22.3, 23.6, 24.4, 26.5], [-17.05, -16.7, -16.0, -15.3, -14.25])
+    else:   # GEBCO ~450 m, every 7th point (~3 km) to match the satellite grid; cached after the first run
+        DEPTH = bathy.safe("offshore", box["lat_min"], box["lat_max"], box["lon_min"], box["lon_max"], 7, lats, lons)
+    if DEPTH is not None:
+        DEPTH[~np.isfinite(sst)] = np.nan
+        SOURCES_EXTRA["DEPTH"] = "GEBCO 2020"
     reports = read_reports(day)
     score, grad = score_field(lats, lons, sst, chl, reports)
     zones = pick_zones(lats, lons, score)
+    for z in zones:
+        if DEPTH is not None:
+            j, i = int(np.argmin(abs(lats - z["lat"]))), int(np.argmin(abs(lons - z["lon"])))
+            z["depth_m"] = int(round(float(DEPTH[j, i]))) if np.isfinite(DEPTH[j, i]) else None
     msg = message(zones, data_day)
 
     OUT.mkdir(exist_ok=True)
