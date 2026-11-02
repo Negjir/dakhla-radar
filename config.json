@@ -1,0 +1,96 @@
+{
+  "box": {
+    "lon_min": -18.6,
+    "lon_max": -14.0,
+    "lat_min": 21.0,
+    "lat_max": 26.5
+  },
+  "port": {
+    "name": "Dakhla",
+    "lat": 23.705,
+    "lon": -15.925
+  },
+  "fuel_l_per_nm": 15,
+  "max_range_nm": 150,
+  "max_offshore_km": 150,
+  "chl_best_log10": 0.25,
+  "report_memory_days": 10,
+  "closed_zones": [],
+  "sst_datasets": [
+    [
+      "METOFFICE-GLO-SST-L4-NRT-OBS-SST-V2",
+      "analysed_sst"
+    ]
+  ],
+  "chl_datasets": [
+    [
+      "cmems_obs-oc_glo_bgc-plankton_nrt_l4-gapfree-multi-4km_P1D",
+      "CHL"
+    ],
+    [
+      "cmems_obs-oc_atl_bgc-plankton_nrt_l4-gapfree-multi-1km_P1D",
+      "CHL"
+    ]
+  ],
+  "cui_strong": 200,
+  "upwelling_reach_km": 90,
+  "model_sst_datasets": [
+    [
+      "cmems_mod_glo_phy-thetao_anfc_0.083deg_P1D-m",
+      "thetao"
+    ]
+  ],
+  "coastal": {
+    "max_km": 8,
+    "range_km": 15,
+    "box_deg": 0.16,
+    "cell_deg": 0.005,
+    "coast_dir_deg": 210,
+    "species_ar": "الكوربين، التاسرگال، البوري، البونيت",
+    "points": [
+      {
+        "id": "lassarga",
+        "ar": "لاسارگا",
+        "fr": "Lassarga",
+        "lat": 23.6,
+        "lon": -16.0,
+        "approx": true
+      },
+      {
+        "id": "ntireft",
+        "ar": "انتيرفت",
+        "fr": "Ntireft",
+        "lat": 24.081,
+        "lon": -15.567
+      },
+      {
+        "id": "labouirda",
+        "ar": "لبويردة",
+        "fr": "Labouirda",
+        "lat": 23.208,
+        "lon": -16.095
+      },
+      {
+        "id": "imoutlane",
+        "ar": "إيموتلان",
+        "fr": "Imoutlane",
+        "lat": 24.367,
+        "lon": -15.267
+      }
+    ],
+    "chl_datasets": [
+      [
+        "cmems_obs-oc_glo_bgc-plankton_nrt_l3-olci-300m_P1D",
+        "CHL"
+      ],
+      [
+        "cmems_obs-oc_atl_bgc-plankton_nrt_l3-multi-1km_P1D",
+        "CHL"
+      ],
+      [
+        "cmems_obs-oc_glo_bgc-plankton_nrt_l4-gapfree-multi-4km_P1D",
+        "CHL"
+      ]
+    ]
+  }
+}

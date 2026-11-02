@@ -1,0 +1,5 @@
+copernicusmarine>=2.0
+xarray
+numpy
+scipy
+matplotlib

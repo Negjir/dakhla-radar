@@ -1,0 +1,70 @@
+name: Daily fish radar
+
+on:
+  schedule:
+    - cron: "0 5 * * *"    # morning: today's satellite map (05:00 UTC)
+    - cron: "0 18 * * *"   # evening: 3-day forecast (18:00 UTC)
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "today, coastal or forecast"
+        required: false
+        default: "today"
+      date:
+        description: "Past date YYYY-MM-DD (leave empty for today)"
+        required: false
+      demo:
+        description: "Use demo data (true/false)"
+        required: false
+        default: "false"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: radar
+  cancel-in-progress: false
+
+jobs:
+  radar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Build map
+        env:
+          COPERNICUSMARINE_SERVICE_USERNAME: ${{ secrets.CMEMS_USER }}
+          COPERNICUSMARINE_SERVICE_PASSWORD: ${{ secrets.CMEMS_PASS }}
+        run: |
+          SCRIPT=radar.py
+          if [ "${{ github.event.inputs.mode }}" = "coastal" ]; then SCRIPT=coastal.py; fi
+          if [ "${{ github.event.schedule }}" = "0 18 * * *" ] || [ "${{ github.event.inputs.mode }}" = "forecast" ]; then SCRIPT=forecast.py; fi
+          ARGS=""
+          if [ -n "${{ github.event.inputs.date }}" ]; then ARGS="$ARGS --date ${{ github.event.inputs.date }}"; fi
+          if [ "${{ github.event.inputs.demo }}" = "true" ]; then ARGS="$ARGS --demo"; fi
+          echo "Running $SCRIPT $ARGS"
+          python $SCRIPT $ARGS
+      - name: Coastal radar (artisanal boats)
+        if: github.event.schedule == '0 5 * * *' || github.event.inputs.mode == 'today' || github.event.inputs.mode == ''
+        continue-on-error: true
+        env:
+          COPERNICUSMARINE_SERVICE_USERNAME: ${{ secrets.CMEMS_USER }}
+          COPERNICUSMARINE_SERVICE_PASSWORD: ${{ secrets.CMEMS_PASS }}
+        run: |
+          ARGS=""
+          if [ -n "${{ github.event.inputs.date }}" ]; then ARGS="$ARGS --date ${{ github.event.inputs.date }}"; fi
+          if [ "${{ github.event.inputs.demo }}" = "true" ]; then ARGS="$ARGS --demo"; fi
+          python coastal.py $ARGS
+      - name: Save results
+        run: |
+          git config user.name "radar-bot"
+          git config user.email "radar-bot@users.noreply.github.com"
+          git add docs
+          git commit -m "Radar $(date -u +%F-%H%M)" || echo "nothing to commit"
+          git pull --rebase
+          git push
