@@ -1,0 +1,463 @@
+{
+ "generated": "2026-11-03",
+ "demo": false,
+ "hit_km": 2.0,
+ "top_percent": 1.0,
+ "source": "ESA Copernicus Sentinel-2 L2A (Earth Search, AWS)",
+ "sites": [
+  {
+   "id": "imiter",
+   "name": "Imiter",
+   "name_ar": "إميضر",
+   "country": "Morocco",
+   "metal": "Silver (Ag)",
+   "metal_ar": "الفضة",
+   "profile": "alteration",
+   "bounds": [
+    [
+     31.24,
+     -5.98
+    ],
+    [
+     31.46,
+     -5.62
+    ]
+   ],
+   "area_km2": 838,
+   "valid_pct": 99.6,
+   "anomaly_km2": 8.34,
+   "reduction": 100,
+   "targets": [
+    {
+     "lat": 31.33118,
+     "lon": -5.78741,
+     "area_ha": 119.3,
+     "peak": 4.0,
+     "rank": 1,
+     "label": "T1",
+     "rel": 100
+    },
+    {
+     "lat": 31.3467,
+     "lon": -5.82055,
+     "area_ha": 76.8,
+     "peak": 3.88,
+     "rank": 2,
+     "label": "T2",
+     "rel": 60
+    },
+    {
+     "lat": 31.33341,
+     "lon": -5.66509,
+     "area_ha": 50.9,
+     "peak": 4.0,
+     "rank": 3,
+     "label": "T3",
+     "rel": 46
+    },
+    {
+     "lat": 31.30985,
+     "lon": -5.75536,
+     "area_ha": 36.0,
+     "peak": 3.07,
+     "rank": 4,
+     "label": "T4",
+     "rel": 26
+    },
+    {
+     "lat": 31.24597,
+     "lon": -5.64438,
+     "area_ha": 42.1,
+     "peak": 2.23,
+     "rank": 5,
+     "label": "T5",
+     "rel": 25
+    },
+    {
+     "lat": 31.41347,
+     "lon": -5.62926,
+     "area_ha": 42.0,
+     "peak": 2.22,
+     "rank": 6,
+     "label": "T6",
+     "rel": 25
+    },
+    {
+     "lat": 31.38873,
+     "lon": -5.76132,
+     "area_ha": 36.7,
+     "peak": 2.48,
+     "rank": 7,
+     "label": "T7",
+     "rel": 22
+    },
+    {
+     "lat": 31.34978,
+     "lon": -5.81173,
+     "area_ha": 22.9,
+     "peak": 3.86,
+     "rank": 8,
+     "label": "T8",
+     "rel": 18
+    },
+    {
+     "lat": 31.33338,
+     "lon": -5.75528,
+     "area_ha": 29.6,
+     "peak": 2.46,
+     "rank": 9,
+     "label": "T9",
+     "rel": 18
+    },
+    {
+     "lat": 31.33884,
+     "lon": -5.80606,
+     "area_ha": 25.6,
+     "peak": 3.19,
+     "rank": 10,
+     "label": "T10",
+     "rel": 17
+    }
+   ],
+   "blind_test": [
+    {
+     "name": "Imiter silver mine",
+     "lat": 31.353,
+     "lon": -5.845,
+     "kind": "mine",
+     "src": "plizio.com (GeoNames)",
+     "nearest_km": 2.43,
+     "nearest_target": "T2",
+     "best_rank_within": null,
+     "percentile": 98.5,
+     "hit": false
+    }
+   ],
+   "scenes": [
+    {
+     "id": "S2C_30RTV_20260701_0_L2A",
+     "date": "2026-07-01",
+     "cloud": 0.0
+    },
+    {
+     "id": "S2C_30RTV_20260201_0_L2A",
+     "date": "2026-02-01",
+     "cloud": 0.0
+    }
+   ],
+   "images": {
+    "truecolor.jpg": "imiter/truecolor.jpg",
+    "ratios.jpg": "imiter/ratios.jpg",
+    "clay.png": "imiter/clay.png",
+    "iron.png": "imiter/iron.png",
+    "score.png": "imiter/score.png"
+   }
+  },
+  {
+   "id": "bouazzer",
+   "name": "Bou Azzer",
+   "name_ar": "بوعزر",
+   "country": "Morocco",
+   "metal": "Cobalt (Co), nickel, gold",
+   "metal_ar": "الكوبالت والنيكل والذهب",
+   "profile": "alteration",
+   "bounds": [
+    [
+     30.38,
+     -6.98
+    ],
+    [
+     30.62,
+     -6.5
+    ]
+   ],
+   "area_km2": 1230,
+   "valid_pct": 99.7,
+   "anomaly_km2": 12.27,
+   "reduction": 100,
+   "targets": [
+    {
+     "lat": 30.4902,
+     "lon": -6.63644,
+     "area_ha": 298.8,
+     "peak": 3.9,
+     "rank": 1,
+     "label": "T1",
+     "rel": 100
+    },
+    {
+     "lat": 30.48076,
+     "lon": -6.59984,
+     "area_ha": 170.6,
+     "peak": 3.16,
+     "rank": 2,
+     "label": "T2",
+     "rel": 50
+    },
+    {
+     "lat": 30.52067,
+     "lon": -6.78315,
+     "area_ha": 87.3,
+     "peak": 3.81,
+     "rank": 3,
+     "label": "T3",
+     "rel": 28
+    },
+    {
+     "lat": 30.44011,
+     "lon": -6.53435,
+     "area_ha": 41.0,
+     "peak": 3.76,
+     "rank": 4,
+     "label": "T4",
+     "rel": 15
+    },
+    {
+     "lat": 30.4966,
+     "lon": -6.9037,
+     "area_ha": 34.8,
+     "peak": 3.83,
+     "rank": 5,
+     "label": "T5",
+     "rel": 12
+    },
+    {
+     "lat": 30.56527,
+     "lon": -6.78043,
+     "area_ha": 30.7,
+     "peak": 4.2,
+     "rank": 6,
+     "label": "T6",
+     "rel": 12
+    },
+    {
+     "lat": 30.51051,
+     "lon": -6.71153,
+     "area_ha": 33.6,
+     "peak": 3.62,
+     "rank": 7,
+     "label": "T7",
+     "rel": 11
+    },
+    {
+     "lat": 30.50618,
+     "lon": -6.7122,
+     "area_ha": 21.7,
+     "peak": 3.64,
+     "rank": 8,
+     "label": "T8",
+     "rel": 7
+    },
+    {
+     "lat": 30.4385,
+     "lon": -6.58361,
+     "area_ha": 19.0,
+     "peak": 3.37,
+     "rank": 9,
+     "label": "T9",
+     "rel": 6
+    },
+    {
+     "lat": 30.605,
+     "lon": -6.89304,
+     "area_ha": 17.6,
+     "peak": 3.47,
+     "rank": 10,
+     "label": "T10",
+     "rel": 5
+    }
+   ],
+   "blind_test": [
+    {
+     "name": "Vein No. 61, Ait Ahmane (Bou Azzer district)",
+     "lat": 30.4806,
+     "lon": -6.5878,
+     "kind": "occurrence",
+     "src": "mindat.org loc-212416",
+     "nearest_km": 1.15,
+     "nearest_target": "T2",
+     "best_rank_within": 2,
+     "percentile": 99.8,
+     "hit": true
+    }
+   ],
+   "scenes": [
+    {
+     "id": "S2C_29RQP_20261012_0_L2A",
+     "date": "2026-10-12",
+     "cloud": 0.0
+    },
+    {
+     "id": "S2C_29RQP_20260912_0_L2A",
+     "date": "2026-09-12",
+     "cloud": 0.0
+    },
+    {
+     "id": "S2B_29RPP_20260825_0_L2A",
+     "date": "2026-08-25",
+     "cloud": 0.0
+    },
+    {
+     "id": "S2C_29RQP_20260820_0_L2A",
+     "date": "2026-08-20",
+     "cloud": 0.0
+    },
+    {
+     "id": "S2C_29RQP_20260701_0_L2A",
+     "date": "2026-07-01",
+     "cloud": 0.0
+    }
+   ],
+   "images": {
+    "truecolor.jpg": "bouazzer/truecolor.jpg",
+    "ratios.jpg": "bouazzer/ratios.jpg",
+    "clay.png": "bouazzer/clay.png",
+    "iron.png": "bouazzer/iron.png",
+    "score.png": "bouazzer/score.png"
+   }
+  },
+  {
+   "id": "kediet",
+   "name": "Kediet ej Jill (Zouerat)",
+   "name_ar": "كدية الجل (الزويرات)",
+   "country": "Mauritania",
+   "metal": "Iron ore (Fe)",
+   "metal_ar": "الحديد",
+   "profile": "iron",
+   "bounds": [
+    [
+     22.52,
+     -12.75
+    ],
+    [
+     22.78,
+     -12.4
+    ]
+   ],
+   "area_km2": 1041,
+   "valid_pct": 100.0,
+   "anomaly_km2": 10.41,
+   "reduction": 100,
+   "targets": [
+    {
+     "lat": 22.60571,
+     "lon": -12.65284,
+     "area_ha": 169.4,
+     "peak": 2.98,
+     "rank": 1,
+     "label": "T1",
+     "rel": 100
+    },
+    {
+     "lat": 22.59584,
+     "lon": -12.64067,
+     "area_ha": 163.7,
+     "peak": 2.76,
+     "rank": 2,
+     "label": "T2",
+     "rel": 94
+    },
+    {
+     "lat": 22.58632,
+     "lon": -12.59983,
+     "area_ha": 70.9,
+     "peak": 2.39,
+     "rank": 3,
+     "label": "T3",
+     "rel": 40
+    },
+    {
+     "lat": 22.65261,
+     "lon": -12.43647,
+     "area_ha": 47.8,
+     "peak": 4.0,
+     "rank": 4,
+     "label": "T4",
+     "rel": 37
+    },
+    {
+     "lat": 22.59129,
+     "lon": -12.62015,
+     "area_ha": 59.0,
+     "peak": 2.37,
+     "rank": 5,
+     "label": "T5",
+     "rel": 33
+    },
+    {
+     "lat": 22.70857,
+     "lon": -12.5218,
+     "area_ha": 48.2,
+     "peak": 3.41,
+     "rank": 6,
+     "label": "T6",
+     "rel": 32
+    },
+    {
+     "lat": 22.68741,
+     "lon": -12.55107,
+     "area_ha": 28.3,
+     "peak": 3.82,
+     "rank": 7,
+     "label": "T7",
+     "rel": 22
+    },
+    {
+     "lat": 22.62267,
+     "lon": -12.68094,
+     "area_ha": 29.3,
+     "peak": 2.72,
+     "rank": 8,
+     "label": "T8",
+     "rel": 18
+    },
+    {
+     "lat": 22.60617,
+     "lon": -12.43025,
+     "area_ha": 22.0,
+     "peak": 3.02,
+     "rank": 9,
+     "label": "T9",
+     "rel": 14
+    },
+    {
+     "lat": 22.58501,
+     "lon": -12.61083,
+     "area_ha": 17.2,
+     "peak": 2.13,
+     "rank": 10,
+     "label": "T10",
+     "rel": 9
+    }
+   ],
+   "blind_test": [
+    {
+     "name": "Kediet ej Jill",
+     "lat": 22.6511,
+     "lon": -12.5742,
+     "kind": "mine",
+     "src": "Wikipedia",
+     "nearest_km": 4.68,
+     "nearest_target": "T7",
+     "best_rank_within": null,
+     "percentile": 81.0,
+     "hit": false
+    }
+   ],
+   "scenes": [
+    {
+     "id": "S2B_28QGL_20260712_0_L2A",
+     "date": "2026-07-12",
+     "cloud": 0.0
+    }
+   ],
+   "images": {
+    "truecolor.jpg": "kediet/truecolor.jpg",
+    "ratios.jpg": "kediet/ratios.jpg",
+    "clay.png": "kediet/clay.png",
+    "iron.png": "kediet/iron.png",
+    "score.png": "kediet/score.png"
+   }
+  }
+ ]
+}

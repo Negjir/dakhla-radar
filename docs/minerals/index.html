@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>MADAR Minerals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Readex+Pro:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* MADAR Minerals console: proof of concept on known mines.
+   Header (brand, site tabs, language), satellite map (layers: true colour, ratio composite, clay, iron, MADAR score;
+   ranked targets; blind-test reveal of the known mine), side panel (search-area reduction, blind test, targets, method, limits).
+   Dark console look shared with the MADAR fishing consoles, with a mineral (copper/amber) accent. */
+:root{
+  --void:#0b0805; --glass:rgba(40,28,16,.66); --glass2:rgba(24,17,10,.88); --edge:rgba(255,178,90,.24); --edge2:rgba(255,178,90,.62);
+  --ink:#fbf1e3; --mute:#bfa587; --dim:#7a644c; --gold:#ffb85c; --copper:#ff8a3d; --green:#7dffb0; --cyan:#62e3ff; --red:#ff5a4a;
+  --tech:"Chakra Petch","Readex Pro",system-ui,sans-serif; --ar:"Readex Pro",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark; background:var(--void);
+}
+html,body{height:100%}
+body{margin:0;background:var(--void);color:var(--ink);font-family:var(--tech);-webkit-text-size-adjust:100%}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.con{min-height:100%;display:grid;grid-template-columns:minmax(0,1fr) 380px;grid-template-rows:auto minmax(0,1fr);gap:8px;padding:10px;
+  background:radial-gradient(120% 80% at 50% 0%,#3a2410 0%,#140d07 55%,#0b0805 100%)}
+.con[dir="rtl"]{font-family:var(--ar)}
+@media (min-width:901px){html,body{overflow:hidden}.con{height:100%}}
+.glass{background:var(--glass);border:1px solid var(--edge);border-radius:10px;box-shadow:inset 0 0 24px rgba(255,184,92,.05);min-width:0}
+.num{direction:ltr;unicode-bidi:isolate;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.lbl{font:600 10.5px var(--tech);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+[dir="rtl"] .lbl{letter-spacing:0;font-family:var(--ar);font-size:12px}
+
+.hd{grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:6px 10px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:9px;direction:ltr;flex:none}
+.logo b{font:700 16px var(--tech);letter-spacing:.06em;white-space:nowrap}
+.logo small{display:block;font:500 10px var(--mono);color:var(--mute);letter-spacing:.08em}
+.tabs{display:flex;gap:6px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;display:flex;flex-direction:column;align-items:flex-start;border:1px solid var(--edge);background:rgba(24,17,10,.5);border-radius:9px;padding:6px 12px;cursor:pointer;min-height:42px}
+.tab[aria-selected="true"]{border-color:var(--edge2);background:rgba(255,184,92,.13);box-shadow:0 0 16px rgba(255,184,92,.18) inset}
+.tab b{font-weight:600;font-size:14px;white-space:nowrap}
+.tab span{font:500 11px var(--mono);color:var(--mute);white-space:nowrap}
+.tab span.ar{font-family:var(--ar)}
+.langs{display:inline-flex;border:1px solid var(--edge);border-radius:8px;overflow:hidden;direction:ltr;flex:none}
+.langs button{border:0;background:none;padding:7px 10px;font:600 12px var(--tech);color:var(--mute);cursor:pointer;min-height:34px}
+.langs button[aria-pressed="true"]{background:rgba(255,184,92,.16);color:var(--ink)}
+.demo{font:700 11px var(--mono);color:#1a1000;background:var(--gold);border-radius:5px;padding:3px 7px;letter-spacing:.08em;direction:ltr}
+
+.mapbox{position:relative;overflow:hidden;min-height:380px;padding:0}
+#map{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab;background:#0b0805}
+#map.drag{cursor:grabbing}
+.zoom{position:absolute;z-index:5;bottom:12px;inset-inline-end:10px;display:grid;gap:4px}
+.zoom button{width:38px;height:38px;border:1px solid var(--edge);background:var(--glass2);border-radius:8px;color:var(--ink);font:700 18px var(--mono);cursor:pointer}
+.scale{position:absolute;z-index:5;bottom:14px;left:50%;transform:translateX(-50%);font:500 11px var(--mono);color:var(--ink);direction:ltr;text-align:center;pointer-events:none}
+.scale i{display:block;height:6px;border:2px solid var(--ink);border-top:0;margin-top:2px}
+.tip{position:absolute;z-index:6;pointer-events:none;background:var(--glass2);border:1px solid var(--edge2);border-radius:7px;padding:5px 8px;font:500 12px var(--mono);direction:ltr;white-space:nowrap;display:none}
+.layers{position:absolute;z-index:5;top:10px;inset-inline-start:10px;display:flex;flex-wrap:wrap;gap:5px;max-width:calc(100% - 20px)}
+.layers button{border:1px solid var(--edge);background:var(--glass2);border-radius:8px;padding:6px 10px;font-size:12.5px;font-weight:600;color:var(--mute);cursor:pointer;min-height:34px}
+.layers button[aria-pressed="true"]{border-color:var(--edge2);color:var(--ink);background:rgba(60,38,16,.92)}
+.legend{position:absolute;z-index:5;bottom:56px;inset-inline-start:10px;background:var(--glass2);border:1px solid var(--edge);border-radius:8px;padding:7px 10px;font-size:12px;color:var(--mute);max-width:min(330px,calc(100% - 20px))}
+.legend .bar{height:8px;border-radius:4px;margin:5px 0 3px;background:linear-gradient(90deg,rgba(180,60,20,.4),#ff8c00,#ffd250,#ffffdc)}
+.legend .rgb{display:flex;gap:10px;flex-wrap:wrap;margin-top:3px}
+.legend .rgb i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-inline-end:4px;vertical-align:-1px}
+.reveal{position:absolute;z-index:5;top:10px;inset-inline-end:10px;border:1px solid var(--cyan);color:var(--cyan);background:var(--glass2);border-radius:8px;padding:8px 12px;font-weight:700;font-size:13px;cursor:pointer;min-height:38px}
+.reveal[aria-pressed="true"]{background:rgba(98,227,255,.16)}
+.tg{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;border:2px solid var(--gold);background:rgba(11,8,5,.78);color:var(--gold);font:700 11px var(--mono);box-shadow:0 0 12px rgba(255,184,92,.6)}
+.tg.top{border-color:#fff3d6;color:#fff3d6;background:rgba(255,138,61,.85);box-shadow:0 0 18px rgba(255,138,61,.9)}
+.kn{width:22px;height:22px;transform:rotate(45deg);border:2px solid var(--cyan);background:rgba(98,227,255,.25);box-shadow:0 0 14px var(--cyan)}
+
+.side{display:flex;flex-direction:column;gap:8px;min-height:0;overflow:auto;padding-bottom:4px}
+.card{padding:11px 12px}
+.site h1{margin:0;font-size:19px;font-weight:700}
+.site p{margin:3px 0 0;color:var(--mute);font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.kpi{border:1px solid var(--edge);border-radius:8px;padding:7px 8px;background:rgba(11,8,5,.35)}
+.kpi b{display:block;font:700 18px var(--mono);direction:ltr;text-align:start}
+.kpi span{font-size:11.5px;color:var(--mute)}
+.big{font:700 26px var(--mono);color:var(--gold);direction:ltr;unicode-bidi:isolate}
+.bt{display:flex;gap:10px;align-items:flex-start}
+.badge{flex:none;font:700 12px var(--tech);border-radius:6px;padding:4px 8px;letter-spacing:.04em}
+.badge.ok{background:rgba(125,255,176,.15);color:var(--green);border:1px solid rgba(125,255,176,.5)}
+.badge.no{background:rgba(255,90,74,.13);color:var(--red);border:1px solid rgba(255,90,74,.5)}
+.bt p{margin:0;font-size:13.5px;line-height:1.55}
+.bt small{display:block;color:var(--mute);font-size:12px;margin-top:4px}
+.reveal2{margin-top:8px;width:100%;border:1px solid var(--cyan);color:var(--cyan);background:rgba(98,227,255,.08);border-radius:8px;padding:9px 12px;font-weight:700;font-size:13.5px;cursor:pointer;min-height:40px}
+.hidden-note{font-size:13px;color:var(--mute);line-height:1.6}
+.list{display:flex;flex-direction:column;gap:5px;margin-top:8px}
+.row{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:8px;align-items:center;border:1px solid var(--edge);border-radius:8px;padding:7px 8px;cursor:pointer;background:rgba(11,8,5,.3);text-align:start}
+.row:hover,.row[aria-current="true"]{border-color:var(--edge2);background:rgba(255,184,92,.1)}
+.row .l{font:700 13px var(--mono);color:var(--gold);direction:ltr}
+.row .c{display:block;font:500 12px var(--mono);direction:ltr;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:start}
+.row .m{font-size:11.5px;color:var(--mute)}
+.meter{height:5px;border-radius:3px;background:rgba(255,184,92,.15);overflow:hidden;width:58px;direction:ltr}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--copper),var(--gold))}
+.copy{border:1px solid var(--edge);background:none;border-radius:6px;padding:3px 7px;font-size:11px;color:var(--mute);cursor:pointer}
+.txt{font-size:13px;line-height:1.65;color:var(--ink);margin:6px 0 0}
+.txt li{margin-bottom:4px}
+.txt.m{color:var(--mute)}
+details summary{cursor:pointer;font-weight:600;font-size:13.5px;list-style:none;display:flex;justify-content:space-between}
+details summary::after{content:"+";color:var(--gold);font-family:var(--mono)}
+details[open] summary::after{content:"−"}
+.foot{font:500 11px var(--mono);color:var(--dim);direction:ltr;line-height:1.6}
+@media (max-width:900px){
+  .reveal{display:none}
+  .con{grid-template-columns:1fr;grid-template-rows:auto 62vh auto;padding:8px}
+  .side{overflow:visible}
+  .kpi b{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="con" id="con" dir="rtl">
+  <header class="hd glass">
+    <div class="logo">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="none" stroke="#ffb85c" stroke-opacity=".5"/><circle cx="16" cy="16" r="8.5" fill="none" stroke="#ffb85c" stroke-opacity=".35"/><path d="M16 6l7 10-7 10-7-10z" fill="#ff8a3d" fill-opacity=".85"/><path d="M16 6l7 10H9z" fill="#ffd9a3" fill-opacity=".8"/></svg>
+      <div><b>MADAR · MINERALS</b><small>SENTINEL-2 · PROOF OF CONCEPT</small></div>
+    </div>
+    <span class="demo" id="demo" hidden>DEMO DATA</span>
+    <nav class="tabs" id="tabs" role="tablist"></nav>
+    <div class="langs" id="langs"><button data-l="ar">ع</button><button data-l="fr">FR</button><button data-l="en">EN</button></div>
+  </header>
+
+  <section class="mapbox glass">
+    <canvas id="map" dir="ltr" aria-label="map"></canvas>
+    <div class="zoom"><button id="zin" aria-label="zoom in">+</button><button id="zout" aria-label="zoom out">−</button></div>
+    <div class="scale" id="scale"></div>
+    <div class="tip" id="tip"></div>
+    <div class="layers" id="layers"></div>
+    <button class="reveal" id="reveal" aria-pressed="false"></button>
+    <div class="legend" id="legend"></div>
+  </section>
+
+  <aside class="side">
+    <div class="card glass site" id="site"></div>
+    <div class="card glass" id="blind"></div>
+    <div class="card glass">
+      <div class="lbl" id="tTitle"></div>
+      <div class="list" id="targets"></div>
+    </div>
+    <div class="card glass">
+      <details><summary id="mTitle"></summary><div class="txt" id="method"></div></details>
+    </div>
+    <div class="card glass">
+      <details open><summary id="limTitle"></summary><div class="txt m" id="limits"></div></details>
+    </div>
+    <div class="card glass foot" id="foot"></div>
+  </aside>
+</div>
+
+<script>
+const DATA = {"generated": "2026-11-03", "demo": false, "hit_km": 2.0, "top_percent": 1.0, "source": "ESA Copernicus Sentinel-2 L2A (Earth Search, AWS)", "sites": [{"id": "imiter", "name": "Imiter", "name_ar": "إميضر", "country": "Morocco", "metal": "Silver (Ag)", "metal_ar": "الفضة", "profile": "alteration", "bounds": [[31.24, -5.98], [31.46, -5.62]], "area_km2": 838, "valid_pct": 99.6, "anomaly_km2": 8.34, "reduction": 100, "targets": [{"lat": 31.33118, "lon": -5.78741, "area_ha": 119.3, "peak": 4.0, "rank": 1, "label": "T1", "rel": 100}, {"lat": 31.3467, "lon": -5.82055, "area_ha": 76.8, "peak": 3.88, "rank": 2, "label": "T2", "rel": 60}, {"lat": 31.33341, "lon": -5.66509, "area_ha": 50.9, "peak": 4.0, "rank": 3, "label": "T3", "rel": 46}, {"lat": 31.30985, "lon": -5.75536, "area_ha": 36.0, "peak": 3.07, "rank": 4, "label": "T4", "rel": 26}, {"lat": 31.24597, "lon": -5.64438, "area_ha": 42.1, "peak": 2.23, "rank": 5, "label": "T5", "rel": 25}, {"lat": 31.41347, "lon": -5.62926, "area_ha": 42.0, "peak": 2.22, "rank": 6, "label": "T6", "rel": 25}, {"lat": 31.38873, "lon": -5.76132, "area_ha": 36.7, "peak": 2.48, "rank": 7, "label": "T7", "rel": 22}, {"lat": 31.34978, "lon": -5.81173, "area_ha": 22.9, "peak": 3.86, "rank": 8, "label": "T8", "rel": 18}, {"lat": 31.33338, "lon": -5.75528, "area_ha": 29.6, "peak": 2.46, "rank": 9, "label": "T9", "rel": 18}, {"lat": 31.33884, "lon": -5.80606, "area_ha": 25.6, "peak": 3.19, "rank": 10, "label": "T10", "rel": 17}], "blind_test": [{"name": "Imiter silver mine", "lat": 31.353, "lon": -5.845, "kind": "mine", "src": "plizio.com (GeoNames)", "nearest_km": 2.43, "nearest_target": "T2", "best_rank_within": null, "percentile": 98.5, "hit": false}], "scenes": [{"id": "S2C_30RTV_20260701_0_L2A", "date": "2026-07-01", "cloud": 0.0}, {"id": "S2C_30RTV_20260201_0_L2A", "date": "2026-02-01", "cloud": 0.0}], "images": {"truecolor.jpg": "imiter/truecolor.jpg", "ratios.jpg": "imiter/ratios.jpg", "clay.png": "imiter/clay.png", "iron.png": "imiter/iron.png", "score.png": "imiter/score.png"}}, {"id": "bouazzer", "name": "Bou Azzer", "name_ar": "بوعزر", "country": "Morocco", "metal": "Cobalt (Co), nickel, gold", "metal_ar": "الكوبالت والنيكل والذهب", "profile": "alteration", "bounds": [[30.38, -6.98], [30.62, -6.5]], "area_km2": 1230, "valid_pct": 99.7, "anomaly_km2": 12.27, "reduction": 100, "targets": [{"lat": 30.4902, "lon": -6.63644, "area_ha": 298.8, "peak": 3.9, "rank": 1, "label": "T1", "rel": 100}, {"lat": 30.48076, "lon": -6.59984, "area_ha": 170.6, "peak": 3.16, "rank": 2, "label": "T2", "rel": 50}, {"lat": 30.52067, "lon": -6.78315, "area_ha": 87.3, "peak": 3.81, "rank": 3, "label": "T3", "rel": 28}, {"lat": 30.44011, "lon": -6.53435, "area_ha": 41.0, "peak": 3.76, "rank": 4, "label": "T4", "rel": 15}, {"lat": 30.4966, "lon": -6.9037, "area_ha": 34.8, "peak": 3.83, "rank": 5, "label": "T5", "rel": 12}, {"lat": 30.56527, "lon": -6.78043, "area_ha": 30.7, "peak": 4.2, "rank": 6, "label": "T6", "rel": 12}, {"lat": 30.51051, "lon": -6.71153, "area_ha": 33.6, "peak": 3.62, "rank": 7, "label": "T7", "rel": 11}, {"lat": 30.50618, "lon": -6.7122, "area_ha": 21.7, "peak": 3.64, "rank": 8, "label": "T8", "rel": 7}, {"lat": 30.4385, "lon": -6.58361, "area_ha": 19.0, "peak": 3.37, "rank": 9, "label": "T9", "rel": 6}, {"lat": 30.605, "lon": -6.89304, "area_ha": 17.6, "peak": 3.47, "rank": 10, "label": "T10", "rel": 5}], "blind_test": [{"name": "Vein No. 61, Ait Ahmane (Bou Azzer district)", "lat": 30.4806, "lon": -6.5878, "kind": "occurrence", "src": "mindat.org loc-212416", "nearest_km": 1.15, "nearest_target": "T2", "best_rank_within": 2, "percentile": 99.8, "hit": true}], "scenes": [{"id": "S2C_29RQP_20261012_0_L2A", "date": "2026-10-12", "cloud": 0.0}, {"id": "S2C_29RQP_20260912_0_L2A", "date": "2026-09-12", "cloud": 0.0}, {"id": "S2B_29RPP_20260825_0_L2A", "date": "2026-08-25", "cloud": 0.0}, {"id": "S2C_29RQP_20260820_0_L2A", "date": "2026-08-20", "cloud": 0.0}, {"id": "S2C_29RQP_20260701_0_L2A", "date": "2026-07-01", "cloud": 0.0}], "images": {"truecolor.jpg": "bouazzer/truecolor.jpg", "ratios.jpg": "bouazzer/ratios.jpg", "clay.png": "bouazzer/clay.png", "iron.png": "bouazzer/iron.png", "score.png": "bouazzer/score.png"}}, {"id": "kediet", "name": "Kediet ej Jill (Zouerat)", "name_ar": "كدية الجل (الزويرات)", "country": "Mauritania", "metal": "Iron ore (Fe)", "metal_ar": "الحديد", "profile": "iron", "bounds": [[22.52, -12.75], [22.78, -12.4]], "area_km2": 1041, "valid_pct": 100.0, "anomaly_km2": 10.41, "reduction": 100, "targets": [{"lat": 22.60571, "lon": -12.65284, "area_ha": 169.4, "peak": 2.98, "rank": 1, "label": "T1", "rel": 100}, {"lat": 22.59584, "lon": -12.64067, "area_ha": 163.7, "peak": 2.76, "rank": 2, "label": "T2", "rel": 94}, {"lat": 22.58632, "lon": -12.59983, "area_ha": 70.9, "peak": 2.39, "rank": 3, "label": "T3", "rel": 40}, {"lat": 22.65261, "lon": -12.43647, "area_ha": 47.8, "peak": 4.0, "rank": 4, "label": "T4", "rel": 37}, {"lat": 22.59129, "lon": -12.62015, "area_ha": 59.0, "peak": 2.37, "rank": 5, "label": "T5", "rel": 33}, {"lat": 22.70857, "lon": -12.5218, "area_ha": 48.2, "peak": 3.41, "rank": 6, "label": "T6", "rel": 32}, {"lat": 22.68741, "lon": -12.55107, "area_ha": 28.3, "peak": 3.82, "rank": 7, "label": "T7", "rel": 22}, {"lat": 22.62267, "lon": -12.68094, "area_ha": 29.3, "peak": 2.72, "rank": 8, "label": "T8", "rel": 18}, {"lat": 22.60617, "lon": -12.43025, "area_ha": 22.0, "peak": 3.02, "rank": 9, "label": "T9", "rel": 14}, {"lat": 22.58501, "lon": -12.61083, "area_ha": 17.2, "peak": 2.13, "rank": 10, "label": "T10", "rel": 9}], "blind_test": [{"name": "Kediet ej Jill", "lat": 22.6511, "lon": -12.5742, "kind": "mine", "src": "Wikipedia", "nearest_km": 4.68, "nearest_target": "T7", "best_rank_within": null, "percentile": 81.0, "hit": false}], "scenes": [{"id": "S2B_28QGL_20260712_0_L2A", "date": "2026-07-12", "cloud": 0.0}], "images": {"truecolor.jpg": "kediet/truecolor.jpg", "ratios.jpg": "kediet/ratios.jpg", "clay.png": "kediet/clay.png", "iron.png": "kediet/iron.png", "score.png": "kediet/score.png"}}]};
+const T = {
+  ar:{dir:"rtl",layers:{truecolor:"صورة حقيقية",ratios:"تركيب المؤشرات",clay:"الطين",iron:"أكاسيد الحديد",score:"نقاط مدار"},
+    reveal:"اكشف المنجم الحقيقي",hide:"أخفِ المنجم",area:"مساحة البحث",anom:"مناطق الأولوية",red:"تقليص",km2:"كم²",
+    targets:"الأهداف المرتبة (من الأقوى)",strength:"القوة",ha:"هكتار",copy:"نسخ",copied:"نُسخ",
+    blindT:"الاختبار الأعمى",blindHidden:"موقع المنجم الحقيقي لم يُستعمل في التحليل. اضغط «اكشف المنجم الحقيقي» لترى هل أشار مدار إليه.",
+    hit:(k,t,d,r)=>`${k}: الهدف ${t} يبعد ${d} كم فقط عن الموقع المعروف (الترتيب ${r} من ${DATA_N()}).`,
+    miss:(k,t,d)=>`${k}: أقرب هدف (${t}) يبعد ${d} كم. لم يصب الاختبار في نطاق ${DATA.hit_km} كم.`,
+    pct:p=>`قيمة مدار حول الموقع أعلى من ${p}% من المنطقة.`,
+    kind:{mine:"منجم مستغَل: الحفر والنفايات تظهر أيضاً، لذا هذا دليل أضعف من موقع لم يُستغل.",occurrence:"تمعدن معروف (عرق)، ليس حفرة منجم كبيرة: دليل أقوى."},
+    mTitle:"الطريقة",
+    method:`<ol><li>صور Sentinel-2 (وكالة الفضاء الأوروبية) خالية من الغيوم، بدقة 20 م.</li><li>نسب نطاقات معروفة في الجيولوجيا: <b>الطين</b> = B11/B12 (تحت أحمر قصير)، <b>أكاسيد الحديد</b> = B4/B2، <b>الحديد الثنائي</b> = B12/B8A + B3/B4.</li><li>حذف النبات والماء والظل والغيوم.</li><li>نقاط مدار = مزيج من الشذوذ (أعلى ${'${TOP}'}% من المنطقة)، ثم تجميعها في أهداف مرتبة حسب المساحة والشدة.</li><li>الاختبار الأعمى: إحداثيات المنجم أُضيفت فقط بعد التحليل لقياس المسافة.</li></ol>`,
+    limTitle:"حدود يجب قولها للزبون",
+    limits:`<ul><li>مدار يقلّص مساحة البحث، ولا يثبت وجود المعدن. العينات الميدانية والحفر هي التي تقرر.</li><li>المناجم المستغلة تظهر جزئياً بسبب حفرها ونفاياتها.</li><li>الكثبان الرملية والورنيش الصحراوي قد يخفيان البصمة أو يشوّشانها.</li><li>الإحداثيات المعروفة من مصادر عامة، وقد تبعد بضع مئات من الأمتار.</li></ul>`,
+    scenes:"الصور المستعملة",profile:{alteration:"نموذج: التغيّر الحراري (طين + حديد)",iron:"نموذج: خام الحديد (حديد ثلاثي + ثنائي)"},
+    rgb:["أحمر = طين","أخضر = أكاسيد الحديد","أزرق = حديد ثنائي"],low:"ضعيف",high:"قوي",known:"الموقع المعروف",
+    nearest:"أقرب هدف"},
+  fr:{dir:"ltr",layers:{truecolor:"Couleurs réelles",ratios:"Composite d'indices",clay:"Argiles",iron:"Oxydes de fer",score:"Score MADAR"},
+    reveal:"Révéler la mine réelle",hide:"Masquer la mine",area:"Zone étudiée",anom:"Zones prioritaires",red:"Réduction",km2:"km²",
+    targets:"Cibles classées (de la plus forte)",strength:"Force",ha:"ha",copy:"Copier",copied:"Copié",
+    blindT:"Test à l'aveugle",blindHidden:"La position de la mine n'a pas été utilisée par l'analyse. Cliquez « Révéler la mine réelle » pour vérifier si MADAR la désigne.",
+    hit:(k,t,d,r)=>`${k} : la cible ${t} est à seulement ${d} km du site connu (rang ${r} sur ${DATA_N()}).`,
+    miss:(k,t,d)=>`${k} : la cible la plus proche (${t}) est à ${d} km. Pas de touche dans un rayon de ${DATA.hit_km} km.`,
+    pct:p=>`Le score MADAR autour du site dépasse ${p} % de la zone.`,
+    kind:{mine:"Mine en exploitation : fosses et haldes ressortent aussi, preuve plus faible qu'un indice non exploité.",occurrence:"Minéralisation connue (filon), pas une grande fosse : preuve plus forte."},
+    mTitle:"Méthode",
+    method:`<ol><li>Images Sentinel-2 (ESA) sans nuages, résolution 20 m.</li><li>Rapports de bandes classiques en géologie : <b>argiles</b> = B11/B12, <b>oxydes de fer</b> = B4/B2, <b>fer ferreux</b> = B12/B8A + B3/B4.</li><li>Masquage végétation, eau, ombres et nuages.</li><li>Score MADAR = combinaison des anomalies (top ${'${TOP}'} % de la zone), regroupées en cibles classées par surface et intensité.</li><li>Test à l'aveugle : les coordonnées de la mine ne sont ajoutées qu'après l'analyse.</li></ol>`,
+    limTitle:"Limites à dire au client",
+    limits:`<ul><li>MADAR réduit la zone de recherche, il ne prouve pas un gisement. Échantillonnage et forage décident.</li><li>Les mines actives ressortent en partie à cause de leurs fosses et haldes.</li><li>Dunes et vernis désertique peuvent masquer ou brouiller la signature.</li><li>Coordonnées connues issues de sources publiques, à quelques centaines de mètres près.</li></ul>`,
+    scenes:"Images utilisées",profile:{alteration:"Modèle : altération hydrothermale (argiles + fer)",iron:"Modèle : minerai de fer (fer ferrique + ferreux)"},
+    rgb:["Rouge = argiles","Vert = oxydes de fer","Bleu = fer ferreux"],low:"faible",high:"fort",known:"Site connu",nearest:"Cible la plus proche"},
+  en:{dir:"ltr",layers:{truecolor:"True colour",ratios:"Index composite",clay:"Clay",iron:"Iron oxide",score:"MADAR score"},
+    reveal:"Reveal the real mine",hide:"Hide the mine",area:"Area searched",anom:"Priority zones",red:"Reduction",km2:"km²",
+    targets:"Ranked targets (strongest first)",strength:"Strength",ha:"ha",copy:"Copy",copied:"Copied",
+    blindT:"Blind test",blindHidden:"The mine location was not used by the analysis. Press “Reveal the real mine” to see whether MADAR points to it.",
+    hit:(k,t,d,r)=>`${k}: target ${t} is only ${d} km from the known site (rank ${r} of ${DATA_N()}).`,
+    miss:(k,t,d)=>`${k}: nearest target (${t}) is ${d} km away. No hit within ${DATA.hit_km} km.`,
+    pct:p=>`The MADAR score around the site is higher than ${p}% of the area.`,
+    kind:{mine:"Working mine: its pits and tailings also show up, so this is weaker proof than an unmined occurrence.",occurrence:"Known mineralisation (vein), not a large pit: stronger proof."},
+    mTitle:"Method",
+    method:`<ol><li>Cloud-free Sentinel-2 images (ESA), 20 m resolution.</li><li>Standard geological band ratios: <b>clay</b> = B11/B12, <b>iron oxide</b> = B4/B2, <b>ferrous iron</b> = B12/B8A + B3/B4.</li><li>Vegetation, water, shadow and cloud masked.</li><li>MADAR score = combined anomalies (top ${'${TOP}'}% of the area), grouped into targets ranked by size and intensity.</li><li>Blind test: mine coordinates are added only after the analysis.</li></ol>`,
+    limTitle:"Limits to tell the client",
+    limits:`<ul><li>MADAR narrows the search; it does not prove a deposit. Field sampling and drilling decide.</li><li>Working mines light up partly because of their own pits and tailings.</li><li>Dunes and desert varnish can hide or blur the signature.</li><li>Known coordinates come from public sources and may be a few hundred metres off.</li></ul>`,
+    scenes:"Images used",profile:{alteration:"Model: hydrothermal alteration (clay + iron)",iron:"Model: iron ore (ferric + ferrous)"},
+    rgb:["Red = clay","Green = iron oxide","Blue = ferrous iron"],low:"weak",high:"strong",known:"Known site",nearest:"Nearest target"}
+};
+let lang = "ar", cur = 0, layer = "score", revealed = false, sel = 0;
+const DATA_N = () => S().targets.length;
+const S = () => DATA.sites[cur];
+const L = () => T[lang];
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ll = (la, lo) => `${Math.abs(la).toFixed(5)}°${la>=0?"N":"S"} ${Math.abs(lo).toFixed(5)}°${lo>=0?"E":"W"}`;
+
+/* ---------- canvas map: equirectangular, lon scaled by cos(lat) ---------- */
+const cv = $("map"), cx = cv.getContext("2d");
+const view = {lat:0, lon:0, k:1, cos:1};       // k = pixels per degree of latitude
+const imgs = {};
+let W = 0, H = 0, DPR = 1;
+function img(src){ if (!imgs[src]){ const i = new Image(); i.onload = draw; i.src = src; imgs[src] = i; } return imgs[src]; }
+function resize(){ const r = cv.getBoundingClientRect(); DPR = Math.min(devicePixelRatio || 1, 2); W = r.width; H = r.height; cv.width = W*DPR; cv.height = H*DPR; draw(); }
+const P = (lat, lon) => [W/2 + (lon - view.lon) * view.k * view.cos, H/2 - (lat - view.lat) * view.k];
+const G = (x, y) => [view.lat - (y - H/2) / view.k, view.lon + (x - W/2) / (view.k * view.cos)];
+function fit(pts, pad=40, maxK=Infinity){
+  const la = pts.map(p => p[0]), lo = pts.map(p => p[1]);
+  const la0 = Math.min(...la), la1 = Math.max(...la), lo0 = Math.min(...lo), lo1 = Math.max(...lo);
+  view.lat = (la0+la1)/2; view.lon = (lo0+lo1)/2; view.cos = Math.cos(view.lat*Math.PI/180);
+  view.k = Math.min(maxK, (H - 2*pad) / Math.max(la1-la0, 1e-4), (W - 2*pad) / (Math.max(lo1-lo0, 1e-4) * view.cos));
+  draw();
+}
+function zoom(f, x=W/2, y=H/2){
+  const [la, lo] = G(x, y);
+  const kk = Math.max(minK(), Math.min(view.k * f, 600000));
+  view.k = kk; const [x2, y2] = P(la, lo);
+  view.lon += (x2 - x) / (view.k * view.cos); view.lat -= (y2 - y) / view.k; draw();
+}
+const minK = () => { const b = S().bounds; return 0.5 * Math.min(H / (b[1][0]-b[0][0]), W / ((b[1][1]-b[0][1]) * view.cos)); };
+function draw(){
+  if (!W) return;
+  const s = S(), b = s.bounds;
+  cx.setTransform(DPR,0,0,DPR,0,0); cx.clearRect(0,0,W,H);
+  cx.fillStyle = "#0b0805"; cx.fillRect(0,0,W,H);
+  const [x0, y0] = P(b[1][0], b[0][1]), [x1, y1] = P(b[0][0], b[1][1]);
+  cx.imageSmoothingEnabled = view.k < 6000;
+  const base = img(s.images["truecolor.jpg"]);
+  if (layer === "ratios"){ const r = img(s.images["ratios.jpg"]); r.complete && cx.drawImage(r, x0, y0, x1-x0, y1-y0); }
+  else {
+    if (base.complete){ cx.globalAlpha = layer === "truecolor" ? 1 : .6; cx.drawImage(base, x0, y0, x1-x0, y1-y0); cx.globalAlpha = 1; }
+    if (layer !== "truecolor"){ const o = img(s.images[layer + ".png"]); o.complete && cx.drawImage(o, x0, y0, x1-x0, y1-y0); }
+  }
+  cx.setLineDash([5,5]); cx.strokeStyle = "rgba(255,184,92,.7)"; cx.lineWidth = 1; cx.strokeRect(x0, y0, x1-x0, y1-y0); cx.setLineDash([]);
+  if (revealed) s.blind_test.forEach(k => {
+    const [kx, ky] = P(k.lat, k.lon);
+    const rpx = DATA.hit_km / 111.32 * view.k;
+    cx.beginPath(); cx.arc(kx, ky, rpx, 0, 7); cx.fillStyle = "rgba(98,227,255,.06)"; cx.fill(); cx.strokeStyle = "rgba(98,227,255,.7)"; cx.lineWidth = 1; cx.stroke();
+    const g = s.targets.find(t => t.label === k.nearest_target);
+    if (g){ const [gx, gy] = P(g.lat, g.lon); cx.setLineDash([6,5]); cx.strokeStyle = "#62e3ff"; cx.lineWidth = 2; cx.beginPath(); cx.moveTo(kx, ky); cx.lineTo(gx, gy); cx.stroke(); cx.setLineDash([]);
+      cx.font = "600 12px JetBrains Mono, monospace"; cx.fillStyle = "#62e3ff"; cx.textAlign = "center"; cx.fillText(k.nearest_km + " km", (kx+gx)/2, (ky+gy)/2 - 8); }
+  });
+  s.targets.slice().reverse().forEach(t => {
+    const [x, y] = P(t.lat, t.lon), top = t.rank <= 3, on = t.rank === sel;
+    cx.beginPath(); cx.arc(x, y, on ? 17 : 14, 0, 7);
+    cx.shadowColor = top ? "rgba(255,138,61,.9)" : "rgba(255,184,92,.6)"; cx.shadowBlur = on ? 22 : 12;
+    cx.fillStyle = top ? "rgba(255,138,61,.88)" : "rgba(11,8,5,.8)"; cx.fill(); cx.shadowBlur = 0;
+    cx.lineWidth = 2; cx.strokeStyle = top || on ? "#fff3d6" : "#ffb85c"; cx.stroke();
+    cx.fillStyle = top ? "#fff3d6" : "#ffb85c"; cx.font = "700 11px JetBrains Mono, monospace"; cx.textAlign = "center"; cx.textBaseline = "middle"; cx.fillText(t.label, x, y + .5);
+  });
+  if (revealed) s.blind_test.forEach(k => {
+    const [kx, ky] = P(k.lat, k.lon);
+    cx.save(); cx.translate(kx, ky); cx.rotate(Math.PI/4); cx.shadowColor = "#62e3ff"; cx.shadowBlur = 14;
+    cx.fillStyle = "rgba(98,227,255,.3)"; cx.fillRect(-10,-10,20,20); cx.lineWidth = 2; cx.strokeStyle = "#62e3ff"; cx.strokeRect(-10,-10,20,20); cx.restore();
+    cx.font = "600 12.5px Readex Pro, Chakra Petch, sans-serif"; cx.textAlign = "center"; cx.textBaseline = "top";
+    const lab = L().known; const w = cx.measureText(lab).width + 12;
+    cx.fillStyle = "rgba(24,17,10,.9)"; cx.fillRect(kx - w/2, ky + 18, w, 20); cx.fillStyle = "#62e3ff"; cx.fillText(lab, kx, ky + 21);
+  });
+  // scale bar
+  const kmPx = view.k / 111.32, nice = [0.1,0.2,0.5,1,2,5,10,20,50].find(v => v * kmPx > 70) || 50;
+  $("scale").innerHTML = `${nice} km<i style="width:${Math.round(nice*kmPx)}px"></i>`;
+}
+/* pointer: drag, pinch, wheel, click on targets */
+const ptrs = new Map(); let moved = false, pinch0 = 0;
+cv.addEventListener("pointerdown", e => { cv.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, [e.offsetX, e.offsetY]); moved = false; cv.classList.add("drag"); if (ptrs.size === 2){ const [a, b] = [...ptrs.values()]; pinch0 = Math.hypot(a[0]-b[0], a[1]-b[1]); } });
+cv.addEventListener("pointermove", e => {
+  if (!ptrs.has(e.pointerId)){ hover(e.offsetX, e.offsetY); return; }
+  const prev = ptrs.get(e.pointerId); ptrs.set(e.pointerId, [e.offsetX, e.offsetY]);
+  if (ptrs.size === 2){ const [a, b] = [...ptrs.values()]; const d = Math.hypot(a[0]-b[0], a[1]-b[1]); if (pinch0){ zoom(d / pinch0, (a[0]+b[0])/2, (a[1]+b[1])/2); } pinch0 = d; moved = true; return; }
+  const dx = e.offsetX - prev[0], dy = e.offsetY - prev[1];
+  if (Math.abs(dx) + Math.abs(dy) > 1) moved = true;
+  view.lon -= dx / (view.k * view.cos); view.lat += dy / view.k; draw();
+});
+const up = e => { ptrs.delete(e.pointerId); pinch0 = 0; cv.classList.remove("drag"); if (!moved && e.type === "pointerup"){ const t = hit(e.offsetX, e.offsetY); if (t) focusTarget(t.rank); } };
+cv.addEventListener("pointerup", up); cv.addEventListener("pointercancel", up);
+cv.addEventListener("wheel", e => { e.preventDefault(); zoom(Math.exp(-e.deltaY * 0.0015), e.offsetX, e.offsetY); }, {passive:false});
+$("zin").onclick = () => zoom(1.6); $("zout").onclick = () => zoom(1/1.6);
+function hit(x, y){ return S().targets.find(t => { const [px, py] = P(t.lat, t.lon); return Math.hypot(px-x, py-y) < 18; }); }
+function hover(x, y){
+  const t = hit(x, y), tip = $("tip");
+  if (!t){ tip.style.display = "none"; cv.style.cursor = ""; return; }
+  cv.style.cursor = "pointer"; tip.style.display = "block"; tip.textContent = `${t.label} · ${ll(t.lat, t.lon)} · ${t.area_ha} ha`;
+  tip.style.left = Math.min(x + 14, W - tip.offsetWidth - 6) + "px"; tip.style.top = (y - 34) + "px";
+}
+
+function init(){
+  try{ const l = localStorage.getItem("madar-min-lang"); if (T[l]) lang = l; }catch(e){}
+  if (DATA.demo) $("demo").hidden = false;
+  $("langs").onclick = e => { const b = e.target.closest("button"); if (!b) return; lang = b.dataset.l; try{localStorage.setItem("madar-min-lang", lang)}catch(e){} render(true); };
+  $("reveal").onclick = () => { revealed = !revealed; renderBlind(); renderReveal(); if (revealed) fitReveal(); else draw(); };
+  new ResizeObserver(resize).observe(cv);
+  render(false);
+}
+function render(keepView){
+  const t = L(), con = $("con");
+  con.dir = t.dir; document.documentElement.lang = lang; document.documentElement.dir = t.dir;
+  [...$("langs").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.l === lang));
+  $("tabs").innerHTML = DATA.sites.map((s, i) => `<button class="tab" role="tab" aria-selected="${i===cur}" data-i="${i}"><b>${esc(lang==="ar"?s.name_ar:s.name)}</b><span class="${lang==="ar"?"ar":""}">${esc(lang==="ar"?s.metal_ar:s.metal)}</span></button>`).join("");
+  $("tabs").onclick = e => { const b = e.target.closest(".tab"); if (!b) return; cur = +b.dataset.i; revealed = false; sel = 0; render(false); };
+  $("layers").innerHTML = Object.entries(t.layers).map(([k, v]) => `<button data-k="${k}" aria-pressed="${k===layer}">${v}</button>`).join("");
+  $("layers").onclick = e => { const b = e.target.closest("button"); if (!b) return; layer = b.dataset.k; render(true); };
+  const s = S();
+  $("site").innerHTML = `<div class="lbl">${esc(s.country)}</div><h1>${esc(lang==="ar"?s.name_ar:s.name)}</h1><p>${esc(lang==="ar"?s.metal_ar:s.metal)} · ${esc(t.profile[s.profile])}</p>
+    <div class="kpis"><div class="kpi"><b>${s.area_km2.toLocaleString("en")}</b><span>${t.area} (${t.km2})</span></div>
+    <div class="kpi"><b>${s.anomaly_km2}</b><span>${t.anom} (${t.km2})</span></div>
+    <div class="kpi"><b style="color:var(--gold)">×${s.reduction.toLocaleString("en")}</b><span>${t.red}</span></div></div>`;
+  $("tTitle").textContent = t.targets;
+  $("targets").innerHTML = s.targets.map(g => `<div class="row" role="button" tabindex="0" data-r="${g.rank}" aria-current="${g.rank===sel}">
+      <span class="l">${g.label}</span>
+      <span><span class="c">${ll(g.lat, g.lon)}</span><span class="m">${g.area_ha} ${t.ha} · ${t.strength} <span class="num">${g.rel}%</span></span></span>
+      <span style="display:grid;gap:5px;justify-items:end"><span class="meter"><i style="width:${g.rel}%"></i></span><button class="copy" data-c="${g.lat.toFixed(5)}, ${g.lon.toFixed(5)}">${t.copy}</button></span></div>`).join("");
+  $("targets").onclick = e => {
+    const c = e.target.closest(".copy");
+    if (c){ e.stopPropagation(); navigator.clipboard && navigator.clipboard.writeText(c.dataset.c).then(() => { c.textContent = t.copied; setTimeout(() => c.textContent = t.copy, 1200); }); return; }
+    const r = e.target.closest(".row"); if (r) focusTarget(+r.dataset.r);
+  };
+  $("targets").onkeydown = e => { if (e.key === "Enter"){ const r = e.target.closest(".row"); if (r) focusTarget(+r.dataset.r); } };
+  $("mTitle").textContent = t.mTitle; $("method").innerHTML = t.method.replace("${TOP}", DATA.top_percent);
+  $("limTitle").textContent = t.limTitle; $("limits").innerHTML = t.limits;
+  $("foot").innerHTML = `${esc(DATA.source)}<br>${t.scenes}: ${s.scenes.map(x => esc(x.date)).join(" · ")}<br>${s.scenes.map(x => esc(x.id)).join("<br>")}`;
+  renderBlind(); renderReveal(); renderLegend();
+  if (!keepView){ resize(); fit(s.bounds, 16); } else draw();
+}
+function renderReveal(){ $("reveal").textContent = revealed ? L().hide : L().reveal; $("reveal").setAttribute("aria-pressed", revealed); }
+function renderBlind(){
+  const t = L(), s = S();
+  let h = `<div class="lbl">${t.blindT}</div>`;
+  if (!revealed){ h += `<p class="hidden-note">${t.blindHidden}</p>`; }
+  else s.blind_test.forEach(b => {
+    const ok = b.hit;
+    h += `<div class="bt" style="margin-top:8px"><span class="badge ${ok?"ok":"no"}">${ok?"✓ HIT":"✗ MISS"}</span><p>${ok ? t.hit(esc(b.name), b.nearest_target, `<span class="num">${b.nearest_km}</span>`, b.best_rank_within) : t.miss(esc(b.name), b.nearest_target, `<span class="num">${b.nearest_km}</span>`)}
+      <small>${t.pct(`<span class="num">${b.percentile}</span>`)}</small><small>${t.kind[b.kind]}</small><small class="num" style="display:block">${ll(b.lat,b.lon)} · ${esc(b.src)}</small></p></div>`;
+  });
+  h += `<button class="reveal2" id="reveal2">${revealed ? t.hide : t.reveal}</button>`;
+  $("blind").innerHTML = h;
+  $("reveal2").onclick = () => $("reveal").onclick();
+}
+function renderLegend(){
+  const t = L();
+  if (layer === "truecolor"){ $("legend").innerHTML = `ESA Sentinel-2 · RGB`; return; }
+  if (layer === "ratios"){ const c = ["#ff5050","#50ff70","#5aa0ff"]; $("legend").innerHTML = `<div class="rgb">${t.rgb.map((x,i)=>`<span><i style="background:${c[i]}"></i>${x}</span>`).join("")}</div>`; return; }
+  $("legend").innerHTML = `${t.layers[layer]}<div class="bar"></div><div style="display:flex;justify-content:space-between"><span>${t.low}</span><span>${t.high}</span></div>`;
+}
+function fitReveal(){
+  const s = S(), pts = [];
+  s.blind_test.forEach(b => { pts.push([b.lat, b.lon]); const g = s.targets.find(x => x.label === b.nearest_target); if (g) pts.push([g.lat, g.lon]);
+    const d = DATA.hit_km / 111.32; pts.push([b.lat - d, b.lon - d / view.cos], [b.lat + d, b.lon + d / view.cos]); });
+  fit(pts, 70);
+}
+function focusTarget(r){
+  const g = S().targets.find(x => x.rank === r); if (!g) return;
+  sel = r; view.lat = g.lat; view.lon = g.lon; view.k = Math.max(view.k, 900 / 0.03 * (H / 900)); draw();
+  document.querySelectorAll(".row").forEach(x => x.setAttribute("aria-current", +x.dataset.r === r));
+}
+window.addEventListener("load", init);
+</script>
+</body>
+</html>
