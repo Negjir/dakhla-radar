@@ -46,8 +46,8 @@ SITES = [
         "box": [31.24, 31.46, -5.98, -5.62],  # lat0, lat1, lon0, lon1
         "profile": "alteration",
         "known": [
-            {"name": "Imiter silver mine", "lat": 31.353, "lon": -5.845, "kind": "mine",
-             "src": "plizio.com (GeoNames)"},
+            {"name": "Imiter silver mine (plant and ponds)", "lat": 31.3495, "lon": -5.7234, "kind": "mine",
+             "src": "Imider village, Wikipedia 31.350N 5.725W; mine ponds visible in Sentinel-2"},
         ],
     },
     {
@@ -66,8 +66,8 @@ SITES = [
         "box": [22.52, 22.78, -12.75, -12.40],
         "profile": "iron",
         "known": [
-            {"name": "Kediet ej Jill", "lat": 22.6511, "lon": -12.5742, "kind": "mine",
-             "src": "Wikipedia"},
+            {"name": "Rouessa iron mine (SNIM)", "lat": 22.6667, "lon": -12.6667, "kind": "mine",
+             "src": "USGS major deposits via GEM.wiki (rounded, may be ~1-2 km off)"},
         ],
     },
 ]
@@ -111,7 +111,20 @@ def fetch(site, max_cloud=5, years=2, max_items=6):
     if not items:
         raise RuntimeError("no Sentinel-2 scene under %d%% cloud" % max_cloud)
     # Prefer dry-season, low-cloud, recent scenes; several tiles may be needed to cover the box.
-    items.sort(key=lambda it: (it.properties.get("eo:cloud_cover", 100), -it.datetime.timestamp()))
+    # Use whole acquisition dates (all tiles of one satellite pass) so the mosaic has no seams
+    # between different days; best dates = cover the box, no cloud, dry season light.
+    def frac(it):
+        bx0, by0, bx1, by1 = it.bbox
+        ix = max(0.0, min(bx1, lon1) - max(bx0, lon0))
+        iy = max(0.0, min(by1, lat1) - max(by0, lat0))
+        return ix * iy / ((lon1 - lon0) * (lat1 - lat0))
+    by_day = {}
+    for it in items:
+        by_day.setdefault(it.datetime.date(), []).append(it)
+    days = sorted(by_day, key=lambda d: (-min(1.0, sum(frac(i) for i in by_day[d])),
+                                         max(i.properties.get("eo:cloud_cover", 100) for i in by_day[d]),
+                                         -d.toordinal()))
+    items = [it for d in days for it in sorted(by_day[d], key=lambda i: -frac(i))]
     out = {b: np.full((h, w), np.nan, "float32") for b in BANDS}
     used = []
     env = rasterio.Env(GDAL_DISABLE_READDIR_ON_OPEN="EMPTY_DIR", AWS_NO_SIGN_REQUEST="YES",
