@@ -1,0 +1,40 @@
+name: MADAR Minerals (proof on known mines)
+
+on:
+  workflow_dispatch:
+    inputs:
+      site:
+        description: "imiter, bouazzer, kediet (empty = all)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: radar
+  cancel-in-progress: false
+
+jobs:
+  minerals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install rasterio pystac-client numpy scipy pillow
+      - name: Sentinel-2 analysis
+        run: |
+          ARGS=""
+          if [ -n "${{ github.event.inputs.site }}" ]; then ARGS="--site ${{ github.event.inputs.site }}"; fi
+          python minerals.py $ARGS
+      - name: Save results
+        run: |
+          git config user.name "radar-bot"
+          git config user.email "radar-bot@users.noreply.github.com"
+          git add docs/minerals
+          git commit -m "Minerals $(date -u +%F-%H%M)" || echo "nothing to commit"
+          git pull --rebase
+          git push
