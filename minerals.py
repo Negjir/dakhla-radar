@@ -35,7 +35,7 @@ OUT = ROOT / "docs" / "minerals"
 STAC = "https://earth-search.aws.element84.com/v1"
 COLLECTION = "sentinel-2-l2a"
 RES = 0.0002  # degrees, ~20 m (native resolution of the SWIR bands)
-BANDS = ["blue", "green", "red", "nir", "nir08", "swir16", "swir22", "scl"]
+BANDS = ["blue", "green", "red", "rededge1", "rededge2", "rededge3", "nir", "nir08", "swir16", "swir22", "scl"]
 
 # Known points are used ONLY after the analysis, to score the blind test.
 # kind: "mine" = worked deposit (pits/tailings visible), "occurrence" = known mineralisation.
@@ -70,12 +70,35 @@ SITES = [
              "src": "USGS major deposits via GEM.wiki (rounded, may be ~1-2 km off)"},
         ],
     },
+    # --- Dakhla-Oued Ed-Dahab region: carbonatite prospects described by ONHYM (positions approximate) ---
+    {
+        "id": "twihinate", "name": "Twihinate", "name_ar": "تويهينات", "country": "Morocco (Oued Ed-Dahab)",
+        "metal": "Rare earths, niobium, iron (carbonatite)", "metal_ar": "العناصر النادرة والنيوبيوم والحديد (كربوناتيت)",
+        "box": [22.29, 22.59, -16.19, -15.89],
+        "profile": "carbonatite",
+        "known": [
+            {"name": "Twihinate carbonatite ring (approx.)", "lat": 22.44, "lon": -16.04, "kind": "prospect",
+             "src": "ONHYM prospect sheet, map grid UTM 28N ~393 km E / 2482 km N (approximate, few km)"},
+        ],
+    },
+    {
+        "id": "lafhouda", "name": "Gleibat Lafhouda", "name_ar": "كليبات لفحودة", "country": "Morocco (Awserd)",
+        "metal": "Niobium, tantalum, rare earths, iron", "metal_ar": "النيوبيوم والتنتال والعناصر النادرة والحديد",
+        "box": [22.00, 22.30, -15.00, -14.70],
+        "profile": "carbonatite",
+        "known": [
+            {"name": "Gleibat Lafhouda hill (approx.)", "lat": 22.15, "lon": -14.85, "kind": "prospect",
+             "src": "GeoNames 'Gleibat Lefhuda' 22.15N 14.85W; ONHYM: SW of Awserd (approximate)"},
+        ],
+    },
 ]
 
 PROFILES = {
     # weights of robust z-scores in the prospectivity score
     "alteration": {"clay": 0.5, "ferric": 0.5, "ferrous": 0.0},
     "iron": {"clay": 0.0, "ferric": 0.5, "ferrous": 0.5},
+    # carbonatite (REE-Nb-Fe): iron oxides + experimental neodymium absorption (~740/800 nm, red-edge bands)
+    "carbonatite": {"clay": 0.0, "ferric": 0.35, "ferrous": 0.35, "ree": 0.3},
 }
 TOP_PERCENT = 1.0      # pixels kept as anomalous
 MIN_PIXELS = 6         # smallest target (~0.25 ha... ~ 6 x 400 m2)
@@ -182,6 +205,7 @@ def demo_scene(site, seed=1):
         "blue": 0.12 + 0.05 * base, "green": 0.17 + 0.06 * base, "red": 0.22 + 0.08 * base,
         "nir": 0.27 + 0.08 * base, "nir08": 0.28 + 0.08 * base,
         "swir16": 0.36 + 0.08 * base, "swir22": 0.30 + 0.07 * base,
+        "rededge1": 0.24 + 0.08 * base, "rededge2": 0.25 + 0.08 * base, "rededge3": 0.26 + 0.08 * base,
     }
     k = site["known"][0]
     centres = [((lat1 - k["lat"]) / RES + 8, (k["lon"] - lon0) / RES - 5)]
@@ -224,9 +248,12 @@ def analyse(b, profile):
         "ferric": b["red"] / (b["blue"] + eps),
         "ferrous": b["swir22"] / (b["nir08"] + eps) + b["green"] / (b["red"] + eps),
     }
+    if "rededge1" in b:
+        # Nd absorption depth at ~740 and ~783 nm against a 705/865 nm continuum (experimental REE indicator)
+        idx["ree"] = (b["rededge1"] + b["nir08"]) / (b["rededge2"] + b["rededge3"] + eps)
     z = {k: robust_z(v, valid) for k, v in idx.items()}
     wts = PROFILES[profile]
-    score = sum(np.clip(np.nan_to_num(z[k]), 0, 8) * wt for k, wt in wts.items() if wt)
+    score = sum(np.clip(np.nan_to_num(z[k]), 0, 8) * wt for k, wt in wts.items() if wt and k in z)
     score = ndimage.gaussian_filter(score, 1.5)
     score[~valid] = 0
     return idx, z, score, valid
@@ -330,7 +357,9 @@ def save_images(site, b, idx, score, valid, folder, scale=2):
     comp[~valid] = 0.08
     Image.fromarray(small((comp * 255).astype("uint8"))).save(folder / "ratios.jpg", quality=88)
 
-    for name, key in (("clay", "clay"), ("iron", "ferric")):
+    for name, key in (("clay", "clay"), ("iron", "ferric"), ("ree", "ree")):
+        if key not in idx:
+            continue
         s = stretch(np.nan_to_num(idx[key]), valid, 50, 99.7)
         Image.fromarray(small(heat_rgba(s, valid))).save(folder / f"{name}.png", optimize=True)
 
@@ -374,7 +403,8 @@ def run_site(site, demo):
         "anomaly_km2": round(anom_km2, 2), "reduction": round(total_km2 / max(anom_km2, 1e-6)),
         "targets": tg, "blind_test": bt, "scenes": used,
         "images": {k: f"{site['id']}/{k}" for k in
-                   ("truecolor.jpg", "ratios.jpg", "clay.png", "iron.png", "score.png")},
+                   ("truecolor.jpg", "ratios.jpg", "clay.png", "iron.png", "score.png", "ree.png")
+                   if (folder / k).exists()},
     }
     for k in bt:
         print("   blind test: %s -> nearest %s at %s km, within %g km: %s, percentile %s" % (
@@ -389,8 +419,9 @@ def main():
     a = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
     results = []
+    wanted = [x for x in a.site.split(",") if x]
     for s in SITES:
-        if a.site and s["id"] != a.site:
+        if wanted and s["id"] not in wanted:
             continue
         try:
             results.append(run_site(s, a.demo))
@@ -398,6 +429,14 @@ def main():
             print("[fail]", s["id"], e)
     if not results:
         sys.exit("no site processed")
+    old = OUT / "minerals.json"
+    if wanted and not a.demo and old.exists():  # update only the sites that were run, keep the others
+        prev = json.loads(old.read_text())
+        if not prev.get("demo"):
+            done = {r["id"] for r in results}
+            order = [s["id"] for s in SITES]
+            keep = [r for r in prev["sites"] if r["id"] not in done]
+            results = sorted(keep + results, key=lambda r: order.index(r["id"]) if r["id"] in order else 99)
     data = {"generated": date.today().isoformat(), "demo": a.demo, "hit_km": HIT_KM,
             "top_percent": TOP_PERCENT, "source": "ESA Copernicus Sentinel-2 L2A (Earth Search, AWS)",
             "sites": results}

@@ -157,48 +157,48 @@ details[open] summary::after{content:"−"}
 <script>
 const DATA = /*__DATA__*/null;
 const T = {
-  ar:{dir:"rtl",layers:{truecolor:"صورة حقيقية",ratios:"تركيب المؤشرات",clay:"الطين",iron:"أكاسيد الحديد",score:"نقاط مدار"},
+  ar:{dir:"rtl",layers:{truecolor:"صورة حقيقية",ratios:"تركيب المؤشرات",clay:"الطين",iron:"أكاسيد الحديد",ree:"العناصر النادرة (تجريبي)",score:"نقاط مدار"},
     reveal:"اكشف المنجم الحقيقي",hide:"أخفِ المنجم",area:"مساحة البحث",anom:"مناطق الأولوية",red:"تقليص",km2:"كم²",
     targets:"الأهداف المرتبة (من الأقوى)",strength:"القوة",ha:"هكتار",copy:"نسخ",copied:"نُسخ",
     blindT:"الاختبار الأعمى",blindHidden:"موقع المنجم الحقيقي لم يُستعمل في التحليل. اضغط «اكشف المنجم الحقيقي» لترى هل أشار مدار إليه.",
     hit:(k,t,d,r)=>`${k}: الهدف ${t} يبعد ${d} كم فقط عن الموقع المعروف (الترتيب ${r} من ${DATA_N()}).`,
     miss:(k,t,d)=>`${k}: أقرب هدف (${t}) يبعد ${d} كم. لم يصب الاختبار في نطاق ${DATA.hit_km} كم.`,
     pct:p=>`قيمة مدار حول الموقع أعلى من ${p}% من المنطقة.`,
-    kind:{mine:"منجم مستغَل: الحفر والنفايات تظهر أيضاً، لذا هذا دليل أضعف من موقع لم يُستغل.",occurrence:"تمعدن معروف (عرق)، ليس حفرة منجم كبيرة: دليل أقوى."},
+    kind:{mine:"منجم مستغَل: الحفر والنفايات تظهر أيضاً، لذا هذا دليل أضعف من موقع لم يُستغل.",occurrence:"تمعدن معروف (عرق)، ليس حفرة منجم كبيرة: دليل أقوى.",prospect:"موقع تنقيب معروف لدى ONHYM، وإحداثياته تقريبية (بضعة كيلومترات)، لذلك هذا ليس اختباراً دقيقاً بل استكشاف."},
     mTitle:"الطريقة",
     method:`<ol><li>صور Sentinel-2 (وكالة الفضاء الأوروبية) خالية من الغيوم، بدقة 20 م.</li><li>نسب نطاقات معروفة في الجيولوجيا: <b>الطين</b> = B11/B12 (تحت أحمر قصير)، <b>أكاسيد الحديد</b> = B4/B2، <b>الحديد الثنائي</b> = B12/B8A + B3/B4.</li><li>حذف النبات والماء والظل والغيوم.</li><li>نقاط مدار = مزيج من الشذوذ (أعلى ${'${TOP}'}% من المنطقة)، ثم تجميعها في أهداف مرتبة حسب المساحة والشدة.</li><li>الاختبار الأعمى: إحداثيات المنجم أُضيفت فقط بعد التحليل لقياس المسافة.</li></ol>`,
     limTitle:"حدود يجب قولها للزبون",
     limits:`<ul><li>مدار يقلّص مساحة البحث، ولا يثبت وجود المعدن. العينات الميدانية والحفر هي التي تقرر.</li><li>المناجم المستغلة تظهر جزئياً بسبب حفرها ونفاياتها.</li><li>الكثبان الرملية والورنيش الصحراوي قد يخفيان البصمة أو يشوّشانها.</li><li>الإحداثيات المعروفة من مصادر عامة، وقد تبعد بضع مئات من الأمتار.</li></ul>`,
-    scenes:"الصور المستعملة",profile:{alteration:"نموذج: التغيّر الحراري (طين + حديد)",iron:"نموذج: خام الحديد (حديد ثلاثي + ثنائي)"},
+    scenes:"الصور المستعملة",profile:{alteration:"نموذج: التغيّر الحراري (طين + حديد)",iron:"نموذج: خام الحديد (حديد ثلاثي + ثنائي)",carbonatite:"نموذج: كربوناتيت (حديد + عناصر نادرة تجريبي)"},
     rgb:["أحمر = طين","أخضر = أكاسيد الحديد","أزرق = حديد ثنائي"],low:"ضعيف",high:"قوي",known:"الموقع المعروف",
     nearest:"أقرب هدف"},
-  fr:{dir:"ltr",layers:{truecolor:"Couleurs réelles",ratios:"Composite d'indices",clay:"Argiles",iron:"Oxydes de fer",score:"Score MADAR"},
+  fr:{dir:"ltr",layers:{truecolor:"Couleurs réelles",ratios:"Composite d'indices",clay:"Argiles",iron:"Oxydes de fer",ree:"Terres rares (expérimental)",score:"Score MADAR"},
     reveal:"Révéler la mine réelle",hide:"Masquer la mine",area:"Zone étudiée",anom:"Zones prioritaires",red:"Réduction",km2:"km²",
     targets:"Cibles classées (de la plus forte)",strength:"Force",ha:"ha",copy:"Copier",copied:"Copié",
     blindT:"Test à l'aveugle",blindHidden:"La position de la mine n'a pas été utilisée par l'analyse. Cliquez « Révéler la mine réelle » pour vérifier si MADAR la désigne.",
     hit:(k,t,d,r)=>`${k} : la cible ${t} est à seulement ${d} km du site connu (rang ${r} sur ${DATA_N()}).`,
     miss:(k,t,d)=>`${k} : la cible la plus proche (${t}) est à ${d} km. Pas de touche dans un rayon de ${DATA.hit_km} km.`,
     pct:p=>`Le score MADAR autour du site dépasse ${p} % de la zone.`,
-    kind:{mine:"Mine en exploitation : fosses et haldes ressortent aussi, preuve plus faible qu'un indice non exploité.",occurrence:"Minéralisation connue (filon), pas une grande fosse : preuve plus forte."},
+    kind:{mine:"Mine en exploitation : fosses et haldes ressortent aussi, preuve plus faible qu'un indice non exploité.",occurrence:"Minéralisation connue (filon), pas une grande fosse : preuve plus forte.",prospect:"Prospect connu de l'ONHYM, position approximative (quelques km) : exploration, pas un test précis."},
     mTitle:"Méthode",
     method:`<ol><li>Images Sentinel-2 (ESA) sans nuages, résolution 20 m.</li><li>Rapports de bandes classiques en géologie : <b>argiles</b> = B11/B12, <b>oxydes de fer</b> = B4/B2, <b>fer ferreux</b> = B12/B8A + B3/B4.</li><li>Masquage végétation, eau, ombres et nuages.</li><li>Score MADAR = combinaison des anomalies (top ${'${TOP}'} % de la zone), regroupées en cibles classées par surface et intensité.</li><li>Test à l'aveugle : les coordonnées de la mine ne sont ajoutées qu'après l'analyse.</li></ol>`,
     limTitle:"Limites à dire au client",
     limits:`<ul><li>MADAR réduit la zone de recherche, il ne prouve pas un gisement. Échantillonnage et forage décident.</li><li>Les mines actives ressortent en partie à cause de leurs fosses et haldes.</li><li>Dunes et vernis désertique peuvent masquer ou brouiller la signature.</li><li>Coordonnées connues issues de sources publiques, à quelques centaines de mètres près.</li></ul>`,
-    scenes:"Images utilisées",profile:{alteration:"Modèle : altération hydrothermale (argiles + fer)",iron:"Modèle : minerai de fer (fer ferrique + ferreux)"},
+    scenes:"Images utilisées",profile:{alteration:"Modèle : altération hydrothermale (argiles + fer)",iron:"Modèle : minerai de fer (fer ferrique + ferreux)",carbonatite:"Modèle : carbonatite (fer + terres rares expérimental)"},
     rgb:["Rouge = argiles","Vert = oxydes de fer","Bleu = fer ferreux"],low:"faible",high:"fort",known:"Site connu",nearest:"Cible la plus proche"},
-  en:{dir:"ltr",layers:{truecolor:"True colour",ratios:"Index composite",clay:"Clay",iron:"Iron oxide",score:"MADAR score"},
+  en:{dir:"ltr",layers:{truecolor:"True colour",ratios:"Index composite",clay:"Clay",iron:"Iron oxide",ree:"Rare earths (experimental)",score:"MADAR score"},
     reveal:"Reveal the real mine",hide:"Hide the mine",area:"Area searched",anom:"Priority zones",red:"Reduction",km2:"km²",
     targets:"Ranked targets (strongest first)",strength:"Strength",ha:"ha",copy:"Copy",copied:"Copied",
     blindT:"Blind test",blindHidden:"The mine location was not used by the analysis. Press “Reveal the real mine” to see whether MADAR points to it.",
     hit:(k,t,d,r)=>`${k}: target ${t} is only ${d} km from the known site (rank ${r} of ${DATA_N()}).`,
     miss:(k,t,d)=>`${k}: nearest target (${t}) is ${d} km away. No hit within ${DATA.hit_km} km.`,
     pct:p=>`The MADAR score around the site is higher than ${p}% of the area.`,
-    kind:{mine:"Working mine: its pits and tailings also show up, so this is weaker proof than an unmined occurrence.",occurrence:"Known mineralisation (vein), not a large pit: stronger proof."},
+    kind:{mine:"Working mine: its pits and tailings also show up, so this is weaker proof than an unmined occurrence.",occurrence:"Known mineralisation (vein), not a large pit: stronger proof.",prospect:"ONHYM prospect, approximate position (a few km): exploration, not a precise test."},
     mTitle:"Method",
     method:`<ol><li>Cloud-free Sentinel-2 images (ESA), 20 m resolution.</li><li>Standard geological band ratios: <b>clay</b> = B11/B12, <b>iron oxide</b> = B4/B2, <b>ferrous iron</b> = B12/B8A + B3/B4.</li><li>Vegetation, water, shadow and cloud masked.</li><li>MADAR score = combined anomalies (top ${'${TOP}'}% of the area), grouped into targets ranked by size and intensity.</li><li>Blind test: mine coordinates are added only after the analysis.</li></ol>`,
     limTitle:"Limits to tell the client",
     limits:`<ul><li>MADAR narrows the search; it does not prove a deposit. Field sampling and drilling decide.</li><li>Working mines light up partly because of their own pits and tailings.</li><li>Dunes and desert varnish can hide or blur the signature.</li><li>Known coordinates come from public sources and may be a few hundred metres off.</li></ul>`,
-    scenes:"Images used",profile:{alteration:"Model: hydrothermal alteration (clay + iron)",iron:"Model: iron ore (ferric + ferrous)"},
+    scenes:"Images used",profile:{alteration:"Model: hydrothermal alteration (clay + iron)",iron:"Model: iron ore (ferric + ferrous)",carbonatite:"Model: carbonatite (iron + experimental rare earths)"},
     rgb:["Red = clay","Green = iron oxide","Blue = ferrous iron"],low:"weak",high:"strong",known:"Known site",nearest:"Nearest target"}
 };
 let lang = "ar", cur = 0, layer = "score", revealed = false, sel = 0;
@@ -311,7 +311,8 @@ function render(keepView){
   [...$("langs").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.l === lang));
   $("tabs").innerHTML = DATA.sites.map((s, i) => `<button class="tab" role="tab" aria-selected="${i===cur}" data-i="${i}"><b>${esc(lang==="ar"?s.name_ar:s.name)}</b><span class="${lang==="ar"?"ar":""}">${esc(lang==="ar"?s.metal_ar:s.metal)}</span></button>`).join("");
   $("tabs").onclick = e => { const b = e.target.closest(".tab"); if (!b) return; cur = +b.dataset.i; revealed = false; sel = 0; render(false); };
-  $("layers").innerHTML = Object.entries(t.layers).map(([k, v]) => `<button data-k="${k}" aria-pressed="${k===layer}">${v}</button>`).join("");
+  if (!S().images[layer + ".png"] && !["truecolor","ratios"].includes(layer)) layer = "score";
+  $("layers").innerHTML = Object.entries(t.layers).filter(([k]) => k !== "ree" || S().images["ree.png"]).map(([k, v]) => `<button data-k="${k}" aria-pressed="${k===layer}">${v}</button>`).join("");
   $("layers").onclick = e => { const b = e.target.closest("button"); if (!b) return; layer = b.dataset.k; render(true); };
   const s = S();
   $("site").innerHTML = `<div class="lbl">${esc(s.country)}</div><h1>${esc(lang==="ar"?s.name_ar:s.name)}</h1><p>${esc(lang==="ar"?s.metal_ar:s.metal)} · ${esc(t.profile[s.profile])}</p>
