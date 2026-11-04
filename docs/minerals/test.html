@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>MADAR Minerals Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Readex+Pro:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* MADAR Minerals: large blind test scoreboard. Header (brand, link back to the console, language), verdict strip
+   (hits vs chance, lift, p-value), how-to-read note, grid of site cards (thumbnail with targets + known deposit,
+   hit/miss, distance, chance), honest limits. Same dark copper console look as the minerals console. */
+:root{
+  --void:#0b0805; --glass:rgba(40,28,16,.66); --glass2:rgba(24,17,10,.88); --edge:rgba(255,178,90,.24); --edge2:rgba(255,178,90,.62);
+  --ink:#fbf1e3; --mute:#bfa587; --dim:#7a644c; --gold:#ffb85c; --copper:#ff8a3d; --green:#7dffb0; --cyan:#62e3ff; --red:#ff5a4a;
+  --tech:"Chakra Petch","Readex Pro",system-ui,sans-serif; --ar:"Readex Pro",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark; background:var(--void);
+}
+body{margin:0;background:radial-gradient(120% 60% at 50% 0%,#3a2410 0%,#140d07 55%,#0b0805 100%) fixed;color:var(--ink);font-family:var(--tech);-webkit-text-size-adjust:100%}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:10px 16px 40px}
+[dir="rtl"] .wrap{font-family:var(--ar)}
+.glass{background:var(--glass);border:1px solid var(--edge);border-radius:10px;box-shadow:inset 0 0 24px rgba(255,184,92,.05)}
+.num{direction:ltr;unicode-bidi:isolate;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.lbl{font:600 10.5px var(--tech);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+[dir="rtl"] .lbl{letter-spacing:0;font-family:var(--ar);font-size:12px}
+.hd{display:flex;align-items:center;gap:12px;padding:8px 12px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:9px;direction:ltr}
+.logo b{font:700 16px var(--tech);letter-spacing:.06em}
+.logo small{display:block;font:500 10px var(--mono);color:var(--mute);letter-spacing:.08em}
+.sp{flex:1}
+.back{border:1px solid var(--edge2);border-radius:8px;padding:7px 11px;font-weight:600;font-size:12.5px;color:var(--gold);text-decoration:none;white-space:nowrap}
+.langs{display:inline-flex;border:1px solid var(--edge);border-radius:8px;overflow:hidden;direction:ltr}
+.langs button{border:0;background:none;padding:7px 10px;font:600 12px var(--tech);color:var(--mute);cursor:pointer;min-height:34px}
+.langs button[aria-pressed="true"]{background:rgba(255,184,92,.16);color:var(--ink)}
+.demo{font:700 11px var(--mono);color:#1a1000;background:var(--gold);border-radius:5px;padding:3px 7px;letter-spacing:.08em}
+h1{font-size:clamp(22px,4vw,32px);margin:18px 0 4px;font-weight:700}
+.sub{color:var(--mute);margin:0 0 14px;font-size:14px;line-height:1.6}
+.verdict{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.k{padding:12px}
+.k b{display:block;font:700 30px var(--mono);direction:ltr;text-align:start;line-height:1.1}
+.k span{font-size:12.5px;color:var(--mute)}
+.k.main b{color:var(--gold)}
+.read{margin-top:8px;padding:12px 14px;font-size:14px;line-height:1.75}
+.read b{color:var(--gold)}
+.split{display:flex;gap:16px;flex-wrap:wrap;margin-top:6px;font-size:13px;color:var(--mute)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-top:14px}
+.card{overflow:hidden}
+.card img{display:block;width:100%;aspect-ratio:1;object-fit:cover;background:#140d07}
+.cb{padding:10px 11px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cb h3{margin:0;font-size:14.5px;font-weight:600;direction:ltr;text-align:start}
+.cb p{margin:4px 0 0;font-size:12.5px;color:var(--mute)}
+.badge{flex:none;font:700 11.5px var(--tech);border-radius:6px;padding:3px 7px}
+.badge.ok{background:rgba(125,255,176,.15);color:var(--green);border:1px solid rgba(125,255,176,.5)}
+.badge.no{background:rgba(255,90,74,.13);color:var(--red);border:1px solid rgba(255,90,74,.5)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:8px}
+.facts div{border:1px solid var(--edge);border-radius:6px;padding:5px 6px}
+.facts b{display:block;font:600 13px var(--mono);direction:ltr;text-align:start}
+.facts span{font-size:10.5px;color:var(--mute)}
+.src{font:500 10.5px var(--mono);color:var(--dim);direction:ltr;margin-top:6px;text-align:start}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--mute);margin-top:12px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:5px;vertical-align:-1px}
+.lim{margin-top:14px;padding:12px 14px;font-size:13.5px;line-height:1.7;color:var(--mute)}
+.lim ul{margin:6px 0 0;padding-inline-start:18px}
+@media (max-width:760px){.verdict{grid-template-columns:repeat(2,1fr)}.k b{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="wrap" id="wrap" dir="rtl">
+  <header class="hd glass">
+    <div class="logo">
+      <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="none" stroke="#ffb85c" stroke-opacity=".5"/><path d="M16 6l7 10-7 10-7-10z" fill="#ff8a3d" fill-opacity=".85"/><path d="M16 6l7 10H9z" fill="#ffd9a3" fill-opacity=".8"/></svg>
+      <div><b>MADAR · MINERALS</b><small>BLIND TEST · KNOWN DEPOSITS</small></div>
+    </div>
+    <span class="demo" id="demo" hidden>DEMO DATA</span>
+    <span class="sp"></span>
+    <a class="back" id="back" href="./"></a>
+    <div class="langs" id="langs"><button data-l="ar">ع</button><button data-l="fr">FR</button><button data-l="en">EN</button></div>
+  </header>
+  <h1 id="h1"></h1>
+  <p class="sub" id="sub"></p>
+  <section class="verdict" id="verdict"></section>
+  <div class="read glass" id="read"></div>
+  <div class="legend" id="legend"></div>
+  <section class="grid" id="grid"></section>
+  <div class="lim glass" id="lim"></div>
+</div>
+<script>
+const DATA = {"generated": "2026-11-04", "demo": false, "hit_km": 2.0, "top_n": 10, "box_km": 22, "summary": {"n": 16, "hits": 7, "expected_by_chance": 2.79, "lift": 2.51, "p_value": 0.0126, "median_percentile": 91.1, "hits_mines": 3, "n_mines": 8, "hits_occ": 4, "n_occ": 8}, "sites": [{"id": "t01", "name": "Vein No. 61, Ait Ahmane", "area": "Bou Azzer", "country": "Morocco", "metal": "Co", "kind": "occurrence", "src": "mindat loc-212416", "lat": 30.4806, "lon": -6.5878, "box": [30.3349, 30.5349, -6.6875, -6.4875], "hit": true, "nearest_km": 0.52, "nearest_target": "T3", "rank": 3, "percentile": 99.8, "p_chance": 0.1632, "valid_pct": 99.7, "scenes": ["2026-08-20", "2026-07-01"], "img": "test/t01.jpg"}, {"id": "t02", "name": "Inguijem", "area": "Bou Azzer", "country": "Morocco", "metal": "Co-Ni", "kind": "occurrence", "src": "mindat loc-123410", "lat": 30.5025, "lon": -6.6578, "box": [30.4039, 30.6039, -6.7146, -6.5146], "hit": false, "nearest_km": 2.68, "nearest_target": "T1", "rank": null, "percentile": 91.1, "p_chance": 0.1756, "valid_pct": 99.9, "scenes": ["2026-09-12", "2026-08-20", "2026-07-01"], "img": "test/t02.jpg"}, {"id": "t03", "name": "Mechoui deposit", "area": "Bou Azzer", "country": "Morocco", "metal": "Co-As-Cu", "kind": "occurrence", "src": "mindat loc-123388", "lat": 30.5553, "lon": -6.9828, "box": [30.4076, 30.6076, -7.116, -6.916], "hit": true, "nearest_km": 0.2, "nearest_target": "T5", "rank": 3, "percentile": 99.7, "p_chance": 0.1896, "valid_pct": 99.5, "scenes": ["2026-08-20"], "img": "test/t03.jpg"}, {"id": "t04", "name": "Bleida Far West mine", "area": "Bleida", "country": "Morocco", "metal": "Au-Pd-Cu", "kind": "mine", "src": "mindat loc-187573", "lat": 30.3894, "lon": -6.5142, "box": [30.3015, 30.5015, -6.6074, -6.4074], "hit": false, "nearest_km": 3.9, "nearest_target": "T9", "rank": null, "percentile": 74.8, "p_chance": 0.2026, "valid_pct": 99.8, "scenes": ["2026-08-20", "2026-07-01"], "img": "test/t04.jpg"}, {"id": "t05", "name": "Iouriren mine", "area": "Tafraout", "country": "Morocco", "metal": "Au", "kind": "mine", "src": "mindat locdana-11603", "lat": 29.4867, "lon": -8.7192, "box": [29.4207, 29.6207, -8.8135, -8.6135], "hit": false, "nearest_km": 3.19, "nearest_target": "T8", "rank": null, "percentile": 91.1, "p_chance": 0.1785, "valid_pct": 99.7, "scenes": ["2026-10-12", "2026-09-07"], "img": "test/t05.jpg"}, {"id": "t06", "name": "Patte d'Oie deposit", "area": "Bou Skour", "country": "Morocco", "metal": "Cu-Pb", "kind": "mine", "src": "mindat loc-425009", "lat": 30.9006, "lon": -6.2786, "box": [30.8283, 31.0283, -6.3464, -6.1464], "hit": true, "nearest_km": 1.38, "nearest_target": "T10", "rank": 10, "percentile": 97.5, "p_chance": 0.1246, "valid_pct": 99.8, "scenes": ["2025-10-24", "2025-10-04"], "img": "test/t06.jpg"}, {"id": "t07", "name": "Tizi Moudou deposit", "area": "Saghro", "country": "Morocco", "metal": "Cu-Ag", "kind": "occurrence", "src": "mindat loc-214452", "lat": 31.1297, "lon": -5.53, "box": [31.0598, 31.2598, -5.6196, -5.4196], "hit": false, "nearest_km": 5.52, "nearest_target": "T7", "rank": null, "percentile": 87.3, "p_chance": 0.1563, "valid_pct": 99.7, "scenes": ["2026-07-01"], "img": "test/t07.jpg"}, {"id": "t08", "name": "Tikhermine", "area": "Ouarzazate", "country": "Morocco", "metal": "Cu", "kind": "occurrence", "src": "mindat loc-71512", "lat": 30.9667, "lon": -6.9831, "box": [30.8355, 31.0355, -7.0694, -6.8694], "hit": false, "nearest_km": 2.74, "nearest_target": "T10", "rank": null, "percentile": 98.5, "p_chance": 0.2208, "valid_pct": 96.1, "scenes": ["2025-11-01", "2025-08-28"], "img": "test/t08.jpg"}, {"id": "t09", "name": "Mefis mine", "area": "Tafilalet", "country": "Morocco", "metal": "Pb-Cu-Zn", "kind": "mine", "src": "mindat loc-16037", "lat": 31.0339, "lon": -3.9506, "box": [30.8872, 31.0872, -4.0126, -3.8126], "hit": false, "nearest_km": 4.88, "nearest_target": "T2", "rank": null, "percentile": 81.9, "p_chance": 0.106, "valid_pct": 100.0, "scenes": ["2026-08-25", "2026-08-22"], "img": "test/t09.jpg"}, {"id": "t10", "name": "Irhoud mine", "area": "Youssoufia", "country": "Morocco", "metal": "Ba-Cu", "kind": "mine", "src": "mindat loc-132981", "lat": 31.8797, "lon": -8.8717, "box": [31.7737, 31.9737, -8.9339, -8.7339], "hit": false, "nearest_km": 8.68, "nearest_target": "T1", "rank": null, "percentile": 73.1, "p_chance": 0.1644, "valid_pct": 99.3, "scenes": ["2026-09-30"], "img": "test/t10.jpg"}, {"id": "t11", "name": "Imiter silver mine", "area": "Imiter", "country": "Morocco", "metal": "Ag", "kind": "mine", "src": "Wikipedia Imider + image", "lat": 31.3495, "lon": -5.7234, "box": [31.2717, 31.4717, -5.8019, -5.6019], "hit": false, "nearest_km": 2.76, "nearest_target": "T8", "rank": null, "percentile": 72.1, "p_chance": 0.226, "valid_pct": 99.3, "scenes": ["2025-10-24", "2024-11-23", "2025-03-20", "2025-08-30"], "img": "test/t11.jpg"}, {"id": "t12", "name": "Old copper works Mibladen-Aouli", "area": "Midelt", "country": "Morocco", "metal": "Cu", "kind": "occurrence", "src": "mindat loc-250673", "lat": 32.7764, "lon": -4.6439, "box": [32.6416, 32.8416, -4.7737, -4.5737], "hit": true, "nearest_km": 1.42, "nearest_target": "T5", "rank": 5, "percentile": 90.6, "p_chance": 0.1987, "valid_pct": 97.3, "scenes": ["2025-09-04", "2025-08-17", "2025-07-31", "2025-10-14", "2025-08-30", "2024-12-18"], "img": "test/t12.jpg"}, {"id": "t13", "name": "Lhamda mine (Touroug)", "area": "Tafilalet", "country": "Morocco", "metal": "F-Ba", "kind": "mine", "src": "mindat loc-134746", "lat": 31.5114, "lon": -4.6058, "box": [31.469, 31.669, -4.6543, -4.4543], "hit": true, "nearest_km": 0.62, "nearest_target": "T4", "rank": 4, "percentile": 98.9, "p_chance": 0.1674, "valid_pct": 99.7, "scenes": ["2025-08-20", "2025-08-20"], "img": "test/t13.jpg"}, {"id": "t14", "name": "Tasiast gold mine", "area": "Inchiri", "country": "Mauritania", "metal": "Au", "kind": "mine", "src": "mindat locdetailed-133715", "lat": 20.5694, "lon": -15.5044, "box": [20.506, 20.706, -15.5444, -15.3444], "hit": true, "nearest_km": 1.45, "nearest_target": "T6", "rank": 6, "percentile": 99.6, "p_chance": 0.1824, "valid_pct": 99.9, "scenes": ["2026-10-18", "2026-09-20"], "img": "test/t14.jpg"}, {"id": "t15", "name": "Guilabet El Louebda", "area": "Akjoujt", "country": "Mauritania", "metal": "Cu-Fe", "kind": "occurrence", "src": "mindat loc-308681", "lat": 19.8997, "lon": -14.35, "box": [19.8013, 20.0013, -14.5008, -14.3008], "hit": false, "nearest_km": 2.55, "nearest_target": "T7", "rank": null, "percentile": 57.0, "p_chance": 0.1871, "valid_pct": 97.9, "scenes": ["2026-09-13", "2026-09-13", "2026-08-04", "2026-08-04", "2026-06-12", "2026-06-12"], "img": "test/t15.jpg"}, {"id": "t16", "name": "Legleitat El Khader", "area": "Akjoujt", "country": "Mauritania", "metal": "Cu", "kind": "occurrence", "src": "mindat loc-308668", "lat": 19.6442, "lon": -14.2453, "box": [19.525, 19.725, -14.3384, -14.1384], "hit": true, "nearest_km": 0.21, "nearest_target": "T1", "rank": 1, "percentile": 100.0, "p_chance": 0.1453, "valid_pct": 100.0, "scenes": ["2026-09-30"], "img": "test/t16.jpg"}]};
+const T = {
+  ar:{dir:"rtl",back:"← لوحة مدار المعادن",h1:"اختبار أعمى على مواقع معدنية معروفة",
+    sub:(n,b)=>`${n} موقعاً حقيقياً في المغرب وموريتانيا. لكل موقع، مربع بحث حوالي ${b}×${b} كم موضوع بإزاحة عشوائية، ومدار لا يعرف أين المنجم. ثم نقيس: هل وقع أحد أهدافه العشرة الأولى على بعد ${DATA.hit_km} كم من الموقع المعروف؟`,
+    k:["إصابات مدار","المتوقع بالصدفة","مدار أفضل من الصدفة بـ","احتمال أن تكون النتيجة صدفة"],
+    read:s=>`<b>كيف تقرأ هذا:</b> لو وضعنا 10 أهداف عشوائياً في كل مربع، لأصبنا في المتوسط <b class="num">${s.expected_by_chance}</b> موقعاً من ${s.n}. مدار أصاب <b class="num">${s.hits}</b>. ${s.p_value<0.05?`احتمال الحصول على هذه النتيجة بالحظ وحده هو <b class="num">${(s.p_value*100).toFixed(2)}%</b> فقط، أي أن مدار <b>يرى إشارة حقيقية</b>.`:`احتمال الحصول على هذه النتيجة بالحظ هو <b class="num">${(s.p_value*100).toFixed(1)}%</b>، وهذا <b>ليس كافياً</b> للقول إن مدار أفضل من الصدفة.`}
+      <div class="split"><span>المناجم المستغلة: <span class="num">${s.hits_mines}/${s.n_mines}</span></span><span>التمعدنات غير المستغلة (الدليل الأقوى): <span class="num">${s.hits_occ}/${s.n_occ}</span></span><span>الترتيب الوسيط لقيمة مدار حول الموقع: أعلى من <span class="num">${s.median_percentile}%</span> من المنطقة</span></div>`,
+    hit:"✓ إصابة",miss:"✗ لا",dist:"أقرب هدف",chance:"فرصة الصدفة",pct:"ترتيب الموقع",km:"كم",
+    kind:{mine:"منجم مستغل",occurrence:"تمعدن معروف"},
+    legend:["الموقع المعروف ودائرة 2 كم","أهداف مدار (T1 الأقوى)","البقع المضيئة = نقاط مدار"],
+    lim:`<b>حدود يجب قولها بصدق:</b><ul><li>عدد المواقع ما زال صغيراً، والنتيجة تتغير مع مواقع أكثر.</li><li>المناجم المستغلة قد تضيء بسبب حفرها ونفاياتها، لذلك نفصلها عن التمعدنات غير المستغلة.</li><li>بعض المواقع قريبة من بعضها (منطقة بوعزر)، فهي ليست مستقلة تماماً.</li><li>الإحداثيات من مصادر عامة (Mindat وويكيبيديا)، وقد تبعد مئات الأمتار.</li><li>مدار يقلّص مساحة البحث، ولا يثبت وجود معدن. العينات والحفر هي التي تقرر.</li></ul>`},
+  fr:{dir:"ltr",back:"Console MADAR Minerals →",h1:"Test à l'aveugle sur des gîtes connus",
+    sub:(n,b)=>`${n} sites réels au Maroc et en Mauritanie. Pour chacun, une zone d'environ ${b}×${b} km décalée au hasard ; MADAR ignore où est le gîte. On mesure : une de ses 10 premières cibles tombe-t-elle à moins de ${DATA.hit_km} km du site connu ?`,
+    k:["Touches MADAR","Attendu par hasard","MADAR fait mieux que le hasard ×","Probabilité que ce soit le hasard"],
+    read:s=>`<b>Comment lire :</b> avec 10 cibles placées au hasard dans chaque zone, on toucherait en moyenne <b class="num">${s.expected_by_chance}</b> sites sur ${s.n}. MADAR en touche <b class="num">${s.hits}</b>. ${s.p_value<0.05?`La probabilité d'obtenir ce résultat par chance seule n'est que de <b class="num">${(s.p_value*100).toFixed(2)} %</b> : MADAR <b>capte un vrai signal</b>.`:`La probabilité d'obtenir ce résultat par chance est de <b class="num">${(s.p_value*100).toFixed(1)} %</b> : ce n'est <b>pas suffisant</b> pour dire que MADAR bat le hasard.`}
+      <div class="split"><span>Mines exploitées : <span class="num">${s.hits_mines}/${s.n_mines}</span></span><span>Indices non exploités (preuve la plus forte) : <span class="num">${s.hits_occ}/${s.n_occ}</span></span><span>Rang médian du score autour du site : au-dessus de <span class="num">${s.median_percentile} %</span> de la zone</span></div>`,
+    hit:"✓ Touché",miss:"✗ Non",dist:"Cible la plus proche",chance:"Chance au hasard",pct:"Rang du site",km:"km",
+    kind:{mine:"mine exploitée",occurrence:"indice connu"},
+    legend:["Site connu et cercle de 2 km","Cibles MADAR (T1 = la plus forte)","Zones lumineuses = score MADAR"],
+    lim:`<b>Limites, en toute honnêteté :</b><ul><li>Le nombre de sites reste faible ; le résultat évoluera avec plus de sites.</li><li>Les mines exploitées ressortent parfois à cause de leurs fosses et haldes ; on les sépare des indices non exploités.</li><li>Certains sites sont proches (district de Bou Azzer), donc pas totalement indépendants.</li><li>Coordonnées issues de sources publiques (Mindat, Wikipédia), à quelques centaines de mètres près.</li><li>MADAR réduit la zone de recherche, il ne prouve pas un gisement.</li></ul>`},
+  en:{dir:"ltr",back:"MADAR Minerals console →",h1:"Blind test on known deposits",
+    sub:(n,b)=>`${n} real sites in Morocco and Mauritania. For each, a box of about ${b}×${b} km placed with a random offset; MADAR does not know where the deposit is. We measure: does one of its top 10 targets fall within ${DATA.hit_km} km of the known site?`,
+    k:["MADAR hits","Expected by chance","MADAR beats chance ×","Probability it is luck"],
+    read:s=>`<b>How to read:</b> with 10 targets placed at random in each box, we would hit on average <b class="num">${s.expected_by_chance}</b> of ${s.n} sites. MADAR hits <b class="num">${s.hits}</b>. ${s.p_value<0.05?`The probability of this result by luck alone is only <b class="num">${(s.p_value*100).toFixed(2)}%</b>: MADAR <b>sees a real signal</b>.`:`The probability of this result by luck is <b class="num">${(s.p_value*100).toFixed(1)}%</b>: <b>not enough</b> to say MADAR beats chance.`}
+      <div class="split"><span>Worked mines: <span class="num">${s.hits_mines}/${s.n_mines}</span></span><span>Unmined occurrences (strongest proof): <span class="num">${s.hits_occ}/${s.n_occ}</span></span><span>Median rank of the score around the site: above <span class="num">${s.median_percentile}%</span> of the area</span></div>`,
+    hit:"✓ Hit",miss:"✗ Miss",dist:"Nearest target",chance:"Chance by luck",pct:"Site rank",km:"km",
+    kind:{mine:"worked mine",occurrence:"known occurrence"},
+    legend:["Known site and 2 km circle","MADAR targets (T1 strongest)","Bright areas = MADAR score"],
+    lim:`<b>Honest limits:</b><ul><li>The number of sites is still small; the result will move with more sites.</li><li>Worked mines can light up because of their pits and tailings; we report them apart from unmined occurrences.</li><li>Some sites are close together (Bou Azzer district), so not fully independent.</li><li>Coordinates come from public sources (Mindat, Wikipedia) and may be a few hundred metres off.</li><li>MADAR narrows the search; it does not prove a deposit.</li></ul>`}
+};
+let lang = "ar";
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function render(){
+  const t = T[lang], s = DATA.summary;
+  $("wrap").dir = t.dir; document.documentElement.lang = lang; document.documentElement.dir = t.dir;
+  [...$("langs").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.l === lang));
+  $("back").textContent = t.back; $("h1").textContent = t.h1; $("sub").textContent = t.sub(s.n, DATA.box_km);
+  const v = [`${s.hits}/${s.n}`, `${s.expected_by_chance}`, s.lift ? `×${s.lift}` : "—", `${(s.p_value*100).toFixed(s.p_value<0.01?2:1)}%`];
+  $("verdict").innerHTML = v.map((x, i) => `<div class="k glass ${i===0||i===2?"main":""}"><b>${x}</b><span>${t.k[i]}</span></div>`).join("");
+  $("read").innerHTML = t.read(s);
+  $("legend").innerHTML = `<span><i style="background:#62e3ff"></i>${t.legend[0]}</span><span><i style="background:#ffb85c"></i>${t.legend[1]}</span><span><i style="background:#ffd250"></i>${t.legend[2]}</span>`;
+  $("grid").innerHTML = DATA.sites.map(r => `<article class="card glass">
+    <img src="${esc(r.img)}" alt="${esc(r.name)}" loading="lazy">
+    <div class="cb"><div class="row"><h3>${esc(r.name)}</h3><span class="badge ${r.hit?"ok":"no"}">${r.hit?t.hit:t.miss}</span></div>
+      <p>${esc(r.area)}, ${esc(r.country)} · ${esc(r.metal)} · ${t.kind[r.kind]}</p>
+      <div class="facts"><div><b>${r.nearest_km ?? "—"} ${t.km}</b><span>${t.dist}</span></div><div><b>${(r.p_chance*100).toFixed(0)}%</b><span>${t.chance}</span></div><div><b>${r.percentile ?? "—"}%</b><span>${t.pct}</span></div></div>
+      <div class="src">${r.lat.toFixed(4)}, ${r.lon.toFixed(4)} · ${esc(r.src)} · ${esc(r.scenes.join(", "))}</div></div></article>`).join("");
+  $("lim").innerHTML = t.lim;
+}
+try{ const l = localStorage.getItem("madar-min-lang"); if (T[l]) lang = l; }catch(e){}
+if (DATA.demo) $("demo").hidden = false;
+$("langs").onclick = e => { const b = e.target.closest("button"); if (!b) return; lang = b.dataset.l; try{localStorage.setItem("madar-min-lang", lang)}catch(e){} render(); };
+render();
+</script>
+</body>
+</html>

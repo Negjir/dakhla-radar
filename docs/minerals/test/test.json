@@ -1,0 +1,492 @@
+{
+ "generated": "2026-11-04",
+ "demo": false,
+ "hit_km": 2.0,
+ "top_n": 10,
+ "box_km": 22,
+ "summary": {
+  "n": 16,
+  "hits": 7,
+  "expected_by_chance": 2.79,
+  "lift": 2.51,
+  "p_value": 0.0126,
+  "median_percentile": 91.1,
+  "hits_mines": 3,
+  "n_mines": 8,
+  "hits_occ": 4,
+  "n_occ": 8
+ },
+ "sites": [
+  {
+   "id": "t01",
+   "name": "Vein No. 61, Ait Ahmane",
+   "area": "Bou Azzer",
+   "country": "Morocco",
+   "metal": "Co",
+   "kind": "occurrence",
+   "src": "mindat loc-212416",
+   "lat": 30.4806,
+   "lon": -6.5878,
+   "box": [
+    30.3349,
+    30.5349,
+    -6.6875,
+    -6.4875
+   ],
+   "hit": true,
+   "nearest_km": 0.52,
+   "nearest_target": "T3",
+   "rank": 3,
+   "percentile": 99.8,
+   "p_chance": 0.1632,
+   "valid_pct": 99.7,
+   "scenes": [
+    "2026-08-20",
+    "2026-07-01"
+   ],
+   "img": "test/t01.jpg"
+  },
+  {
+   "id": "t02",
+   "name": "Inguijem",
+   "area": "Bou Azzer",
+   "country": "Morocco",
+   "metal": "Co-Ni",
+   "kind": "occurrence",
+   "src": "mindat loc-123410",
+   "lat": 30.5025,
+   "lon": -6.6578,
+   "box": [
+    30.4039,
+    30.6039,
+    -6.7146,
+    -6.5146
+   ],
+   "hit": false,
+   "nearest_km": 2.68,
+   "nearest_target": "T1",
+   "rank": null,
+   "percentile": 91.1,
+   "p_chance": 0.1756,
+   "valid_pct": 99.9,
+   "scenes": [
+    "2026-09-12",
+    "2026-08-20",
+    "2026-07-01"
+   ],
+   "img": "test/t02.jpg"
+  },
+  {
+   "id": "t03",
+   "name": "Mechoui deposit",
+   "area": "Bou Azzer",
+   "country": "Morocco",
+   "metal": "Co-As-Cu",
+   "kind": "occurrence",
+   "src": "mindat loc-123388",
+   "lat": 30.5553,
+   "lon": -6.9828,
+   "box": [
+    30.4076,
+    30.6076,
+    -7.116,
+    -6.916
+   ],
+   "hit": true,
+   "nearest_km": 0.2,
+   "nearest_target": "T5",
+   "rank": 3,
+   "percentile": 99.7,
+   "p_chance": 0.1896,
+   "valid_pct": 99.5,
+   "scenes": [
+    "2026-08-20"
+   ],
+   "img": "test/t03.jpg"
+  },
+  {
+   "id": "t04",
+   "name": "Bleida Far West mine",
+   "area": "Bleida",
+   "country": "Morocco",
+   "metal": "Au-Pd-Cu",
+   "kind": "mine",
+   "src": "mindat loc-187573",
+   "lat": 30.3894,
+   "lon": -6.5142,
+   "box": [
+    30.3015,
+    30.5015,
+    -6.6074,
+    -6.4074
+   ],
+   "hit": false,
+   "nearest_km": 3.9,
+   "nearest_target": "T9",
+   "rank": null,
+   "percentile": 74.8,
+   "p_chance": 0.2026,
+   "valid_pct": 99.8,
+   "scenes": [
+    "2026-08-20",
+    "2026-07-01"
+   ],
+   "img": "test/t04.jpg"
+  },
+  {
+   "id": "t05",
+   "name": "Iouriren mine",
+   "area": "Tafraout",
+   "country": "Morocco",
+   "metal": "Au",
+   "kind": "mine",
+   "src": "mindat locdana-11603",
+   "lat": 29.4867,
+   "lon": -8.7192,
+   "box": [
+    29.4207,
+    29.6207,
+    -8.8135,
+    -8.6135
+   ],
+   "hit": false,
+   "nearest_km": 3.19,
+   "nearest_target": "T8",
+   "rank": null,
+   "percentile": 91.1,
+   "p_chance": 0.1785,
+   "valid_pct": 99.7,
+   "scenes": [
+    "2026-10-12",
+    "2026-09-07"
+   ],
+   "img": "test/t05.jpg"
+  },
+  {
+   "id": "t06",
+   "name": "Patte d'Oie deposit",
+   "area": "Bou Skour",
+   "country": "Morocco",
+   "metal": "Cu-Pb",
+   "kind": "mine",
+   "src": "mindat loc-425009",
+   "lat": 30.9006,
+   "lon": -6.2786,
+   "box": [
+    30.8283,
+    31.0283,
+    -6.3464,
+    -6.1464
+   ],
+   "hit": true,
+   "nearest_km": 1.38,
+   "nearest_target": "T10",
+   "rank": 10,
+   "percentile": 97.5,
+   "p_chance": 0.1246,
+   "valid_pct": 99.8,
+   "scenes": [
+    "2025-10-24",
+    "2025-10-04"
+   ],
+   "img": "test/t06.jpg"
+  },
+  {
+   "id": "t07",
+   "name": "Tizi Moudou deposit",
+   "area": "Saghro",
+   "country": "Morocco",
+   "metal": "Cu-Ag",
+   "kind": "occurrence",
+   "src": "mindat loc-214452",
+   "lat": 31.1297,
+   "lon": -5.53,
+   "box": [
+    31.0598,
+    31.2598,
+    -5.6196,
+    -5.4196
+   ],
+   "hit": false,
+   "nearest_km": 5.52,
+   "nearest_target": "T7",
+   "rank": null,
+   "percentile": 87.3,
+   "p_chance": 0.1563,
+   "valid_pct": 99.7,
+   "scenes": [
+    "2026-07-01"
+   ],
+   "img": "test/t07.jpg"
+  },
+  {
+   "id": "t08",
+   "name": "Tikhermine",
+   "area": "Ouarzazate",
+   "country": "Morocco",
+   "metal": "Cu",
+   "kind": "occurrence",
+   "src": "mindat loc-71512",
+   "lat": 30.9667,
+   "lon": -6.9831,
+   "box": [
+    30.8355,
+    31.0355,
+    -7.0694,
+    -6.8694
+   ],
+   "hit": false,
+   "nearest_km": 2.74,
+   "nearest_target": "T10",
+   "rank": null,
+   "percentile": 98.5,
+   "p_chance": 0.2208,
+   "valid_pct": 96.1,
+   "scenes": [
+    "2025-11-01",
+    "2025-08-28"
+   ],
+   "img": "test/t08.jpg"
+  },
+  {
+   "id": "t09",
+   "name": "Mefis mine",
+   "area": "Tafilalet",
+   "country": "Morocco",
+   "metal": "Pb-Cu-Zn",
+   "kind": "mine",
+   "src": "mindat loc-16037",
+   "lat": 31.0339,
+   "lon": -3.9506,
+   "box": [
+    30.8872,
+    31.0872,
+    -4.0126,
+    -3.8126
+   ],
+   "hit": false,
+   "nearest_km": 4.88,
+   "nearest_target": "T2",
+   "rank": null,
+   "percentile": 81.9,
+   "p_chance": 0.106,
+   "valid_pct": 100.0,
+   "scenes": [
+    "2026-08-25",
+    "2026-08-22"
+   ],
+   "img": "test/t09.jpg"
+  },
+  {
+   "id": "t10",
+   "name": "Irhoud mine",
+   "area": "Youssoufia",
+   "country": "Morocco",
+   "metal": "Ba-Cu",
+   "kind": "mine",
+   "src": "mindat loc-132981",
+   "lat": 31.8797,
+   "lon": -8.8717,
+   "box": [
+    31.7737,
+    31.9737,
+    -8.9339,
+    -8.7339
+   ],
+   "hit": false,
+   "nearest_km": 8.68,
+   "nearest_target": "T1",
+   "rank": null,
+   "percentile": 73.1,
+   "p_chance": 0.1644,
+   "valid_pct": 99.3,
+   "scenes": [
+    "2026-09-30"
+   ],
+   "img": "test/t10.jpg"
+  },
+  {
+   "id": "t11",
+   "name": "Imiter silver mine",
+   "area": "Imiter",
+   "country": "Morocco",
+   "metal": "Ag",
+   "kind": "mine",
+   "src": "Wikipedia Imider + image",
+   "lat": 31.3495,
+   "lon": -5.7234,
+   "box": [
+    31.2717,
+    31.4717,
+    -5.8019,
+    -5.6019
+   ],
+   "hit": false,
+   "nearest_km": 2.76,
+   "nearest_target": "T8",
+   "rank": null,
+   "percentile": 72.1,
+   "p_chance": 0.226,
+   "valid_pct": 99.3,
+   "scenes": [
+    "2025-10-24",
+    "2024-11-23",
+    "2025-03-20",
+    "2025-08-30"
+   ],
+   "img": "test/t11.jpg"
+  },
+  {
+   "id": "t12",
+   "name": "Old copper works Mibladen-Aouli",
+   "area": "Midelt",
+   "country": "Morocco",
+   "metal": "Cu",
+   "kind": "occurrence",
+   "src": "mindat loc-250673",
+   "lat": 32.7764,
+   "lon": -4.6439,
+   "box": [
+    32.6416,
+    32.8416,
+    -4.7737,
+    -4.5737
+   ],
+   "hit": true,
+   "nearest_km": 1.42,
+   "nearest_target": "T5",
+   "rank": 5,
+   "percentile": 90.6,
+   "p_chance": 0.1987,
+   "valid_pct": 97.3,
+   "scenes": [
+    "2025-09-04",
+    "2025-08-17",
+    "2025-07-31",
+    "2025-10-14",
+    "2025-08-30",
+    "2024-12-18"
+   ],
+   "img": "test/t12.jpg"
+  },
+  {
+   "id": "t13",
+   "name": "Lhamda mine (Touroug)",
+   "area": "Tafilalet",
+   "country": "Morocco",
+   "metal": "F-Ba",
+   "kind": "mine",
+   "src": "mindat loc-134746",
+   "lat": 31.5114,
+   "lon": -4.6058,
+   "box": [
+    31.469,
+    31.669,
+    -4.6543,
+    -4.4543
+   ],
+   "hit": true,
+   "nearest_km": 0.62,
+   "nearest_target": "T4",
+   "rank": 4,
+   "percentile": 98.9,
+   "p_chance": 0.1674,
+   "valid_pct": 99.7,
+   "scenes": [
+    "2025-08-20",
+    "2025-08-20"
+   ],
+   "img": "test/t13.jpg"
+  },
+  {
+   "id": "t14",
+   "name": "Tasiast gold mine",
+   "area": "Inchiri",
+   "country": "Mauritania",
+   "metal": "Au",
+   "kind": "mine",
+   "src": "mindat locdetailed-133715",
+   "lat": 20.5694,
+   "lon": -15.5044,
+   "box": [
+    20.506,
+    20.706,
+    -15.5444,
+    -15.3444
+   ],
+   "hit": true,
+   "nearest_km": 1.45,
+   "nearest_target": "T6",
+   "rank": 6,
+   "percentile": 99.6,
+   "p_chance": 0.1824,
+   "valid_pct": 99.9,
+   "scenes": [
+    "2026-10-18",
+    "2026-09-20"
+   ],
+   "img": "test/t14.jpg"
+  },
+  {
+   "id": "t15",
+   "name": "Guilabet El Louebda",
+   "area": "Akjoujt",
+   "country": "Mauritania",
+   "metal": "Cu-Fe",
+   "kind": "occurrence",
+   "src": "mindat loc-308681",
+   "lat": 19.8997,
+   "lon": -14.35,
+   "box": [
+    19.8013,
+    20.0013,
+    -14.5008,
+    -14.3008
+   ],
+   "hit": false,
+   "nearest_km": 2.55,
+   "nearest_target": "T7",
+   "rank": null,
+   "percentile": 57.0,
+   "p_chance": 0.1871,
+   "valid_pct": 97.9,
+   "scenes": [
+    "2026-09-13",
+    "2026-09-13",
+    "2026-08-04",
+    "2026-08-04",
+    "2026-06-12",
+    "2026-06-12"
+   ],
+   "img": "test/t15.jpg"
+  },
+  {
+   "id": "t16",
+   "name": "Legleitat El Khader",
+   "area": "Akjoujt",
+   "country": "Mauritania",
+   "metal": "Cu",
+   "kind": "occurrence",
+   "src": "mindat loc-308668",
+   "lat": 19.6442,
+   "lon": -14.2453,
+   "box": [
+    19.525,
+    19.725,
+    -14.3384,
+    -14.1384
+   ],
+   "hit": true,
+   "nearest_km": 0.21,
+   "nearest_target": "T1",
+   "rank": 1,
+   "percentile": 100.0,
+   "p_chance": 0.1453,
+   "valid_pct": 100.0,
+   "scenes": [
+    "2026-09-30"
+   ],
+   "img": "test/t16.jpg"
+  }
+ ]
+}
