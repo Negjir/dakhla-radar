@@ -12,13 +12,13 @@ permissions:
   contents: write
 
 concurrency:
-  group: radar
+  group: minerals
   cancel-in-progress: false
 
 jobs:
   minerals:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -28,6 +28,7 @@ jobs:
       - name: Sentinel-2 analysis
         run: |
           if [ "${{ github.event.inputs.site }}" = "list" ]; then python mrds_list.py; exit 0; fi
+          if [ "${{ github.event.inputs.site }}" = "test" ]; then python minerals_test.py; exit 0; fi
           ARGS=""
           if [ -n "${{ github.event.inputs.site }}" ]; then ARGS="--site ${{ github.event.inputs.site }}"; fi
           python minerals.py $ARGS
