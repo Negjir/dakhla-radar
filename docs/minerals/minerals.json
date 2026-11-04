@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-03",
+ "generated": "2026-11-04",
  "demo": false,
  "hit_km": 2.0,
  "top_percent": 1.0,
@@ -462,6 +462,299 @@
     "clay.png": "kediet/clay.png",
     "iron.png": "kediet/iron.png",
     "score.png": "kediet/score.png"
+   }
+  },
+  {
+   "id": "twihinate",
+   "name": "Twihinate",
+   "name_ar": "تويهينات",
+   "country": "Morocco (Oued Ed-Dahab)",
+   "metal": "Rare earths, niobium, iron (carbonatite)",
+   "metal_ar": "العناصر النادرة والنيوبيوم والحديد (كربوناتيت)",
+   "profile": "carbonatite",
+   "bounds": [
+    [
+     22.29,
+     -16.19
+    ],
+    [
+     22.59,
+     -15.89
+    ]
+   ],
+   "area_km2": 1031,
+   "valid_pct": 100.0,
+   "anomaly_km2": 10.31,
+   "reduction": 100,
+   "targets": [
+    {
+     "lat": 22.44953,
+     "lon": -16.06851,
+     "area_ha": 139.0,
+     "peak": 2.52,
+     "rank": 1,
+     "label": "T1",
+     "rel": 100
+    },
+    {
+     "lat": 22.46962,
+     "lon": -16.04463,
+     "area_ha": 105.9,
+     "peak": 2.35,
+     "rank": 2,
+     "label": "T2",
+     "rel": 71
+    },
+    {
+     "lat": 22.47521,
+     "lon": -16.03178,
+     "area_ha": 80.6,
+     "peak": 2.48,
+     "rank": 3,
+     "label": "T3",
+     "rel": 56
+    },
+    {
+     "lat": 22.32858,
+     "lon": -16.10725,
+     "area_ha": 53.1,
+     "peak": 2.53,
+     "rank": 4,
+     "label": "T4",
+     "rel": 37
+    },
+    {
+     "lat": 22.30288,
+     "lon": -16.09917,
+     "area_ha": 45.3,
+     "peak": 2.76,
+     "rank": 5,
+     "label": "T5",
+     "rel": 33
+    },
+    {
+     "lat": 22.33862,
+     "lon": -16.12057,
+     "area_ha": 42.3,
+     "peak": 2.39,
+     "rank": 6,
+     "label": "T6",
+     "rel": 29
+    },
+    {
+     "lat": 22.46464,
+     "lon": -16.05223,
+     "area_ha": 43.2,
+     "peak": 2.33,
+     "rank": 7,
+     "label": "T7",
+     "rel": 29
+    },
+    {
+     "lat": 22.47932,
+     "lon": -16.04597,
+     "area_ha": 30.9,
+     "peak": 2.43,
+     "rank": 8,
+     "label": "T8",
+     "rel": 22
+    },
+    {
+     "lat": 22.29547,
+     "lon": -16.0934,
+     "area_ha": 31.8,
+     "peak": 2.26,
+     "rank": 9,
+     "label": "T9",
+     "rel": 22
+    },
+    {
+     "lat": 22.45717,
+     "lon": -16.06506,
+     "area_ha": 23.8,
+     "peak": 2.57,
+     "rank": 10,
+     "label": "T10",
+     "rel": 17
+    }
+   ],
+   "blind_test": [
+    {
+     "name": "Twihinate carbonatite ring (approx.)",
+     "lat": 22.44,
+     "lon": -16.04,
+     "kind": "prospect",
+     "src": "ONHYM prospect sheet, map grid UTM 28N ~393 km E / 2482 km N (approximate, few km)",
+     "nearest_km": 3.01,
+     "nearest_target": "T7",
+     "best_rank_within": null,
+     "percentile": 98.5,
+     "hit": false
+    }
+   ],
+   "scenes": [
+    {
+     "id": "S2C_28QCK_20260101_0_L2A",
+     "date": "2026-01-01",
+     "cloud": 0.01
+    },
+    {
+     "id": "S2C_28QCL_20260101_0_L2A",
+     "date": "2026-01-01",
+     "cloud": 0.01
+    }
+   ],
+   "images": {
+    "truecolor.jpg": "twihinate/truecolor.jpg",
+    "ratios.jpg": "twihinate/ratios.jpg",
+    "clay.png": "twihinate/clay.png",
+    "iron.png": "twihinate/iron.png",
+    "score.png": "twihinate/score.png",
+    "ree.png": "twihinate/ree.png"
+   }
+  },
+  {
+   "id": "lafhouda",
+   "name": "Gleibat Lafhouda",
+   "name_ar": "كليبات لفحودة",
+   "country": "Morocco (Awserd)",
+   "metal": "Niobium, tantalum, rare earths, iron",
+   "metal_ar": "النيوبيوم والتنتال والعناصر النادرة والحديد",
+   "profile": "carbonatite",
+   "bounds": [
+    [
+     22.0,
+     -15.0
+    ],
+    [
+     22.3,
+     -14.7
+    ]
+   ],
+   "area_km2": 1033,
+   "valid_pct": 100.0,
+   "anomaly_km2": 10.33,
+   "reduction": 100,
+   "targets": [
+    {
+     "lat": 22.14821,
+     "lon": -14.98318,
+     "area_ha": 518.2,
+     "peak": 3.38,
+     "rank": 1,
+     "label": "T1",
+     "rel": 100
+    },
+    {
+     "lat": 22.20294,
+     "lon": -14.96127,
+     "area_ha": 42.8,
+     "peak": 2.97,
+     "rank": 2,
+     "label": "T2",
+     "rel": 7
+    },
+    {
+     "lat": 22.00477,
+     "lon": -14.98543,
+     "area_ha": 39.5,
+     "peak": 1.96,
+     "rank": 3,
+     "label": "T3",
+     "rel": 5
+    },
+    {
+     "lat": 22.04655,
+     "lon": -14.84786,
+     "area_ha": 30.4,
+     "peak": 3.08,
+     "rank": 4,
+     "label": "T4",
+     "rel": 5
+    },
+    {
+     "lat": 22.12895,
+     "lon": -14.72008,
+     "area_ha": 21.6,
+     "peak": 3.62,
+     "rank": 5,
+     "label": "T5",
+     "rel": 4
+    },
+    {
+     "lat": 22.09936,
+     "lon": -14.77384,
+     "area_ha": 14.0,
+     "peak": 4.55,
+     "rank": 6,
+     "label": "T6",
+     "rel": 4
+    },
+    {
+     "lat": 22.04664,
+     "lon": -14.86279,
+     "area_ha": 18.1,
+     "peak": 3.89,
+     "rank": 7,
+     "label": "T7",
+     "rel": 3
+    },
+    {
+     "lat": 22.10785,
+     "lon": -14.77141,
+     "area_ha": 17.0,
+     "peak": 3.16,
+     "rank": 8,
+     "label": "T8",
+     "rel": 3
+    },
+    {
+     "lat": 22.15504,
+     "lon": -14.83814,
+     "area_ha": 13.3,
+     "peak": 3.87,
+     "rank": 9,
+     "label": "T9",
+     "rel": 3
+    },
+    {
+     "lat": 22.08533,
+     "lon": -14.93944,
+     "area_ha": 19.1,
+     "peak": 2.03,
+     "rank": 10,
+     "label": "T10",
+     "rel": 3
+    }
+   ],
+   "blind_test": [
+    {
+     "name": "Gleibat Lafhouda hill (approx.)",
+     "lat": 22.15,
+     "lon": -14.85,
+     "kind": "prospect",
+     "src": "GeoNames 'Gleibat Lefhuda' 22.15N 14.85W; ONHYM: SW of Awserd (approximate)",
+     "nearest_km": 1.34,
+     "nearest_target": "T9",
+     "best_rank_within": 9,
+     "percentile": 88.4,
+     "hit": true
+    }
+   ],
+   "scenes": [
+    {
+     "id": "S2A_28QEK_20260920_1_L2A",
+     "date": "2026-09-20",
+     "cloud": 0.0
+    }
+   ],
+   "images": {
+    "truecolor.jpg": "lafhouda/truecolor.jpg",
+    "ratios.jpg": "lafhouda/ratios.jpg",
+    "clay.png": "lafhouda/clay.png",
+    "iron.png": "lafhouda/iron.png",
+    "score.png": "lafhouda/score.png",
+    "ree.png": "lafhouda/ree.png"
    }
   }
  ]
