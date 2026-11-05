@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-04",
+ "generated": "2026-11-05",
  "demo": false,
  "hit_km": 2.0,
  "top_percent": 1.0,
@@ -160,8 +160,11 @@
     "ratios.jpg": "imiter/ratios.jpg",
     "clay.png": "imiter/clay.png",
     "iron.png": "imiter/iron.png",
-    "score.png": "imiter/score.png"
-   }
+    "score.png": "imiter/score.png",
+    "ree.png": "imiter/ree.png"
+   },
+   "gis": "imiter/MADAR-imiter-GIS.zip",
+   "report": "imiter/MADAR-imiter-rapport.pdf"
   },
   {
    "id": "bouazzer",
@@ -318,8 +321,11 @@
     "ratios.jpg": "bouazzer/ratios.jpg",
     "clay.png": "bouazzer/clay.png",
     "iron.png": "bouazzer/iron.png",
-    "score.png": "bouazzer/score.png"
-   }
+    "score.png": "bouazzer/score.png",
+    "ree.png": "bouazzer/ree.png"
+   },
+   "gis": "bouazzer/MADAR-bouazzer-GIS.zip",
+   "report": "bouazzer/MADAR-bouazzer-rapport.pdf"
   },
   {
    "id": "kediet",
@@ -461,8 +467,11 @@
     "ratios.jpg": "kediet/ratios.jpg",
     "clay.png": "kediet/clay.png",
     "iron.png": "kediet/iron.png",
-    "score.png": "kediet/score.png"
-   }
+    "score.png": "kediet/score.png",
+    "ree.png": "kediet/ree.png"
+   },
+   "gis": "kediet/MADAR-kediet-GIS.zip",
+   "report": "kediet/MADAR-kediet-rapport.pdf"
   },
   {
    "id": "twihinate",
@@ -611,7 +620,9 @@
     "iron.png": "twihinate/iron.png",
     "score.png": "twihinate/score.png",
     "ree.png": "twihinate/ree.png"
-   }
+   },
+   "gis": "twihinate/MADAR-twihinate-GIS.zip",
+   "report": "twihinate/MADAR-twihinate-rapport.pdf"
   },
   {
    "id": "lafhouda",
@@ -755,7 +766,9 @@
     "iron.png": "lafhouda/iron.png",
     "score.png": "lafhouda/score.png",
     "ree.png": "lafhouda/ree.png"
-   }
+   },
+   "gis": "lafhouda/MADAR-lafhouda-GIS.zip",
+   "report": "lafhouda/MADAR-lafhouda-rapport.pdf"
   }
  ]
 }
