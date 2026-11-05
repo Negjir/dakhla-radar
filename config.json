@@ -41,9 +41,9 @@
     ]
   ],
   "coastal": {
-    "max_km": 8,
-    "range_km": 15,
-    "box_deg": 0.16,
+    "max_km": 15,
+    "range_km": 25,
+    "box_deg": 0.24,
     "cell_deg": 0.005,
     "coast_dir_deg": 210,
     "species_ar": "الكوربين، التاسرگال، البوري، البونيت",
@@ -91,6 +91,11 @@
         "cmems_obs-oc_glo_bgc-plankton_nrt_l4-gapfree-multi-4km_P1D",
         "CHL"
       ]
-    ]
+    ],
+    "min_km": 5,
+    "octopus_season": {
+      "status": "check",
+      "note": "Set status to open/closed with dates from the Ministry decision (until / next)."
+    }
   }
 }

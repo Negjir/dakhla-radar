@@ -104,6 +104,28 @@ button,input{font:inherit;color:inherit}
 .nbtn{display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--edge2);background:rgba(79,230,255,.1);color:var(--cyan);border-radius:9px;padding:10px;font-weight:600;font-size:13px;cursor:pointer;text-decoration:none;min-height:42px;text-align:center}
 .nbtn.ok{border-color:var(--green);color:var(--green)}
 .note{font-size:11.5px;line-height:1.6;color:var(--mute);margin:0}
+.safe{display:grid;gap:6px;border-width:1.5px}
+.safe .big{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15.5px;line-height:1.4}
+.safe .big i{width:14px;height:14px;border-radius:50%;flex:none;box-shadow:0 0 12px currentColor;background:currentColor}
+.safe.go{border-color:rgba(93,255,168,.6)}.safe.go .big{color:var(--green)}
+.safe.caution{border-color:rgba(255,181,71,.7)}.safe.caution .big{color:var(--amber)}
+.safe.no{border-color:rgba(255,107,74,.75)}.safe.no .big{color:var(--coral)}
+.safe.unknown .big{color:var(--mute)}
+.safe .row2{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--mute)}
+.safe .row2 b{color:var(--ink);font-family:var(--mono)}
+.season{font-size:12.5px;padding:6px 8px;border-radius:7px;background:rgba(255,181,71,.08);border:1px dashed rgba(255,181,71,.45);color:var(--ink)}
+.modes{display:inline-flex;border:1px solid var(--edge);border-radius:9px;overflow:hidden;margin-bottom:8px;width:100%}
+.modes button{flex:1;border:0;background:none;padding:9px 8px;font-weight:600;font-size:13.5px;color:var(--mute);cursor:pointer;min-height:40px}
+.modes button[aria-pressed="true"]{background:rgba(79,230,255,.16);color:var(--ink)}
+.potbtns{display:grid;grid-template-columns:1fr auto;gap:6px}
+.potadd{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.potadd input{width:100%;border:1px solid var(--edge);background:rgba(4,17,30,.7);border-radius:7px;padding:8px;font:500 13px var(--mono);color:var(--ink);min-height:38px;direction:ltr}
+.potadd input.nm{grid-column:1/-1;font-family:var(--ar)}
+.potadd .cbtn{grid-column:1/-1}
+.pot{display:grid;grid-template-columns:1fr auto;gap:4px 8px;padding:8px 0;border-bottom:1px solid rgba(80,220,255,.12)}
+.pot b{font-size:13.5px}.pot .c{font:500 12px var(--mono);direction:ltr;unicode-bidi:isolate;color:var(--mute)}
+.pot .acts{display:flex;gap:6px;grid-row:span 2;align-items:center}
+.pot .d{font-size:12px;color:var(--cyan)}
 
 /* conditions */
 .cond{grid-column:1;display:grid;grid-template-columns:minmax(0,1fr) 150px 190px;gap:8px}
@@ -155,7 +177,7 @@ button,input{font:inherit;color:inherit}
   <header class="hd glass">
     <div class="logo">
       <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="none" stroke="#4fe6ff" stroke-opacity=".5"/><circle cx="15" cy="15" r="7" fill="none" stroke="#4fe6ff" stroke-opacity=".35"/><path d="M15 15 L26 8 A13 13 0 0 1 28 15 Z" fill="#4fe6ff" fill-opacity=".45"/><circle cx="21" cy="11" r="2" fill="#5dffa8"/></svg>
-      <div><b>DAKHLA COAST</b><small id="sub">ARTISANAL · GROUP 1</small></div>
+      <div><b>DAKHLA COAST</b><small id="sub">ARTISANAL · OCTOPUS + FISH</small></div>
     </div>
     <nav class="pts" id="pts" role="tablist"></nav>
     <div class="leds" id="leds"></div>
@@ -178,7 +200,9 @@ button,input{font:inherit;color:inherit}
   </section>
 
   <aside class="side">
+    <section class="glass sec safe" id="safe"></section>
     <section class="glass sec">
+      <div class="modes" id="modes"><button type="button" data-m="oct"></button><button type="button" data-m="fish"></button></div>
       <h2><span class="lbl" id="t-zones"></span><span class="lbl num" id="species"></span></h2>
       <div id="zones" style="display:grid;gap:6px"></div>
     </section>
@@ -190,6 +214,10 @@ button,input{font:inherit;color:inherit}
     <section class="glass sec">
       <h2><span class="lbl" id="t-nav"></span><span class="lbl" id="navz"></span></h2>
       <div id="nav"></div>
+    </section>
+    <section class="glass sec">
+      <h2><span class="lbl" id="t-pots"></span></h2>
+      <div id="pots"></div>
     </section>
     <section class="glass sec">
       <h2><span class="lbl" id="t-boat"></span></h2>
@@ -214,21 +242,21 @@ button,input{font:inherit;color:inherit}
 const DATA=/*DATA*/null;
 const $=s=>document.querySelector(s);
 const T={
- ar:{nav:"الذهاب إلى المنطقة",copyc:"نسخ",copiedc:"تم",openapp:"فتح في تطبيق الملاحة",gpx:"تنزيل GPX",gpxok:"تم التنزيل",navnote:"أدخل النقطة في جهاز الملاحة (GPS) وراجع الطريق على الخريطة البحرية الرسمية. ملف GPX فيه كل المناطق والميناء، ويُفتح في تطبيقات الملاحة وفي كثير من أجهزة Chartplotter عبر بطاقة الذاكرة.",zones:"أفضل المناطق اليوم",why:"لماذا هذه المنطقة",boat:"قاربك والوقود",speed:"السرعة",cons:"الاستهلاك",copy:"نسخ رسالة واتساب",copied:"تم النسخ",
+ ar:{mOct:"🐙 الأخطبوط",mFish:"🐟 السمك",spOct:"الأخطبوط · عمق وحرارة القاع",dep:"عمق مناسب",tmp:"حرارة القاع",food:"غذاء (كلوروفيل)",bt:"حرارة القاع",fit:"ملاءمة",safeT:"حالة البحر للقوارب الصغيرة",go:"البحر مناسب اليوم",caution:"حذر: ريح أو موج متوسط، اخرج بحذر وابقَ قريباً",no:"لا يُنصح بالخروج اليوم",unknown:"حالة البحر غير متوفرة",safeNote:"تقدير آلي من توقعات الريح والموج. قرار الخروج للرايس، وتابع النشرة البحرية الرسمية.",seasonOpen:"موسم الأخطبوط: مفتوح",seasonClosed:"موسم الأخطبوط: مغلق (راحة بيولوجية)",seasonCheck:"موسم الأخطبوط: تحقق من قرار الوزارة قبل الخروج",until:"حتى",next:"الفتح المتوقع",pots:"جراري في البحر",potHere:"احفظ موقعي الآن",potAdd:"أضف بالإحداثيات",potName:"اسم الصف (اختياري)",potGo:"اذهب",potDel:"حذف",potSure:"تأكيد؟",potNone:"لا توجد صفوف محفوظة بعد. عند رمي صف الجرار، اضغط «احفظ موقعي الآن».",potNote:"المواقع محفوظة في هاتفك فقط، ولا تُرسل لأحد. احفظ أيضاً ملف GPX احتياطاً.",potWait:"جارٍ تحديد الموقع…",potErr:"تعذّر تحديد الموقع. فعّل GPS واسمح للمتصفح بالموقع.",potSaved:"تم الحفظ",row:"صف",away:"على بعد",noneOct:"لا توجد مناطق مناسبة داخل المدى اليوم.",noteOct:"مؤشر يومي من العمق (GEBCO) وحرارة القاع (Copernicus) والأقمار الصناعية. قيم العمق والحرارة المفضلة للأخطبوط أولية، وتُضبط مع الصيادين. لا يضمن الصيد.",nav:"الذهاب إلى المنطقة",copyc:"نسخ",copiedc:"تم",openapp:"فتح في تطبيق الملاحة",gpx:"تنزيل GPX",gpxok:"تم التنزيل",navnote:"أدخل النقطة في جهاز الملاحة (GPS) وراجع الطريق على الخريطة البحرية الرسمية. ملف GPX فيه كل المناطق والميناء، ويُفتح في تطبيقات الملاحة وفي كثير من أجهزة Chartplotter عبر بطاقة الذاكرة.",zones:"أفضل المناطق اليوم",why:"لماذا هذه المنطقة",boat:"قاربك والوقود",speed:"السرعة",cons:"الاستهلاك",copy:"نسخ رسالة واتساب",copied:"تم النسخ",
   note:"مؤشر يومي من الأقمار الصناعية يدل على أنسب ظروف الماء، ولا يضمن وجود السمك. المد والبحر تقريبيان ولا يصلحان للملاحة.",
   tide:"المد والريح · 30 ساعة",wind:"الريح",front:"جبهة حرارية",chl:"كلوروفيل (غذاء)",cold:"مياه صاعدة باردة",sst:"حرارة",chlv:"كلوروفيل",rt:"ذهاب وإياب",
   km:"كم",from:"من",shore:"من الشاطئ",eta:"الوصول",fuel:"وقود",high:"ثقة مرتفعة",medium:"ثقة متوسطة",low:"ثقة منخفضة",none:"لا توجد جبهات واضحة قرب الساحل اليوم.",
   wave:"الموج",up:"صعود المياه",tides:"المد",hi:"عالٍ",lo:"منخفض",species:"الكوربين · التاسرگال · البوري · البونيت",clouds:"غيوم",nochl:"لا كلوروفيل اليوم (غيوم)",
   score:"مؤشر المنطقة",sstl:"حرارة الماء °C",chll:"كلوروفيل mg/m³",zone:"المنطقة",strong:"قوي",weak:"ضعيف",mod:"متوسط",now:"الآن",data:"بيانات",radar:"رادار الساحل",
   comp:["شمال","شمال شرق","شرق","جنوب شرق","جنوب","جنوب غرب","غرب","شمال غرب"],min:"د",depth:"العمق",depthl:"عمق القاع m (GEBCO)",xlink:"← رادار السفن الكبيرة"},
- fr:{nav:"Aller à la zone",copyc:"Copier",copiedc:"OK",openapp:"Ouvrir dans l'app de navigation",gpx:"Télécharger GPX",gpxok:"Téléchargé",navnote:"Entrez le point dans le GPS et vérifiez la route sur la carte marine officielle. Le fichier GPX contient toutes les zones et le port ; il s'ouvre dans les apps de navigation et de nombreux chartplotters via carte mémoire.",zones:"Meilleures zones du jour",why:"Pourquoi cette zone",boat:"Votre barque et le carburant",speed:"Vitesse",cons:"Conso.",copy:"Copier le message WhatsApp",copied:"Copié",
+ fr:{mOct:"🐙 Poulpe",mFish:"🐟 Poisson",spOct:"Poulpe · profondeur et température du fond",dep:"Profondeur favorable",tmp:"Temp. du fond",food:"Nourriture (chloro.)",bt:"Temp. fond",fit:"Adéquation",safeT:"Mer pour petites barques",go:"Mer praticable aujourd'hui",caution:"Prudence : vent ou houle modérés, restez proche",no:"Sortie déconseillée aujourd'hui",unknown:"État de mer indisponible",safeNote:"Estimation automatique (prévisions vent et houle). La décision revient au patron ; suivez le bulletin marine officiel.",seasonOpen:"Saison du poulpe : ouverte",seasonClosed:"Saison du poulpe : fermée (repos biologique)",seasonCheck:"Saison du poulpe : vérifiez la décision du Ministère",until:"jusqu'au",next:"ouverture prévue",pots:"Mes pots en mer",potHere:"Enregistrer ma position",potAdd:"Ajouter par coordonnées",potName:"Nom de la ligne (optionnel)",potGo:"Y aller",potDel:"Suppr.",potSure:"Sûr ?",potNone:"Aucune ligne enregistrée. En posant une ligne de pots, appuyez sur « Enregistrer ma position ».",potNote:"Positions gardées uniquement sur votre téléphone, jamais envoyées. Gardez aussi le fichier GPX en sauvegarde.",potWait:"Localisation…",potErr:"Position introuvable. Activez le GPS et autorisez la localisation.",potSaved:"Enregistré",row:"Ligne",away:"à",noneOct:"Aucune zone favorable dans le rayon aujourd'hui.",noteOct:"Indice quotidien : profondeur (GEBCO), température du fond (Copernicus) et satellites. Préférences du poulpe initiales, à ajuster avec les pêcheurs. Ne garantit pas la pêche.",nav:"Aller à la zone",copyc:"Copier",copiedc:"OK",openapp:"Ouvrir dans l'app de navigation",gpx:"Télécharger GPX",gpxok:"Téléchargé",navnote:"Entrez le point dans le GPS et vérifiez la route sur la carte marine officielle. Le fichier GPX contient toutes les zones et le port ; il s'ouvre dans les apps de navigation et de nombreux chartplotters via carte mémoire.",zones:"Meilleures zones du jour",why:"Pourquoi cette zone",boat:"Votre barque et le carburant",speed:"Vitesse",cons:"Conso.",copy:"Copier le message WhatsApp",copied:"Copié",
   note:"Indice satellite quotidien des eaux les plus favorables. Il ne garantit pas la présence de poisson. Marée et état de mer approximatifs, pas pour la navigation.",
   tide:"Marée et vent · 30 h",wind:"Vent",front:"Front thermique",chl:"Chlorophylle (nourriture)",cold:"Remontée d'eau froide",sst:"Temp.",chlv:"Chloro.",rt:"aller-retour",
   km:"km",from:"de",shore:"de la côte",eta:"Trajet",fuel:"Carburant",high:"confiance élevée",medium:"confiance moyenne",low:"confiance faible",none:"Pas de front net près de la côte aujourd'hui.",
   wave:"Houle",up:"Upwelling",tides:"Marée",hi:"PM",lo:"BM",species:"Courbine · Tassergal · Mulet · Bonite",clouds:"nuages",nochl:"Pas de chlorophylle aujourd'hui (nuages)",
   score:"Indice de zone",sstl:"Température de l'eau °C",chll:"Chlorophylle mg/m³",zone:"Zone",strong:"fort",weak:"faible",mod:"moyen",now:"maint.",data:"données",radar:"Radar côtier",
   comp:["N","NE","E","SE","S","SO","O","NO"],min:"min",depth:"Profondeur",depthl:"Profondeur m (GEBCO)",xlink:"Radar large →"},
- en:{nav:"Go to the zone",copyc:"Copy",copiedc:"Done",openapp:"Open in navigation app",gpx:"Download GPX",gpxok:"Downloaded",navnote:"Enter the point in the GPS and check the route on the official nautical chart. The GPX file holds every zone and the port; it opens in navigation apps and many chartplotters from a memory card.",zones:"Best zones today",why:"Why this spot",boat:"Your boat and fuel",speed:"Speed",cons:"Burn",copy:"Copy WhatsApp message",copied:"Copied",
+ en:{mOct:"🐙 Octopus",mFish:"🐟 Fish",spOct:"Octopus · depth and bottom temperature",dep:"Suitable depth",tmp:"Bottom temp.",food:"Food (chlorophyll)",bt:"Bottom temp.",fit:"Suitability",safeT:"Sea for small boats",go:"Sea OK today",caution:"Caution: moderate wind or waves, stay close",no:"Going out not advised today",unknown:"Sea state unavailable",safeNote:"Automatic estimate from wind and wave forecasts. The skipper decides; follow the official marine bulletin.",seasonOpen:"Octopus season: open",seasonClosed:"Octopus season: closed (biological rest)",seasonCheck:"Octopus season: check the Ministry decision",until:"until",next:"expected opening",pots:"My pots at sea",potHere:"Save my position now",potAdd:"Add by coordinates",potName:"Line name (optional)",potGo:"Go",potDel:"Delete",potSure:"Sure?",potNone:"No saved lines yet. When you set a line of pots, tap “Save my position now”.",potNote:"Positions stay on your phone only and are never sent. Keep the GPX file as a backup.",potWait:"Locating…",potErr:"Could not get a position. Turn on GPS and allow location.",potSaved:"Saved",row:"Line",away:"",noneOct:"No suitable ground within range today.",noteOct:"Daily index from depth (GEBCO), bottom temperature (Copernicus) and satellites. Octopus preferences are initial values, tuned with fishers. Does not guarantee a catch.",nav:"Go to the zone",copyc:"Copy",copiedc:"Done",openapp:"Open in navigation app",gpx:"Download GPX",gpxok:"Downloaded",navnote:"Enter the point in the GPS and check the route on the official nautical chart. The GPX file holds every zone and the port; it opens in navigation apps and many chartplotters from a memory card.",zones:"Best zones today",why:"Why this spot",boat:"Your boat and fuel",speed:"Speed",cons:"Burn",copy:"Copy WhatsApp message",copied:"Copied",
   note:"Daily satellite index of the most favourable water. It does not guarantee fish. Tide and sea state are approximate and not for navigation.",
   tide:"Tide and wind · 30 h",wind:"Wind",front:"Thermal front",chl:"Chlorophyll (food)",cold:"Cold upwelled water",sst:"SST",chlv:"Chl",rt:"round trip",
   km:"km",from:"from",shore:"off shore",eta:"Run",fuel:"Fuel",high:"high confidence",medium:"medium confidence",low:"low confidence",none:"No clear front near the coast today.",
@@ -237,8 +265,8 @@ const T={
   comp:["N","NE","E","SE","S","SW","W","NW"],min:"min",depth:"Depth",depthl:"Sea-floor depth m (GEBCO)",xlink:"Offshore radar →"}};
 const NAME={ar:p=>p.ar,fr:p=>p.fr,en:p=>p.fr};
 const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
-let L="ar",PI=0,ZI=0,layer="score";
-try{L=localStorage.getItem("cr_l")||L;PI=+localStorage.getItem("cr_p")||0}catch(e){}
+let L="ar",PI=0,ZI=0,layer="score",MODE="oct";
+try{L=localStorage.getItem("cr_l")||L;PI=+localStorage.getItem("cr_p")||0;MODE=localStorage.getItem("cr_mode")||"oct"}catch(e){}
 const t=k=>T[L][k];
 
 /* ---------- helpers ---------- */
@@ -252,7 +280,7 @@ function trip(z){const b=boat(),h=z.km/1.852/b.s;return{min:Math.round(h*60),fue
 let P,G,NAN;
 function decode(p){
   const g=p.grid,N=g.n*g.m,f=(a,k)=>{const o=new Float32Array(N);for(let i=0;i<N;i++)o[i]=a&&a[i]!=null?a[i]/k:NaN;return o};
-  return {n:g.n,m:g.m,lat0:g.lat0,lon0:g.lon0,cell:g.cell,score:f(g.score,99),sst:f(g.sst,10),chl:g.chl?f(g.chl,100):null,depth:g.depth?f(g.depth,1):null,
+  return {n:g.n,m:g.m,lat0:g.lat0,lon0:g.lon0,cell:g.cell,score:f(g.score,99),sst:f(g.sst,10),chl:g.chl?f(g.chl,100):null,depth:g.depth?f(g.depth,1):null,bt:g.bt?f(g.bt,10):null,
     cos:Math.cos(p.point.lat*Math.PI/180)};
 }
 const gx=(g,lon)=>(lon-g.lon0)/g.cell, gy=(g,lat)=>(g.lat0-lat)/g.cell;
@@ -380,6 +408,10 @@ function frame(now){
     cx.fillStyle="#e6f6ff";cx.textAlign="left";cx.fillText(lab,lx+5,ly+9.5);
   });
   pings=pings.filter(q=>tm-q.t<1.4);
+  // saved pot lines
+  for(const q of POTS){const x=sx(gx(G,q.lon)+.5),y=sy(gy(G,q.lat)+.5);if(x<-20||y<-20||x>W+20||y>H+20)continue;
+    cx.save();cx.translate(x,y);cx.rotate(Math.PI/4);cx.fillStyle="#ffb547";cx.strokeStyle="#020a12";cx.lineWidth=1.5;cx.fillRect(-5,-5,10,10);cx.strokeRect(-5,-5,10,10);cx.restore();
+    cx.font="600 10px Readex Pro, sans-serif";cx.fillStyle="#ffb547";cx.textAlign="left";cx.textBaseline="middle";cx.fillText(q.name,x+9,y)}
   for(const q of pings){const z=Z[q.i];if(!z)continue;const x=sx(gx(G,z.lon)+.5),y=sy(gy(G,z.lat)+.5),k=(tm-q.t)/1.4;cx.beginPath();cx.arc(x,y,14+40*k,0,7);cx.strokeStyle=`rgba(93,255,168,${.7*(1-k)})`;cx.lineWidth=2;cx.stroke()}
   // landing point
   cx.save();cx.translate(X0,Y0);cx.fillStyle="#4fe6ff";cx.shadowColor="#4fe6ff";cx.shadowBlur=12;cx.beginPath();
@@ -413,22 +445,25 @@ function readout(X,Y){const[c,r]=fromS(X,Y),ci=Math.round(c-.5),ri=Math.round(r-
   if(isNaN(G.sst[i])){el.innerHTML=`${dm(lat,"N","S",2)} ${dm(lon,"E","W",3)}<br>LAND`;return}
   const ch=G.chl&&!isNaN(G.chl[i])?(10**G.chl[i]).toFixed(2)+" mg/m³":"—";
   const dp=G.depth&&!isNaN(G.depth[i])?Math.round(G.depth[i])+" m":"—";
-  el.innerHTML=`${dm(lat,"N","S",2)} ${dm(lon,"E","W",3)}<br>SST <b>${G.sst[i].toFixed(1)}°C</b> · CHL <b>${ch}</b><br>DEPTH <b>${dp}</b> · SCORE <b>${Math.round(G.score[i]*100)}</b>`}
+  const bt=G.bt&&!isNaN(G.bt[i])?G.bt[i].toFixed(1)+"°C":"—";
+  el.innerHTML=`${dm(lat,"N","S",2)} ${dm(lon,"E","W",3)}<br>SST <b>${G.sst[i].toFixed(1)}°C</b> · BOTTOM <b>${bt}</b><br>DEPTH <b>${dp}</b> · CHL <b>${ch}</b> · SCORE <b>${Math.round(G.score[i]*100)}</b>`}
 
 /* ---------- side panel ---------- */
 function side(){
   const Z=P.zones,box=$("#zones");box.innerHTML="";
-  if(!Z.length){box.innerHTML=`<p class="note">${t("none")}</p>`}
+  safetyCard();potsUI();
+  if(!Z.length){box.innerHTML=`<p class="note">${t(MODE==="oct"?"noneOct":"none")}</p>`}
   Z.forEach((z,i)=>{const tr=trip(z),b=document.createElement("button");b.className="zone";b.type="button";b.setAttribute("aria-pressed",i===ZI);
-    b.innerHTML=`<span class="zid c-${z.conf}">${z.id}</span><span class="zpos">${pos(z)}</span><span class="pill c-${z.conf}">${t(z.conf)}</span>
+    b.innerHTML=`<span class="zid c-${z.conf}">${z.id}</span><span class="zpos">${pos(z)}</span><span class="pill c-${z.conf}">${MODE==="oct"&&z.pct!=null?t("fit")+" "+z.pct+"%":t(z.conf)}</span>
     <span class="zsub"><span><b class="num">${z.km}</b> ${t("km")} ${comp(z.brg)} <span class="num">(${z.brg}°)</span></span><span><b class="num">${z.shore_km}</b> ${t("km")} ${t("shore")}</span>${z.depth_m?`<span>${t("depth")} <b class="num">${z.depth_m} m</b></span>`:""}<span>${t("eta")} <b class="num">${tr.min}</b> ${t("min")}</span></span>`;
     b.onclick=()=>{ZI=i;side()};box.appendChild(b)});
   const z=Z[ZI];$("#whyz").textContent=z?`${t("zone")} ${z.id}`:"";
   const f=z?z.f||{}:{},row=(k,v)=>`<div class="bar"><span>${t(k)}</span><span class="t"><i style="width:${v==null?0:Math.round(v*100)}%"></i></span><span class="v">${v==null?"—":Math.round(v*100)}</span></div>`;
-  $("#why").innerHTML=z?row("front",f.front)+row("chl",f.chl)+row("cold",f.cold)+(f.chl==null?`<p class="note">${t("nochl")}</p>`:""):"";
+  $("#why").innerHTML=!z?"":MODE==="oct"?row("dep",f.depth)+row("tmp",f.temp)+row("food",f.food):row("front",f.front)+row("chl",f.chl)+row("cold",f.cold)+(f.chl==null?`<p class="note">${t("nochl")}</p>`:"");
   const tr=z?trip(z):null;
-  $("#facts").innerHTML=z?`<div class="fact"><span class="lbl">${t("sst")}</span><b>${z.sst??"—"}<small>°C</small></b></div>
-   <div class="fact"><span class="lbl">${t("chlv")}</span><b>${z.chl_mg??"—"}<small> mg</small></b></div>
+  $("#facts").innerHTML=z?(MODE==="oct"?`<div class="fact"><span class="lbl">${t("depth")}</span><b>${z.depth_m??"—"}<small> m</small></b></div>
+   <div class="fact"><span class="lbl">${t("bt")}</span><b>${z.bt??"—"}<small>°C</small></b></div>`:`<div class="fact"><span class="lbl">${t("sst")}</span><b>${z.sst??"—"}<small>°C</small></b></div>
+   <div class="fact"><span class="lbl">${t("chlv")}</span><b>${z.chl_mg??"—"}<small> mg</small></b></div>`)+`
    <div class="fact"><span class="lbl">${t("fuel")}</span><b>${tr.fuel}<small> L</small></b><span class="lbl" style="letter-spacing:0;text-transform:none">${t("rt")}</span></div>`:"";
   $("#copy").textContent=t("copy");
   navPanel();
@@ -453,6 +488,52 @@ function navPanel(){
   $("#gpxb").onclick=function(){const b=this;try{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([gpxFile()],{type:"application/gpx+xml"}));
     a.download=`dakhla-${P.point.id}-${P.date||DATA.day}.gpx`;document.body.appendChild(a);a.click();a.remove();b.textContent="✓ "+t("gpxok");setTimeout(()=>b.textContent="⬇ "+t("gpx"),1600)}catch(e){copyText(gpxFile(),b,t("copiedc"),"⬇ "+t("gpx"))}};
 }
+
+/* ---------- safety + season ---------- */
+function safetyCard(){
+  const sf=P.safety||{level:"unknown"},lv=sf.level||"unknown",el=$("#safe"),se=DATA.season||{status:"check"};
+  el.className="glass sec safe "+lv;
+  const season=se.status==="open"?t("seasonOpen")+(se.until?` · ${t("until")} <span class="num">${se.until}</span>`:""):se.status==="closed"?t("seasonClosed")+(se.next?` · ${t("next")} <span class="num">${se.next}</span>`:""):t("seasonCheck");
+  el.innerHTML=`<span class="lbl">${t("safeT")} · ${NAME[L](P.point)}</span><div class="big"><i></i><span>${t(lv)}</span></div>
+   <div class="row2"><span>${t("wind")} <b>${sf.wind_kn??"—"} kn</b></span><span>${t("wave")} <b>${sf.wave_m??"—"} m</b></span></div>
+   <div class="season">${season}</div><p class="note">${t("safeNote")}</p>`;
+}
+/* ---------- pots log (stays on the phone) ---------- */
+const POTK="cr_pots";let POTS=[],HERE=null;
+function potsLoad(){try{POTS=JSON.parse(localStorage.getItem(POTK)||"[]")||[]}catch(e){POTS=POTS||[]}return POTS}
+function potsSave(){try{localStorage.setItem(POTK,JSON.stringify(POTS))}catch(e){}}
+function kmBrg(a,b){const R=6371,p1=a.lat*Math.PI/180,p2=b.lat*Math.PI/180,dl=(b.lon-a.lon)*Math.PI/180;
+  const d=2*R*Math.asin(Math.sqrt(Math.sin((p2-p1)/2)**2+Math.cos(p1)*Math.cos(p2)*Math.sin(dl/2)**2));
+  const y=Math.sin(dl)*Math.cos(p2),x=Math.cos(p1)*Math.sin(p2)-Math.sin(p1)*Math.cos(p2)*Math.cos(dl);return[d,(Math.atan2(y,x)*180/Math.PI+360)%360]}
+function potsGpx(){const esc=x=>String(x).replace(/[<>&"]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;"}[c]));
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Dakhla Coast Radar" xmlns="http://www.topografix.com/GPX/1/1">`+
+  POTS.map(q=>`<wpt lat="${q.lat.toFixed(6)}" lon="${q.lon.toFixed(6)}"><name>${esc(q.name)}</name><time>${esc(q.t)}</time><sym>Buoy, White</sym></wpt>`).join("")+`</gpx>`}
+function potsUI(){
+  potsLoad();const box=$("#pots");$("#t-pots").textContent=t("pots");
+  const list=POTS.length?POTS.map((q,i)=>{let d="";if(HERE){const[k,b]=kmBrg(HERE,q);d=`<span class="d">${t("away")} <span class="num">${k<10?k.toFixed(2):k.toFixed(1)} km · ${Math.round(b)}°</span></span>`}
+    return `<div class="pot"><b>${q.name.replace(/[<>&]/g,"")}</b><span class="acts"><a class="cbtn" href="geo:${q.lat},${q.lon}?q=${q.lat},${q.lon}(${encodeURIComponent(q.name)})">${t("potGo")}</a><button class="cbtn" type="button" data-del="${i}">${t("potDel")}</button></span>
+      <span class="c">${pos(q)} · ${q.t.slice(5,16).replace("T"," ")}</span>${d}</div>`}).join(""):`<p class="note">${t("potNone")}</p>`;
+  box.innerHTML=`<div class="potbtns"><button class="nbtn" type="button" id="potHere">📍 ${t("potHere")}</button><button class="nbtn" type="button" id="potGpx" ${POTS.length?"":"disabled"}>⬇ GPX</button></div>
+    <div id="potList">${list}</div>
+    <details style="margin-top:8px"><summary class="note" style="cursor:pointer">${t("potAdd")}</summary><div class="potadd">
+      <input id="potLat" inputmode="decimal" placeholder="23.6123" aria-label="lat"><input id="potLon" inputmode="decimal" placeholder="-16.0456" aria-label="lon">
+      <input id="potName" class="nm" placeholder="${t("potName")}"><button class="cbtn" type="button" id="potAdd">${t("potAdd")}</button></div></details>
+    <p class="note" style="margin-top:8px">${t("potNote")}</p>`;
+  const add=(lat,lon,name,acc)=>{POTS.push({name:name||`${t("row")} ${POTS.length+1}`,lat:+lat.toFixed(6),lon:+lon.toFixed(6),t:new Date().toISOString(),acc:acc||null});potsSave();potsUI()};
+  $("#potHere").onclick=function(){const b=this;if(!navigator.geolocation){b.textContent=t("potErr");return}b.textContent=t("potWait");
+    navigator.geolocation.getCurrentPosition(g=>{HERE={lat:g.coords.latitude,lon:g.coords.longitude};add(g.coords.latitude,g.coords.longitude,"",Math.round(g.coords.accuracy))},
+      ()=>{b.textContent=t("potErr");setTimeout(()=>b.textContent="📍 "+t("potHere"),2600)},{enableHighAccuracy:true,timeout:20000,maximumAge:0})};
+  $("#potAdd").onclick=()=>{const la=parseFloat(($("#potLat").value||"").replace(",",".")),lo=parseFloat(($("#potLon").value||"").replace(",","."));
+    if(!isFinite(la)||!isFinite(lo)||Math.abs(la)>90||Math.abs(lo)>180)return;add(la,lo,$("#potName").value.trim())};
+  $("#potGpx").onclick=function(){try{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([potsGpx()],{type:"application/gpx+xml"}));a.download="dakhla-pots.gpx";document.body.appendChild(a);a.click();a.remove()}catch(e){copyText(potsGpx(),this,t("copiedc"),"⬇ GPX")}};
+  box.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{if(b.dataset.sure){POTS.splice(+b.dataset.del,1);potsSave();potsUI()}else{b.dataset.sure=1;b.textContent=t("potSure");setTimeout(()=>{if(b.isConnected){delete b.dataset.sure;b.textContent=t("potDel")}},2500)}});
+}
+/* ---------- mode: octopus / fish ---------- */
+function setMode(m){MODE=m==="fish"?"fish":"oct";try{localStorage.setItem("cr_mode",MODE)}catch(e){}
+  DATA.points.forEach(q=>{if(!q._z){q._z=q.zones;q.grid._s=q.grid.score}q.zones=MODE==="oct"?q._z:(q.zones_fish||q._z);q.grid.score=MODE==="oct"?q.grid._s:(q.grid.fish||q.grid._s)});
+  document.querySelectorAll("#modes button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m===MODE));
+  if(P)select(PI)}
+document.querySelectorAll("#modes button").forEach(b=>b.onclick=()=>setMode(b.dataset.m));
 
 /* ---------- conditions ---------- */
 function conditions(){
@@ -493,13 +574,13 @@ function conditions(){
 
 /* ---------- message ---------- */
 function message(){
-  const p=P.point,Z=P.zones,lines=[`🎣 ${t("radar")} · ${NAME[L](p)} · ${DATA.day}`,t("species"),""];
-  if(!Z.length)lines.push(t("none"));
+  const p=P.point,Z=P.zones,sf=P.safety||{level:"unknown"},lines=[`${MODE==="oct"?"🐙":"🎣"} ${t("radar")} · ${NAME[L](p)} · ${DATA.day}`,`${{go:"🟢",caution:"🟡",no:"🔴"}[sf.level]||"⚪"} ${t(sf.level||"unknown")}`,MODE==="oct"?t("spOct"):t("species"),""];
+  if(!Z.length)lines.push(t(MODE==="oct"?"noneOct":"none"));
   Z.forEach(z=>{const tr=trip(z);lines.push(`${z.id}: ${pos(z)}`,`   ${z.km} ${t("km")} ${comp(z.brg)} ${t("from")} ${NAME[L](p)} · ${z.shore_km} ${t("km")} ${t("shore")} · ${t(z.conf)} · ${t("fuel")} ~${tr.fuel} L`)});
   const c=P.conditions||{};lines.push("");
   if(c.tides&&c.tides.length)lines.push(t("tides")+": "+c.tides.map(([k,tt])=>(k==="high"?t("hi"):t("lo"))+" "+tt.slice(11,16)).join(" · "));
   if(c.wind_kn!=null)lines.push(`${t("wind")} ${c.wind_kn} kn · ${t("wave")} ${c.wave_max??"—"} m`);
-  lines.push("",t("note"));return lines.join("\n");
+  lines.push("",t(MODE==="oct"?"noteOct":"note"),t("safeNote"));return lines.join("\n");
 }
 $("#copy").onclick=function(){const m=message(),b=this;
   const ok=()=>{b.textContent=t("copied");b.classList.add("ok");setTimeout(()=>{b.textContent=t("copy");b.classList.remove("ok")},1600)};
@@ -516,13 +597,15 @@ function header(){
   const cov=P.chl_cover;
   $("#leds").innerHTML=`<span><i></i>SST MUR 1km</span><span><i class="${cov>.15?"":"w"}"></i>CHL ${cov>.15?Math.round(cov*100)+"%":t("clouds")}</span><span><i class="${P.conditions&&P.conditions.series?"":"w"}"></i>WIND·TIDE</span>`;
   $("#hpt").textContent=(NAME[L](P.point)+" · "+t("radar")).toUpperCase();$("#hday").textContent=`SST ${DATA.sst_day} · BUILT ${DATA.made||""}`;
-  $("#hsrc").textContent="NASA MUR SST · Copernicus Marine · GEBCO · Open-Meteo";
-  $("#species").textContent=t("species");$("#species").classList.toggle("num",false);$("#xlink").textContent=t("xlink");
+  $("#hsrc").textContent="NASA MUR SST · Copernicus Marine (bottom T) · GEBCO · Open-Meteo";
+  $("#species").textContent=MODE==="oct"?t("spOct"):t("species");$("#species").classList.toggle("num",false);$("#xlink").textContent=t("xlink");
 }
 function texts(){
   const con=$("#con");con.dir=L==="ar"?"rtl":"ltr";con.lang=L;document.documentElement.lang=L;
   [["#t-nav","nav"],["#t-zones","zones"],["#t-why","why"],["#t-boat","boat"],["#t-speed","speed"],["#t-cons","cons"],["#t-note","note"],["#t-tide","tide"],["#t-wind","wind"]].forEach(([s,k])=>$(s).textContent=t(k));
   document.querySelectorAll(".langs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===L));
+  document.querySelectorAll("#modes button").forEach(b=>{b.textContent=t(b.dataset.m==="oct"?"mOct":"mFish");b.setAttribute("aria-pressed",b.dataset.m===MODE)});
+  $("#t-note").textContent=t(MODE==="oct"?"noteOct":"note");
 }
 document.querySelectorAll(".langs button").forEach(b=>b.onclick=()=>{L=b.dataset.l;try{localStorage.setItem("cr_l",L)}catch(e){}texts();header();side();conditions();raster()});
 document.querySelectorAll("#layers button").forEach(b=>b.onclick=()=>{layer=b.dataset.v;document.querySelectorAll("#layers button").forEach(q=>q.setAttribute("aria-pressed",q===b));raster()});
@@ -535,7 +618,7 @@ function select(i){PI=i;ZI=0;try{localStorage.setItem("cr_p",i)}catch(e){}P=DATA
 function boot(){
   const b=$("#boot"),l=$("#bootl");
   if(!DATA){b.classList.add("off");$(".mapbox").innerHTML='<div class="empty">No data yet. Run coastal.py to build today\'s map.</div>';return}
-  $("#demo").hidden=!DATA.demo;texts();if(PI>=DATA.points.length)PI=0;size();select(PI);requestAnimationFrame(frame);
+  $("#demo").hidden=!DATA.demo;potsLoad();setMode(MODE);texts();if(PI>=DATA.points.length)PI=0;size();select(PI);requestAnimationFrame(frame);
   const cov=Math.round(Math.max(...DATA.points.map(q=>q.chl_cover))*100);
   const rows=[["NASA MUR SST · 1 km",DATA.sst_day,""],["COPERNICUS CHL",cov>15?cov+"%":"CLOUDS",cov>15?"":"w"],["WIND · UPWELLING","OK",""],["TIDES","OK",""],["LANDING POINTS",DATA.points.length+"",""],["ZONES",DATA.points.reduce((a,q)=>a+q.zones.length,0)+"",""]];
   l.innerHTML=rows.map(r=>`<div class="ln"><span>${r[0]}</span><b class="${r[2]}">${r[1]} ✓</b></div>`).join("");
