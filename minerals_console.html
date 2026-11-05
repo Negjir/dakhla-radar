@@ -56,7 +56,7 @@ button{font:inherit;color:inherit}
 .scale{position:absolute;z-index:5;bottom:14px;left:50%;transform:translateX(-50%);font:500 11px var(--mono);color:var(--ink);direction:ltr;text-align:center;pointer-events:none}
 .scale i{display:block;height:6px;border:2px solid var(--ink);border-top:0;margin-top:2px}
 .tip{position:absolute;z-index:6;pointer-events:none;background:var(--glass2);border:1px solid var(--edge2);border-radius:7px;padding:5px 8px;font:500 12px var(--mono);direction:ltr;white-space:nowrap;display:none}
-.layers{position:absolute;z-index:5;top:10px;inset-inline-start:10px;display:flex;flex-wrap:wrap;gap:5px;max-width:calc(100% - 20px)}
+.layers{position:absolute;z-index:5;top:10px;inset-inline-start:10px;display:flex;flex-wrap:wrap;gap:5px;max-width:calc(100% - 190px)}
 .layers button{border:1px solid var(--edge);background:var(--glass2);border-radius:8px;padding:6px 10px;font-size:12.5px;font-weight:600;color:var(--mute);cursor:pointer;min-height:34px}
 .layers button[aria-pressed="true"]{border-color:var(--edge2);color:var(--ink);background:rgba(60,38,16,.92)}
 .legend{position:absolute;z-index:5;bottom:56px;inset-inline-start:10px;background:var(--glass2);border:1px solid var(--edge);border-radius:8px;padding:7px 10px;font-size:12px;color:var(--mute);max-width:min(330px,calc(100% - 20px))}
@@ -104,6 +104,7 @@ details[open] summary::after{content:"−"}
 .foot{font:500 11px var(--mono);color:var(--dim);direction:ltr;line-height:1.6}
 @media (max-width:900px){
   .reveal{display:none}
+  .layers{max-width:calc(100% - 20px)}
   .legend{bottom:12px;max-width:calc(100% - 72px);inset-inline-start:10px}
   .zoom{bottom:12px}
   .scale{bottom:auto;top:118px}
