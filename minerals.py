@@ -277,7 +277,7 @@ def targets(score, valid, box):
         out.append({
             "lat": round(lat1 - (cy + 0.5) * RES, 5), "lon": round(lon0 + (cx + 0.5) * RES, 5),
             "area_ha": round(npx * px_area_m2(box) / 1e4, 1),
-            "strength": float(wgt.sum()), "peak": round(float(wgt.max()), 2),
+            "strength": float(wgt.sum()), "peak": round(float(wgt.max()), 2), "_comp": i,
         })
     out.sort(key=lambda t: -t["strength"])
     out = out[:N_TARGETS]
@@ -288,7 +288,106 @@ def targets(score, valid, box):
             t["label"] = "T%d" % (r + 1)
             t["rel"] = round(100 * t["strength"] / top)
             del t["strength"]
+    targets.last_labels = lab
     return out, float(anom.sum()) * px_area_m2(box) / 1e6, thr
+
+
+# ----------------------------------------------------------------------------- GIS export
+def _polys(lab, comps, box):
+    """Vectorise target patches (lon/lat polygons). Needs rasterio; returns {} without it."""
+    try:
+        from rasterio import features
+        from rasterio.transform import from_origin
+    except ImportError:
+        return {}
+    lat0, lat1, lon0, lon1 = box
+    tr = from_origin(lon0, lat1, RES, RES)
+    out = {}
+    for c in comps:
+        m = (lab == c).astype("uint8")
+        out[c] = [g for g, v in features.shapes(m, mask=m.astype(bool), transform=tr) if v == 1]
+    return out
+
+
+def _kml_coords(ring):
+    return " ".join("%.6f,%.6f,0" % (x, y) for x, y in ring)
+
+
+def gis_export(site, score, valid, z, tg, folder):
+    """MADAR-<id>-GIS.zip: targets (GeoJSON + KML, points and polygons), score GeoTIFF (20 m), index z-scores (40 m)."""
+    import io
+    import zipfile
+    from xml.sax.saxutils import escape
+
+    lat0, lat1, lon0, lon1 = site["box"]
+    lab = getattr(targets, "last_labels", None)
+    polys = _polys(lab, [t["_comp"] for t in tg], site["box"]) if lab is not None else {}
+    feats = []
+    for t in tg:
+        props = {k: t[k] for k in ("label", "rank", "area_ha", "rel", "peak", "lat", "lon")}
+        props["site"] = site["name"]
+        feats.append({"type": "Feature", "properties": props, "geometry": {"type": "Point", "coordinates": [t["lon"], t["lat"]]}})
+        for g in polys.get(t["_comp"], []):
+            feats.append({"type": "Feature", "properties": dict(props, kind="patch"), "geometry": g})
+    for k in site.get("known", []):
+        feats.append({"type": "Feature", "properties": {"label": "KNOWN", "name": k["name"], "kind": k["kind"], "src": k["src"]},
+                      "geometry": {"type": "Point", "coordinates": [k["lon"], k["lat"]]}})
+    gj = json.dumps({"type": "FeatureCollection", "name": "MADAR targets " + site["name"], "features": feats})
+    pm = []
+    for t in tg:
+        d = "Rank %d - %.1f ha - strength %d%% of T1" % (t["rank"], t["area_ha"], t["rel"])
+        pm.append("<Placemark><name>%s</name><description>%s</description><styleUrl>#t</styleUrl><Point><coordinates>%.6f,%.6f,0</coordinates></Point></Placemark>"
+                  % (t["label"], escape(d), t["lon"], t["lat"]))
+        for g in polys.get(t["_comp"], []):
+            rings = g["coordinates"]
+            inner = "".join("<innerBoundaryIs><LinearRing><coordinates>%s</coordinates></LinearRing></innerBoundaryIs>" % _kml_coords(r) for r in rings[1:])
+            pm.append("<Placemark><name>%s patch</name><styleUrl>#p</styleUrl><Polygon><outerBoundaryIs><LinearRing><coordinates>%s</coordinates></LinearRing></outerBoundaryIs>%s</Polygon></Placemark>"
+                      % (t["label"], _kml_coords(rings[0]), inner))
+    kml = ('<?xml version="1.0" encoding="UTF-8"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document><name>MADAR %s</name>'
+           '<Style id="t"><IconStyle><color>ff3d8aff</color></IconStyle></Style>'
+           '<Style id="p"><LineStyle><color>ff5cb8ff</color><width>2</width></LineStyle><PolyStyle><color>553d8aff</color></PolyStyle></Style>%s</Document></kml>'
+           % (escape(site["name"]), "".join(pm)))
+    readme = """MADAR Minerals - %s
+CRS: WGS84 geographic (EPSG:4326). Source: ESA Copernicus Sentinel-2 L2A.
+targets.geojson / targets.kml : ranked targets T1..T%d (points = weighted centre, polygons = anomalous patch),
+                                plus the known reference site(s) used only for the blind test.
+madar_score_20m.tif           : MADAR prospectivity score (float32, 0 = masked: vegetation, water, shadow, cloud).
+indices_z_40m.tif             : robust z-scores x100 (int16) of the band-ratio indices, one band each:
+                                %s
+Model: %s. Targets = top %.1f%% of the score, grouped, ranked by size x intensity.
+Limits: MADAR narrows the search area; it does not prove a deposit. Field sampling and drilling decide.
+""" % (site["name"], len(tg), ", ".join(sorted(z)), site["profile"], TOP_PERCENT)
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
+        zf.writestr("README.txt", readme)
+        zf.writestr("targets.geojson", gj)
+        zf.writestr("targets.kml", kml)
+        try:
+            import rasterio
+            from rasterio.transform import from_origin
+            h, w = score.shape
+            for name, arr, res, dtype, nodata in (
+                    ("madar_score_20m.tif", np.where(valid, score, 0).astype("float32")[None], RES, "float32", 0),
+                    ("indices_z_40m.tif", np.stack([np.nan_to_num(np.clip(z[k], -300, 300) * 100, nan=-32768)[::2, ::2]
+                                                    for k in sorted(z)]).astype("int16"), RES * 2, "int16", -32768)):
+                mem = io.BytesIO()
+                with rasterio.MemoryFile() as mf:
+                    with mf.open(driver="GTiff", width=arr.shape[2], height=arr.shape[1], count=arr.shape[0], dtype=dtype,
+                                 crs="EPSG:4326", transform=from_origin(lon0, lat1, res, res), nodata=nodata,
+                                 compress="deflate", predictor=(3 if dtype == "float32" else 2)) as ds:
+                        ds.write(arr)
+                        if name.startswith("indices"):
+                            for b, k in enumerate(sorted(z), 1):
+                                ds.set_band_description(b, k)
+                    zf.writestr(name, mf.read())
+        except ImportError:
+            print("[warn] rasterio not installed: GIS zip without GeoTIFFs")
+    path = folder / ("MADAR-%s-GIS.zip" % site["id"])
+    path.write_bytes(buf.getvalue())
+    for t in tg:
+        t.pop("_comp", None)
+    print("[ok] %s (%.1f MB)" % (path.name, path.stat().st_size / 1e6))
+    return path.name
 
 
 def px_area_m2(box):
@@ -395,6 +494,7 @@ def run_site(site, demo):
     total_km2 = w * h * px_area_m2(site["box"]) / 1e6
     folder = OUT / site["id"]
     save_images(site, b, idx, score, valid, folder)
+    gis = gis_export(site, score, valid, z, tg, folder)
     res = {
         "id": site["id"], "name": site["name"], "name_ar": site["name_ar"], "country": site["country"],
         "metal": site["metal"], "metal_ar": site["metal_ar"], "profile": site["profile"],
@@ -405,6 +505,7 @@ def run_site(site, demo):
         "images": {k: f"{site['id']}/{k}" for k in
                    ("truecolor.jpg", "ratios.jpg", "clay.png", "iron.png", "score.png", "ree.png")
                    if (folder / k).exists()},
+        "gis": f"{site['id']}/{gis}",
     }
     for k in bt:
         print("   blind test: %s -> nearest %s at %s km, within %g km: %s, percentile %s" % (

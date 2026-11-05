@@ -24,7 +24,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install rasterio pystac-client numpy scipy pillow
+      - run: pip install rasterio pystac-client numpy scipy pillow reportlab
       - name: Sentinel-2 analysis
         run: |
           if [ "${{ github.event.inputs.site }}" = "list" ]; then python mrds_list.py; exit 0; fi
@@ -32,6 +32,7 @@ jobs:
           ARGS=""
           if [ -n "${{ github.event.inputs.site }}" ]; then ARGS="--site ${{ github.event.inputs.site }}"; fi
           python minerals.py $ARGS
+          python minerals_report.py
       - name: Save results
         run: |
           git config user.name "radar-bot"

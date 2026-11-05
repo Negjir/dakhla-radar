@@ -77,6 +77,8 @@ button{font:inherit;color:inherit}
 .kpi{border:1px solid var(--edge);border-radius:8px;padding:7px 8px;background:rgba(11,8,5,.35)}
 .kpi b{display:block;font:700 18px var(--mono);direction:ltr;text-align:start}
 .kpi span{font-size:11.5px;color:var(--mute)}
+.gisdl{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px;border:1px solid var(--edge2);border-radius:8px;padding:9px;color:var(--gold);font-weight:600;font-size:13px;text-decoration:none;min-height:40px}
+.gisdl:hover{background:rgba(255,184,92,.1)}
 .big{font:700 26px var(--mono);color:var(--gold);direction:ltr;unicode-bidi:isolate}
 .bt{display:flex;gap:10px;align-items:flex-start}
 .badge{flex:none;font:700 12px var(--tech);border-radius:6px;padding:4px 8px;letter-spacing:.04em}
@@ -159,7 +161,7 @@ details[open] summary::after{content:"−"}
 const DATA = /*__DATA__*/null;
 const T = {
   ar:{dir:"rtl",layers:{truecolor:"صورة حقيقية",ratios:"تركيب المؤشرات",clay:"الطين",iron:"أكاسيد الحديد",ree:"العناصر النادرة (تجريبي)",score:"نقاط مدار"},
-    reveal:"اكشف المنجم الحقيقي",hide:"أخفِ المنجم",area:"مساحة البحث",anom:"مناطق الأولوية",red:"تقليص",km2:"كم²",
+    gis:"ملفات GIS (QGIS / ArcGIS)",report:"تقرير الدراسة (PDF)",reveal:"اكشف المنجم الحقيقي",hide:"أخفِ المنجم",area:"مساحة البحث",anom:"مناطق الأولوية",red:"تقليص",km2:"كم²",
     targets:"الأهداف المرتبة (من الأقوى)",strength:"القوة",ha:"هكتار",copy:"نسخ",copied:"نُسخ",
     blindT:"الاختبار الأعمى",blindHidden:"موقع المنجم الحقيقي لم يُستعمل في التحليل. اضغط «اكشف المنجم الحقيقي» لترى هل أشار مدار إليه.",
     hit:(k,t,d,r)=>`${k}: الهدف ${t} يبعد ${d} كم فقط عن الموقع المعروف (الترتيب ${r} من ${DATA_N()}).`,
@@ -174,7 +176,7 @@ const T = {
     rgb:["أحمر = طين","أخضر = أكاسيد الحديد","أزرق = حديد ثنائي"],low:"ضعيف",high:"قوي",known:"الموقع المعروف",
     nearest:"أقرب هدف"},
   fr:{dir:"ltr",layers:{truecolor:"Couleurs réelles",ratios:"Composite d'indices",clay:"Argiles",iron:"Oxydes de fer",ree:"Terres rares (expérimental)",score:"Score MADAR"},
-    reveal:"Révéler la mine réelle",hide:"Masquer la mine",area:"Zone étudiée",anom:"Zones prioritaires",red:"Réduction",km2:"km²",
+    gis:"Fichiers SIG (QGIS / ArcGIS)",report:"Rapport d'étude (PDF)",reveal:"Révéler la mine réelle",hide:"Masquer la mine",area:"Zone étudiée",anom:"Zones prioritaires",red:"Réduction",km2:"km²",
     targets:"Cibles classées (de la plus forte)",strength:"Force",ha:"ha",copy:"Copier",copied:"Copié",
     blindT:"Test à l'aveugle",blindHidden:"La position de la mine n'a pas été utilisée par l'analyse. Cliquez « Révéler la mine réelle » pour vérifier si MADAR la désigne.",
     hit:(k,t,d,r)=>`${k} : la cible ${t} est à seulement ${d} km du site connu (rang ${r} sur ${DATA_N()}).`,
@@ -188,7 +190,7 @@ const T = {
     scenes:"Images utilisées",profile:{alteration:"Modèle : altération hydrothermale (argiles + fer)",iron:"Modèle : minerai de fer (fer ferrique + ferreux)",carbonatite:"Modèle : carbonatite (fer + terres rares expérimental)"},
     rgb:["Rouge = argiles","Vert = oxydes de fer","Bleu = fer ferreux"],low:"faible",high:"fort",known:"Site connu",nearest:"Cible la plus proche"},
   en:{dir:"ltr",layers:{truecolor:"True colour",ratios:"Index composite",clay:"Clay",iron:"Iron oxide",ree:"Rare earths (experimental)",score:"MADAR score"},
-    reveal:"Reveal the real mine",hide:"Hide the mine",area:"Area searched",anom:"Priority zones",red:"Reduction",km2:"km²",
+    gis:"GIS files (QGIS / ArcGIS)",report:"Study report (PDF)",reveal:"Reveal the real mine",hide:"Hide the mine",area:"Area searched",anom:"Priority zones",red:"Reduction",km2:"km²",
     targets:"Ranked targets (strongest first)",strength:"Strength",ha:"ha",copy:"Copy",copied:"Copied",
     blindT:"Blind test",blindHidden:"The mine location was not used by the analysis. Press “Reveal the real mine” to see whether MADAR points to it.",
     hit:(k,t,d,r)=>`${k}: target ${t} is only ${d} km from the known site (rank ${r} of ${DATA_N()}).`,
@@ -319,7 +321,8 @@ function render(keepView){
   $("site").innerHTML = `<div class="lbl">${esc(s.country)}</div><h1>${esc(lang==="ar"?s.name_ar:s.name)}</h1><p>${esc(lang==="ar"?s.metal_ar:s.metal)} · ${esc(t.profile[s.profile])}</p>
     <div class="kpis"><div class="kpi"><b>${s.area_km2.toLocaleString("en")}</b><span>${t.area} (${t.km2})</span></div>
     <div class="kpi"><b>${s.anomaly_km2}</b><span>${t.anom} (${t.km2})</span></div>
-    <div class="kpi"><b style="color:var(--gold)">×${s.reduction.toLocaleString("en")}</b><span>${t.red}</span></div></div>`;
+    <div class="kpi"><b style="color:var(--gold)">×${s.reduction.toLocaleString("en")}</b><span>${t.red}</span></div></div>
+    ${s.gis?`<a class="gisdl" href="${esc(s.gis)}" download>⬇ ${t.gis}</a>`:""}${s.report?`<a class="gisdl" href="${esc(s.report)}" target="_blank" rel="noopener">📄 ${t.report}</a>`:""}`;
   $("tTitle").textContent = t.targets;
   $("targets").innerHTML = s.targets.map(g => `<div class="row" role="button" tabindex="0" data-r="${g.rank}" aria-current="${g.rank===sel}">
       <span class="l">${g.label}</span>

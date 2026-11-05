@@ -134,6 +134,8 @@ def main():
             idx, z, score, valid = M.analyse(b, site["profile"])
             tg, anom_km2, thr = M.targets(score, valid, site["box"])
             bt = M.blind_test(site, tg, score, valid)[0]
+            for t in tg:
+                t.pop("_comp", None)
             p = chance(tg, valid, site["box"])
             thumb(site, b, score, valid, tg, site["known"][0], OUT / (site["id"] + ".jpg"))
         except Exception as e:  # noqa: BLE001
