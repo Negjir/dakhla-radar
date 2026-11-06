@@ -3,279 +3,376 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>MADAR Minerals</title>
+<title>Madar Minerals</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Readex+Pro:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
 <style>
-/* MADAR Minerals console: proof of concept on known mines.
-   Header (brand, site tabs, language), satellite map (layers: true colour, ratio composite, clay, iron, MADAR score;
-   ranked targets; blind-test reveal of the known mine), side panel (search-area reduction, blind test, targets, method, limits).
-   Dark console look shared with the MADAR fishing consoles, with a mineral (copper/amber) accent. */
+/* Madar Minerals - the target console.
+   Identity: the copper minerals themselves. Malachite green ground, native-gold accent (used sparingly),
+   azurite blue for the known reference site, cuprite red for a miss. The map is presented as a printed
+   survey plate: neatline frame with a graduated graticule, classic alternating scale bar, north arrow.
+   Type: Amiri (Arabic) / Spectral (Latin) for titles and figures; IBM Plex Sans (Arabic + Latin) for UI. */
 :root{
-  --void:#0b0805; --glass:rgba(40,28,16,.66); --glass2:rgba(24,17,10,.88); --edge:rgba(255,178,90,.24); --edge2:rgba(255,178,90,.62);
-  --ink:#fbf1e3; --mute:#bfa587; --dim:#7a644c; --gold:#ffb85c; --copper:#ff8a3d; --green:#7dffb0; --cyan:#62e3ff; --red:#ff5a4a;
-  --tech:"Chakra Petch","Readex Pro",system-ui,sans-serif; --ar:"Readex Pro",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
-  color-scheme:dark; background:var(--void);
+  --malachite:#0c1f1b; --malachite-2:#10291f; --panel:#122d27; --rule:#2c5248; --rule-2:#3f6c60;
+  --gold:#cba35c; --gold-2:#e4c88e; --ivory:#efe8d8; --sage:#9fb3a8; --sage-2:#6f877c;
+  --azurite:#5b8bd0; --cuprite:#c45a42; --verdigris:#7fc2a6;
+  --title-ar:"Amiri",serif; --title-lat:"Spectral",Georgia,serif;
+  --ui:"IBM Plex Sans","IBM Plex Sans Arabic",system-ui,sans-serif; --ui-ar:"IBM Plex Sans Arabic","IBM Plex Sans",system-ui,sans-serif;
+  color-scheme:dark;
 }
-html,body{height:100%}
-body{margin:0;background:var(--void);color:var(--ink);font-family:var(--tech);-webkit-text-size-adjust:100%}
 *{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--malachite);color:var(--ivory);font:400 14px/1.55 var(--ui);-webkit-text-size-adjust:100%;
+  background-image:radial-gradient(140% 90% at 70% -10%,#15382f 0%,var(--malachite) 60%)}
+[dir="rtl"] body,[dir="rtl"]{font-family:var(--ui-ar)}
 button{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-.con{min-height:100%;display:grid;grid-template-columns:minmax(0,1fr) 380px;grid-template-rows:auto minmax(0,1fr);gap:8px;padding:10px;
-  background:radial-gradient(120% 80% at 50% 0%,#3a2410 0%,#140d07 55%,#0b0805 100%)}
-.con[dir="rtl"]{font-family:var(--ar)}
-@media (min-width:901px){html,body{overflow:hidden}.con{height:100%}}
-.glass{background:var(--glass);border:1px solid var(--edge);border-radius:10px;box-shadow:inset 0 0 24px rgba(255,184,92,.05);min-width:0}
-.num{direction:ltr;unicode-bidi:isolate;font-family:var(--mono);font-variant-numeric:tabular-nums}
-.lbl{font:600 10.5px var(--tech);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
-[dir="rtl"] .lbl{letter-spacing:0;font-family:var(--ar);font-size:12px}
+a{color:inherit}
+:focus-visible{outline:1.5px solid var(--gold);outline-offset:3px}
+.num{direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums lining-nums}
+.title{font-family:var(--title-lat);font-weight:400;letter-spacing:-.005em}
+[dir="rtl"] .title{font-family:var(--title-ar);letter-spacing:0}
 
-.hd{grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:6px 10px;flex-wrap:wrap}
-.logo{display:flex;align-items:center;gap:9px;direction:ltr;flex:none}
-.logo b{font:700 16px var(--tech);letter-spacing:.06em;white-space:nowrap}
-.logo small{display:block;font:500 10px var(--mono);color:var(--mute);letter-spacing:.08em}
-.tabs{display:flex;gap:6px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tab{flex:none;display:flex;flex-direction:column;align-items:flex-start;border:1px solid var(--edge);background:rgba(24,17,10,.5);border-radius:9px;padding:6px 12px;cursor:pointer;min-height:42px}
-.tab[aria-selected="true"]{border-color:var(--edge2);background:rgba(255,184,92,.13);box-shadow:0 0 16px rgba(255,184,92,.18) inset}
-.tab b{font-weight:600;font-size:14px;white-space:nowrap}
-.tab span{font:500 11px var(--mono);color:var(--mute);white-space:nowrap}
-.tab span.ar{font-family:var(--ar)}
-.langs{display:inline-flex;border:1px solid var(--edge);border-radius:8px;overflow:hidden;direction:ltr;flex:none}
-.langs button{border:0;background:none;padding:7px 10px;font:600 12px var(--tech);color:var(--mute);cursor:pointer;min-height:34px}
-.langs button[aria-pressed="true"]{background:rgba(255,184,92,.16);color:var(--ink)}
-.tlink{flex:none;border:1px solid var(--cyan);color:var(--cyan);border-radius:8px;padding:7px 10px;font:700 12px var(--mono);text-decoration:none;white-space:nowrap}
-.demo{font:700 11px var(--mono);color:#1a1000;background:var(--gold);border-radius:5px;padding:3px 7px;letter-spacing:.08em;direction:ltr}
+.app{min-height:100%;display:grid;grid-template-columns:minmax(0,1fr) 410px;grid-template-rows:auto minmax(0,1fr);}
+@media (min-width:981px){html,body{overflow:hidden}.app{height:100%}}
 
-.mapbox{position:relative;overflow:hidden;min-height:380px;padding:0}
-#map{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab;background:#0b0805}
+/* ---------- header ---------- */
+.hd{grid-column:1/-1;min-width:0;display:flex;align-items:center;gap:28px;padding:14px 28px 12px;border-bottom:1px solid var(--rule)}
+.brand{display:flex;align-items:center;gap:12px;flex:none;text-decoration:none}
+.brand svg{flex:none}
+.brand .wm{display:flex;flex-direction:column;line-height:1}
+.brand .wm b{font:500 24px/1 var(--title-lat);letter-spacing:.02em;color:var(--ivory)}
+.brand .wm span{font-size:12px;color:var(--gold);margin-top:4px;letter-spacing:.04em}
+.sites{display:flex;gap:22px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.sites::-webkit-scrollbar{display:none}
+.site-t{flex:none;border:0;background:none;padding:6px 0 7px;cursor:pointer;text-align:start;color:var(--sage);border-bottom:1.5px solid transparent;transition:color .2s,border-color .2s}
+.site-t b{display:block;font-weight:500;font-size:14.5px;white-space:nowrap}
+.site-t span{display:block;font-size:11.5px;color:var(--sage-2);white-space:nowrap}
+.site-t:hover{color:var(--ivory)}
+.site-t[aria-selected="true"]{color:var(--ivory);border-bottom-color:var(--gold)}
+.hd-end{display:flex;align-items:center;gap:18px;flex:none}
+.proof{font-size:13px;text-decoration:none;color:var(--sage);border-bottom:1px solid var(--rule-2);padding-bottom:1px;white-space:nowrap}
+.proof b{color:var(--gold-2);font-weight:600}
+.proof:hover{color:var(--ivory);border-color:var(--gold)}
+.langs{display:inline-flex;gap:2px;direction:ltr}
+.langs button{border:0;background:none;padding:6px 8px;font-size:13px;color:var(--sage-2);cursor:pointer;min-height:34px;min-width:34px;border-radius:2px}
+.langs button[aria-pressed="true"]{color:var(--ivory);background:rgba(203,163,92,.14)}
+.demo{font-size:11px;color:var(--malachite);background:var(--gold);padding:2px 7px;border-radius:2px}
+
+/* ---------- map plate ---------- */
+.plate{position:relative;min-height:420px;border-inline-end:1px solid var(--rule);background:#0a1916;overflow:hidden}
+#map{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
 #map.drag{cursor:grabbing}
-.zoom{position:absolute;z-index:5;bottom:12px;inset-inline-end:10px;display:grid;gap:4px}
-.zoom button{width:38px;height:38px;border:1px solid var(--edge);background:var(--glass2);border-radius:8px;color:var(--ink);font:700 18px var(--mono);cursor:pointer}
-.scale{position:absolute;z-index:5;bottom:14px;left:50%;transform:translateX(-50%);font:500 11px var(--mono);color:var(--ink);direction:ltr;text-align:center;pointer-events:none}
-.scale i{display:block;height:6px;border:2px solid var(--ink);border-top:0;margin-top:2px}
-.tip{position:absolute;z-index:6;pointer-events:none;background:var(--glass2);border:1px solid var(--edge2);border-radius:7px;padding:5px 8px;font:500 12px var(--mono);direction:ltr;white-space:nowrap;display:none}
-.layers{position:absolute;z-index:5;top:10px;inset-inline-start:10px;display:flex;flex-wrap:wrap;gap:5px;max-width:calc(100% - 190px)}
-.layers button{border:1px solid var(--edge);background:var(--glass2);border-radius:8px;padding:6px 10px;font-size:12.5px;font-weight:600;color:var(--mute);cursor:pointer;min-height:34px}
-.layers button[aria-pressed="true"]{border-color:var(--edge2);color:var(--ink);background:rgba(60,38,16,.92)}
-.legend{position:absolute;z-index:5;bottom:56px;inset-inline-start:10px;background:var(--glass2);border:1px solid var(--edge);border-radius:8px;padding:7px 10px;font-size:12px;color:var(--mute);max-width:min(330px,calc(100% - 20px))}
-.legend .bar{height:8px;border-radius:4px;margin:5px 0 3px;background:linear-gradient(90deg,rgba(180,60,20,.4),#ff8c00,#ffd250,#ffffdc)}
-.legend .rgb{display:flex;gap:10px;flex-wrap:wrap;margin-top:3px}
-.legend .rgb i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-inline-end:4px;vertical-align:-1px}
-.reveal{position:absolute;z-index:5;top:10px;inset-inline-end:10px;border:1px solid var(--cyan);color:var(--cyan);background:var(--glass2);border-radius:8px;padding:8px 12px;font-weight:700;font-size:13px;cursor:pointer;min-height:38px}
-.reveal[aria-pressed="true"]{background:rgba(98,227,255,.16)}
-.tg{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;border:2px solid var(--gold);background:rgba(11,8,5,.78);color:var(--gold);font:700 11px var(--mono);box-shadow:0 0 12px rgba(255,184,92,.6)}
-.tg.top{border-color:#fff3d6;color:#fff3d6;background:rgba(255,138,61,.85);box-shadow:0 0 18px rgba(255,138,61,.9)}
-.kn{width:22px;height:22px;transform:rotate(45deg);border:2px solid var(--cyan);background:rgba(98,227,255,.25);box-shadow:0 0 14px var(--cyan)}
+.layers{position:absolute;z-index:5;top:16px;inset-inline-start:20px;display:flex;flex-wrap:wrap;gap:2px;padding:3px;background:rgba(12,31,27,.86);border:1px solid var(--rule);border-radius:3px;backdrop-filter:blur(6px);max-width:calc(100% - 240px)}
+.layers button{border:0;background:none;padding:6px 11px;font-size:12.5px;color:var(--sage);cursor:pointer;min-height:32px;border-radius:2px;white-space:nowrap}
+.layers button:hover{color:var(--ivory)}
+.layers button[aria-pressed="true"]{color:var(--malachite);background:var(--gold-2);font-weight:600}
+.reveal{position:absolute;z-index:5;top:16px;inset-inline-end:20px;border:1px solid var(--azurite);color:#cfe0f7;background:rgba(12,31,27,.86);border-radius:3px;padding:8px 14px;font-size:13px;font-weight:500;cursor:pointer;min-height:38px;backdrop-filter:blur(6px)}
+.reveal:hover{background:rgba(91,139,208,.18)}
+.reveal[aria-pressed="true"]{background:var(--azurite);color:#fff}
+.legend{position:absolute;z-index:5;bottom:22px;inset-inline-start:20px;background:rgba(12,31,27,.88);border:1px solid var(--rule);border-radius:3px;padding:9px 12px;font-size:12px;color:var(--sage);max-width:min(330px,calc(100% - 40px));backdrop-filter:blur(6px)}
+.legend .bar{height:6px;margin:6px 0 4px;background:linear-gradient(90deg,rgba(180,60,20,.35),#ff8c00,#ffd250,#ffffdc)}
+.legend{min-width:160px}
+.legend .two{display:flex;justify-content:space-between;gap:16px}
+.legend .rgb{display:flex;gap:12px;flex-wrap:wrap}
+.legend .rgb i{display:inline-block;width:9px;height:9px;margin-inline-end:5px;vertical-align:-1px}
+.zoom{position:absolute;z-index:5;bottom:22px;inset-inline-end:20px;display:grid;border:1px solid var(--rule);border-radius:3px;overflow:hidden;background:rgba(12,31,27,.88)}
+.zoom button{width:38px;height:38px;border:0;background:none;color:var(--ivory);font-size:18px;cursor:pointer}
+.zoom button+button{border-top:1px solid var(--rule)}
+.zoom button:hover{background:rgba(203,163,92,.14)}
+.tip{position:absolute;z-index:6;pointer-events:none;background:var(--malachite);border:1px solid var(--gold);border-radius:2px;padding:5px 9px;font-size:12px;direction:ltr;white-space:nowrap;display:none}
 
-.side{display:flex;flex-direction:column;gap:8px;min-height:0;overflow:auto;padding-bottom:4px}
-.card{padding:11px 12px}
-.site h1{margin:0;font-size:19px;font-weight:700}
-.site p{margin:3px 0 0;color:var(--mute);font-size:13px}
-.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
-.kpi{border:1px solid var(--edge);border-radius:8px;padding:7px 8px;background:rgba(11,8,5,.35)}
-.kpi b{display:block;font:700 18px var(--mono);direction:ltr;text-align:start}
-.kpi span{font-size:11.5px;color:var(--mute)}
-.gisdl{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px;border:1px solid var(--edge2);border-radius:8px;padding:9px;color:var(--gold);font-weight:600;font-size:13px;text-decoration:none;min-height:40px}
-.gisdl:hover{background:rgba(255,184,92,.1)}
-.big{font:700 26px var(--mono);color:var(--gold);direction:ltr;unicode-bidi:isolate}
-.bt{display:flex;gap:10px;align-items:flex-start}
-.badge{flex:none;font:700 12px var(--tech);border-radius:6px;padding:4px 8px;letter-spacing:.04em}
-.badge.ok{background:rgba(125,255,176,.15);color:var(--green);border:1px solid rgba(125,255,176,.5)}
-.badge.no{background:rgba(255,90,74,.13);color:var(--red);border:1px solid rgba(255,90,74,.5)}
-.bt p{margin:0;font-size:13.5px;line-height:1.55}
-.bt small{display:block;color:var(--mute);font-size:12px;margin-top:4px}
-.reveal2{margin-top:8px;width:100%;border:1px solid var(--cyan);color:var(--cyan);background:rgba(98,227,255,.08);border-radius:8px;padding:9px 12px;font-weight:700;font-size:13.5px;cursor:pointer;min-height:40px}
-.hidden-note{font-size:13px;color:var(--mute);line-height:1.6}
-.list{display:flex;flex-direction:column;gap:5px;margin-top:8px}
-.row{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:8px;align-items:center;border:1px solid var(--edge);border-radius:8px;padding:7px 8px;cursor:pointer;background:rgba(11,8,5,.3);text-align:start}
-.row:hover,.row[aria-current="true"]{border-color:var(--edge2);background:rgba(255,184,92,.1)}
-.row .l{font:700 13px var(--mono);color:var(--gold);direction:ltr}
-.row .c{display:block;font:500 12px var(--mono);direction:ltr;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:start}
-.row .m{font-size:11.5px;color:var(--mute)}
-.meter{height:5px;border-radius:3px;background:rgba(255,184,92,.15);overflow:hidden;width:58px;direction:ltr}
-.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--copper),var(--gold))}
-.copy{border:1px solid var(--edge);background:none;border-radius:6px;padding:3px 7px;font-size:11px;color:var(--mute);cursor:pointer}
-.txt{font-size:13px;line-height:1.65;color:var(--ink);margin:6px 0 0}
-.txt li{margin-bottom:4px}
-.txt.m{color:var(--mute)}
-details summary{cursor:pointer;font-weight:600;font-size:13.5px;list-style:none;display:flex;justify-content:space-between}
-details summary::after{content:"+";color:var(--gold);font-family:var(--mono)}
+/* ---------- dossier ---------- */
+.dossier{min-height:0;overflow:auto;padding:26px 28px 34px;scrollbar-width:thin;scrollbar-color:var(--rule) transparent}
+.dossier section{padding:20px 0;border-top:1px solid var(--rule)}
+.dossier section:first-child{padding-top:0;border-top:0}
+.head h1{margin:0;font-size:38px;line-height:1.15;color:var(--ivory)}
+.head .sub{margin:6px 0 0;color:var(--sage);font-size:13.5px}
+.head .model{margin:2px 0 0;color:var(--sage-2);font-size:12.5px}
+.ledger{margin:20px 0 0;display:grid;grid-template-columns:1fr auto;row-gap:0;font-size:13.5px}
+.ledger dt{color:var(--sage);padding:9px 0;border-bottom:1px solid rgba(44,82,72,.6)}
+.ledger dd{margin:0;padding:6px 0;border-bottom:1px solid rgba(44,82,72,.6);text-align:end;font:400 20px/1.3 var(--title-lat);color:var(--ivory)}
+.ledger dd small{font:400 12px var(--ui);color:var(--sage-2);margin-inline-start:4px}
+.ledger dd.gold{color:var(--gold-2);font-size:26px}
+.dl{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.dl a{flex:1 1 150px;display:flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:9px 12px;font-size:13px;font-weight:500;text-decoration:none;border:1px solid var(--gold);color:var(--gold-2);border-radius:2px;transition:background .2s,color .2s}
+.dl a:hover{background:var(--gold);color:var(--malachite)}
+.dl a svg{flex:none}
+h2{margin:0 0 10px;font-size:22px;line-height:1.3;color:var(--ivory)}
+.blind p{margin:0;color:var(--sage);font-size:13.5px;line-height:1.7}
+.verdict{display:flex;align-items:baseline;gap:12px;margin-bottom:8px}
+.verdict .v{font:500 24px/1 var(--title-lat)}
+[dir="rtl"] .verdict .v{font-family:var(--title-ar);font-weight:700}
+.verdict .v.ok{color:var(--verdigris)}
+.verdict .v.no{color:var(--cuprite)}
+.blind .main{color:var(--ivory);font-size:14px}
+.blind .meta{margin-top:8px;font-size:12px;color:var(--sage-2);line-height:1.6}
+.reveal2{margin-top:14px;width:100%;min-height:42px;border:1px solid var(--azurite);background:none;color:#cfe0f7;border-radius:2px;font-size:13.5px;font-weight:500;cursor:pointer}
+.reveal2:hover{background:rgba(91,139,208,.16)}
+.tlist{list-style:none;margin:0;padding:0}
+.trow{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:11px 6px;border-bottom:1px solid rgba(44,82,72,.6);cursor:pointer;border-radius:2px}
+.trow:hover{background:rgba(203,163,92,.06)}
+.trow[aria-current="true"]{background:rgba(203,163,92,.11)}
+.trow .rk{grid-row:span 2;font:400 26px/1 var(--title-lat);color:var(--gold);text-align:center}
+.trow .rk sup{font-size:12px;color:var(--sage-2);margin-inline-start:1px}
+.trow .co{font-size:13px;color:var(--ivory);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:start}
+.trow .mt{font-size:12px;color:var(--sage-2)}
+.trow .st{grid-row:span 2;display:grid;justify-items:end;gap:6px}
+.trow .bar{width:64px;height:2px;background:var(--rule);direction:ltr}
+.trow .bar i{display:block;height:100%;background:var(--gold)}
+.copy{border:0;background:none;padding:2px 0;font-size:12px;color:var(--sage);cursor:pointer;border-bottom:1px solid var(--rule-2)}
+.copy:hover{color:var(--ivory);border-color:var(--gold)}
+details summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline}
+details summary::-webkit-details-marker{display:none}
+details summary h2{margin:0}
+details summary::after{content:"+";font:300 22px/1 var(--title-lat);color:var(--gold)}
 details[open] summary::after{content:"−"}
-.foot{font:500 11px var(--mono);color:var(--dim);direction:ltr;line-height:1.6}
-@media (max-width:900px){
+.txt{margin:12px 0 0;font-size:13.5px;line-height:1.75;color:var(--sage)}
+.txt ol,.txt ul{margin:0;padding-inline-start:20px}
+.txt li{margin-bottom:6px}
+.txt b{color:var(--ivory);font-weight:500}
+.src{font-size:11.5px;color:var(--sage-2);line-height:1.7;word-break:break-all}
+.src .num{direction:ltr}
+
+/* ---------- one orchestrated moment: targets settle in by rank ---------- */
+@keyframes settle{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.trow{animation:settle .5s cubic-bezier(.2,.7,.2,1) both}
+
+@media (max-width:980px){
+  .app{grid-template-columns:minmax(0,1fr);grid-template-rows:auto 64vh auto}
+  .plate,.dossier{min-width:0}
+  .hd{flex-wrap:wrap;gap:12px 18px;padding:12px 16px}
+  .sites{order:3;flex-basis:100%}
+  .hd-end{margin-inline-start:auto}
+  .plate{border-inline-end:0;border-bottom:1px solid var(--rule)}
+  .layers{top:10px;inset-inline-start:10px;max-width:calc(100% - 20px)}
   .reveal{display:none}
-  .layers{max-width:calc(100% - 20px)}
-  .legend{bottom:12px;max-width:calc(100% - 72px);inset-inline-start:10px}
-  .zoom{bottom:12px}
-  .scale{bottom:auto;top:118px}
-  .con{grid-template-columns:1fr;grid-template-rows:auto 62vh auto;padding:8px}
-  .side{overflow:visible}
-  .kpi b{font-size:16px}
+  .legend{bottom:12px;inset-inline-start:10px;max-width:calc(100% - 76px)}
+  .zoom{bottom:12px;inset-inline-end:10px}
+  .dossier{overflow:visible;padding:22px 16px 40px}
+  .head h1{font-size:32px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
-<div class="con" id="con" dir="rtl">
-  <header class="hd glass">
-    <div class="logo">
-      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="none" stroke="#ffb85c" stroke-opacity=".5"/><circle cx="16" cy="16" r="8.5" fill="none" stroke="#ffb85c" stroke-opacity=".35"/><path d="M16 6l7 10-7 10-7-10z" fill="#ff8a3d" fill-opacity=".85"/><path d="M16 6l7 10H9z" fill="#ffd9a3" fill-opacity=".8"/></svg>
-      <div><b>MADAR · MINERALS</b><small>SENTINEL-2 · PROOF OF CONCEPT</small></div>
+<div class="app" id="app" dir="rtl">
+  <header class="hd">
+    <a class="brand" href="./" aria-label="Madar Minerals">
+      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+        <circle cx="17" cy="17" r="15.5" fill="none" stroke="#cba35c" stroke-width=".8"/>
+        <circle cx="17" cy="17" r="11" fill="none" stroke="#cba35c" stroke-width=".5" stroke-dasharray="1 2.2"/>
+        <path d="M17 6.5l6.5 10.5L17 27.5 10.5 17z" fill="#1f5c4b" stroke="#e4c88e" stroke-width=".8"/>
+        <path d="M17 6.5l6.5 10.5H10.5z" fill="#e4c88e" fill-opacity=".85"/>
+      </svg>
+      <span class="wm"><b>Madar</b><span id="wmSub">Minerals</span></span>
+    </a>
+    <nav class="sites" id="sites" role="tablist"></nav>
+    <div class="hd-end">
+      <span class="demo" id="demo" hidden>Demo</span>
+      <a class="proof" href="test.html" id="proof"></a>
+      <div class="langs" id="langs"><button data-l="ar">ع</button><button data-l="fr">FR</button><button data-l="en">EN</button></div>
     </div>
-    <span class="demo" id="demo" hidden>DEMO DATA</span>
-    <a class="tlink" href="test.html" id="tlink">TEST · 16</a>
-    <nav class="tabs" id="tabs" role="tablist"></nav>
-    <div class="langs" id="langs"><button data-l="ar">ع</button><button data-l="fr">FR</button><button data-l="en">EN</button></div>
   </header>
 
-  <section class="mapbox glass">
-    <canvas id="map" dir="ltr" aria-label="map"></canvas>
-    <div class="zoom"><button id="zin" aria-label="zoom in">+</button><button id="zout" aria-label="zoom out">−</button></div>
-    <div class="scale" id="scale"></div>
-    <div class="tip" id="tip"></div>
+  <main class="plate" aria-label="map">
+    <canvas id="map" dir="ltr"></canvas>
     <div class="layers" id="layers"></div>
     <button class="reveal" id="reveal" aria-pressed="false"></button>
     <div class="legend" id="legend"></div>
-  </section>
+    <div class="zoom"><button id="zin" aria-label="zoom in">+</button><button id="zout" aria-label="zoom out">−</button></div>
+    <div class="tip" id="tip"></div>
+  </main>
 
-  <aside class="side">
-    <div class="card glass site" id="site"></div>
-    <div class="card glass" id="blind"></div>
-    <div class="card glass">
-      <div class="lbl" id="tTitle"></div>
-      <div class="list" id="targets"></div>
-    </div>
-    <div class="card glass">
-      <details><summary id="mTitle"></summary><div class="txt" id="method"></div></details>
-    </div>
-    <div class="card glass">
-      <details open><summary id="limTitle"></summary><div class="txt m" id="limits"></div></details>
-    </div>
-    <div class="card glass foot" id="foot"></div>
+  <aside class="dossier" id="dossier">
+    <section class="head" id="head"></section>
+    <section class="blind" id="blind"></section>
+    <section><h2 class="title" id="tTitle"></h2><ol class="tlist" id="targets"></ol></section>
+    <section><details><summary><h2 class="title" id="mTitle"></h2></summary><div class="txt" id="method"></div></details></section>
+    <section><details><summary><h2 class="title" id="limTitle"></h2></summary><div class="txt" id="limits"></div></details></section>
+    <section class="src" id="foot"></section>
   </aside>
 </div>
 
 <script>
 const DATA = /*__DATA__*/null;
 const T = {
-  ar:{dir:"rtl",layers:{truecolor:"صورة حقيقية",ratios:"تركيب المؤشرات",clay:"الطين",iron:"أكاسيد الحديد",ree:"العناصر النادرة (تجريبي)",score:"نقاط مدار"},
-    gis:"ملفات GIS (QGIS / ArcGIS)",report:"تقرير الدراسة (PDF)",reveal:"اكشف المنجم الحقيقي",hide:"أخفِ المنجم",area:"مساحة البحث",anom:"مناطق الأولوية",red:"تقليص",km2:"كم²",
-    targets:"الأهداف المرتبة (من الأقوى)",strength:"القوة",ha:"هكتار",copy:"نسخ",copied:"نُسخ",
-    blindT:"الاختبار الأعمى",blindHidden:"موقع المنجم الحقيقي لم يُستعمل في التحليل. اضغط «اكشف المنجم الحقيقي» لترى هل أشار مدار إليه.",
-    hit:(k,t,d,r)=>`${k}: الهدف ${t} يبعد ${d} كم فقط عن الموقع المعروف (الترتيب ${r} من ${DATA_N()}).`,
-    miss:(k,t,d)=>`${k}: أقرب هدف (${t}) يبعد ${d} كم. لم يصب الاختبار في نطاق ${DATA.hit_km} كم.`,
+  ar:{dir:"rtl",wm:"المعادن",proof:h=>`الاختبار الأعمى: <b class="num">${h}</b>`,
+    layers:{score:"نقاط مدار",truecolor:"صورة حقيقية",ratios:"تركيب المؤشرات",clay:"الطين",iron:"أكاسيد الحديد",ree:"العناصر النادرة (تجريبي)"},
+    gis:"ملفات GIS",report:"تقرير الدراسة",reveal:"اكشف المنجم الحقيقي",hide:"أخفِ المنجم",
+    area:"المساحة المدروسة",anom:"مناطق الأولوية",red:"تقليص مساحة البحث",km2:"كم²",
+    targets:"الأهداف المرتبة",ha:"هكتار",rel:"من قوة الهدف الأول",copy:"نسخ",copied:"نُسخ",
+    blindT:"الاختبار الأعمى",blindHidden:"لم يُستعمل موقع المنجم الحقيقي في التحليل. اكشفه لترى هل أشار إليه مدار.",
+    hitV:"إصابة",missV:"لم يُصب",
+    hit:(k,t,d,r)=>`الهدف ${t} يقع على بعد ${d} كم من ${k}، وترتيبه ${r} من ${DATA_N()}.`,
+    miss:(k,t,d)=>`أقرب هدف (${t}) يبعد ${d} كم عن ${k}، خارج نطاق ${DATA.hit_km} كم.`,
     pct:p=>`قيمة مدار حول الموقع أعلى من ${p}% من المنطقة.`,
-    kind:{mine:"منجم مستغَل: الحفر والنفايات تظهر أيضاً، لذا هذا دليل أضعف من موقع لم يُستغل.",occurrence:"تمعدن معروف (عرق)، ليس حفرة منجم كبيرة: دليل أقوى.",prospect:"موقع تنقيب معروف لدى ONHYM، وإحداثياته تقريبية (بضعة كيلومترات)، لذلك هذا ليس اختباراً دقيقاً بل استكشاف."},
+    kind:{mine:"منجم مستغَل: حفره ونفاياته تظهر أيضاً، فهو دليل أضعف من تمعدن غير مستغَل.",occurrence:"تمعدن معروف غير مستغَل بحفرة كبيرة: دليل أقوى.",prospect:"موقع تنقيب معروف لدى ONHYM بإحداثيات تقريبية: استكشاف، لا اختبار دقيق."},
     mTitle:"الطريقة",
-    method:`<ol><li>صور Sentinel-2 (وكالة الفضاء الأوروبية) خالية من الغيوم، بدقة 20 م.</li><li>نسب نطاقات معروفة في الجيولوجيا: <b>الطين</b> = B11/B12 (تحت أحمر قصير)، <b>أكاسيد الحديد</b> = B4/B2، <b>الحديد الثنائي</b> = B12/B8A + B3/B4.</li><li>حذف النبات والماء والظل والغيوم.</li><li>نقاط مدار = مزيج من الشذوذ (أعلى ${'${TOP}'}% من المنطقة)، ثم تجميعها في أهداف مرتبة حسب المساحة والشدة.</li><li>الاختبار الأعمى: إحداثيات المنجم أُضيفت فقط بعد التحليل لقياس المسافة.</li></ol>`,
+    method:`<ol><li>صور Sentinel-2 من وكالة الفضاء الأوروبية، خالية من الغيوم، بدقة 20 م.</li><li>نسب نطاقات معروفة في الجيولوجيا: <b>الطين</b> B11/B12، و<b>أكاسيد الحديد</b> B4/B2، و<b>الحديد الثنائي</b> B12/B8A + B3/B4.</li><li>حذف النبات والماء والظل والغيوم.</li><li>نقاط مدار تجمع الشذوذ (أعلى ${'${TOP}'}% من المنطقة) في أهداف مرتبة حسب المساحة والشدة.</li><li>الاختبار الأعمى: إحداثيات المنجم تُضاف بعد التحليل فقط.</li></ol>`,
     limTitle:"حدود يجب قولها للزبون",
-    limits:`<ul><li>مدار يقلّص مساحة البحث، ولا يثبت وجود المعدن. العينات الميدانية والحفر هي التي تقرر.</li><li>المناجم المستغلة تظهر جزئياً بسبب حفرها ونفاياتها.</li><li>الكثبان الرملية والورنيش الصحراوي قد يخفيان البصمة أو يشوّشانها.</li><li>الإحداثيات المعروفة من مصادر عامة، وقد تبعد بضع مئات من الأمتار.</li></ul>`,
-    scenes:"الصور المستعملة",profile:{alteration:"نموذج: التغيّر الحراري (طين + حديد)",iron:"نموذج: خام الحديد (حديد ثلاثي + ثنائي)",carbonatite:"نموذج: كربوناتيت (حديد + عناصر نادرة تجريبي)"},
-    rgb:["أحمر = طين","أخضر = أكاسيد الحديد","أزرق = حديد ثنائي"],low:"ضعيف",high:"قوي",known:"الموقع المعروف",
-    nearest:"أقرب هدف"},
-  fr:{dir:"ltr",layers:{truecolor:"Couleurs réelles",ratios:"Composite d'indices",clay:"Argiles",iron:"Oxydes de fer",ree:"Terres rares (expérimental)",score:"Score MADAR"},
-    gis:"Fichiers SIG (QGIS / ArcGIS)",report:"Rapport d'étude (PDF)",reveal:"Révéler la mine réelle",hide:"Masquer la mine",area:"Zone étudiée",anom:"Zones prioritaires",red:"Réduction",km2:"km²",
-    targets:"Cibles classées (de la plus forte)",strength:"Force",ha:"ha",copy:"Copier",copied:"Copié",
-    blindT:"Test à l'aveugle",blindHidden:"La position de la mine n'a pas été utilisée par l'analyse. Cliquez « Révéler la mine réelle » pour vérifier si MADAR la désigne.",
-    hit:(k,t,d,r)=>`${k} : la cible ${t} est à seulement ${d} km du site connu (rang ${r} sur ${DATA_N()}).`,
-    miss:(k,t,d)=>`${k} : la cible la plus proche (${t}) est à ${d} km. Pas de touche dans un rayon de ${DATA.hit_km} km.`,
-    pct:p=>`Le score MADAR autour du site dépasse ${p} % de la zone.`,
-    kind:{mine:"Mine en exploitation : fosses et haldes ressortent aussi, preuve plus faible qu'un indice non exploité.",occurrence:"Minéralisation connue (filon), pas une grande fosse : preuve plus forte.",prospect:"Prospect connu de l'ONHYM, position approximative (quelques km) : exploration, pas un test précis."},
+    limits:`<ul><li>مدار يقلّص مساحة البحث، ولا يثبت وجود المعدن. العينات والحفر هي التي تقرر.</li><li>المناجم المستغلة تظهر جزئياً بسبب حفرها ونفاياتها.</li><li>الكثبان والورنيش الصحراوي قد يخفيان البصمة.</li><li>الإحداثيات المعروفة من مصادر عامة، وقد تبعد مئات الأمتار.</li></ul>`,
+    scenes:"الصور المستعملة",profile:{alteration:"نموذج التغيّر الحراري: طين وأكاسيد حديد",iron:"نموذج خام الحديد: حديد ثلاثي وثنائي",carbonatite:"نموذج الكربوناتيت: حديد وعناصر نادرة (تجريبي)"},
+    rgb:["أحمر: طين","أخضر: أكاسيد الحديد","أزرق: حديد ثنائي"],low:"ضعيف",high:"قوي",known:"الموقع المعروف",tc:"Sentinel-2، ألوان حقيقية"},
+  fr:{dir:"ltr",wm:"Minerals",proof:h=>`Test à l'aveugle : <b class="num">${h}</b>`,
+    layers:{score:"Score Madar",truecolor:"Couleurs réelles",ratios:"Composite d'indices",clay:"Argiles",iron:"Oxydes de fer",ree:"Terres rares (expérimental)"},
+    gis:"Fichiers SIG",report:"Rapport d'étude",reveal:"Révéler la mine réelle",hide:"Masquer la mine",
+    area:"Zone étudiée",anom:"Zones prioritaires",red:"Réduction de la zone de recherche",km2:"km²",
+    targets:"Cibles classées",ha:"ha",rel:"de la force de T1",copy:"Copier",copied:"Copié",
+    blindT:"Test à l'aveugle",blindHidden:"La position de la mine n'a pas été utilisée par l'analyse. Révélez-la pour voir si Madar la désigne.",
+    hitV:"Touché",missV:"Manqué",
+    hit:(k,t,d,r)=>`La cible ${t} est à ${d} km de ${k}, au rang ${r} sur ${DATA_N()}.`,
+    miss:(k,t,d)=>`La cible la plus proche (${t}) est à ${d} km de ${k}, au-delà de ${DATA.hit_km} km.`,
+    pct:p=>`Le score Madar autour du site dépasse ${p} % de la zone.`,
+    kind:{mine:"Mine exploitée : fosses et haldes ressortent aussi, preuve plus faible qu'un indice non exploité.",occurrence:"Minéralisation connue sans grande fosse : preuve plus forte.",prospect:"Prospect connu de l'ONHYM, position approximative : exploration, pas un test précis."},
     mTitle:"Méthode",
-    method:`<ol><li>Images Sentinel-2 (ESA) sans nuages, résolution 20 m.</li><li>Rapports de bandes classiques en géologie : <b>argiles</b> = B11/B12, <b>oxydes de fer</b> = B4/B2, <b>fer ferreux</b> = B12/B8A + B3/B4.</li><li>Masquage végétation, eau, ombres et nuages.</li><li>Score MADAR = combinaison des anomalies (top ${'${TOP}'} % de la zone), regroupées en cibles classées par surface et intensité.</li><li>Test à l'aveugle : les coordonnées de la mine ne sont ajoutées qu'après l'analyse.</li></ol>`,
+    method:`<ol><li>Images Sentinel-2 (ESA) sans nuages, résolution 20 m.</li><li>Rapports de bandes classiques : <b>argiles</b> B11/B12, <b>oxydes de fer</b> B4/B2, <b>fer ferreux</b> B12/B8A + B3/B4.</li><li>Masquage de la végétation, de l'eau, des ombres et des nuages.</li><li>Le score Madar regroupe les anomalies (top ${'${TOP}'} % de la zone) en cibles classées par surface et intensité.</li><li>Test à l'aveugle : les coordonnées de la mine ne sont ajoutées qu'après l'analyse.</li></ol>`,
     limTitle:"Limites à dire au client",
-    limits:`<ul><li>MADAR réduit la zone de recherche, il ne prouve pas un gisement. Échantillonnage et forage décident.</li><li>Les mines actives ressortent en partie à cause de leurs fosses et haldes.</li><li>Dunes et vernis désertique peuvent masquer ou brouiller la signature.</li><li>Coordonnées connues issues de sources publiques, à quelques centaines de mètres près.</li></ul>`,
-    scenes:"Images utilisées",profile:{alteration:"Modèle : altération hydrothermale (argiles + fer)",iron:"Modèle : minerai de fer (fer ferrique + ferreux)",carbonatite:"Modèle : carbonatite (fer + terres rares expérimental)"},
-    rgb:["Rouge = argiles","Vert = oxydes de fer","Bleu = fer ferreux"],low:"faible",high:"fort",known:"Site connu",nearest:"Cible la plus proche"},
-  en:{dir:"ltr",layers:{truecolor:"True colour",ratios:"Index composite",clay:"Clay",iron:"Iron oxide",ree:"Rare earths (experimental)",score:"MADAR score"},
-    gis:"GIS files (QGIS / ArcGIS)",report:"Study report (PDF)",reveal:"Reveal the real mine",hide:"Hide the mine",area:"Area searched",anom:"Priority zones",red:"Reduction",km2:"km²",
-    targets:"Ranked targets (strongest first)",strength:"Strength",ha:"ha",copy:"Copy",copied:"Copied",
-    blindT:"Blind test",blindHidden:"The mine location was not used by the analysis. Press “Reveal the real mine” to see whether MADAR points to it.",
-    hit:(k,t,d,r)=>`${k}: target ${t} is only ${d} km from the known site (rank ${r} of ${DATA_N()}).`,
-    miss:(k,t,d)=>`${k}: nearest target (${t}) is ${d} km away. No hit within ${DATA.hit_km} km.`,
-    pct:p=>`The MADAR score around the site is higher than ${p}% of the area.`,
-    kind:{mine:"Working mine: its pits and tailings also show up, so this is weaker proof than an unmined occurrence.",occurrence:"Known mineralisation (vein), not a large pit: stronger proof.",prospect:"ONHYM prospect, approximate position (a few km): exploration, not a precise test."},
+    limits:`<ul><li>Madar réduit la zone de recherche ; il ne prouve pas un gisement. Échantillonnage et forage décident.</li><li>Les mines actives ressortent en partie à cause de leurs fosses et haldes.</li><li>Dunes et patine désertique peuvent masquer la signature.</li><li>Coordonnées de référence issues de sources publiques, à quelques centaines de mètres près.</li></ul>`,
+    scenes:"Images utilisées",profile:{alteration:"Modèle altération hydrothermale : argiles et oxydes de fer",iron:"Modèle minerai de fer : fer ferrique et ferreux",carbonatite:"Modèle carbonatite : fer et terres rares (expérimental)"},
+    rgb:["Rouge : argiles","Vert : oxydes de fer","Bleu : fer ferreux"],low:"faible",high:"fort",known:"Site connu",tc:"Sentinel-2, couleurs réelles"},
+  en:{dir:"ltr",wm:"Minerals",proof:h=>`Blind test: <b class="num">${h}</b>`,
+    layers:{score:"Madar score",truecolor:"True colour",ratios:"Index composite",clay:"Clay",iron:"Iron oxide",ree:"Rare earths (experimental)"},
+    gis:"GIS files",report:"Study report",reveal:"Reveal the real mine",hide:"Hide the mine",
+    area:"Area studied",anom:"Priority zones",red:"Search area reduced",km2:"km²",
+    targets:"Ranked targets",ha:"ha",rel:"of T1's strength",copy:"Copy",copied:"Copied",
+    blindT:"Blind test",blindHidden:"The mine's position was not used by the analysis. Reveal it to see whether Madar points to it.",
+    hitV:"Hit",missV:"Missed",
+    hit:(k,t,d,r)=>`Target ${t} is ${d} km from ${k}, ranked ${r} of ${DATA_N()}.`,
+    miss:(k,t,d)=>`The nearest target (${t}) is ${d} km from ${k}, beyond ${DATA.hit_km} km.`,
+    pct:p=>`The Madar score around the site is higher than ${p}% of the area.`,
+    kind:{mine:"Worked mine: its pits and tailings also show up, so this is weaker proof than an unmined occurrence.",occurrence:"Known mineralisation without a large pit: stronger proof.",prospect:"ONHYM prospect with an approximate position: exploration, not a precise test."},
     mTitle:"Method",
-    method:`<ol><li>Cloud-free Sentinel-2 images (ESA), 20 m resolution.</li><li>Standard geological band ratios: <b>clay</b> = B11/B12, <b>iron oxide</b> = B4/B2, <b>ferrous iron</b> = B12/B8A + B3/B4.</li><li>Vegetation, water, shadow and cloud masked.</li><li>MADAR score = combined anomalies (top ${'${TOP}'}% of the area), grouped into targets ranked by size and intensity.</li><li>Blind test: mine coordinates are added only after the analysis.</li></ol>`,
+    method:`<ol><li>Cloud-free Sentinel-2 images (ESA), 20 m resolution.</li><li>Standard geological band ratios: <b>clay</b> B11/B12, <b>iron oxide</b> B4/B2, <b>ferrous iron</b> B12/B8A + B3/B4.</li><li>Vegetation, water, shadow and cloud masked.</li><li>The Madar score groups anomalies (top ${'${TOP}'}% of the area) into targets ranked by size and intensity.</li><li>Blind test: mine coordinates are added only after the analysis.</li></ol>`,
     limTitle:"Limits to tell the client",
-    limits:`<ul><li>MADAR narrows the search; it does not prove a deposit. Field sampling and drilling decide.</li><li>Working mines light up partly because of their own pits and tailings.</li><li>Dunes and desert varnish can hide or blur the signature.</li><li>Known coordinates come from public sources and may be a few hundred metres off.</li></ul>`,
-    scenes:"Images used",profile:{alteration:"Model: hydrothermal alteration (clay + iron)",iron:"Model: iron ore (ferric + ferrous)",carbonatite:"Model: carbonatite (iron + experimental rare earths)"},
-    rgb:["Red = clay","Green = iron oxide","Blue = ferrous iron"],low:"weak",high:"strong",known:"Known site",nearest:"Nearest target"}
+    limits:`<ul><li>Madar narrows the search; it does not prove a deposit. Sampling and drilling decide.</li><li>Working mines light up partly because of their pits and tailings.</li><li>Dunes and desert varnish can hide the signature.</li><li>Reference coordinates come from public sources and may be a few hundred metres off.</li></ul>`,
+    scenes:"Images used",profile:{alteration:"Hydrothermal alteration model: clay and iron oxide",iron:"Iron ore model: ferric and ferrous iron",carbonatite:"Carbonatite model: iron and rare earths (experimental)"},
+    rgb:["Red: clay","Green: iron oxide","Blue: ferrous iron"],low:"weak",high:"strong",known:"Known site",tc:"Sentinel-2, true colour"}
 };
-let lang = "ar", cur = 0, layer = "score", revealed = false, sel = 0;
+const C = {gold:"#cba35c", gold2:"#e4c88e", ivory:"#efe8d8", sage:"#9fb3a8", mal:"#0c1f1b", azur:"#5b8bd0", rule:"#2c5248"};
+let lang = "ar", cur = 0, layer = "score", revealed = false, sel = 0, born = 0;
 const DATA_N = () => S().targets.length;
 const S = () => DATA.sites[cur];
 const L = () => T[lang];
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const ll = (la, lo) => `${Math.abs(la).toFixed(5)}°${la>=0?"N":"S"} ${Math.abs(lo).toFixed(5)}°${lo>=0?"E":"W"}`;
+const dms = (v, p, n) => { const a = Math.abs(v), d = Math.floor(a), m = (a - d) * 60; return `${d}°${m.toFixed(2).padStart(5,"0")}′${v>=0?p:n}`; };
+const ll = (la, lo) => `${dms(la,"N","S")}  ${dms(lo,"E","W")}`;
+const COUNTRY = {ar:{"Morocco":"المغرب","Mauritania":"موريتانيا","Morocco (Oued Ed-Dahab)":"المغرب (وادي الذهب)","Morocco (Awserd)":"المغرب (أوسرد)"},
+  fr:{"Morocco":"Maroc","Mauritania":"Mauritanie","Morocco (Oued Ed-Dahab)":"Maroc (Oued Ed-Dahab)","Morocco (Awserd)":"Maroc (Awserd)"}, en:{}};
+const country = c => (COUNTRY[lang] || {})[c] || c;
+const TFONT = () => lang === "ar" ? "Amiri, serif" : "Spectral, Georgia, serif";
 
 /* ---------- canvas map: equirectangular, lon scaled by cos(lat) ---------- */
 const cv = $("map"), cx = cv.getContext("2d");
-const view = {lat:0, lon:0, k:1, cos:1};       // k = pixels per degree of latitude
+const view = {lat:0, lon:0, k:1, cos:1};
 const imgs = {};
 let W = 0, H = 0, DPR = 1;
 function img(src){ if (!imgs[src]){ const i = new Image(); i.onload = draw; i.src = src; imgs[src] = i; } return imgs[src]; }
 function resize(){ const r = cv.getBoundingClientRect(); DPR = Math.min(devicePixelRatio || 1, 2); W = r.width; H = r.height; cv.width = W*DPR; cv.height = H*DPR; draw(); }
 const P = (lat, lon) => [W/2 + (lon - view.lon) * view.k * view.cos, H/2 - (lat - view.lat) * view.k];
 const G = (x, y) => [view.lat - (y - H/2) / view.k, view.lon + (x - W/2) / (view.k * view.cos)];
-function fit(pts, pad=40, maxK=Infinity){
+function fit(pts, pad=60){
   const la = pts.map(p => p[0]), lo = pts.map(p => p[1]);
   const la0 = Math.min(...la), la1 = Math.max(...la), lo0 = Math.min(...lo), lo1 = Math.max(...lo);
   view.lat = (la0+la1)/2; view.lon = (lo0+lo1)/2; view.cos = Math.cos(view.lat*Math.PI/180);
-  view.k = Math.min(maxK, (H - 2*pad) / Math.max(la1-la0, 1e-4), (W - 2*pad) / (Math.max(lo1-lo0, 1e-4) * view.cos));
+  view.k = Math.min((H - 2*pad) / Math.max(la1-la0, 1e-4), (W - 2*pad) / (Math.max(lo1-lo0, 1e-4) * view.cos));
   draw();
 }
 function zoom(f, x=W/2, y=H/2){
   const [la, lo] = G(x, y);
-  const kk = Math.max(minK(), Math.min(view.k * f, 600000));
-  view.k = kk; const [x2, y2] = P(la, lo);
+  view.k = Math.max(minK(), Math.min(view.k * f, 600000));
+  const [x2, y2] = P(la, lo);
   view.lon += (x2 - x) / (view.k * view.cos); view.lat -= (y2 - y) / view.k; draw();
 }
 const minK = () => { const b = S().bounds; return 0.5 * Math.min(H / (b[1][0]-b[0][0]), W / ((b[1][1]-b[0][1]) * view.cos)); };
+
+function graticule(x0, y0, x1, y1, b){
+  // neatline: double gold rule around the scene, graduated in minutes of arc, labelled like a survey plate
+  cx.save();
+  cx.strokeStyle = C.gold; cx.lineWidth = 1; cx.strokeRect(x0 - 7.5, y0 - 7.5, x1 - x0 + 15, y1 - y0 + 15);
+  cx.lineWidth = .6; cx.strokeStyle = "rgba(203,163,92,.55)"; cx.strokeRect(x0 - .5, y0 - .5, x1 - x0 + 1, y1 - y0 + 1);
+  const spanPx = Math.min(x1 - x0, y1 - y0), spanDeg = (b[1][0] - b[0][0]) * spanPx / (y1 - y0);
+  const steps = [1/60, 2/60, 5/60, 10/60, 15/60, 30/60, 1];
+  const st = steps.find(s => spanDeg / s <= 7) || 1;
+  const label = (v, p, n) => { const a = Math.abs(v), d = Math.floor(a + 1e-9), m = Math.round((a - d) * 60); return `${d}°${String(m).padStart(2,"0")}′${v>=0?p:n}`; };
+  cx.font = `400 11px ${lang === "ar" ? "IBM Plex Sans Arabic" : "IBM Plex Sans"}, sans-serif`; cx.fillStyle = C.sage;
+  for (let la = Math.ceil(b[0][0] / st) * st; la <= b[1][0] + 1e-9; la += st){
+    const [, y] = P(la, b[0][1]); if (y < y0 || y > y1) continue;
+    cx.beginPath(); cx.moveTo(x0 - 7.5, y); cx.lineTo(x0 - 1, y); cx.moveTo(x1 + 1, y); cx.lineTo(x1 + 7.5, y); cx.strokeStyle = C.gold; cx.lineWidth = 1; cx.stroke();
+    cx.save(); cx.translate(x0 - 12, y); cx.rotate(-Math.PI/2); cx.textAlign = "center"; cx.textBaseline = "bottom"; cx.fillText(label(la,"N","S"), 0, 0); cx.restore();
+  }
+  for (let lo = Math.ceil(b[0][1] / st) * st; lo <= b[1][1] + 1e-9; lo += st){
+    const [x] = P(b[0][0], lo); if (x < x0 || x > x1) continue;
+    cx.beginPath(); cx.moveTo(x, y0 - 7.5); cx.lineTo(x, y0 - 1); cx.moveTo(x, y1 + 1); cx.lineTo(x, y1 + 7.5); cx.strokeStyle = C.gold; cx.lineWidth = 1; cx.stroke();
+    cx.textAlign = "center"; cx.textBaseline = "top"; cx.fillText(label(lo,"E","W"), x, y1 + 11);
+  }
+  cx.restore();
+}
+function scaleBar(){
+  const kmPx = view.k / 111.32, nice = [0.2,0.5,1,2,5,10,20,50].find(v => v * kmPx > 110) || 50;
+  const len = nice * kmPx, x = W/2 - len/2, y = W < 600 ? H - 96 : H - 30;
+  cx.save();
+  for (let i = 0; i < 4; i++){ cx.fillStyle = i % 2 ? C.mal : C.ivory; cx.fillRect(x + i*len/4, y, len/4, 5); }
+  cx.strokeStyle = C.ivory; cx.lineWidth = 1; cx.strokeRect(x + .5, y + .5, len - 1, 5);
+  cx.font = "400 12px Spectral, Georgia, serif"; cx.fillStyle = C.ivory; cx.textAlign = "center"; cx.textBaseline = "bottom";
+  cx.fillText("0", x, y - 4); cx.fillText(`${nice} km`, x + len, y - 4);
+  cx.restore();
+}
+function northArrow(x, y){
+  cx.save(); cx.translate(x, y);
+  cx.beginPath(); cx.moveTo(0, -18); cx.lineTo(7, 10); cx.lineTo(0, 4); cx.closePath(); cx.fillStyle = C.gold2; cx.fill();
+  cx.beginPath(); cx.moveTo(0, -18); cx.lineTo(-7, 10); cx.lineTo(0, 4); cx.closePath(); cx.strokeStyle = C.gold2; cx.lineWidth = 1; cx.stroke();
+  cx.font = "500 13px Spectral, Georgia, serif"; cx.fillStyle = C.ivory; cx.textAlign = "center"; cx.fillText("N", 0, -24);
+  cx.restore();
+}
 function draw(){
   if (!W) return;
-  const s = S(), b = s.bounds;
+  const s = S(), b = s.bounds, now = performance.now();
   cx.setTransform(DPR,0,0,DPR,0,0); cx.clearRect(0,0,W,H);
-  cx.fillStyle = "#0b0805"; cx.fillRect(0,0,W,H);
   const [x0, y0] = P(b[1][0], b[0][1]), [x1, y1] = P(b[0][0], b[1][1]);
   cx.imageSmoothingEnabled = view.k < 6000;
   const base = img(s.images["truecolor.jpg"]);
   if (layer === "ratios"){ const r = img(s.images["ratios.jpg"]); r.complete && cx.drawImage(r, x0, y0, x1-x0, y1-y0); }
   else {
-    if (base.complete){ cx.globalAlpha = layer === "truecolor" ? 1 : .6; cx.drawImage(base, x0, y0, x1-x0, y1-y0); cx.globalAlpha = 1; }
+    if (base.complete){ cx.globalAlpha = layer === "truecolor" ? 1 : .55; cx.drawImage(base, x0, y0, x1-x0, y1-y0); cx.globalAlpha = 1; }
     if (layer !== "truecolor"){ const o = img(s.images[layer + ".png"]); o.complete && cx.drawImage(o, x0, y0, x1-x0, y1-y0); }
   }
-  cx.setLineDash([5,5]); cx.strokeStyle = "rgba(255,184,92,.7)"; cx.lineWidth = 1; cx.strokeRect(x0, y0, x1-x0, y1-y0); cx.setLineDash([]);
+  graticule(x0, y0, x1, y1, b);
   if (revealed) s.blind_test.forEach(k => {
-    const [kx, ky] = P(k.lat, k.lon);
-    const rpx = DATA.hit_km / 111.32 * view.k;
-    cx.beginPath(); cx.arc(kx, ky, rpx, 0, 7); cx.fillStyle = "rgba(98,227,255,.06)"; cx.fill(); cx.strokeStyle = "rgba(98,227,255,.7)"; cx.lineWidth = 1; cx.stroke();
+    const [kx, ky] = P(k.lat, k.lon), rpx = DATA.hit_km / 111.32 * view.k;
+    cx.beginPath(); cx.arc(kx, ky, rpx, 0, 7); cx.fillStyle = "rgba(91,139,208,.08)"; cx.fill();
+    cx.setLineDash([2,4]); cx.strokeStyle = C.azur; cx.lineWidth = 1.2; cx.stroke(); cx.setLineDash([]);
     const g = s.targets.find(t => t.label === k.nearest_target);
-    if (g){ const [gx, gy] = P(g.lat, g.lon); cx.setLineDash([6,5]); cx.strokeStyle = "#62e3ff"; cx.lineWidth = 2; cx.beginPath(); cx.moveTo(kx, ky); cx.lineTo(gx, gy); cx.stroke(); cx.setLineDash([]);
-      cx.font = "600 12px JetBrains Mono, monospace"; cx.fillStyle = "#62e3ff"; cx.textAlign = "center"; cx.fillText(k.nearest_km + " km", (kx+gx)/2, (ky+gy)/2 - 8); }
+    if (g){ const [gx, gy] = P(g.lat, g.lon); cx.strokeStyle = C.azur; cx.lineWidth = 1.5; cx.beginPath(); cx.moveTo(kx, ky); cx.lineTo(gx, gy); cx.stroke();
+      const mx = (kx+gx)/2, my = (ky+gy)/2, lab = k.nearest_km + " km";
+      cx.font = "500 13px Spectral, Georgia, serif"; const w = cx.measureText(lab).width + 12;
+      cx.fillStyle = C.mal; cx.fillRect(mx - w/2, my - 20, w, 18); cx.fillStyle = "#cfe0f7"; cx.textAlign = "center"; cx.textBaseline = "middle"; cx.fillText(lab, mx, my - 11); }
   });
+  let anim = false;
   s.targets.slice().reverse().forEach(t => {
-    const [x, y] = P(t.lat, t.lon), top = t.rank <= 3, on = t.rank === sel;
-    cx.beginPath(); cx.arc(x, y, on ? 17 : 14, 0, 7);
-    cx.shadowColor = top ? "rgba(255,138,61,.9)" : "rgba(255,184,92,.6)"; cx.shadowBlur = on ? 22 : 12;
-    cx.fillStyle = top ? "rgba(255,138,61,.88)" : "rgba(11,8,5,.8)"; cx.fill(); cx.shadowBlur = 0;
-    cx.lineWidth = 2; cx.strokeStyle = top || on ? "#fff3d6" : "#ffb85c"; cx.stroke();
-    cx.fillStyle = top ? "#fff3d6" : "#ffb85c"; cx.font = "700 11px JetBrains Mono, monospace"; cx.textAlign = "center"; cx.textBaseline = "middle"; cx.fillText(t.label, x, y + .5);
+    const age = (now - born - t.rank * 70) / 420, a = Math.max(0, Math.min(1, age)); if (a < 1) anim = true; if (a <= 0) return;
+    const [x, y] = P(t.lat, t.lon), top = t.rank <= 3, on = t.rank === sel, r = (top ? 13 : 11) * (0.6 + 0.4 * a);
+    cx.globalAlpha = a;
+    if (on){ cx.beginPath(); cx.arc(x, y, r + 6, 0, 7); cx.strokeStyle = C.gold2; cx.lineWidth = 1; cx.stroke(); }
+    cx.beginPath(); cx.arc(x, y, r, 0, 7);
+    cx.fillStyle = top ? C.gold2 : "rgba(12,31,27,.88)"; cx.fill();
+    cx.lineWidth = 1.4; cx.strokeStyle = top ? C.mal : C.gold2; cx.stroke();
+    cx.fillStyle = top ? C.mal : C.ivory; cx.font = `500 ${top ? 12.5 : 11.5}px Spectral, Georgia, serif`; cx.textAlign = "center"; cx.textBaseline = "middle";
+    cx.fillText(String(t.rank), x, y + .5);
+    cx.globalAlpha = 1;
   });
   if (revealed) s.blind_test.forEach(k => {
     const [kx, ky] = P(k.lat, k.lon);
-    cx.save(); cx.translate(kx, ky); cx.rotate(Math.PI/4); cx.shadowColor = "#62e3ff"; cx.shadowBlur = 14;
-    cx.fillStyle = "rgba(98,227,255,.3)"; cx.fillRect(-10,-10,20,20); cx.lineWidth = 2; cx.strokeStyle = "#62e3ff"; cx.strokeRect(-10,-10,20,20); cx.restore();
-    cx.font = "600 12.5px Readex Pro, Chakra Petch, sans-serif"; cx.textAlign = "center"; cx.textBaseline = "top";
-    const lab = L().known; const w = cx.measureText(lab).width + 12;
-    cx.fillStyle = "rgba(24,17,10,.9)"; cx.fillRect(kx - w/2, ky + 18, w, 20); cx.fillStyle = "#62e3ff"; cx.fillText(lab, kx, ky + 21);
+    cx.save(); cx.translate(kx, ky); cx.rotate(Math.PI/4);
+    cx.fillStyle = C.azur; cx.fillRect(-8,-8,16,16); cx.lineWidth = 1.5; cx.strokeStyle = "#e9f0fb"; cx.strokeRect(-8,-8,16,16); cx.restore();
+    cx.font = `400 15px ${TFONT()}`; cx.textAlign = "center"; cx.textBaseline = "top";
+    const lab = L().known, w = cx.measureText(lab).width + 16;
+    cx.fillStyle = C.mal; cx.fillRect(kx - w/2, ky - 44, w, 24); cx.strokeStyle = C.azur; cx.lineWidth = 1; cx.strokeRect(kx - w/2 + .5, ky - 43.5, w - 1, 23);
+    cx.fillStyle = "#e9f0fb"; cx.fillText(lab, kx, ky - 40);
   });
-  // scale bar
-  const kmPx = view.k / 111.32, nice = [0.1,0.2,0.5,1,2,5,10,20,50].find(v => v * kmPx > 70) || 50;
-  $("scale").innerHTML = `${nice} km<i style="width:${Math.round(nice*kmPx)}px"></i>`;
+  scaleBar(); northArrow(L().dir === "rtl" ? 40 : W - 40, H - 128);
+  if (anim) requestAnimationFrame(draw);
 }
 /* pointer: drag, pinch, wheel, click on targets */
 const ptrs = new Map(); let moved = false, pinch0 = 0;
@@ -283,7 +380,7 @@ cv.addEventListener("pointerdown", e => { cv.setPointerCapture(e.pointerId); ptr
 cv.addEventListener("pointermove", e => {
   if (!ptrs.has(e.pointerId)){ hover(e.offsetX, e.offsetY); return; }
   const prev = ptrs.get(e.pointerId); ptrs.set(e.pointerId, [e.offsetX, e.offsetY]);
-  if (ptrs.size === 2){ const [a, b] = [...ptrs.values()]; const d = Math.hypot(a[0]-b[0], a[1]-b[1]); if (pinch0){ zoom(d / pinch0, (a[0]+b[0])/2, (a[1]+b[1])/2); } pinch0 = d; moved = true; return; }
+  if (ptrs.size === 2){ const [a, b] = [...ptrs.values()]; const d = Math.hypot(a[0]-b[0], a[1]-b[1]); if (pinch0) zoom(d / pinch0, (a[0]+b[0])/2, (a[1]+b[1])/2); pinch0 = d; moved = true; return; }
   const dx = e.offsetX - prev[0], dy = e.offsetY - prev[1];
   if (Math.abs(dx) + Math.abs(dy) > 1) moved = true;
   view.lon -= dx / (view.k * view.cos); view.lat += dy / view.k; draw();
@@ -292,14 +389,18 @@ const up = e => { ptrs.delete(e.pointerId); pinch0 = 0; cv.classList.remove("dra
 cv.addEventListener("pointerup", up); cv.addEventListener("pointercancel", up);
 cv.addEventListener("wheel", e => { e.preventDefault(); zoom(Math.exp(-e.deltaY * 0.0015), e.offsetX, e.offsetY); }, {passive:false});
 $("zin").onclick = () => zoom(1.6); $("zout").onclick = () => zoom(1/1.6);
-function hit(x, y){ return S().targets.find(t => { const [px, py] = P(t.lat, t.lon); return Math.hypot(px-x, py-y) < 18; }); }
+function hit(x, y){ return S().targets.find(t => { const [px, py] = P(t.lat, t.lon); return Math.hypot(px-x, py-y) < 16; }); }
 function hover(x, y){
   const t = hit(x, y), tip = $("tip");
   if (!t){ tip.style.display = "none"; cv.style.cursor = ""; return; }
-  cv.style.cursor = "pointer"; tip.style.display = "block"; tip.textContent = `${t.label} · ${ll(t.lat, t.lon)} · ${t.area_ha} ha`;
-  tip.style.left = Math.min(x + 14, W - tip.offsetWidth - 6) + "px"; tip.style.top = (y - 34) + "px";
+  cv.style.cursor = "pointer"; tip.style.display = "block"; tip.textContent = `${t.label}   ${ll(t.lat, t.lon)}   ${t.area_ha} ha`;
+  tip.style.left = Math.min(x + 16, W - tip.offsetWidth - 8) + "px"; tip.style.top = (y - 36) + "px";
 }
 
+const ICON = {
+  dl:'<svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0l-3.2-3.2M8 10l3.2-3.2M3 13.5h10" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>',
+  doc:'<svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.8h5.2L12.5 5v9.2H4z M9 1.8V5h3.5 M6 8h4.5 M6 10.5h4.5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>'
+};
 function init(){
   try{ const l = localStorage.getItem("madar-min-lang"); if (T[l]) lang = l; }catch(e){}
   if (DATA.demo) $("demo").hidden = false;
@@ -307,48 +408,61 @@ function init(){
   $("reveal").onclick = () => { revealed = !revealed; renderBlind(); renderReveal(); if (revealed) fitReveal(); else draw(); };
   new ResizeObserver(resize).observe(cv);
   render(false);
+  fetch("test/test.json").then(r => r.ok ? r.json() : null).then(d => { if (d && d.summary){ window.TEST_SUMMARY = d.summary; $("proof").innerHTML = proofText(); } }).catch(() => {});
+}
+function proofText(){
+  const t = L(); let txt = "";
+  try{ const s = (window.TEST_SUMMARY || {}); if (s.n) txt = `${s.hits}/${s.n}`; }catch(e){}
+  return t.proof(txt || "16");
 }
 function render(keepView){
-  const t = L(), con = $("con");
-  con.dir = t.dir; document.documentElement.lang = lang; document.documentElement.dir = t.dir;
+  const t = L(), app = $("app");
+  app.dir = t.dir; document.documentElement.lang = lang; document.documentElement.dir = t.dir;
+  $("wmSub").textContent = t.wm; $("proof").innerHTML = proofText();
   [...$("langs").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.l === lang));
-  $("tabs").innerHTML = DATA.sites.map((s, i) => `<button class="tab" role="tab" aria-selected="${i===cur}" data-i="${i}"><b>${esc(lang==="ar"?s.name_ar:s.name)}</b><span class="${lang==="ar"?"ar":""}">${esc(lang==="ar"?s.metal_ar:s.metal)}</span></button>`).join("");
-  $("tabs").onclick = e => { const b = e.target.closest(".tab"); if (!b) return; cur = +b.dataset.i; revealed = false; sel = 0; render(false); };
+  $("sites").innerHTML = DATA.sites.map((s, i) => `<button class="site-t" role="tab" aria-selected="${i===cur}" data-i="${i}"><b>${esc(lang==="ar"?s.name_ar:s.name)}</b><span>${esc(lang==="ar"?s.metal_ar:s.metal)}</span></button>`).join("");
+  $("sites").onclick = e => { const b = e.target.closest(".site-t"); if (!b) return; cur = +b.dataset.i; revealed = false; sel = 0; render(false); };
   if (!S().images[layer + ".png"] && !["truecolor","ratios"].includes(layer)) layer = "score";
   $("layers").innerHTML = Object.entries(t.layers).filter(([k]) => k !== "ree" || S().images["ree.png"]).map(([k, v]) => `<button data-k="${k}" aria-pressed="${k===layer}">${v}</button>`).join("");
   $("layers").onclick = e => { const b = e.target.closest("button"); if (!b) return; layer = b.dataset.k; render(true); };
   const s = S();
-  $("site").innerHTML = `<div class="lbl">${esc(s.country)}</div><h1>${esc(lang==="ar"?s.name_ar:s.name)}</h1><p>${esc(lang==="ar"?s.metal_ar:s.metal)} · ${esc(t.profile[s.profile])}</p>
-    <div class="kpis"><div class="kpi"><b>${s.area_km2.toLocaleString("en")}</b><span>${t.area} (${t.km2})</span></div>
-    <div class="kpi"><b>${s.anomaly_km2}</b><span>${t.anom} (${t.km2})</span></div>
-    <div class="kpi"><b style="color:var(--gold)">×${s.reduction.toLocaleString("en")}</b><span>${t.red}</span></div></div>
-    ${s.gis?`<a class="gisdl" href="${esc(s.gis)}" download>⬇ ${t.gis}</a>`:""}${s.report?`<a class="gisdl" href="${esc(s.report)}" target="_blank" rel="noopener">📄 ${t.report}</a>`:""}`;
+  $("head").innerHTML = `<h1 class="title">${esc(lang==="ar"?s.name_ar:s.name)}</h1>
+    <p class="sub">${esc(lang==="ar"?s.metal_ar:s.metal)}، ${esc(country(s.country))}</p><p class="model">${esc(t.profile[s.profile])}</p>
+    <dl class="ledger"><dt>${t.area}</dt><dd><span class="num">${s.area_km2.toLocaleString("en")}</span><small>${t.km2}</small></dd>
+      <dt>${t.anom}</dt><dd><span class="num">${s.anomaly_km2}</span><small>${t.km2}</small></dd>
+      <dt>${t.red}</dt><dd class="gold"><span class="num">×${s.reduction.toLocaleString("en")}</span></dd></dl>
+    <div class="dl">${s.report?`<a href="${esc(s.report)}" target="_blank" rel="noopener">${ICON.doc}${t.report}</a>`:""}${s.gis?`<a href="${esc(s.gis)}" download>${ICON.dl}${t.gis}</a>`:""}</div>`;
+  if (lang !== "ar") $("head").querySelector(".sub").textContent = `${s.metal}, ${country(s.country)}`;
   $("tTitle").textContent = t.targets;
-  $("targets").innerHTML = s.targets.map(g => `<div class="row" role="button" tabindex="0" data-r="${g.rank}" aria-current="${g.rank===sel}">
-      <span class="l">${g.label}</span>
-      <span><span class="c">${ll(g.lat, g.lon)}</span><span class="m">${g.area_ha} ${t.ha} · ${t.strength} <span class="num">${g.rel}%</span></span></span>
-      <span style="display:grid;gap:5px;justify-items:end"><span class="meter"><i style="width:${g.rel}%"></i></span><button class="copy" data-c="${g.lat.toFixed(5)}, ${g.lon.toFixed(5)}">${t.copy}</button></span></div>`).join("");
+  $("targets").innerHTML = s.targets.map((g, i) => `<li class="trow" role="button" tabindex="0" data-r="${g.rank}" aria-current="${g.rank===sel}" style="animation-delay:${i*45}ms">
+      <span class="rk num">${g.rank}</span>
+      <span class="co num">${ll(g.lat, g.lon)}</span>
+      <span class="st"><span class="bar"><i style="width:${g.rel}%"></i></span><button class="copy" data-c="${g.lat.toFixed(5)}, ${g.lon.toFixed(5)}">${t.copy}</button></span>
+      <span class="mt"><span class="num">${g.area_ha}</span> ${t.ha}، <span class="num">${g.rel}%</span> ${t.rel}</span></li>`).join("");
+  if (lang !== "ar") $("targets").querySelectorAll(".mt").forEach((m, i) => { const g = s.targets[i]; m.innerHTML = `<span class="num">${g.area_ha}</span> ${t.ha}, <span class="num">${g.rel}%</span> ${t.rel}`; });
   $("targets").onclick = e => {
     const c = e.target.closest(".copy");
     if (c){ e.stopPropagation(); navigator.clipboard && navigator.clipboard.writeText(c.dataset.c).then(() => { c.textContent = t.copied; setTimeout(() => c.textContent = t.copy, 1200); }); return; }
-    const r = e.target.closest(".row"); if (r) focusTarget(+r.dataset.r);
+    const r = e.target.closest(".trow"); if (r) focusTarget(+r.dataset.r);
   };
-  $("targets").onkeydown = e => { if (e.key === "Enter"){ const r = e.target.closest(".row"); if (r) focusTarget(+r.dataset.r); } };
+  $("targets").onkeydown = e => { if (e.key === "Enter"){ const r = e.target.closest(".trow"); if (r) focusTarget(+r.dataset.r); } };
   $("mTitle").textContent = t.mTitle; $("method").innerHTML = t.method.replace("${TOP}", DATA.top_percent);
   $("limTitle").textContent = t.limTitle; $("limits").innerHTML = t.limits;
-  $("foot").innerHTML = `${esc(DATA.source)}<br>${t.scenes}: ${s.scenes.map(x => esc(x.date)).join(" · ")}<br>${s.scenes.map(x => esc(x.id)).join("<br>")}`;
+  $("foot").innerHTML = `${esc(DATA.source)}<br>${t.scenes}: <span class="num">${s.scenes.map(x => esc(x.date)).join(", ")}</span><br><span class="num">${s.scenes.map(x => esc(x.id)).join("<br>")}</span>`;
   renderBlind(); renderReveal(); renderLegend();
-  if (!keepView){ resize(); fit(s.bounds, 16); } else draw();
+  if (!keepView){ born = matchMedia("(prefers-reduced-motion: reduce)").matches ? -1e9 : performance.now(); resize(); fit(s.bounds, 64); } else draw();
 }
 function renderReveal(){ $("reveal").textContent = revealed ? L().hide : L().reveal; $("reveal").setAttribute("aria-pressed", revealed); }
 function renderBlind(){
   const t = L(), s = S();
-  let h = `<div class="lbl">${t.blindT}</div>`;
-  if (!revealed){ h += `<p class="hidden-note">${t.blindHidden}</p>`; }
+  let h = `<h2 class="title">${t.blindT}</h2>`;
+  if (!revealed) h += `<p>${t.blindHidden}</p>`;
   else s.blind_test.forEach(b => {
     const ok = b.hit;
-    h += `<div class="bt" style="margin-top:8px"><span class="badge ${ok?"ok":"no"}">${ok?"✓ HIT":"✗ MISS"}</span><p>${ok ? t.hit(esc(b.name), b.nearest_target, `<span class="num">${b.nearest_km}</span>`, b.best_rank_within) : t.miss(esc(b.name), b.nearest_target, `<span class="num">${b.nearest_km}</span>`)}
-      <small>${t.pct(`<span class="num">${b.percentile}</span>`)}</small><small>${t.kind[b.kind]}</small><small class="num" style="display:block">${ll(b.lat,b.lon)} · ${esc(b.src)}</small></p></div>`;
+    h += `<div class="verdict"><span class="v ${ok?"ok":"no"}">${ok?t.hitV:t.missV}</span></div>
+      <p class="main">${ok ? t.hit(esc(b.name), b.nearest_target, `<span class="num">${b.nearest_km}</span>`, b.best_rank_within) : t.miss(esc(b.name), b.nearest_target, `<span class="num">${b.nearest_km}</span>`)}</p>
+      <p>${t.pct(`<span class="num">${b.percentile}</span>`)} ${t.kind[b.kind]}</p>
+      <p class="meta"><span class="num">${ll(b.lat,b.lon)}</span><br>${esc(b.src)}</p>`;
   });
   h += `<button class="reveal2" id="reveal2">${revealed ? t.hide : t.reveal}</button>`;
   $("blind").innerHTML = h;
@@ -356,20 +470,20 @@ function renderBlind(){
 }
 function renderLegend(){
   const t = L();
-  if (layer === "truecolor"){ $("legend").innerHTML = `ESA Sentinel-2 · RGB`; return; }
-  if (layer === "ratios"){ const c = ["#ff5050","#50ff70","#5aa0ff"]; $("legend").innerHTML = `<div class="rgb">${t.rgb.map((x,i)=>`<span><i style="background:${c[i]}"></i>${x}</span>`).join("")}</div>`; return; }
-  $("legend").innerHTML = `${t.layers[layer]}<div class="bar"></div><div style="display:flex;justify-content:space-between"><span>${t.low}</span><span>${t.high}</span></div>`;
+  if (layer === "truecolor"){ $("legend").textContent = t.tc; return; }
+  if (layer === "ratios"){ const c = ["#e05050","#50d070","#5a90f0"]; $("legend").innerHTML = `<div class="rgb">${t.rgb.map((x,i)=>`<span><i style="background:${c[i]}"></i>${x}</span>`).join("")}</div>`; return; }
+  $("legend").innerHTML = `${t.layers[layer]}<div class="bar"></div><div class="two"><span>${t.low}</span><span>${t.high}</span></div>`;
 }
 function fitReveal(){
   const s = S(), pts = [];
   s.blind_test.forEach(b => { pts.push([b.lat, b.lon]); const g = s.targets.find(x => x.label === b.nearest_target); if (g) pts.push([g.lat, g.lon]);
     const d = DATA.hit_km / 111.32; pts.push([b.lat - d, b.lon - d / view.cos], [b.lat + d, b.lon + d / view.cos]); });
-  fit(pts, 70);
+  fit(pts, 90);
 }
 function focusTarget(r){
   const g = S().targets.find(x => x.rank === r); if (!g) return;
   sel = r; view.lat = g.lat; view.lon = g.lon; view.k = Math.max(view.k, 900 / 0.03 * (H / 900)); draw();
-  document.querySelectorAll(".row").forEach(x => x.setAttribute("aria-current", +x.dataset.r === r));
+  document.querySelectorAll(".trow").forEach(x => x.setAttribute("aria-current", +x.dataset.r === r));
 }
 window.addEventListener("load", init);
 </script>
