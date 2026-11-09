@@ -614,6 +614,62 @@ def pyramid(rgb, scores, inside, keep):
     return meta
 
 
+def index_z(G, keep, k):
+    """Robust z-score of one index against the rocks around it (~30 km); NaN outside the rock mask."""
+    a = G[k].astype("float32")
+    a -= local_background(a, keep)
+    med, mad = robust_stats(a, keep)
+    z = (a - med) / mad
+    z[~keep] = np.nan
+    return z
+
+
+def index_layers(G, keep, inside, meta, h, w):
+    """Indicator layers like the site console: RGB composite (clay / iron oxide / ferrous) and one
+    heat map per index. Written at the same two levels as the base image."""
+    from PIL import Image
+
+    def save(img, key, fmt):
+        for name in ("ov", "dt"):
+            W, H = meta[name]["w"], meta[name]["h"]
+            im = img.resize((W, H), Image.BILINEAR if fmt == "jpg" else Image.NEAREST)
+            if name == "ov":
+                im.save(OUT / "tiles" / f"ov_{key}.{fmt}", quality=82, optimize=True)
+                continue
+            for ty in range(0, H, 500):
+                for tx in range(0, W, 500):
+                    c = im.crop((tx, ty, min(tx + 500, W), min(ty + 500, H)))
+                    if fmt == "png":
+                        if c.getextrema()[3][1] == 0:
+                            continue
+                        c = c.quantize(colors=48, method=Image.Quantize.FASTOCTREE)
+                    c.save(OUT / "tiles" / "dt" / f"{key}_{ty // 500}_{tx // 500}.{fmt}", optimize=True, quality=80)
+                    meta[name]["have"].setdefault(key, []).append(f"{ty // 500}_{tx // 500}")
+
+    def st(z):
+        return np.clip((np.nan_to_num(z, nan=-9) + 1.5) / 5.5, 0, 1)
+
+    chans = []
+    for k in ("clay", "ferric", "ferrous"):
+        z = index_z(G, keep, k)
+        chans.append((st(z) * 255).astype("uint8"))
+        # single-index heat layer: z above 1.5 (top few % of the rocks), transparent elsewhere
+        x = np.clip((np.nan_to_num(z, nan=-9) - 1.5) / 3.5, 0, 1)
+        x[~(np.nan_to_num(z, nan=-9) >= 1.5)] = -1
+        if k != "ferrous":
+            save(Image.fromarray(colour(x)), k, "png")
+        del z, x
+    z = index_z(G, keep, "ree")
+    x = np.clip((np.nan_to_num(z, nan=-9) - 1.5) / 3.5, 0, 1)
+    x[~(np.nan_to_num(z, nan=-9) >= 1.5)] = -1
+    save(Image.fromarray(colour(x)), "ree", "png")
+    del z, x
+    comp = np.dstack(chans)
+    comp[~keep] = (18, 34, 30)                                  # sand, sabkha, sea: dark ground
+    comp[~inside] = (8, 16, 14)
+    save(Image.fromarray(comp), "ratios", "jpg")
+
+
 def colour(x):
     stops = np.array([[150, 40, 30, 150], [215, 100, 40, 200], [245, 175, 60, 235], [255, 240, 170, 255]], "float32")
     out = np.zeros(x.shape + (4,), "uint8")
@@ -672,6 +728,8 @@ def main():
                  for t in [q for q in result[m]["targets"] if q["region"] == reg][:N_CHIPS]]
     chips(chip_list, by_id, used, a.demo)
     meta = pyramid(rgb, scores, inside, keep)
+    del scores
+    index_layers(G, keep, inside, meta, *keep.shape)
     geojson(all_t)
     area_km2 = float(land.sum()) * (RES * 111.32) ** 2 * math.cos(math.radians(24))
     data = {
