@@ -412,7 +412,10 @@ def model_score(G, keep, wts):
     return score
 
 
-def find_targets(score, keep, model):
+SALT_KM, SALT_MAX = 2.0, 0.12   # a target next to a white salt crust is a dry sabkha floor, not rock
+
+
+def find_targets(score, keep, model, salt=None):
     """Top targets of each region separately, so the Dakhla region is not crowded out by the north."""
     lat0, lat1, lon0, lon1 = BOX
     split = int(round((lat1 - REGION_SPLIT_LAT) / RES))
@@ -422,12 +425,12 @@ def find_targets(score, keep, model):
         sub_keep[sl] = keep[sl]
         if sub_keep.sum() < 100:
             continue
-        tg, thr = _targets(score, sub_keep, model)
+        tg, thr = _targets(score, sub_keep, model, salt)
         out += tg
     return out, thr, None
 
 
-def _targets(score, keep, model):
+def _targets(score, keep, model, salt=None):
     lat0, lat1, lon0, lon1 = BOX
     v = score[keep]
     thr = float(np.percentile(v[::5], 100 - TOP_PERCENT))
@@ -449,6 +452,12 @@ def _targets(score, keep, model):
         la, lo = lat1 - (cy + 0.5) * RES, lon0 + (cx + 0.5) * RES
         if any(km(la, lo, t["lat"], t["lon"]) < 4 for t in out):     # one target per 4 km
             continue
+        if salt is not None:
+            rr = int(round(SALT_KM / (RES * 111)))
+            j, i = int(cy), int(cx)
+            win = salt[max(j - rr, 0):j + rr + 1, max(i - rr, 0):i + rr + 1]
+            if win.size and win.mean() > SALT_MAX:
+                continue
         a_ha = float(cnt[k]) * (RES * 111.32) * (RES * 111.32 * math.cos(math.radians(la))) * 100
         out.append({"lat": round(la, 5), "lon": round(lo, 5), "area_ha": round(a_ha), "peak": round(float(peak[k]), 2),
                     "strength": float(strength[k]), "model": model, "_comp": int(idx[k])})
@@ -649,9 +658,10 @@ def main():
     G, valid, rgb, inside, land, used, by_id = scan(a.demo)
     keep, _ = outcrop(G, valid)
     scores, result, all_t = {}, {}, []
+    salt = (G["bright"].astype("float32") >= 0.38) & valid
     for m, spec in MODELS.items():
         s = model_score(G, keep, spec["w"])
-        tg, thr, _ = find_targets(s, keep, m)
+        tg, thr, _ = find_targets(s, keep, m, salt)
         check, p_chance = blind(s, keep, tg, m)
         scores[m] = s
         result[m] = {"ar": spec["ar"], "fr": spec["fr"], "targets": tg, "check": check, "p_chance": p_chance}
