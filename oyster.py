@@ -50,11 +50,17 @@ CHL_SERIES = CFG.get("chl_datasets") or [
     ["cmems_obs-oc_glo_bgc-plankton_nrt_l4-gapfree-multi-4km_P1D", "CHL"],
 ]
 SST_BACKUP = radar.SST_CANDIDATES
+# Multi-year ocean colour, for "what is normal at this time of year" (same 3 weeks, previous years).
+CHL_CLIM = CFG.get("chl_clim_datasets") or [
+    ["cmems_obs-oc_atl_bgc-plankton_my_l4-gapfree-multi-1km_P1D", "CHL"],
+    ["cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D", "CHL"],
+]
+CLIM_YEARS = 5
 
 # Thresholds (Pacific oyster, Crassostrea gigas). Editable in config.json -> oyster.limits.
 LIM = {"sst_warm": 24.0, "sst_hot": 26.0, "sst_drop": 2.0,
        "chl_ratio_watch": 1.6, "chl_ratio_alert": 2.5, "chl_high": 5.0, "chl_alert_min": 3.0,
-       "ndci_watch": 0.10, "ndci_alert": 0.20, "turb_watch": 20.0, "wind_work_kn": 25,
+       "ndci_watch": 0.10, "ndci_alert": 0.20, "turb_watch": 20.0, "turb_mask": 25.0, "wind_work_kn": 25,
        "s2_fresh_days": 5}
 LIM.update(CFG.get("limits", {}))
 
@@ -88,7 +94,7 @@ def sst_series(day):
     for base in ["https://coastwatch.pfeg.noaa.gov/erddap/griddap/jplMURSST41",
                  "https://upwell.pfeg.noaa.gov/erddap/griddap/jplMURSST41"]:
         try:
-            q = (f".json?analysed_sst[(last-{DAYS + 4}):1:(last)][({lat0}):1:({lat1})][({lon0}):1:({lon1})]")
+            q = (f".json?analysed_sst[last-{DAYS + 4}:1:last][({lat0}):1:({lat1})][({lon0}):1:({lon1})]")
             js = json.loads(radar.http_get(base + q, timeout=240).decode())
             rows = js["table"]["rows"]
             times = sorted({r[0][:10] for r in rows})
@@ -141,6 +147,48 @@ def cm_series(candidates, day):
             errors.append(f"{dataset_id}: {e}")
             print("[skip]", dataset_id, e)
     raise RuntimeError("; ".join(errors))
+
+
+def chl_climatology(day):
+    """Median chlorophyll per zone for the same 3 weeks of the previous years (seasonal normal)."""
+    import copernicusmarine as cm
+
+    lat0, lat1, lon0, lon1 = BOX
+    pad = 0.05
+    for dataset_id, var in CHL_CLIM:
+        vals = {z["id"]: [] for z in ZONES}
+        years = 0
+        for y in range(1, CLIM_YEARS + 3):
+            try:
+                c = day.replace(year=day.year - y)
+            except ValueError:
+                c = day.replace(year=day.year - y, day=28)
+            try:
+                ds = cm.open_dataset(dataset_id=dataset_id, variables=[var],
+                                     minimum_longitude=lon0 - pad, maximum_longitude=lon1 + pad,
+                                     minimum_latitude=lat0 - pad, maximum_latitude=lat1 + pad,
+                                     start_datetime=f"{c - dt.timedelta(days=10)}T00:00:00",
+                                     end_datetime=f"{c + dt.timedelta(days=10)}T23:59:59")
+            except Exception as e:  # noqa: BLE001
+                print("[skip] clim", dataset_id, c.year, e)
+                continue
+            da = ds[var]
+            la = "latitude" if "latitude" in da.coords else "lat"
+            lo = "longitude" if "longitude" in da.coords else "lon"
+            da = da.sortby(la)
+            cube = da.values.astype("float32")
+            for z in ZONES:
+                for k in range(cube.shape[0]):
+                    v = nearest_valid(da[la].values, da[lo].values, cube[k], z["lat"], z["lon"])
+                    if v is not None:
+                        vals[z["id"]].append(v)
+            years += 1
+            if years >= CLIM_YEARS:
+                break
+        if years >= 2:
+            print(f"[ok] chlorophyll normal: {dataset_id}, {years} years")
+            return {k: (rnd(float(np.median(v))) if len(v) >= 10 else None) for k, v in vals.items()}, years, dataset_id
+    raise RuntimeError("no multi-year chlorophyll")
 
 
 def zone_series(times, lats, lons, cube):
@@ -312,7 +360,7 @@ def last(vals):
     return None
 
 
-def judge(z, sst, chl, s2, s2_age, wind):
+def judge(z, sst, chl, s2, s2_age, wind, clim=None):
     """Traffic light for one zone with the reasons (Arabic / French)."""
     R = []
 
@@ -332,17 +380,25 @@ def judge(z, sst, chl, s2, s2_age, wind):
     c_now = last(chl)
     hist = [v for v in chl[:-3] if v is not None]
     ratio = None
-    if c_now is not None and len(hist) >= 7:
+    base_ar, base_fr = "", ""
+    if c_now is not None and clim:
+        ratio = c_now / clim if clim > 0 else None
+        base_ar, base_fr = "عن المعتاد في هذا الموسم", "par rapport à la normale de saison"
+    elif c_now is not None and len(hist) >= 5:
         med = float(np.median(hist))
         ratio = c_now / med if med > 0 else None
-        if ratio and ratio >= LIM["chl_ratio_alert"] and c_now >= LIM["chl_alert_min"]:
-            add(2, "bloom", f"الكلوروفيل تضاعف ×{ratio:.1f} ({c_now:.1f} mg/m³): ازدهار طحالب قوي. زيدوا أخذ العينات وتابعوا نشرات INRH",
-                f"Chlorophylle ×{ratio:.1f} ({c_now:.1f} mg/m³) : forte efflorescence. Renforcer les prélèvements, suivre les bulletins INRH")
-        elif (ratio and ratio >= LIM["chl_ratio_watch"]) or c_now >= LIM["chl_high"]:
-            add(1, "rise", f"الكلوروفيل يرتفع ×{ratio:.1f} ({c_now:.1f} mg/m³) عن معدل الشهر",
-                f"Chlorophylle en hausse ×{ratio:.1f} ({c_now:.1f} mg/m³) par rapport au mois")
+        base_ar, base_fr = "عن الأيام الأخيرة", "par rapport aux derniers jours"
+    if ratio:
+        if ratio >= LIM["chl_ratio_alert"] and c_now >= LIM["chl_alert_min"]:
+            add(2, "bloom", f"الكلوروفيل ×{ratio:.1f} {base_ar} ({c_now:.1f} mg/m³): ازدهار طحالب قوي محتمل. زيدوا أخذ العينات وتابعوا نشرات INRH",
+                f"Chlorophylle ×{ratio:.1f} {base_fr} ({c_now:.1f} mg/m³) : forte efflorescence possible. Renforcer les prélèvements, suivre les bulletins INRH")
+        elif ratio >= LIM["chl_ratio_watch"]:
+            add(1, "rise", f"الكلوروفيل أعلى ×{ratio:.1f} {base_ar} ({c_now:.1f} mg/m³)",
+                f"Chlorophylle ×{ratio:.1f} {base_fr} ({c_now:.1f} mg/m³)")
     if s2 and s2_age is not None and s2_age <= LIM["s2_fresh_days"]:
         nd, tb = s2.get("ndci_p90"), s2.get("turb")
+        if tb is not None and tb >= LIM["turb_mask"]:
+            nd = None          # sediment or a visible sandy bottom also turns the index up: not algae
         if nd is not None and nd >= LIM["ndci_alert"]:
             add(2, "s2bloom", "صورة Sentinel-2 تُظهر بقعة طحالب كثيفة في المنطقة", "L'image Sentinel-2 montre une tache d'algues dense dans la zone")
         elif nd is not None and nd >= LIM["ndci_watch"]:
@@ -351,7 +407,7 @@ def judge(z, sst, chl, s2, s2_age, wind):
             add(1, "turb", f"ماء عكر (~{tb:.0f} FNU): غذاء أقل جودة ورواسب", f"Eau trouble (~{tb:.0f} FNU) : sédiments, alimentation moins bonne")
     R.sort(key=lambda r: -r["level"])
     level = max([r["level"] for r in R], default=0)
-    good = (c_now is not None and 1.0 <= c_now <= 5.0 and s_now is not None and 16 <= s_now < LIM["sst_warm"])
+    good = (c_now is not None and c_now >= 1.0 and s_now is not None and 16 <= s_now < LIM["sst_warm"])
     if level == 0:
         if good:
             add(0, "good", "ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة", "Bonnes conditions de croissance : nourriture suffisante, température adaptée")
@@ -364,10 +420,14 @@ def save_png(arr, path, max_w=1400):
     from PIL import Image
 
     im = Image.fromarray(arr)
+    if im.mode == "RGBA":
+        max_w = 1000          # colour overlays: lighter for phones
     if im.width > max_w:
         im = im.resize((max_w, round(im.height * max_w / im.width)), Image.LANCZOS)
     if str(path).endswith(".jpg"):
         im.save(path, quality=84, optimize=True, progressive=True)
+    elif im.mode == "RGBA":
+        im.quantize(colors=64, method=Image.Quantize.FASTOCTREE).save(path, optimize=True)
     else:
         im.save(path, optimize=True)
     return im.size
@@ -433,6 +493,7 @@ def main():
     src = {}
     if a.demo:
         b, s2_day, s2_ids, sdays, sst, cdays, chl, wind = demo(day)
+        clim = {z["id"]: 1.6 for z in ZONES}
         src = {"sst": "DEMO", "chl": "DEMO", "s2": "DEMO", "wind": "DEMO"}
     else:
         b = s2_day = None
@@ -457,6 +518,12 @@ def main():
             print("[warn] CHL:", e)
             cdays, chl = [], {z["id"]: [] for z in ZONES}
         try:
+            clim, clim_years, clim_src = chl_climatology(day)
+            src["clim"] = f"{clim_src} ({clim_years} ans / سنوات)"
+        except Exception as e:  # noqa: BLE001
+            print("[warn] chlorophyll normal:", e)
+            clim = {}
+        try:
             wind = wind_48h()
             src["wind"] = "Open-Meteo"
         except Exception as e:  # noqa: BLE001
@@ -477,8 +544,8 @@ def main():
     for z in ZONES:
         zs = sst[z["id"]][-DAYS:]
         zc = chl[z["id"]][-DAYS:]
-        level, reasons, ratio = judge(z, zs, zc, s2z.get(z["id"]), s2_age, wind)
-        zones.append({**z, "level": level, "reasons": reasons, "sst": last(zs), "chl": last(zc),
+        level, reasons, ratio = judge(z, zs, zc, s2z.get(z["id"]), s2_age, wind, clim.get(z["id"]))
+        zones.append({**z, "level": level, "reasons": reasons, "sst": last(zs), "chl": last(zc), "chl_normal": clim.get(z["id"]),
                       "chl_ratio": rnd(ratio), "s2": s2z.get(z["id"]), "sst_series": zs, "chl_series": zc})
     data = {
         "day": day.isoformat(), "made": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "demo": a.demo,

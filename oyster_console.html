@@ -165,13 +165,13 @@ const T={
   s2date:(s)=>`صورة ${s.day} (قبل ${s.age} يوم)`,ndci:"مؤشر الطحالب",fnu:"عكارة",
   toxin:"<b>الأقمار لا تقيس السموم.</b> مدار المحار إنذار مبكر يقول لكم <b>أين ومتى</b> تزيدون أخذ العينات. قرار الجني والبيع يبقى فقط لنشرات المعهد الوطني للبحث في الصيد البحري (INRH) وكتابة الدولة المكلفة بالصيد البحري.",
   how:"كيف يعمل؟",src:"المصادر والتواريخ",
-  howh:`<ul><li><b>الكلوروفيل</b> (من أقمار لون المحيط، 1 كم): هو غذاء المحار. لكن إذا تضاعف فجأة عن معدل الشهر فهذا ازدهار طحالب، وبعض الطحالب تنتج سموماً.</li>
+  howh:`<ul><li><b>الكلوروفيل</b> (من أقمار لون المحيط، 1 كم): هو غذاء المحار. نقارنه بـ<b>المعتاد في نفس الأسابيع من السنوات الماضية</b>. إذا تضاعف فهذا ازدهار طحالب محتمل، وبعض الطحالب تنتج سموماً.</li>
   <li><b>حرارة الماء</b> (NASA MUR، 1 كم): فوق 24° يبدأ الإجهاد، وفوق 26° يرتفع خطر النفوق. والبرودة المفاجئة تعني دخول مياه عميقة غنية قد يتبعها ازدهار.</li>
   <li><b>صورة Sentinel-2</b> (20 م): نرى الخليج كله، فنعرف <b>أين</b> بالضبط الماء الأخضر أو العكر. مؤشر الطحالب (NDCI) يقارن الأحمر بالأحمر الحافي.</li>
   <li><b>الرياح</b>: للعمل في الأحواض، ولأن الرياح الشمالية القوية تدفع الماء البارد الغني إلى الساحل.</li></ul>
-  <p><b>حدود:</b> الخليج ضحل، فالقاع قد يؤثر على الصورة في المياه الضحلة جداً. البيانات بدقة 1 كم تعطي صورة عامة لكل منطقة وليس لكل حوض. الغيوم تمنع الصورة بعض الأيام.</p>`,
+  <p><b>حدود:</b> الخليج ضحل وعكر، فأقمار لون المحيط تعطي أرقام كلوروفيل أعلى من الحقيقة. لذلك نعتمد على <b>التغير</b> وليس على الرقم نفسه. وفي المياه العكرة جداً لا نستعمل مؤشر الطحالب لأن الرواسب والقاع يرفعانه. البيانات بدقة 1 كم تعطي صورة عامة لكل منطقة وليس لكل حوض. الغيوم تمنع الصورة بعض الأيام.</p>`,
   made:(d)=>`تحديث ${d.made} · يتجدد كل صباح تلقائياً`,f1:"مدار الساحل",f2:"مدار السفن الكبيرة",f3:"مدار المعادن",
-  srck:{sst:"حرارة الماء",chl:"الكلوروفيل",s2:"الصورة",wind:"الرياح"},demo:"بيانات تجريبية للعرض فقط، وليست قياسات حقيقية."},
+  srck:{sst:"حرارة الماء",chl:"الكلوروفيل",clim:"المعتاد في الموسم",s2:"الصورة",wind:"الرياح"},normal:"المعتاد",demo:"بيانات تجريبية للعرض فقط، وليست قياسات حقيقية."},
  fr:{brand:"Madar · Huîtres",map:"La baie de Dakhla vue du satellite",chl:"Algues",turb:"Turbidité",true:"Couleurs réelles",
   zones:"Zones conchylicoles",zs:"Touchez une zone pour voir ses courbes",trend:"30 derniers jours",sst:"Température de l'eau °C",chlt:"Chlorophylle mg/m³ (nourriture de l'huître, premier signe d'efflorescence)",
   msg:"Message du jour aux ostréiculteurs",msgs:"À copier dans le groupe WhatsApp",copy:"Copier le message",copied:"✓ Copié",wa:"Envoyer par WhatsApp",
@@ -184,13 +184,13 @@ const T={
   s2date:(s)=>`Image du ${s.day} (il y a ${s.age} j)`,ndci:"indice algues",fnu:"turbidité",
   toxin:"<b>Les satellites ne mesurent pas les toxines.</b> Madar Huîtres est une alerte précoce qui indique <b>où et quand</b> renforcer les prélèvements. La décision de récolte et de vente relève uniquement des bulletins de l'INRH et du Département de la Pêche maritime.",
   how:"Comment ça marche ?",src:"Sources et dates",
-  howh:`<ul><li><b>Chlorophylle</b> (couleur de l'océan, 1 km) : la nourriture de l'huître. Une hausse brutale par rapport au mois signale une efflorescence ; certaines microalgues produisent des toxines.</li>
+  howh:`<ul><li><b>Chlorophylle</b> (couleur de l'océan, 1 km) : la nourriture de l'huître. Comparée à la <b>normale des mêmes semaines des années passées</b> ; un doublement signale une efflorescence possible ; certaines microalgues produisent des toxines.</li>
   <li><b>Température</b> (NASA MUR, 1 km) : stress au-delà de 24°, risque de mortalité au-delà de 26°. Un refroidissement brutal signale une remontée d'eau profonde riche, souvent suivie d'efflorescences.</li>
   <li><b>Image Sentinel-2</b> (20 m) : toute la baie, pour voir <b>où</b> l'eau est verte ou trouble. L'indice algues (NDCI) compare le rouge et le red-edge.</li>
   <li><b>Vent</b> : pour le travail sur les parcs, et parce que le vent du nord fort pousse l'eau froide et riche vers la côte.</li></ul>
-  <p><b>Limites :</b> baie peu profonde, le fond peut influencer l'image sur les hauts-fonds. Les données à 1 km donnent une image par zone, pas par parc. Les nuages bloquent l'image certains jours.</p>`,
+  <p><b>Limites :</b> baie peu profonde et turbide : les satellites de couleur de l'océan y surestiment la chlorophylle, d'où l'usage des <b>variations</b> plutôt que des valeurs. En eau très turbide, l'indice algues n'est pas utilisé (sédiments et fond le font monter). Les données à 1 km donnent une image par zone, pas par parc. Les nuages bloquent l'image certains jours.</p>`,
   made:(d)=>`Mis à jour ${d.made} · actualisé chaque matin`,f1:"Madar Côte",f2:"Madar Large",f3:"Madar Minerais",
-  srck:{sst:"Température",chl:"Chlorophylle",s2:"Image",wind:"Vent"},demo:"Données de démonstration, pas des mesures réelles."}
+  srck:{sst:"Température",chl:"Chlorophylle",clim:"Normale de saison",s2:"Image",wind:"Vent"},normal:"normale",demo:"Données de démonstration, pas des mesures réelles."}
 };
 let L=(()=>{try{return localStorage.getItem("madar-lang")||"ar"}catch(e){return "ar"}})();
 let LAYER="chl",SEL=null;
@@ -233,6 +233,7 @@ function zonesList(){
     const s2=z.s2||{};
     const nums=[`<span><b class="ltr">${z.sst!=null?z.sst.toFixed(1)+"°":"–"}</b></span>`,
       `<span>chl <b class="ltr">${z.chl!=null?z.chl.toFixed(1):"–"}</b>${z.chl_ratio?` <span class="ltr">×${z.chl_ratio.toFixed(1)}</span>`:""}</span>`];
+    if(z.chl_normal!=null)nums.push(`<span>${t("normal")} <b class="ltr">${z.chl_normal.toFixed(1)}</b></span>`);
     if(s2.ndci!=null)nums.push(`<span>${t("ndci")} <b class="ltr">${s2.ndci.toFixed(2)}</b></span>`);
     if(s2.turb!=null)nums.push(`<span>${t("fnu")} <b class="ltr">${s2.turb.toFixed(0)}</b></span>`);
     b.innerHTML=`<div class="zt"><b>${zname(z)}</b><span class="chip c${z.level}">${t("lv")[z.level]}</span></div>
