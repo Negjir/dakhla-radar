@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Madar Minerals · Sahara</title>
+<meta name="description" content="Madar Minerals — regional Sentinel-2 scan of the Sahara (Dakhla-Oued Ed-Dahab, Laayoune-Sakia El Hamra): ranked exploration targets.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<style>
+
+/* Madar Minerals - the target console.
+   Identity: the copper minerals themselves. Malachite green ground, native-gold accent (used sparingly),
+   azurite blue for the known reference site, cuprite red for a miss. The map is presented as a printed
+   survey plate: neatline frame with a graduated graticule, classic alternating scale bar, north arrow.
+   Type: Amiri (Arabic) / Spectral (Latin) for titles and figures; IBM Plex Sans (Arabic + Latin) for UI. */
+:root{
+  --malachite:#0c1f1b; --malachite-2:#10291f; --panel:#122d27; --rule:#2c5248; --rule-2:#3f6c60;
+  --gold:#cba35c; --gold-2:#e4c88e; --ivory:#efe8d8; --sage:#9fb3a8; --sage-2:#6f877c;
+  --azurite:#5b8bd0; --cuprite:#c45a42; --verdigris:#7fc2a6;
+  --title-ar:"Amiri",serif; --title-lat:"Spectral",Georgia,serif;
+  --ui:"IBM Plex Sans","IBM Plex Sans Arabic",system-ui,sans-serif; --ui-ar:"IBM Plex Sans Arabic","IBM Plex Sans",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--malachite);color:var(--ivory);font:400 14px/1.55 var(--ui);-webkit-text-size-adjust:100%;
+  background-image:radial-gradient(140% 90% at 70% -10%,#15382f 0%,var(--malachite) 60%)}
+[dir="rtl"] body,[dir="rtl"]{font-family:var(--ui-ar)}
+button{font:inherit;color:inherit}
+a{color:inherit}
+:focus-visible{outline:1.5px solid var(--gold);outline-offset:3px}
+.num{direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums lining-nums}
+.title{font-family:var(--title-lat);font-weight:400;letter-spacing:-.005em}
+[dir="rtl"] .title{font-family:var(--title-ar);letter-spacing:0}
+
+.app{min-height:100%;display:grid;grid-template-columns:minmax(0,1fr) 410px;grid-template-rows:auto minmax(0,1fr);}
+@media (min-width:981px){html,body{overflow:hidden}.app{height:100%}}
+
+/* ---------- header ---------- */
+.hd{grid-column:1/-1;min-width:0;display:flex;align-items:center;gap:28px;padding:14px 28px 12px;border-bottom:1px solid var(--rule)}
+.brand{display:flex;align-items:center;gap:12px;flex:none;text-decoration:none}
+.brand svg{flex:none}
+.brand .wm{display:flex;flex-direction:column;line-height:1}
+.brand .wm b{font:500 24px/1 var(--title-lat);letter-spacing:.02em;color:var(--ivory)}
+.brand .wm span{font-size:12px;color:var(--gold);margin-top:4px;letter-spacing:.04em}
+.sites{display:flex;gap:22px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.sites::-webkit-scrollbar{display:none}
+.site-t{flex:none;border:0;background:none;padding:6px 0 7px;cursor:pointer;text-align:start;color:var(--sage);border-bottom:1.5px solid transparent;transition:color .2s,border-color .2s}
+.site-t b{display:block;font-weight:500;font-size:14.5px;white-space:nowrap}
+.site-t span{display:block;font-size:11.5px;color:var(--sage-2);white-space:nowrap}
+.site-t:hover{color:var(--ivory)}
+.site-t[aria-selected="true"]{color:var(--ivory);border-bottom-color:var(--gold)}
+.hd-end{display:flex;align-items:center;gap:18px;flex:none}
+.proof{font-size:13px;text-decoration:none;color:var(--sage);border-bottom:1px solid var(--rule-2);padding-bottom:1px;white-space:nowrap}
+.proof b{color:var(--gold-2);font-weight:600}
+.proof:hover{color:var(--ivory);border-color:var(--gold)}
+.langs{display:inline-flex;gap:2px;direction:ltr}
+.langs button{border:0;background:none;padding:6px 8px;font-size:13px;color:var(--sage-2);cursor:pointer;min-height:34px;min-width:34px;border-radius:2px}
+.langs button[aria-pressed="true"]{color:var(--ivory);background:rgba(203,163,92,.14)}
+.demo{font-size:11px;color:var(--malachite);background:var(--gold);padding:2px 7px;border-radius:2px}
+
+/* ---------- map plate ---------- */
+.plate{position:relative;min-height:420px;border-inline-end:1px solid var(--rule);background:#0a1916;overflow:hidden}
+#map{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+#map.drag{cursor:grabbing}
+.layers{position:absolute;z-index:5;top:16px;inset-inline-start:20px;display:flex;flex-wrap:wrap;gap:2px;padding:3px;background:rgba(12,31,27,.86);border:1px solid var(--rule);border-radius:3px;backdrop-filter:blur(6px);max-width:calc(100% - 240px)}
+.layers button{border:0;background:none;padding:6px 11px;font-size:12.5px;color:var(--sage);cursor:pointer;min-height:32px;border-radius:2px;white-space:nowrap}
+.layers button:hover{color:var(--ivory)}
+.layers button[aria-pressed="true"]{color:var(--malachite);background:var(--gold-2);font-weight:600}
+.reveal{position:absolute;z-index:5;top:16px;inset-inline-end:20px;border:1px solid var(--azurite);color:#cfe0f7;background:rgba(12,31,27,.86);border-radius:3px;padding:8px 14px;font-size:13px;font-weight:500;cursor:pointer;min-height:38px;backdrop-filter:blur(6px)}
+.reveal:hover{background:rgba(91,139,208,.18)}
+.reveal[aria-pressed="true"]{background:var(--azurite);color:#fff}
+.legend{position:absolute;z-index:5;bottom:22px;inset-inline-start:20px;background:rgba(12,31,27,.88);border:1px solid var(--rule);border-radius:3px;padding:9px 12px;font-size:12px;color:var(--sage);max-width:min(330px,calc(100% - 40px));backdrop-filter:blur(6px)}
+.legend .bar{height:6px;margin:6px 0 4px;background:linear-gradient(90deg,rgba(180,60,20,.35),#ff8c00,#ffd250,#ffffdc)}
+.legend{min-width:160px}
+.legend .two{display:flex;justify-content:space-between;gap:16px}
+.legend .rgb{display:flex;gap:12px;flex-wrap:wrap}
+.legend .rgb i{display:inline-block;width:9px;height:9px;margin-inline-end:5px;vertical-align:-1px}
+.zoom{position:absolute;z-index:5;bottom:22px;inset-inline-end:20px;display:grid;border:1px solid var(--rule);border-radius:3px;overflow:hidden;background:rgba(12,31,27,.88)}
+.zoom button{width:38px;height:38px;border:0;background:none;color:var(--ivory);font-size:18px;cursor:pointer}
+.zoom button+button{border-top:1px solid var(--rule)}
+.zoom button:hover{background:rgba(203,163,92,.14)}
+.tip{position:absolute;z-index:6;pointer-events:none;background:var(--malachite);border:1px solid var(--gold);border-radius:2px;padding:5px 9px;font-size:12px;direction:ltr;white-space:nowrap;display:none}
+
+/* ---------- dossier ---------- */
+.dossier{min-height:0;overflow:auto;padding:26px 28px 34px;scrollbar-width:thin;scrollbar-color:var(--rule) transparent}
+.dossier section{padding:20px 0;border-top:1px solid var(--rule)}
+.dossier section:first-child{padding-top:0;border-top:0}
+.head h1{margin:0;font-size:38px;line-height:1.15;color:var(--ivory)}
+.head .sub{margin:6px 0 0;color:var(--sage);font-size:13.5px}
+.head .model{margin:2px 0 0;color:var(--sage-2);font-size:12.5px}
+.ledger{margin:20px 0 0;display:grid;grid-template-columns:1fr auto;row-gap:0;font-size:13.5px}
+.ledger dt{color:var(--sage);padding:9px 0;border-bottom:1px solid rgba(44,82,72,.6)}
+.ledger dd{margin:0;padding:6px 0;border-bottom:1px solid rgba(44,82,72,.6);text-align:end;font:400 20px/1.3 var(--title-lat);color:var(--ivory)}
+.ledger dd small{font:400 12px var(--ui);color:var(--sage-2);margin-inline-start:4px}
+.ledger dd.gold{color:var(--gold-2);font-size:26px}
+.dl{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.dl a{flex:1 1 150px;display:flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:9px 12px;font-size:13px;font-weight:500;text-decoration:none;border:1px solid var(--gold);color:var(--gold-2);border-radius:2px;transition:background .2s,color .2s}
+.dl a:hover{background:var(--gold);color:var(--malachite)}
+.dl a svg{flex:none}
+h2{margin:0 0 10px;font-size:22px;line-height:1.3;color:var(--ivory)}
+.blind p{margin:0;color:var(--sage);font-size:13.5px;line-height:1.7}
+.verdict{display:flex;align-items:baseline;gap:12px;margin-bottom:8px}
+.verdict .v{font:500 24px/1 var(--title-lat)}
+[dir="rtl"] .verdict .v{font-family:var(--title-ar);font-weight:700}
+.verdict .v.ok{color:var(--verdigris)}
+.verdict .v.no{color:var(--cuprite)}
+.blind .main{color:var(--ivory);font-size:14px}
+.blind .meta{margin-top:8px;font-size:12px;color:var(--sage-2);line-height:1.6}
+.reveal2{margin-top:14px;width:100%;min-height:42px;border:1px solid var(--azurite);background:none;color:#cfe0f7;border-radius:2px;font-size:13.5px;font-weight:500;cursor:pointer}
+.reveal2:hover{background:rgba(91,139,208,.16)}
+.tlist{list-style:none;margin:0;padding:0}
+.trow{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:11px 6px;border-bottom:1px solid rgba(44,82,72,.6);cursor:pointer;border-radius:2px}
+.trow:hover{background:rgba(203,163,92,.06)}
+.trow[aria-current="true"]{background:rgba(203,163,92,.11)}
+.trow .rk{grid-row:span 2;font:400 26px/1 var(--title-lat);color:var(--gold);text-align:center}
+.trow .rk sup{font-size:12px;color:var(--sage-2);margin-inline-start:1px}
+.trow .co{font-size:13px;color:var(--ivory);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:start}
+.trow .mt{font-size:12px;color:var(--sage-2)}
+.trow .st{grid-row:span 2;display:grid;justify-items:end;gap:6px}
+.trow .bar{width:64px;height:2px;background:var(--rule);direction:ltr}
+.trow .bar i{display:block;height:100%;background:var(--gold)}
+.copy{border:0;background:none;padding:2px 0;font-size:12px;color:var(--sage);cursor:pointer;border-bottom:1px solid var(--rule-2)}
+.copy:hover{color:var(--ivory);border-color:var(--gold)}
+details summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline}
+details summary::-webkit-details-marker{display:none}
+details summary h2{margin:0}
+details summary::after{content:"+";font:300 22px/1 var(--title-lat);color:var(--gold)}
+details[open] summary::after{content:"−"}
+.txt{margin:12px 0 0;font-size:13.5px;line-height:1.75;color:var(--sage)}
+.txt ol,.txt ul{margin:0;padding-inline-start:20px}
+.txt li{margin-bottom:6px}
+.txt b{color:var(--ivory);font-weight:500}
+.src{font-size:11.5px;color:var(--sage-2);line-height:1.7;word-break:break-all}
+.src .num{direction:ltr}
+
+/* ---------- one orchestrated moment: targets settle in by rank ---------- */
+@keyframes settle{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.trow{animation:settle .5s cubic-bezier(.2,.7,.2,1) both}
+
+@media (max-width:980px){
+  .app{grid-template-columns:minmax(0,1fr);grid-template-rows:auto 64vh auto}
+  .plate,.dossier{min-width:0}
+  .hd{flex-wrap:wrap;gap:12px 18px;padding:12px 16px}
+  .sites{order:3;flex-basis:100%}
+  .hd-end{margin-inline-start:auto}
+  .plate{border-inline-end:0;border-bottom:1px solid var(--rule)}
+  .layers{top:10px;inset-inline-start:10px;max-width:calc(100% - 20px)}
+  .reveal{display:none}
+  .legend{bottom:12px;inset-inline-start:10px;max-width:calc(100% - 76px)}
+  .zoom{bottom:12px;inset-inline-end:10px}
+  .dossier{overflow:visible;padding:22px 16px 40px}
+  .head h1{font-size:32px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---------- Sahara survey additions ---------- */
+:root{--iron:#d0674a;--alteration:#e0b35a;--carbonatite:#7fc2a6}
+.nav{display:flex;gap:22px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:none;text-decoration:none;color:var(--sage);padding:6px 0 7px;border-bottom:1.5px solid transparent;font-weight:500;font-size:14.5px;white-space:nowrap}
+.nav a span{display:block;font-size:11.5px;color:var(--sage-2);font-weight:400}
+.nav a[aria-current="page"]{color:var(--ivory);border-bottom-color:var(--gold)}
+.nav a:hover{color:var(--ivory)}
+.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:18px}
+.kpis div{background:var(--malachite);padding:12px 14px}
+.kpis b{display:block;font:400 24px/1.1 var(--title-lat);color:var(--ivory)}
+.kpis span{font-size:12px;color:var(--sage)}
+.seg{display:flex;gap:2px;padding:3px;border:1px solid var(--rule);border-radius:3px;background:rgba(10,25,22,.6);flex-wrap:wrap}
+.seg button{flex:1 1 auto;border:0;background:none;padding:7px 10px;font-size:12.5px;color:var(--sage);cursor:pointer;border-radius:2px;min-height:34px;white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--gold-2);color:var(--malachite);font-weight:600}
+.seg button i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:6px;vertical-align:0}
+.ctl{display:grid;gap:10px}
+.card{border:1px solid var(--rule-2);background:rgba(18,45,39,.6);border-radius:3px;padding:14px}
+.card .top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.card .top b{font:400 30px/1 var(--title-lat);color:var(--gold-2)}
+.card .top span{font-size:12.5px;color:var(--sage)}
+.card .where{margin:6px 0 2px;font-size:16px;color:var(--ivory)}
+.card .coord{font-size:12.5px;color:var(--sage)}
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.chips figure{margin:0}
+.chips img{width:100%;aspect-ratio:1;object-fit:cover;display:block;border:1px solid var(--rule);background:#0a1916}
+.chips figcaption{font-size:11.5px;color:var(--sage-2);margin-top:4px}
+.acts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.acts a,.acts button{flex:1 1 120px;min-height:38px;display:flex;align-items:center;justify-content:center;border:1px solid var(--gold);color:var(--gold-2);background:none;border-radius:2px;font-size:12.5px;text-decoration:none;cursor:pointer}
+.acts a:hover,.acts button:hover{background:var(--gold);color:var(--malachite)}
+.trow .rk{font-size:22px}
+.trow .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-inline-end:6px;vertical-align:1px}
+.checks{display:grid;gap:8px;margin-top:10px}
+.chk{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;font-size:13px;padding:8px 0;border-bottom:1px solid rgba(44,82,72,.6)}
+.chk b{font-weight:500;color:var(--ivory)}
+.chk .r{text-align:end;font-size:12.5px}
+.chk .ok{color:var(--verdigris)} .chk .no{color:var(--cuprite)}
+.chk small{grid-column:1/-1;color:var(--sage-2);font-size:11.5px}
+.empty{color:var(--sage-2);font-size:13px;padding:10px 0}
+.legend .bar,.legend .two{direction:ltr}
+@media (max-width:980px){.zoom button{width:34px;height:34px}.legend{font-size:11px;padding:7px 9px;max-width:calc(100% - 66px)}}
+.cov{font-size:12px;color:var(--sage-2);margin-top:8px}
+@media (max-width:980px){.app{grid-template-rows:auto 66vh auto}}
+</style>
+</head>
+<body>
+<div class="app" id="app" dir="rtl">
+  <header class="hd">
+    <a class="brand" href="../" aria-label="Madar Minerals">
+      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+        <circle cx="17" cy="17" r="15.5" fill="none" stroke="#cba35c" stroke-width=".8"/>
+        <circle cx="17" cy="17" r="11" fill="none" stroke="#cba35c" stroke-width=".5" stroke-dasharray="1 2.2"/>
+        <path d="M17 6.5l6.5 10.5L17 27.5 10.5 17z" fill="#1f5c4b" stroke="#e4c88e" stroke-width=".8"/>
+        <path d="M17 6.5l6.5 10.5H10.5z" fill="#e4c88e" fill-opacity=".85"/>
+      </svg>
+      <span class="wm"><b>Madar</b><span id="wmSub">Minerals</span></span>
+    </a>
+    <nav class="nav" id="nav"><a href="../" id="n1"></a><a href="./" aria-current="page" id="n2"></a><a href="../test.html" id="n3"></a></nav>
+    <div class="hd-end">
+      <span class="demo" id="demo" hidden>Demo</span>
+      <div class="langs" id="langs"><button data-l="ar">ع</button><button data-l="fr">FR</button></div>
+    </div>
+  </header>
+
+  <main class="plate" aria-label="map">
+    <canvas id="map" dir="ltr"></canvas>
+    <div class="layers" id="layers"></div>
+    <button class="reveal" id="reveal" aria-pressed="false"></button>
+    <div class="legend" id="legend"></div>
+    <div class="zoom"><button id="zin" aria-label="zoom in">+</button><button id="zout" aria-label="zoom out">−</button><button id="zhome" aria-label="reset" style="font-size:14px">⌂</button></div>
+    <div class="tip" id="tip"></div>
+  </main>
+
+  <aside class="dossier" id="dossier">
+    <section class="head" id="head"></section>
+    <section class="ctl"><div class="seg" id="models"></div><div class="seg" id="regions"></div></section>
+    <section id="sel"></section>
+    <section><h2 class="title" id="tTitle"></h2><ol class="tlist" id="targets"></ol></section>
+    <section class="blind" id="check"></section>
+    <section><div class="dl" id="dl"></div></section>
+    <section><details><summary><h2 class="title" id="mTitle"></h2></summary><div class="txt" id="method"></div></details></section>
+    <section><details><summary><h2 class="title" id="limTitle"></h2></summary><div class="txt" id="limits"></div></details></section>
+    <section class="src" id="foot"></section>
+  </aside>
+</div>
+
+<script>
+const DATA=/*__DATA__*/null;
+const MCOL={iron:"#d0674a",alteration:"#e0b35a",carbonatite:"#7fc2a6"};
+const T={
+ ar:{dir:"rtl",wm:"المعادن",n1:["المواقع المختبرة","5 مناطق"],n2:["مسح الصحراء","الداخلة إلى العيون"],n3:["الاختبار الأعمى","16 موقعاً"],
+  title:"مسح الصحراء",sub:"جهة الداخلة - وادي الذهب وجهة العيون - الساقية الحمراء",
+  k:["كم² مُسحت","من الأرض صخور مكشوفة","هدفاً مرتباً","دقة المسح الأولي"],
+  all:"الكل",dakhla:"الداخلة - وادي الذهب",laayoune:"العيون - الساقية الحمراء",
+  layers:{base:"صورة حقيقية",model:"شذوذ النموذج",none:"بدون"},reveal:"المواقع المعروفة",
+  tTitle:"الأهداف مرتبة",empty:"لا أهداف في هذه الجهة لهذا النموذج.",
+  sel:"اختر هدفاً من الخريطة أو القائمة",rank:"الهدف",area:"هكتار",rel:"القوة",tc:"صورة حقيقية 10 م",geo:"تركيب جيولوجي (SWIR)",
+  gm:"Google Maps",copy:"نسخ الإحداثيات",copied:"✓ نُسخت",chipd:d=>`صورة ${d}`,
+  check:"الاختبار: هل وجد المسح المواقع المعروفة؟",checkTxt:(n,p)=>`مواقع كربوناتيت معروفة لم يُستعمل موقعها في التحليل. «إصابة» إذا كان أحد الأهداف على بعد ${n} كم أو أقل. احتمال الإصابة بالصدفة لكل موقع: ${p}%.`,
+  hit:"إصابة",miss:"لم يُصب",pct:p=>`أقوى من ${p}% من الصخور`,near:(r,d)=>`أقرب هدف: رقم ${r} على بعد ${d} كم`,
+  nocheck:"لا توجد مواقع معروفة لهذا النموذج في المسح. الاختبار متوفر لنموذج الكربوناتيت.",
+  dlg:"تحميل الأهداف GeoJSON",dlc:"تحميل الجدول CSV",
+  legend:{base:"صورة Sentinel-2 بالألوان الطبيعية",model:m=>`شذوذ ${m}: أقوى 2% من الصخور`,lo:"قوي",hi:"الأقوى"},
+  mTitle:"الطريقة",limTitle:"الحدود",
+  method:`<ol><li><b>المسح الأولي:</b> لكل مربع من صور Sentinel-2 (110 × 110 كم) نختار أصفى مرور في آخر 14 شهراً، ونقرؤه بدقة 100 م.</li>
+  <li><b>المؤشرات:</b> الطين (B11/B12)، وأكاسيد الحديد (B4/B2)، والحديد الثنائي (B12/B8A + B3/B4)، ومؤشر تجريبي للعناصر النادرة (الأحمر الحافي).</li>
+  <li><b>قناع الصخور:</b> الرمال والكثبان والسبخات ناعمة في الصورة، والصخر خشن. نحتفظ فقط بالأماكن الخشنة، فتختفي أغلب الأهداف الخاطئة.</li>
+  <li><b>ثلاثة نماذج:</b> الحديد، والتغير الحراري (ذهب ونحاس)، والكربوناتيت (العناصر النادرة والنيوبيوم).</li>
+  <li><b>الأهداف:</b> أقوى المجموعات في أعلى 0.15% من كل نموذج، هدف واحد كل 4 كم، مرتبة حسب القوة.</li>
+  <li><b>صور 10 م:</b> لأفضل الأهداف، صورة حقيقية وتركيب جيولوجي للتحقق بالعين.</li></ol>`,
+  limits:`<ul><li><b>هذا مسح استطلاعي:</b> يحدد أين ننظر أولاً، ولا يثبت وجود معدن. القرار بعد العينات الميدانية.</li>
+  <li>بدقة 100 م قد تفوت الأهداف الصغيرة جداً، وقد تظهر طرق أو مقالع أو قرى كأهداف. الصور 10 م تساعد على استبعادها.</li>
+  <li>مؤشر العناصر النادرة تجريبي.</li><li>الحدود المرسومة تقريبية وللتوجيه فقط.</li></ul>`,
+  foot:d=>`مسح ${d.made} · ${d.scenes.length} مروراً من Sentinel-2 (ESA Copernicus عبر Earth Search) · دقة ${d.res_m} م`,
+  towns:"ar"},
+ fr:{dir:"ltr",wm:"Minerais",n1:["Sites testés","5 zones"],n2:["Levé du Sahara","de Dakhla à Laâyoune"],n3:["Test à l'aveugle","16 sites"],
+  title:"Levé du Sahara",sub:"Régions Dakhla-Oued Ed-Dahab et Laâyoune-Sakia El Hamra",
+  k:["km² couverts","du terrain en roche affleurante","cibles classées","résolution du levé"],
+  all:"Tout",dakhla:"Dakhla - Oued Ed-Dahab",laayoune:"Laâyoune - Sakia El Hamra",
+  layers:{base:"Couleurs réelles",model:"Anomalie du modèle",none:"Aucune"},reveal:"Sites connus",
+  tTitle:"Cibles classées",empty:"Aucune cible dans cette région pour ce modèle.",
+  sel:"Choisissez une cible sur la carte ou dans la liste",rank:"Cible",area:"ha",rel:"Force",tc:"Couleurs réelles 10 m",geo:"Composé géologique (SWIR)",
+  gm:"Google Maps",copy:"Copier les coordonnées",copied:"✓ Copié",chipd:d=>`Image du ${d}`,
+  check:"Contrôle : le levé retrouve-t-il les sites connus ?",checkTxt:(n,p)=>`Carbonatites connues, jamais utilisées dans l'analyse. « Touché » si une cible est à ${n} km ou moins. Probabilité de toucher par hasard, par site : ${p} %.`,
+  hit:"Touché",miss:"Manqué",pct:p=>`plus fort que ${p} % des roches`,near:(r,d)=>`cible la plus proche : n° ${r} à ${d} km`,
+  nocheck:"Pas de site connu pour ce modèle dans la zone. Le contrôle porte sur le modèle carbonatite.",
+  dlg:"Cibles GeoJSON",dlc:"Tableau CSV",
+  legend:{base:"Image Sentinel-2 en couleurs naturelles",model:m=>`Anomalie ${m} : 2 % les plus forts des roches`,lo:"forte",hi:"maximale"},
+  mTitle:"Méthode",limTitle:"Limites",
+  method:`<ol><li><b>Levé :</b> pour chaque tuile Sentinel-2 (110 × 110 km), le passage le plus clair des 14 derniers mois, lu à 100 m.</li>
+  <li><b>Indices :</b> argiles (B11/B12), oxydes de fer (B4/B2), fer ferreux (B12/B8A + B3/B4), indice expérimental terres rares (red-edge).</li>
+  <li><b>Masque roche :</b> sables, dunes et sebkhas sont lisses, la roche est rugueuse ; seules les zones rugueuses sont gardées.</li>
+  <li><b>Trois modèles :</b> fer, altération (or, cuivre), carbonatite (terres rares, niobium).</li>
+  <li><b>Cibles :</b> les amas les plus forts du top 0,15 % de chaque modèle, une cible tous les 4 km, classées.</li>
+  <li><b>Images 10 m :</b> couleurs réelles et composé géologique pour les meilleures cibles.</li></ol>`,
+  limits:`<ul><li><b>Levé de reconnaissance :</b> il dit où regarder d'abord, il ne prouve pas un gisement. L'échantillonnage décide.</li>
+  <li>À 100 m, de petites cibles peuvent échapper ; routes, carrières ou villages peuvent ressortir. Les images 10 m aident à les écarter.</li>
+  <li>L'indice terres rares est expérimental.</li><li>Les limites tracées sont approximatives, pour l'orientation.</li></ul>`,
+  foot:d=>`Levé du ${d.made} · ${d.scenes.length} passages Sentinel-2 (ESA Copernicus via Earth Search) · résolution ${d.res_m} m`,
+  towns:"fr"}
+};
+let L=(()=>{try{return localStorage.getItem("madar-lang")==="fr"?"fr":"ar"}catch(e){return"ar"}})();
+let MODEL="carbonatite",REGION="dakhla",LAYER="model",SEL=null,REVEAL=false;
+const $=s=>document.querySelector(s),t=k=>T[L][k];
+const cv=$("#map"),ctx=cv.getContext("2d");
+const [LA0,LA1,LO0,LO1]=DATA.box;
+const COS=Math.cos(24*Math.PI/180);
+// view: centre (lon,lat) and pixels per degree of longitude
+let V={lon:-15.2,lat:22.9,ppd:0};
+const IM={},TILE={};
+function img(src){if(IM[src])return IM[src];const i=new Image();i.ok=false;i.bad=false;i.onload=()=>{i.ok=true;req()};i.onerror=()=>{i.bad=true};i.src=src;IM[src]=i;return i}
+let raf=0;function req(){if(!raf)raf=requestAnimationFrame(()=>{raf=0;draw()})}
+function size(){const r=cv.getBoundingClientRect(),d=devicePixelRatio||1;cv.width=Math.round(r.width*d);cv.height=Math.round(r.height*d);ctx.setTransform(d,0,0,d,0,0);return r}
+function home(){const r=cv.getBoundingClientRect();
+  const box=REGION==="laayoune"?[24.1,27.75,-15.2,-8.6]:REGION==="dakhla"?[20.7,24.5,-17.2,-12.8]:[20.7,27.75,-17.2,-8.6];
+  V.lat=(box[0]+box[1])/2;V.lon=(box[2]+box[3])/2;
+  V.ppd=Math.min(r.width/((box[3]-box[2])),r.height/((box[1]-box[0])/COS))*0.96;req()}
+const X=lo=>(lo-V.lon)*V.ppd+cv.clientWidth/2,Y=la=>-(la-V.lat)*V.ppd/COS+cv.clientHeight/2;
+const LON=x=>(x-cv.clientWidth/2)/V.ppd+V.lon,LAT=y=>-(y-cv.clientHeight/2)*COS/V.ppd+V.lat;
+
+function drawImage(level,prefix){
+  const m=DATA.tiles[level],W=cv.clientWidth,H=cv.clientHeight;
+  const x0=X(LO0),y0=Y(LA1),x1=X(LO1),y1=Y(LA0),sx=(x1-x0)/m.w,sy=(y1-y0)/m.h;
+  if(level==="ov"){const i=img(prefix==="base"?"tiles/ov.jpg":`tiles/ov_${prefix}.png`);if(i.ok)ctx.drawImage(i,x0,y0,x1-x0,y1-y0);return i.ok}
+  const ts=m.tile,c0=Math.max(0,Math.floor(-x0/sx/ts)),c1=Math.min(Math.ceil(m.w/ts)-1,Math.floor((W-x0)/sx/ts)),r0=Math.max(0,Math.floor(-y0/sy/ts)),r1=Math.min(Math.ceil(m.h/ts)-1,Math.floor((H-y0)/sy/ts));
+  for(let r=r0;r<=r1;r++)for(let c=c0;c<=c1;c++){
+    if(prefix!=="base"&&!(m.have&&m.have[prefix]&&m.have[prefix].includes(`${r}_${c}`)))continue;
+    const src=`tiles/dt/${prefix}_${r}_${c}.${prefix==="base"?"jpg":"png"}`,i=img(src);
+    if(i.ok){const tw=Math.min(ts,m.w-c*ts),th=Math.min(ts,m.h-r*ts);ctx.drawImage(i,x0+c*ts*sx,y0+r*ts*sy,tw*sx+.5,th*sy+.5)}}
+}
+function draw(){
+  const W=cv.clientWidth,H=cv.clientHeight;ctx.fillStyle="#0a1916";ctx.fillRect(0,0,W,H);
+  const ovScale=(X(LO1)-X(LO0))/DATA.tiles.ov.w;   // screen px per overview px
+  const detail=ovScale>1.25;
+  if(LAYER!=="none"){drawImage("ov","base");if(detail)drawImage("dt","base")}
+  if(LAYER==="model"){ctx.globalAlpha=.95;drawImage("ov",MODEL);if(detail)drawImage("dt",MODEL);ctx.globalAlpha=1}
+  graticule();outline();towns();targets();if(REVEAL)known();scale();north();
+}
+function outline(){ctx.save();ctx.beginPath();DATA.outline.forEach(([lo,la],i)=>i?ctx.lineTo(X(lo),Y(la)):ctx.moveTo(X(lo),Y(la)));ctx.closePath();
+  ctx.strokeStyle="rgba(228,200,142,.55)";ctx.lineWidth=1;ctx.setLineDash([]);ctx.stroke();
+  const y=Y(DATA.split_lat);ctx.setLineDash([6,5]);ctx.strokeStyle="rgba(228,200,142,.45)";ctx.beginPath();ctx.moveTo(X(-16.6),y);ctx.lineTo(X(-12),y);ctx.stroke();ctx.setLineDash([]);
+  ctx.font="500 11px 'IBM Plex Sans','IBM Plex Sans Arabic',sans-serif";ctx.fillStyle="rgba(228,200,142,.8)";ctx.textAlign="left";
+  ctx.fillText(L==="ar"?"↑ العيون - الساقية الحمراء":"↑ Laâyoune - Sakia El Hamra",X(-13.9),y-6);ctx.fillText(L==="ar"?"↓ الداخلة - وادي الذهب":"↓ Dakhla - Oued Ed-Dahab",X(-13.9),y+14);ctx.restore()}
+function graticule(){
+  const W=cv.clientWidth,H=cv.clientHeight,step=V.ppd>900?0.25:V.ppd>300?0.5:1;
+  ctx.save();ctx.strokeStyle="rgba(203,163,92,.16)";ctx.lineWidth=1;ctx.fillStyle="rgba(228,200,142,.75)";ctx.font="10.5px 'IBM Plex Sans',sans-serif";
+  for(let lo=Math.ceil(LON(0)/step)*step;lo<=LON(W);lo+=step){const x=X(lo);ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();ctx.textAlign="center";ctx.fillText(`${Math.abs(lo).toFixed(step<1?2:0)}°W`,x,H-6)}
+  for(let la=Math.ceil(LAT(H)/step)*step;la<=LAT(0);la+=step){const y=Y(la);ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();ctx.textAlign="left";ctx.fillText(`${la.toFixed(step<1?2:0)}°N`,6,y-4)}
+  ctx.restore()}
+function towns(){ctx.save();ctx.font="500 12px 'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif";
+  DATA.towns.forEach(tw=>{const x=X(tw.lon),y=Y(tw.lat);if(x<-50||y<-20||x>cv.clientWidth+50||y>cv.clientHeight+20)return;
+    ctx.fillStyle="#efe8d8";ctx.beginPath();ctx.arc(x,y,2.6,0,7);ctx.fill();ctx.lineWidth=3;ctx.strokeStyle="rgba(10,25,22,.85)";ctx.textAlign="left";
+    const s=tw[t("towns")];ctx.strokeText(s,x+6,y+4);ctx.fillText(s,x+6,y+4)});ctx.restore()}
+function list(){const M=DATA.models[MODEL].targets;return REGION==="all"?M:M.filter(z=>z.region===REGION)}
+function targets(){
+  ctx.save();const col=MCOL[MODEL];
+  list().slice().reverse().forEach(z=>{const x=X(z.lon),y=Y(z.lat);if(x<-20||y<-20||x>cv.clientWidth+20||y>cv.clientHeight+20)return;
+    const sel=SEL&&SEL.model===z.model&&SEL.rank===z.rank,r=sel?13:z.rank<=3?11:9;
+    ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fillStyle=z.rank<=3||sel?col:"rgba(10,25,22,.85)";ctx.fill();ctx.lineWidth=sel?2.5:1.5;ctx.strokeStyle=sel?"#fff":col;ctx.stroke();
+    ctx.fillStyle=z.rank<=3||sel?"#0c1f1b":col;ctx.font=`600 ${r>10?12:10.5}px 'IBM Plex Sans',sans-serif`;ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(z.rank,x,y+.5)});
+  ctx.restore()}
+function known(){ctx.save();(DATA.models.carbonatite.check||[]).forEach(k=>{const x=X(k.lon),y=Y(k.lat);
+  ctx.beginPath();ctx.moveTo(x,y-8);ctx.lineTo(x+6,y);ctx.lineTo(x,y+8);ctx.lineTo(x-6,y);ctx.closePath();ctx.fillStyle="#5b8bd0";ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=1;ctx.stroke();
+  ctx.font="500 11.5px 'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif";ctx.textAlign="center";ctx.lineWidth=3;ctx.strokeStyle="rgba(10,25,22,.9)";const s=L==="ar"?k.ar:k.fr;ctx.strokeText(s,x,y-13);ctx.fillStyle="#cfe0f7";ctx.fillText(s,x,y-13)});ctx.restore()}
+function scale(){const W=cv.clientWidth,H=cv.clientHeight,kmpx=V.ppd/(111.32*COS);
+  let km=[1,2,5,10,20,50,100,200].find(k=>k*kmpx>=70)||200;const len=km*kmpx,x0=W/2-len/2,y=W<600?H-34:H-30;
+  ctx.save();ctx.fillStyle="rgba(10,25,22,.8)";ctx.fillRect(x0-8,y-20,len+16,30);
+  for(let i=0;i<4;i++){ctx.fillStyle=i%2?"#0c1f1b":"#e4c88e";ctx.fillRect(x0+i*len/4,y,len/4,4)}ctx.strokeStyle="#e4c88e";ctx.strokeRect(x0,y,len,4);
+  ctx.fillStyle="#efe8d8";ctx.font="10.5px 'IBM Plex Sans',sans-serif";ctx.textAlign="center";ctx.fillText(`${km} km`,x0+len/2,y-6);ctx.restore()}
+function north(){const W=cv.clientWidth,rtl=document.documentElement.dir==="rtl",x=rtl?34:W-34,y=W<600?96:150;
+  ctx.save();ctx.fillStyle="#e4c88e";ctx.beginPath();ctx.moveTo(x,y-16);ctx.lineTo(x+7,y+6);ctx.lineTo(x,y);ctx.closePath();ctx.fill();ctx.fillStyle="#6f877c";ctx.beginPath();ctx.moveTo(x,y-16);ctx.lineTo(x-7,y+6);ctx.lineTo(x,y);ctx.closePath();ctx.fill();
+  ctx.fillStyle="#efe8d8";ctx.font="600 11px 'Spectral',serif";ctx.textAlign="center";ctx.fillText("N",x,y+20);ctx.restore()}
+
+// ---------- interaction: drag, wheel, pinch, tap ----------
+const P=new Map();let moved=0,pinch=null;
+function zoomAt(f,sx,sy){const lo=LON(sx),la=LAT(sy);V.ppd=Math.max(60,Math.min(40000,V.ppd*f));V.lon=lo-(sx-cv.clientWidth/2)/V.ppd;V.lat=la+(sy-cv.clientHeight/2)*COS/V.ppd;req()}
+cv.addEventListener("pointerdown",e=>{cv.setPointerCapture(e.pointerId);P.set(e.pointerId,{x:e.offsetX,y:e.offsetY});moved=0;cv.classList.add("drag");
+  if(P.size===2){const[a,b]=[...P.values()];pinch={d:Math.hypot(a.x-b.x,a.y-b.y)}}});
+cv.addEventListener("pointermove",e=>{const p=P.get(e.pointerId);
+  if(!p){hover(e);return}
+  if(P.size===2&&pinch){P.set(e.pointerId,{x:e.offsetX,y:e.offsetY});const[a,b]=[...P.values()],d=Math.hypot(a.x-b.x,a.y-b.y);zoomAt(d/pinch.d,(a.x+b.x)/2,(a.y+b.y)/2);pinch.d=d;moved=99;return}
+  const dx=e.offsetX-p.x,dy=e.offsetY-p.y;moved+=Math.abs(dx)+Math.abs(dy);V.lon-=dx/V.ppd;V.lat+=dy*COS/V.ppd;P.set(e.pointerId,{x:e.offsetX,y:e.offsetY});req()});
+function up(e){P.delete(e.pointerId);if(P.size<2)pinch=null;cv.classList.remove("drag");if(moved<6&&e.type==="pointerup")tap(e.offsetX,e.offsetY)}
+cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",up);
+cv.addEventListener("wheel",e=>{e.preventDefault();zoomAt(Math.exp(-e.deltaY*0.0016),e.offsetX,e.offsetY)},{passive:false});
+cv.addEventListener("dblclick",e=>zoomAt(2,e.offsetX,e.offsetY));
+function hit(x,y){let best=null,bd=16;list().forEach(z=>{const d=Math.hypot(X(z.lon)-x,Y(z.lat)-y);if(d<bd){bd=d;best=z}});return best}
+function tap(x,y){const z=hit(x,y);if(z)select(z,false)}
+function hover(e){const z=hit(e.offsetX,e.offsetY),tip=$("#tip");cv.style.cursor=z?"pointer":"grab";
+  if(z){tip.style.display="block";tip.style.left=(e.offsetX+14)+"px";tip.style.top=(e.offsetY+10)+"px";tip.textContent=`#${z.rank} · ${z.lat.toFixed(4)}, ${z.lon.toFixed(4)} · ${z.area_ha} ha`}else tip.style.display="none"}
+$("#zin").onclick=()=>zoomAt(1.6,cv.clientWidth/2,cv.clientHeight/2);$("#zout").onclick=()=>zoomAt(1/1.6,cv.clientWidth/2,cv.clientHeight/2);$("#zhome").onclick=home;
+function fly(z){const W=cv.clientWidth,H=cv.clientHeight,target=Math.max(V.ppd,2600),s={lon:V.lon,lat:V.lat,ppd:V.ppd},t0=performance.now(),dur=matchMedia("(prefers-reduced-motion:reduce)").matches?1:650;
+  (function step(now){const k=Math.min(1,(now-t0)/dur),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;V.lon=s.lon+(z.lon-s.lon)*e;V.lat=s.lat+(z.lat-s.lat)*e;V.ppd=s.ppd*Math.pow(target/s.ppd,e);draw();if(k<1)requestAnimationFrame(step)})(t0)}
+
+// ---------- dossier ----------
+function dms(v,pos,neg){const ts=Math.round(Math.abs(v)*36000)/10,d=Math.floor(ts/3600),m=Math.floor((ts-d*3600)/60),s=ts-d*3600-m*60;return `${d}°${String(m).padStart(2,"0")}′${s.toFixed(1).padStart(4,"0")}″${v>=0?pos:neg}`}
+function select(z,flyTo=true){SEL={model:z.model,rank:z.rank};card(z);rows();if(flyTo)fly(z);else req();
+  if(innerWidth<=980&&flyTo)$(".plate").scrollIntoView({behavior:"smooth",block:"start"})}
+function card(z){const s=$("#sel");if(!z){s.innerHTML=`<p class="empty">${t("sel")}</p>`;return}
+  const chips=z.chip_tc?`<div class="chips"><figure><img src="${z.chip_tc}" alt="" loading="lazy"><figcaption>${t("tc")}</figcaption></figure><figure><img src="${z.chip_geo}" alt="" loading="lazy"><figcaption>${t("geo")}</figcaption></figure></div>${z.chip_date?`<div class="cov">${t("chipd")(z.chip_date)}</div>`:""}`:"";
+  s.innerHTML=`<div class="card"><div class="top"><b class="num">${t("rank")} ${z.rank}</b><span><i class="dot" style="background:${MCOL[z.model]};display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:6px"></i>${DATA.models[z.model][L]}</span></div>
+   <div class="where">${z.where[L]}</div><div class="coord num">${z.lat.toFixed(5)}, ${z.lon.toFixed(5)} · ${dms(z.lat,"N","S")} ${dms(z.lon,"E","W")}</div>
+   <div class="coord">${z.area_ha} ${t("area")} · ${t("rel")} ${z.rel}%</div>${chips}
+   <div class="acts"><a href="https://www.google.com/maps?q=${z.lat},${z.lon}&t=k" target="_blank" rel="noopener">${t("gm")}</a><button id="cp">${t("copy")}</button></div></div>`;
+  $("#cp").onclick=async()=>{try{await navigator.clipboard.writeText(`${z.lat.toFixed(5)}, ${z.lon.toFixed(5)}`);$("#cp").textContent=t("copied")}catch(e){}}}
+function rows(){const ol=$("#targets"),M=list();ol.innerHTML=M.length?"":`<li class="empty">${t("empty")}</li>`;
+  M.forEach((z,i)=>{const li=document.createElement("li");li.className="trow";li.style.animationDelay=Math.min(i,12)*35+"ms";
+    if(SEL&&SEL.model===z.model&&SEL.rank===z.rank)li.setAttribute("aria-current","true");
+    li.innerHTML=`<span class="rk num">${z.rank}</span><span class="co">${z.where[L]}</span><span class="st"><span class="bar"><i style="width:${z.rel}%;background:${MCOL[z.model]}"></i></span><span class="mt num">${z.area_ha} ${t("area")}</span></span><span class="mt num">${z.lat.toFixed(4)}, ${z.lon.toFixed(4)}</span>`;
+    li.onclick=()=>select(z);ol.appendChild(li)})}
+function check(){const c=DATA.models.carbonatite,box=$("#check");
+  if(!c.check||!c.check.length){box.innerHTML="";return}
+  box.innerHTML=`<h2 class="title">${t("check")}</h2><p>${t("checkTxt")(DATA.check_km,(c.p_chance*100).toFixed(1))}</p><div class="checks">${c.check.map(k=>`<div class="chk"><b>${L==="ar"?k.ar:k.fr}</b><span class="r ${k.hit?"ok":"no"}">${k.hit?t("hit"):t("miss")}</span><small>${t("pct")(k.percentile)} · ${k.nearest_rank?t("near")(k.nearest_rank,k.nearest_km):"–"}</small></div>`).join("")}</div>`}
+function legend(){const g=$("#legend");
+  if(LAYER==="model")g.innerHTML=`<div>${t("legend").model(DATA.models[MODEL][L])}</div><div class="bar" style="background:linear-gradient(90deg,rgba(150,40,30,.6),#d76428,#f5af3c,#fff0aa)"></div><div class="two"><span>${t("legend").lo}</span><span>${t("legend").hi}</span></div>`;
+  else g.innerHTML=`<div>${t("legend").base}</div>`}
+function render(){
+  const d=document.documentElement,app=$("#app");d.lang=L;d.dir=t("dir");app.dir=t("dir");
+  $("#wmSub").textContent=t("wm");$("#demo").hidden=!DATA.demo;
+  [["#n1","n1"],["#n2","n2"],["#n3","n3"]].forEach(([s,k])=>$(s).innerHTML=`${t(k)[0]}<span>${t(k)[1]}</span>`);
+  document.querySelectorAll("#langs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===L));
+  const n=Object.values(DATA.models).reduce((a,m)=>a+m.targets.length,0);
+  $("#head").innerHTML=`<h1 class="title">${t("title")}</h1><p class="sub">${t("sub")}</p><div class="kpis">
+   <div><b class="num">${DATA.area_km2.toLocaleString("en")}</b><span>${t("k")[0]}</span></div><div><b class="num">${DATA.rock_pct}%</b><span>${t("k")[1]}</span></div>
+   <div><b class="num">${n}</b><span>${t("k")[2]}</span></div><div><b class="num">${DATA.res_m} m</b><span>${t("k")[3]}</span></div></div>`;
+  $("#models").innerHTML=Object.keys(DATA.models).map(m=>`<button data-m="${m}" aria-pressed="${m===MODEL}"><i style="background:${MCOL[m]}"></i>${DATA.models[m][L]}</button>`).join("");
+  $("#regions").innerHTML=["dakhla","laayoune","all"].map(r=>`<button data-r="${r}" aria-pressed="${r===REGION}">${t(r)}</button>`).join("");
+  document.querySelectorAll("#models button").forEach(b=>b.onclick=()=>{MODEL=b.dataset.m;SEL=null;render()});
+  document.querySelectorAll("#regions button").forEach(b=>b.onclick=()=>{REGION=b.dataset.r;SEL=null;render();home()});
+  const ly=t("layers");$("#layers").innerHTML=["model","base","none"].map(k=>`<button data-k="${k}" aria-pressed="${k===LAYER}">${ly[k]}</button>`).join("");
+  document.querySelectorAll("#layers button").forEach(b=>b.onclick=()=>{LAYER=b.dataset.k;render()});
+  $("#reveal").textContent=t("reveal");$("#reveal").setAttribute("aria-pressed",REVEAL);
+  $("#tTitle").textContent=t("tTitle");
+  const z=SEL&&DATA.models[SEL.model].targets.find(q=>q.rank===SEL.rank);card(z);rows();check();legend();
+  $("#dl").innerHTML=`<a href="targets.geojson" download>${t("dlg")}</a><a href="targets.csv" download>${t("dlc")}</a>`;
+  $("#mTitle").textContent=t("mTitle");$("#limTitle").textContent=t("limTitle");$("#method").innerHTML=t("method");$("#limits").innerHTML=t("limits");$("#foot").textContent=t("foot")(DATA);
+  req()}
+$("#reveal").onclick=()=>{REVEAL=!REVEAL;render()};
+document.querySelectorAll("#langs button").forEach(b=>b.onclick=()=>{L=b.dataset.l;try{localStorage.setItem("madar-lang",L)}catch(e){}render()});
+let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(()=>{size();req()},100)});
+size();render();home();
+</script>
+</body>
+</html>

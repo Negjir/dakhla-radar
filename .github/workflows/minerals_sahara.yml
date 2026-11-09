@@ -1,0 +1,41 @@
+name: MADAR Minerals - Sahara regional scan
+
+on:
+  push:
+    branches: [main]
+    paths: ["minerals_region.py", "minerals_sahara.html", ".github/workflows/minerals_sahara.yml"]
+  workflow_dispatch:
+    inputs:
+      page_only:
+        description: "Only rebuild the page from the last results (true/false)"
+        required: false
+        default: "false"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: minerals
+  cancel-in-progress: false
+
+jobs:
+  sahara:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install rasterio pystac-client numpy scipy pillow matplotlib
+      - name: Regional scan (Sentinel-2, ~100 m, then 10 m chips)
+        run: |
+          if [ "${{ github.event.inputs.page_only }}" = "true" ]; then python minerals_region.py --page-only; else python -u minerals_region.py; fi
+      - name: Save results
+        run: |
+          git config user.name "radar-bot"
+          git config user.email "radar-bot@users.noreply.github.com"
+          git add docs/minerals/sahara
+          git commit -m "Sahara scan $(date -u +%F-%H%M)" || echo "nothing to commit"
+          for i in 1 2 3; do git pull --rebase && git push && break; sleep 5; done
