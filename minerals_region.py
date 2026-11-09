@@ -624,6 +624,9 @@ def main():
         return
     if a.demo:
         RES = 0.004
+    import shutil
+    for old in ("chips", "tiles"):            # remove pictures of the previous run
+        shutil.rmtree(OUT / old, ignore_errors=True)
     G, valid, rgb, inside, land, used, by_id = scan(a.demo)
     keep, _ = outcrop(G, valid)
     scores, result, all_t = {}, {}, []
