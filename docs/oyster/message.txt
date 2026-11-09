@@ -1,10 +1,10 @@
 🦪 مدار المحار · خليج الداخلة · 2026-11-09
 
-🟡 لاسارگا: 22.8° · كلوروفيل 9.2 — الكلوروفيل يرتفع ×1.9 (9.2 mg/m³) عن معدل الشهر
-🟡 دونا بلانكا: 23.0° · كلوروفيل 12.4 — الكلوروفيل يرتفع ×1.7 (12.4 mg/m³) عن معدل الشهر
-🟡 وسط الخليج: 23.0° · كلوروفيل 7.0 — الكلوروفيل يرتفع ×1.5 (7.0 mg/m³) عن معدل الشهر
-🟡 بوطلحة: 22.8° · كلوروفيل 8.4 — الكلوروفيل يرتفع ×2.0 (8.4 mg/m³) عن معدل الشهر
-🔴 تنيكير: 22.2° · كلوروفيل 8.2 — الكلوروفيل تضاعف ×2.6 (8.2 mg/m³): ازدهار طحالب قوي. زيدوا أخذ العينات وتابعوا نشرات INRH
+🟡 لاسارگا: 22.8° · كلوروفيل 9.2 — الكلوروفيل أعلى ×1.7 عن المعتاد في هذا الموسم (9.2 mg/m³)
+🟡 دونا بلانكا: 23.0° · كلوروفيل 12.4 — الكلوروفيل أعلى ×1.8 عن المعتاد في هذا الموسم (12.4 mg/m³)
+🟢 وسط الخليج: 23.0° · كلوروفيل 7.0 — ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة
+🟢 بوطلحة: 22.8° · كلوروفيل 8.4 — ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة
+🟡 تنيكير: 22.2° · كلوروفيل 8.2 — ماء عكر (~41 FNU): غذاء أقل جودة ورواسب
 
 💨 الرياح 48 ساعة: حتى 12 عقدة
 
@@ -12,11 +12,11 @@
 
 🦪 Madar Huîtres · Baie de Dakhla · 2026-11-09
 
-🟡 La Sarga : 22.8° · chl 9.2 — Chlorophylle en hausse ×1.9 (9.2 mg/m³) par rapport au mois
-🟡 Duna Blanca : 23.0° · chl 12.4 — Chlorophylle en hausse ×1.7 (12.4 mg/m³) par rapport au mois
-🟡 Centre de la baie : 23.0° · chl 7.0 — Chlorophylle en hausse ×1.5 (7.0 mg/m³) par rapport au mois
-🟡 Boutalha : 22.8° · chl 8.4 — Chlorophylle en hausse ×2.0 (8.4 mg/m³) par rapport au mois
-🔴 Tiniguir : 22.2° · chl 8.2 — Chlorophylle ×2.6 (8.2 mg/m³) : forte efflorescence. Renforcer les prélèvements, suivre les bulletins INRH
+🟡 La Sarga : 22.8° · chl 9.2 — Chlorophylle ×1.7 par rapport à la normale de saison (9.2 mg/m³)
+🟡 Duna Blanca : 23.0° · chl 12.4 — Chlorophylle ×1.8 par rapport à la normale de saison (12.4 mg/m³)
+🟢 Centre de la baie : 23.0° · chl 7.0 — Bonnes conditions de croissance : nourriture suffisante, température adaptée
+🟢 Boutalha : 22.8° · chl 8.4 — Bonnes conditions de croissance : nourriture suffisante, température adaptée
+🟡 Tiniguir : 22.2° · chl 8.2 — Eau trouble (~41 FNU) : sédiments, alimentation moins bonne
 
 💨 Vent 48 h : jusqu'à 12 nœuds
 

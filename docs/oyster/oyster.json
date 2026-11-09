@@ -1,6 +1,6 @@
 {
  "day": "2026-11-09",
- "made": "2026-11-09 14:28 UTC",
+ "made": "2026-11-09 14:31 UTC",
  "demo": false,
  "box": [
   23.56,
@@ -20,10 +20,40 @@
   "ndci_watch": 0.1,
   "ndci_alert": 0.2,
   "turb_watch": 20.0,
+  "turb_mask": 25.0,
   "wind_work_kn": 25,
   "s2_fresh_days": 5
  },
  "sst_days": [
+  "2026-10-09",
+  "2026-10-10",
+  "2026-10-11",
+  "2026-10-12",
+  "2026-10-13",
+  "2026-10-14",
+  "2026-10-15",
+  "2026-10-16",
+  "2026-10-17",
+  "2026-10-18",
+  "2026-10-19",
+  "2026-10-20",
+  "2026-10-21",
+  "2026-10-22",
+  "2026-10-23",
+  "2026-10-24",
+  "2026-10-25",
+  "2026-10-26",
+  "2026-10-27",
+  "2026-10-28",
+  "2026-10-29",
+  "2026-10-30",
+  "2026-10-31",
+  "2026-11-01",
+  "2026-11-02",
+  "2026-11-03",
+  "2026-11-04",
+  "2026-11-05",
+  "2026-11-06",
   "2026-11-07"
  ],
  "chl_days": [
@@ -163,6 +193,7 @@
   "s2": "Sentinel-2 L2A (ESA Copernicus, Earth Search)",
   "sst": "NASA MUR 1 km",
   "chl": "Copernicus Marine ocean colour (L4, 1 km)",
+  "clim": "cmems_obs-oc_atl_bgc-plankton_my_l4-gapfree-multi-1km_P1D (5 ans / سنوات)",
   "wind": "Open-Meteo"
  },
  "zones": [
@@ -178,13 +209,14 @@
     {
      "level": 1,
      "key": "rise",
-     "ar": "الكلوروفيل يرتفع ×1.9 (9.2 mg/m³) عن معدل الشهر",
-     "fr": "Chlorophylle en hausse ×1.9 (9.2 mg/m³) par rapport au mois"
+     "ar": "الكلوروفيل أعلى ×1.7 عن المعتاد في هذا الموسم (9.2 mg/m³)",
+     "fr": "Chlorophylle ×1.7 par rapport à la normale de saison (9.2 mg/m³)"
     }
    ],
    "sst": 22.84,
    "chl": 9.18,
-   "chl_ratio": 1.86,
+   "chl_normal": 5.35,
+   "chl_ratio": 1.72,
    "s2": {
     "ndci": -0.081,
     "ndci_p90": -0.035,
@@ -192,6 +224,35 @@
     "px": 43492
    },
    "sst_series": [
+    20.83,
+    20.42,
+    19.99,
+    19.88,
+    19.9,
+    20.08,
+    19.95,
+    19.62,
+    19.9,
+    20.63,
+    20.76,
+    20.18,
+    19.72,
+    19.91,
+    20.15,
+    21.66,
+    22.06,
+    22.21,
+    22.64,
+    22.3,
+    21.27,
+    20.73,
+    20.74,
+    20.59,
+    20.76,
+    21.1,
+    21.3,
+    20.79,
+    20.46,
     22.84
    ],
    "chl_series": [
@@ -220,13 +281,14 @@
     {
      "level": 1,
      "key": "rise",
-     "ar": "الكلوروفيل يرتفع ×1.7 (12.4 mg/m³) عن معدل الشهر",
-     "fr": "Chlorophylle en hausse ×1.7 (12.4 mg/m³) par rapport au mois"
+     "ar": "الكلوروفيل أعلى ×1.8 عن المعتاد في هذا الموسم (12.4 mg/m³)",
+     "fr": "Chlorophylle ×1.8 par rapport à la normale de saison (12.4 mg/m³)"
     }
    ],
    "sst": 22.96,
    "chl": 12.43,
-   "chl_ratio": 1.69,
+   "chl_normal": 6.93,
+   "chl_ratio": 1.79,
    "s2": {
     "ndci": -0.104,
     "ndci_p90": -0.078,
@@ -234,6 +296,35 @@
     "px": 24026
    },
    "sst_series": [
+    20.69,
+    20.37,
+    20.06,
+    19.94,
+    19.93,
+    20.09,
+    19.99,
+    19.66,
+    19.92,
+    20.61,
+    20.83,
+    20.11,
+    19.7,
+    19.88,
+    20.1,
+    21.33,
+    22.02,
+    22.47,
+    22.81,
+    22.49,
+    21.21,
+    20.7,
+    20.69,
+    20.61,
+    20.72,
+    20.89,
+    20.97,
+    20.62,
+    20.47,
     22.96
    ],
    "chl_series": [
@@ -257,18 +348,19 @@
    "lat": 23.735,
    "lon": -15.86,
    "approx": true,
-   "level": 1,
+   "level": 0,
    "reasons": [
     {
-     "level": 1,
-     "key": "rise",
-     "ar": "الكلوروفيل يرتفع ×1.5 (7.0 mg/m³) عن معدل الشهر",
-     "fr": "Chlorophylle en hausse ×1.5 (7.0 mg/m³) par rapport au mois"
+     "level": 0,
+     "key": "good",
+     "ar": "ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة",
+     "fr": "Bonnes conditions de croissance : nourriture suffisante, température adaptée"
     }
    ],
    "sst": 23.01,
    "chl": 6.95,
-   "chl_ratio": 1.54,
+   "chl_normal": 6.33,
+   "chl_ratio": 1.1,
    "s2": {
     "ndci": -0.103,
     "ndci_p90": -0.076,
@@ -276,6 +368,35 @@
     "px": 43528
    },
    "sst_series": [
+    20.65,
+    20.35,
+    20.04,
+    19.94,
+    19.98,
+    20.02,
+    19.97,
+    19.73,
+    20.0,
+    20.65,
+    20.9,
+    20.2,
+    19.89,
+    20.08,
+    20.2,
+    22.13,
+    22.63,
+    22.71,
+    23.12,
+    22.54,
+    21.19,
+    20.73,
+    20.77,
+    20.72,
+    20.81,
+    20.85,
+    20.86,
+    20.61,
+    20.56,
     23.01
    ],
    "chl_series": [
@@ -299,18 +420,19 @@
    "lat": 23.84,
    "lon": -15.795,
    "approx": true,
-   "level": 1,
+   "level": 0,
    "reasons": [
     {
-     "level": 1,
-     "key": "rise",
-     "ar": "الكلوروفيل يرتفع ×2.0 (8.4 mg/m³) عن معدل الشهر",
-     "fr": "Chlorophylle en hausse ×2.0 (8.4 mg/m³) par rapport au mois"
+     "level": 0,
+     "key": "good",
+     "ar": "ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة",
+     "fr": "Bonnes conditions de croissance : nourriture suffisante, température adaptée"
     }
    ],
    "sst": 22.77,
    "chl": 8.45,
-   "chl_ratio": 1.95,
+   "chl_normal": 8.64,
+   "chl_ratio": 0.98,
    "s2": {
     "ndci": -0.083,
     "ndci_p90": -0.057,
@@ -318,6 +440,35 @@
     "px": 43568
    },
    "sst_series": [
+    20.63,
+    20.48,
+    20.28,
+    20.17,
+    20.18,
+    20.08,
+    20.06,
+    19.88,
+    20.06,
+    20.27,
+    20.37,
+    20.23,
+    20.05,
+    20.21,
+    20.28,
+    22.32,
+    22.28,
+    22.21,
+    23.65,
+    22.04,
+    21.1,
+    20.72,
+    20.78,
+    20.85,
+    20.95,
+    20.86,
+    20.76,
+    20.64,
+    20.7,
     22.77
    ],
    "chl_series": [
@@ -341,20 +492,8 @@
    "lat": 23.905,
    "lon": -15.745,
    "approx": true,
-   "level": 2,
+   "level": 1,
    "reasons": [
-    {
-     "level": 2,
-     "key": "bloom",
-     "ar": "الكلوروفيل تضاعف ×2.6 (8.2 mg/m³): ازدهار طحالب قوي. زيدوا أخذ العينات وتابعوا نشرات INRH",
-     "fr": "Chlorophylle ×2.6 (8.2 mg/m³) : forte efflorescence. Renforcer les prélèvements, suivre les bulletins INRH"
-    },
-    {
-     "level": 1,
-     "key": "s2green",
-     "ar": "صورة Sentinel-2 تُظهر ماء أخضر أكثر من العادة",
-     "fr": "L'image Sentinel-2 montre une eau plus verte que d'habitude"
-    },
     {
      "level": 1,
      "key": "turb",
@@ -364,7 +503,8 @@
    ],
    "sst": 22.17,
    "chl": 8.19,
-   "chl_ratio": 2.57,
+   "chl_normal": 7.58,
+   "chl_ratio": 1.08,
    "s2": {
     "ndci": 0.045,
     "ndci_p90": 0.143,
@@ -372,6 +512,35 @@
     "px": 16880
    },
    "sst_series": [
+    20.65,
+    20.58,
+    20.45,
+    20.33,
+    20.31,
+    20.13,
+    20.14,
+    19.98,
+    20.12,
+    20.26,
+    20.34,
+    20.27,
+    20.05,
+    20.17,
+    20.27,
+    22.15,
+    21.95,
+    21.91,
+    22.98,
+    21.7,
+    21.03,
+    20.71,
+    20.72,
+    20.83,
+    20.99,
+    20.9,
+    20.8,
+    20.73,
+    20.76,
     22.17
    ],
    "chl_series": [
@@ -389,7 +558,7 @@
    ]
   }
  ],
- "level": 2,
- "msg_ar": "🦪 مدار المحار · خليج الداخلة · 2026-11-09\n\n🟡 لاسارگا: 22.8° · كلوروفيل 9.2 — الكلوروفيل يرتفع ×1.9 (9.2 mg/m³) عن معدل الشهر\n🟡 دونا بلانكا: 23.0° · كلوروفيل 12.4 — الكلوروفيل يرتفع ×1.7 (12.4 mg/m³) عن معدل الشهر\n🟡 وسط الخليج: 23.0° · كلوروفيل 7.0 — الكلوروفيل يرتفع ×1.5 (7.0 mg/m³) عن معدل الشهر\n🟡 بوطلحة: 22.8° · كلوروفيل 8.4 — الكلوروفيل يرتفع ×2.0 (8.4 mg/m³) عن معدل الشهر\n🔴 تنيكير: 22.2° · كلوروفيل 8.2 — الكلوروفيل تضاعف ×2.6 (8.2 mg/m³): ازدهار طحالب قوي. زيدوا أخذ العينات وتابعوا نشرات INRH\n\n💨 الرياح 48 ساعة: حتى 12 عقدة\n\n⚠️ الأقمار لا تقيس السموم. القرار الرسمي للجني والبيع: نشرات INRH وكتابة الدولة المكلفة بالصيد البحري.",
- "msg_fr": "🦪 Madar Huîtres · Baie de Dakhla · 2026-11-09\n\n🟡 La Sarga : 22.8° · chl 9.2 — Chlorophylle en hausse ×1.9 (9.2 mg/m³) par rapport au mois\n🟡 Duna Blanca : 23.0° · chl 12.4 — Chlorophylle en hausse ×1.7 (12.4 mg/m³) par rapport au mois\n🟡 Centre de la baie : 23.0° · chl 7.0 — Chlorophylle en hausse ×1.5 (7.0 mg/m³) par rapport au mois\n🟡 Boutalha : 22.8° · chl 8.4 — Chlorophylle en hausse ×2.0 (8.4 mg/m³) par rapport au mois\n🔴 Tiniguir : 22.2° · chl 8.2 — Chlorophylle ×2.6 (8.2 mg/m³) : forte efflorescence. Renforcer les prélèvements, suivre les bulletins INRH\n\n💨 Vent 48 h : jusqu'à 12 nœuds\n\n⚠️ Les satellites ne mesurent pas les toxines. Décision officielle de récolte et de vente : bulletins INRH / Pêche maritime."
+ "level": 1,
+ "msg_ar": "🦪 مدار المحار · خليج الداخلة · 2026-11-09\n\n🟡 لاسارگا: 22.8° · كلوروفيل 9.2 — الكلوروفيل أعلى ×1.7 عن المعتاد في هذا الموسم (9.2 mg/m³)\n🟡 دونا بلانكا: 23.0° · كلوروفيل 12.4 — الكلوروفيل أعلى ×1.8 عن المعتاد في هذا الموسم (12.4 mg/m³)\n🟢 وسط الخليج: 23.0° · كلوروفيل 7.0 — ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة\n🟢 بوطلحة: 22.8° · كلوروفيل 8.4 — ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة\n🟡 تنيكير: 22.2° · كلوروفيل 8.2 — ماء عكر (~41 FNU): غذاء أقل جودة ورواسب\n\n💨 الرياح 48 ساعة: حتى 12 عقدة\n\n⚠️ الأقمار لا تقيس السموم. القرار الرسمي للجني والبيع: نشرات INRH وكتابة الدولة المكلفة بالصيد البحري.",
+ "msg_fr": "🦪 Madar Huîtres · Baie de Dakhla · 2026-11-09\n\n🟡 La Sarga : 22.8° · chl 9.2 — Chlorophylle ×1.7 par rapport à la normale de saison (9.2 mg/m³)\n🟡 Duna Blanca : 23.0° · chl 12.4 — Chlorophylle ×1.8 par rapport à la normale de saison (12.4 mg/m³)\n🟢 Centre de la baie : 23.0° · chl 7.0 — Bonnes conditions de croissance : nourriture suffisante, température adaptée\n🟢 Boutalha : 22.8° · chl 8.4 — Bonnes conditions de croissance : nourriture suffisante, température adaptée\n🟡 Tiniguir : 22.2° · chl 8.2 — Eau trouble (~41 FNU) : sédiments, alimentation moins bonne\n\n💨 Vent 48 h : jusqu'à 12 nœuds\n\n⚠️ Les satellites ne mesurent pas les toxines. Décision officielle de récolte et de vente : bulletins INRH / Pêche maritime."
 }
