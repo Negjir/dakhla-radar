@@ -353,7 +353,7 @@ function list(){const M=DATA.models[MODEL].targets;return REGION==="all"?M:M.fil
 function targets(){
   ctx.save();const col=MCOL[MODEL];
   list().slice().reverse().forEach(z=>{const x=X(z.lon),y=Y(z.lat);if(x<-20||y<-20||x>cv.clientWidth+20||y>cv.clientHeight+20)return;
-    const sel=SEL&&SEL.model===z.model&&SEL.rank===z.rank,r=sel?13:z.rank<=3?11:9;
+    const sel=SEL&&SEL.model===z.model&&SEL.rank===z.rank&&SEL.region===z.region,r=sel?13:z.rank<=3?11:9;
     ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fillStyle=z.rank<=3||sel?col:"rgba(10,25,22,.85)";ctx.fill();ctx.lineWidth=sel?2.5:1.5;ctx.strokeStyle=sel?"#fff":col;ctx.stroke();
     ctx.fillStyle=z.rank<=3||sel?"#0c1f1b":col;ctx.font=`600 ${r>10?12:10.5}px 'IBM Plex Sans',sans-serif`;ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(z.rank,x,y+.5)});
   ctx.restore()}
@@ -392,7 +392,7 @@ function fly(z){const W=cv.clientWidth,H=cv.clientHeight,target=Math.max(V.ppd,2
 
 // ---------- dossier ----------
 function dms(v,pos,neg){const ts=Math.round(Math.abs(v)*36000)/10,d=Math.floor(ts/3600),m=Math.floor((ts-d*3600)/60),s=ts-d*3600-m*60;return `${d}°${String(m).padStart(2,"0")}′${s.toFixed(1).padStart(4,"0")}″${v>=0?pos:neg}`}
-function select(z,flyTo=true){SEL={model:z.model,rank:z.rank};card(z);rows();if(flyTo)fly(z);else req();
+function select(z,flyTo=true){SEL={model:z.model,rank:z.rank,region:z.region};card(z);rows();if(flyTo)fly(z);else req();
   if(innerWidth<=980&&flyTo)$(".plate").scrollIntoView({behavior:"smooth",block:"start"})}
 function card(z){const s=$("#sel");if(!z){s.innerHTML=`<p class="empty">${t("sel")}</p>`;return}
   const chips=z.chip_tc?`<div class="chips"><figure><img src="${z.chip_tc}" alt="" loading="lazy"><figcaption>${t("tc")}</figcaption></figure><figure><img src="${z.chip_geo}" alt="" loading="lazy"><figcaption>${t("geo")}</figcaption></figure></div>${z.chip_date?`<div class="cov">${t("chipd")(z.chip_date)}</div>`:""}`:"";
@@ -403,7 +403,7 @@ function card(z){const s=$("#sel");if(!z){s.innerHTML=`<p class="empty">${t("sel
   $("#cp").onclick=async()=>{try{await navigator.clipboard.writeText(`${z.lat.toFixed(5)}, ${z.lon.toFixed(5)}`);$("#cp").textContent=t("copied")}catch(e){}}}
 function rows(){const ol=$("#targets"),M=list();ol.innerHTML=M.length?"":`<li class="empty">${t("empty")}</li>`;
   M.forEach((z,i)=>{const li=document.createElement("li");li.className="trow";li.style.animationDelay=Math.min(i,12)*35+"ms";
-    if(SEL&&SEL.model===z.model&&SEL.rank===z.rank)li.setAttribute("aria-current","true");
+    if(SEL&&SEL.model===z.model&&SEL.rank===z.rank&&SEL.region===z.region)li.setAttribute("aria-current","true");
     li.innerHTML=`<span class="rk num">${z.rank}</span><span class="co">${z.where[L]}</span><span class="st"><span class="bar"><i style="width:${z.rel}%;background:${MCOL[z.model]}"></i></span><span class="mt num">${z.area_ha} ${t("area")}</span></span><span class="mt num">${z.lat.toFixed(4)}, ${z.lon.toFixed(4)}</span>`;
     li.onclick=()=>select(z);ol.appendChild(li)})}
 function check(){const c=DATA.models.carbonatite,box=$("#check");
@@ -429,7 +429,7 @@ function render(){
   document.querySelectorAll("#layers button").forEach(b=>b.onclick=()=>{LAYER=b.dataset.k;render()});
   $("#reveal").textContent=t("reveal");$("#reveal").setAttribute("aria-pressed",REVEAL);
   $("#tTitle").textContent=t("tTitle");
-  const z=SEL&&DATA.models[SEL.model].targets.find(q=>q.rank===SEL.rank);card(z);rows();check();legend();
+  const z=SEL&&DATA.models[SEL.model].targets.find(q=>q.rank===SEL.rank&&q.region===SEL.region);card(z);rows();check();legend();
   $("#dl").innerHTML=`<a href="targets.geojson" download>${t("dlg")}</a><a href="targets.csv" download>${t("dlc")}</a>`;
   $("#mTitle").textContent=t("mTitle");$("#limTitle").textContent=t("limTitle");$("#method").innerHTML=t("method");$("#limits").innerHTML=t("limits");$("#foot").textContent=t("foot")(DATA);
   req()}

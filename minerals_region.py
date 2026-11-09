@@ -150,7 +150,12 @@ def pick_items(max_cloud=3, months=14):
         its.sort(key=lambda i: (round(i.properties.get("s2:nodata_pixel_percentage", 0) / 10),
                                 round(i.properties.get("eo:cloud_cover", 100)),
                                 -i.datetime.toordinal()))
-        ranked[t] = its[:3]
+        best = []
+        for i in its:                       # different orbits first: their swath edges are elsewhere
+            if all(i.properties.get("sat:relative_orbit") != b.properties.get("sat:relative_orbit") for b in best):
+                best.append(i)
+        best += [i for i in its if i not in best]
+        ranked[t] = best[:5]
     print(f"[stac] {len(items)} passes, {len(ranked)} tiles over the area")
     return ranked
 
@@ -233,7 +238,7 @@ def scan(demo):
         return G, valid, rgb, inside, land, [{"id": "DEMO", "date": date.today().isoformat(), "cloud": 0, "tile": "-"}], {}
     ranked = pick_items()
     by_id = {}
-    for rnd_i in range(3):                       # best pass first, then fill the gaps with the next ones
+    for rnd_i in range(5):                       # best pass first, then fill the gaps with the next ones
         for tile, its in sorted(ranked.items()):
             if rnd_i >= len(its):
                 continue
@@ -245,7 +250,7 @@ def scan(demo):
             sub_in = inside[r0:r1, c0:c1]
             if rnd_i > 0:
                 gap = sub_in & ~filled[r0:r1, c0:c1]
-                if sub_in.sum() == 0 or gap.mean() < 0.02:
+                if sub_in.sum() == 0 or gap.sum() < 0.003 * sub_in.size:
                     continue
             try:
                 win, b = read_item(it, RES)
@@ -346,10 +351,37 @@ def outcrop(G, valid):
     return keep, tex
 
 
+BG_KM = 30   # anomalies are measured against the rocks around them (~30 km), not against the whole Sahara
+
+
+def local_background(a, keep, block=10, size_km=BG_KM):
+    """Smooth regional background of an index (median of 1 km block means over ~30 km), full resolution."""
+    h, w = a.shape
+    H, W = -(-h // block), -(-w // block)
+    pa = np.zeros((H * block, W * block), "float32")
+    pk = np.zeros((H * block, W * block), "float32")
+    pa[:h, :w] = np.where(keep, np.nan_to_num(a), 0)
+    pk[:h, :w] = keep
+    s_ = pa.reshape(H, block, W, block).sum((1, 3))
+    n_ = pk.reshape(H, block, W, block).sum((1, 3))
+    small = np.where(n_ > 5, s_ / np.maximum(n_, 1), np.nan)
+    holes = ~np.isfinite(small)
+    if holes.all():
+        return np.zeros_like(a)
+    idx = ndimage.distance_transform_edt(holes, return_distances=False, return_indices=True)
+    small = small[tuple(idx)]
+    k = max(3, int(round(size_km / (RES * 111 * block))) | 1)
+    bg = ndimage.median_filter(small, size=k)
+    bg = ndimage.uniform_filter(bg, size=3)
+    full = ndimage.zoom(bg, block, order=1)[:h, :w]
+    return full.astype("float32")
+
+
 def model_score(G, keep, wts):
     score = np.zeros(keep.shape, "float32")
     for k, wt in wts.items():
         a = G[k].astype("float32")
+        a -= local_background(a, keep)
         med, mad = robust_stats(a, keep)
         z = (a - med) / mad
         np.nan_to_num(z, copy=False)
@@ -362,13 +394,28 @@ def model_score(G, keep, wts):
 
 
 def find_targets(score, keep, model):
+    """Top targets of each region separately, so the Dakhla region is not crowded out by the north."""
+    lat0, lat1, lon0, lon1 = BOX
+    split = int(round((lat1 - REGION_SPLIT_LAT) / RES))
+    out, thr = [], None
+    for reg, sl in (("dakhla", slice(split, None)), ("laayoune", slice(0, split))):
+        sub_keep = np.zeros_like(keep)
+        sub_keep[sl] = keep[sl]
+        if sub_keep.sum() < 100:
+            continue
+        tg, thr = _targets(score, sub_keep, model)
+        out += tg
+    return out, thr, None
+
+
+def _targets(score, keep, model):
     lat0, lat1, lon0, lon1 = BOX
     v = score[keep]
     thr = float(np.percentile(v[::5], 100 - TOP_PERCENT))
     anom = (score >= thr) & keep
     lab, n = ndimage.label(anom, structure=np.ones((3, 3)))
     if n == 0:
-        return [], thr, lab
+        return [], thr
     idx = np.arange(1, n + 1)
     cnt = ndimage.sum(anom, lab, idx)
     strength = ndimage.sum(score, lab, idx)
@@ -395,7 +442,7 @@ def find_targets(score, keep, model):
         t["region"] = "dakhla" if t["lat"] < REGION_SPLIT_LAT else "laayoune"
         t["where"] = where(t["lat"], t["lon"])
         del t["strength"]
-    return out, thr, lab
+    return out, thr
 
 
 def blind(score, keep, targets, model):
@@ -438,8 +485,9 @@ def chips(targets, by_id, used, demo):
         for t in targets:
             g = (np.random.default_rng(t["rank"]).random((200, 200, 3)) * 80 + 90).astype("uint8")
             for kind in ("tc", "geo"):
-                Image.fromarray(g).save(folder / f"{t['model']}_{t['rank']}_{kind}.jpg", quality=80)
-                t[f"chip_{kind}"] = f"chips/{t['model']}_{t['rank']}_{kind}.jpg"
+                name = f"{t['model']}_{t['region']}_{t['rank']}_{kind}.jpg"
+                Image.fromarray(g).save(folder / name, quality=80)
+                t[f"chip_{kind}"] = f"chips/{name}"
         return
     import rasterio
     from rasterio.enums import Resampling
@@ -485,8 +533,9 @@ def chips(targets, by_id, used, demo):
             geo = np.dstack([st(bands["swir22"]), st(bands["swir16"]), st(bands["blue"])])
             for kind, img in (("tc", tc), ("geo", geo)):
                 im = Image.fromarray((np.power(np.nan_to_num(img), 0.9) * 255).astype("uint8")).resize((360, 360), Image.LANCZOS)
-                im.save(folder / f"{t['model']}_{t['rank']}_{kind}.jpg", quality=80, optimize=True)
-                t[f"chip_{kind}"] = f"chips/{t['model']}_{t['rank']}_{kind}.jpg"
+                name = f"{t['model']}_{t['region']}_{t['rank']}_{kind}.jpg"
+                im.save(folder / name, quality=80, optimize=True)
+                t[f"chip_{kind}"] = f"chips/{name}"
             t["chip_date"] = it.datetime.date().isoformat()
             print("[chip]", t["model"], t["rank"], it.id)
 
@@ -587,7 +636,8 @@ def main():
         all_t += tg
         for c in check:
             print(f"[check] {m}: {c['fr']} percentile {c['percentile']} nearest target #{c['nearest_rank']} at {c['nearest_km']} km")
-    chip_list = [t for m in MODELS for t in result[m]["targets"][:N_CHIPS]]
+    chip_list = [t for m in MODELS for reg in ("dakhla", "laayoune")
+                 for t in [q for q in result[m]["targets"] if q["region"] == reg][:N_CHIPS]]
     chips(chip_list, by_id, used, a.demo)
     meta = pyramid(rgb, scores, inside, keep)
     geojson(all_t)
