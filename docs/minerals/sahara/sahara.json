@@ -129,7 +129,7 @@
    "lon": -12.37
   }
  ],
- "area_km2": 266900.0,
+ "area_km2": 267100.0,
  "rock_pct": 49.4,
  "valid_pct": 100.0,
  "models": {
@@ -138,338 +138,870 @@
    "fr": "Fer",
    "targets": [
     {
-     "lat": 26.11352,
-     "lon": -11.5092,
-     "area_ha": 1633,
+     "lat": 23.50014,
+     "lon": -14.7235,
+     "area_ha": 1605,
+     "peak": 4.47,
+     "model": "iron",
+     "_comp": 59,
+     "rank": 1,
+     "rel": 100,
+     "region": "dakhla",
+     "where": {
+      "ar": "48 كم جنوب غرب بئر أنزران",
+      "fr": "48 km SO de Bir Anzarane",
+      "km": 48
+     },
+     "chip_tc": "chips/iron_dakhla_1_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_1_geo.jpg",
+     "chip_date": "2026-10-18"
+    },
+    {
+     "lat": 22.16647,
+     "lon": -16.59546,
+     "area_ha": 1036,
      "peak": 4.0,
      "model": "iron",
-     "_comp": 809,
+     "_comp": 120,
+     "rank": 2,
+     "rel": 64,
+     "region": "dakhla",
+     "where": {
+      "ar": "63 كم شمال بئر كندوز",
+      "fr": "63 km N de Bir Gandouz",
+      "km": 63
+     },
+     "chip_tc": "chips/iron_dakhla_2_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_2_geo.jpg",
+     "chip_date": "2026-02-25"
+    },
+    {
+     "lat": 22.49773,
+     "lon": -16.38855,
+     "area_ha": 947,
+     "peak": 4.0,
+     "model": "iron",
+     "_comp": 85,
+     "rank": 3,
+     "rel": 58,
+     "region": "dakhla",
+     "where": {
+      "ar": "99 كم شمال بئر كندوز",
+      "fr": "99 km N de Bir Gandouz",
+      "km": 99
+     },
+     "chip_tc": "chips/iron_dakhla_3_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_3_geo.jpg",
+     "chip_date": "2026-02-25"
+    },
+    {
+     "lat": 23.45569,
+     "lon": -14.69979,
+     "area_ha": 634,
+     "peak": 4.82,
+     "model": "iron",
+     "_comp": 67,
+     "rank": 4,
+     "rel": 40,
+     "region": "dakhla",
+     "where": {
+      "ar": "51 كم جنوب بئر أنزران",
+      "fr": "51 km S de Bir Anzarane",
+      "km": 51
+     },
+     "chip_tc": "chips/iron_dakhla_4_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_4_geo.jpg",
+     "chip_date": "2026-10-18"
+    },
+    {
+     "lat": 23.68164,
+     "lon": -14.58866,
+     "area_ha": 586,
+     "peak": 4.0,
+     "model": "iron",
+     "_comp": 44,
+     "rank": 5,
+     "rel": 36,
+     "region": "dakhla",
+     "where": {
+      "ar": "24 كم جنوب بئر أنزران",
+      "fr": "24 km S de Bir Anzarane",
+      "km": 24
+     },
+     "chip_tc": "chips/iron_dakhla_5_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_5_geo.jpg",
+     "chip_date": "2026-10-18"
+    },
+    {
+     "lat": 22.20806,
+     "lon": -16.55678,
+     "area_ha": 270,
+     "peak": 4.0,
+     "model": "iron",
+     "_comp": 112,
+     "rank": 6,
+     "rel": 17,
+     "region": "dakhla",
+     "where": {
+      "ar": "67 كم شمال بئر كندوز",
+      "fr": "67 km N de Bir Gandouz",
+      "km": 67
+     },
+     "chip_tc": "chips/iron_dakhla_6_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_6_geo.jpg",
+     "chip_date": "2026-02-25"
+    },
+    {
+     "lat": 21.58402,
+     "lon": -14.94019,
+     "area_ha": 275,
+     "peak": 4.0,
+     "model": "iron",
+     "_comp": 216,
+     "rank": 7,
+     "rel": 17,
+     "region": "dakhla",
+     "where": {
+      "ar": "3 كم شرق تيشلا",
+      "fr": "3 km E de Tichla",
+      "km": 3
+     },
+     "chip_tc": "chips/iron_dakhla_7_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_7_geo.jpg",
+     "chip_date": "2026-10-18"
+    },
+    {
+     "lat": 21.8358,
+     "lon": -16.83557,
+     "area_ha": 171,
+     "peak": 4.0,
+     "model": "iron",
+     "_comp": 161,
+     "rank": 8,
+     "rel": 11,
+     "region": "dakhla",
+     "where": {
+      "ar": "46 كم شمال غرب بئر كندوز",
+      "fr": "46 km NO de Bir Gandouz",
+      "km": 46
+     },
+     "chip_tc": "chips/iron_dakhla_8_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_8_geo.jpg",
+     "chip_date": "2026-02-25"
+    },
+    {
+     "lat": 23.63468,
+     "lon": -14.61222,
+     "area_ha": 117,
+     "peak": 4.0,
+     "model": "iron",
+     "_comp": 52,
+     "rank": 9,
+     "rel": 7,
+     "region": "dakhla",
+     "where": {
+      "ar": "30 كم جنوب بئر أنزران",
+      "fr": "30 km S de Bir Anzarane",
+      "km": 30
+     },
+     "chip_tc": "chips/iron_dakhla_9_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_9_geo.jpg",
+     "chip_date": "2026-10-18"
+    },
+    {
+     "lat": 22.80248,
+     "lon": -15.1059,
+     "area_ha": 111,
+     "peak": 4.0,
+     "model": "iron",
+     "_comp": 83,
+     "rank": 10,
+     "rel": 7,
+     "region": "dakhla",
+     "where": {
+      "ar": "84 كم غرب أوسرد",
+      "fr": "84 km O de Aousserd",
+      "km": 84
+     },
+     "chip_tc": "chips/iron_dakhla_10_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_10_geo.jpg",
+     "chip_date": "2026-10-18"
+    },
+    {
+     "lat": 24.28189,
+     "lon": -12.51854,
+     "area_ha": 104,
+     "peak": 4.0,
+     "model": "iron",
+     "_comp": 11,
+     "rank": 11,
+     "rel": 7,
+     "region": "dakhla",
+     "where": {
+      "ar": "97 كم جنوب كلتة زمور",
+      "fr": "97 km S de Guelta Zemmur",
+      "km": 97
+     },
+     "chip_tc": "chips/iron_dakhla_11_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_11_geo.jpg",
+     "chip_date": "2026-11-04"
+    },
+    {
+     "lat": 21.92173,
+     "lon": -15.09838,
+     "area_ha": 106,
+     "peak": 3.96,
+     "model": "iron",
+     "_comp": 145,
+     "rank": 12,
+     "rel": 6,
+     "region": "dakhla",
+     "where": {
+      "ar": "39 كم شمال تيشلا",
+      "fr": "39 km N de Tichla",
+      "km": 39
+     },
+     "chip_tc": "chips/iron_dakhla_12_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_12_geo.jpg",
+     "chip_date": "2026-10-18"
+    },
+    {
+     "lat": 21.87241,
+     "lon": -16.7961,
+     "area_ha": 88,
+     "peak": 4.0,
+     "model": "iron",
+     "_comp": 157,
+     "rank": 13,
+     "rel": 5,
+     "region": "dakhla",
+     "where": {
+      "ar": "45 كم شمال غرب بئر كندوز",
+      "fr": "45 km NO de Bir Gandouz",
+      "km": 45
+     }
+    },
+    {
+     "lat": 22.13827,
+     "lon": -14.98793,
+     "area_ha": 84,
+     "peak": 3.99,
+     "model": "iron",
+     "_comp": 124,
+     "rank": 14,
+     "rel": 5,
+     "region": "dakhla",
+     "where": {
+      "ar": "61 كم شمال تيشلا",
+      "fr": "61 km N de Tichla",
+      "km": 61
+     }
+    },
+    {
+     "lat": 24.22609,
+     "lon": -13.04748,
+     "area_ha": 46,
+     "peak": 4.58,
+     "model": "iron",
+     "_comp": 18,
+     "rank": 15,
+     "rel": 3,
+     "region": "dakhla",
+     "where": {
+      "ar": "123 كم جنوب غرب كلتة زمور",
+      "fr": "123 km SO de Guelta Zemmur",
+      "km": 123
+     }
+    },
+    {
+     "lat": 21.73071,
+     "lon": -14.82842,
+     "area_ha": 47,
+     "peak": 3.86,
+     "model": "iron",
+     "_comp": 182,
+     "rank": 16,
+     "rel": 3,
+     "region": "dakhla",
+     "where": {
+      "ar": "21 كم شمال شرق تيشلا",
+      "fr": "21 km NE de Tichla",
+      "km": 21
+     }
+    },
+    {
+     "lat": 21.89057,
+     "lon": -15.12164,
+     "area_ha": 44,
+     "peak": 3.97,
+     "model": "iron",
+     "_comp": 154,
+     "rank": 17,
+     "rel": 3,
+     "region": "dakhla",
+     "where": {
+      "ar": "37 كم شمال غرب تيشلا",
+      "fr": "37 km NO de Tichla",
+      "km": 37
+     }
+    },
+    {
+     "lat": 21.77653,
+     "lon": -14.03235,
+     "area_ha": 41,
+     "peak": 4.0,
+     "model": "iron",
+     "_comp": 172,
+     "rank": 18,
+     "rel": 2,
+     "region": "dakhla",
+     "where": {
+      "ar": "92 كم جنوب أوسرد",
+      "fr": "92 km S de Aousserd",
+      "km": 92
+     }
+    },
+    {
+     "lat": 22.29268,
+     "lon": -15.1817,
+     "area_ha": 37,
+     "peak": 4.48,
+     "model": "iron",
+     "_comp": 99,
+     "rank": 19,
+     "rel": 2,
+     "region": "dakhla",
+     "where": {
+      "ar": "81 كم شمال تيشلا",
+      "fr": "81 km N de Tichla",
+      "km": 81
+     }
+    },
+    {
+     "lat": 24.33257,
+     "lon": -13.12524,
+     "area_ha": 38,
+     "peak": 3.95,
+     "model": "iron",
+     "_comp": 6,
+     "rank": 20,
+     "rel": 2,
+     "region": "dakhla",
+     "where": {
+      "ar": "118 كم جنوب غرب كلتة زمور",
+      "fr": "118 km SO de Guelta Zemmur",
+      "km": 118
+     }
+    },
+    {
+     "lat": 22.13052,
+     "lon": -16.80735,
+     "area_ha": 38,
+     "peak": 3.98,
+     "model": "iron",
+     "_comp": 125,
+     "rank": 21,
+     "rel": 2,
+     "region": "dakhla",
+     "where": {
+      "ar": "68 كم شمال غرب بئر كندوز",
+      "fr": "68 km NO de Bir Gandouz",
+      "km": 68
+     }
+    },
+    {
+     "lat": 23.94826,
+     "lon": -15.60408,
+     "area_ha": 35,
+     "peak": 3.98,
+     "model": "iron",
+     "_comp": 28,
+     "rank": 22,
+     "rel": 2,
+     "region": "dakhla",
+     "where": {
+      "ar": "43 كم شمال شرق الداخلة",
+      "fr": "43 km NE de Dakhla",
+      "km": 43
+     }
+    },
+    {
+     "lat": 22.32398,
+     "lon": -15.53148,
+     "area_ha": 37,
+     "peak": 3.79,
+     "model": "iron",
+     "_comp": 96,
+     "rank": 23,
+     "rel": 2,
+     "region": "dakhla",
+     "where": {
+      "ar": "100 كم شمال غرب تيشلا",
+      "fr": "100 km NO de Tichla",
+      "km": 100
+     }
+    },
+    {
+     "lat": 21.61987,
+     "lon": -14.87202,
+     "area_ha": 35,
+     "peak": 3.92,
+     "model": "iron",
+     "_comp": 201,
+     "rank": 24,
+     "rel": 2,
+     "region": "dakhla",
+     "where": {
+      "ar": "11 كم شرق تيشلا",
+      "fr": "11 km E de Tichla",
+      "km": 11
+     }
+    },
+    {
+     "lat": 21.42222,
+     "lon": -15.3614,
+     "area_ha": 35,
+     "peak": 3.91,
+     "model": "iron",
+     "_comp": 228,
+     "rank": 25,
+     "rel": 2,
+     "region": "dakhla",
+     "where": {
+      "ar": "45 كم جنوب غرب تيشلا",
+      "fr": "45 km SO de Tichla",
+      "km": 45
+     }
+    },
+    {
+     "lat": 23.50288,
+     "lon": -14.67709,
+     "area_ha": 33,
+     "peak": 3.98,
+     "model": "iron",
+     "_comp": 64,
+     "rank": 26,
+     "rel": 2,
+     "region": "dakhla",
+     "where": {
+      "ar": "46 كم جنوب بئر أنزران",
+      "fr": "46 km S de Bir Anzarane",
+      "km": 46
+     }
+    },
+    {
+     "lat": 23.0676,
+     "lon": -13.96222,
+     "area_ha": 29,
+     "peak": 3.95,
+     "model": "iron",
+     "_comp": 76,
+     "rank": 27,
+     "rel": 2,
+     "region": "dakhla",
+     "where": {
+      "ar": "69 كم شمال شرق أوسرد",
+      "fr": "69 km NE de Aousserd",
+      "km": 69
+     }
+    },
+    {
+     "lat": 22.30624,
+     "lon": -13.93552,
+     "area_ha": 28,
+     "peak": 3.93,
+     "model": "iron",
+     "_comp": 98,
+     "rank": 28,
+     "rel": 2,
+     "region": "dakhla",
+     "where": {
+      "ar": "49 كم جنوب شرق أوسرد",
+      "fr": "49 km SE de Aousserd",
+      "km": 49
+     }
+    },
+    {
+     "lat": 21.44878,
+     "lon": -14.74624,
+     "area_ha": 27,
+     "peak": 3.92,
+     "model": "iron",
+     "_comp": 225,
+     "rank": 29,
+     "rel": 2,
+     "region": "dakhla",
+     "where": {
+      "ar": "28 كم جنوب شرق تيشلا",
+      "fr": "28 km SE de Tichla",
+      "km": 28
+     }
+    },
+    {
+     "lat": 23.99683,
+     "lon": -13.25698,
+     "area_ha": 24,
+     "peak": 4.42,
+     "model": "iron",
+     "_comp": 26,
+     "rank": 30,
+     "rel": 2,
+     "region": "dakhla",
+     "where": {
+      "ar": "130 كم شرق بئر أنزران",
+      "fr": "130 km E de Bir Anzarane",
+      "km": 130
+     }
+    },
+    {
+     "lat": 26.11151,
+     "lon": -11.50866,
+     "area_ha": 912,
+     "peak": 4.0,
+     "model": "iron",
+     "_comp": 411,
      "rank": 1,
      "rel": 100,
      "region": "laayoune",
      "where": {
-      "ar": "71 كم جنوب السمارة",
-      "fr": "71 km S de Smara",
-      "km": 71
+      "ar": "72 كم جنوب السمارة",
+      "fr": "72 km S de Smara",
+      "km": 72
      },
-     "chip_tc": "chips/iron_1_tc.jpg",
-     "chip_geo": "chips/iron_1_geo.jpg",
+     "chip_tc": "chips/iron_laayoune_1_tc.jpg",
+     "chip_geo": "chips/iron_laayoune_1_geo.jpg",
      "chip_date": "2026-10-10"
     },
     {
-     "lat": 26.61205,
-     "lon": -10.30829,
-     "area_ha": 1444,
-     "peak": 4.0,
+     "lat": 26.62557,
+     "lon": -10.18384,
+     "area_ha": 562,
+     "peak": 5.22,
      "model": "iron",
-     "_comp": 562,
+     "_comp": 192,
      "rank": 2,
-     "rel": 86,
+     "rel": 67,
      "region": "laayoune",
      "where": {
-      "ar": "136 كم شرق السمارة",
-      "fr": "136 km E de Smara",
-      "km": 136
+      "ar": "148 كم شرق السمارة",
+      "fr": "148 km E de Smara",
+      "km": 148
      },
-     "chip_tc": "chips/iron_2_tc.jpg",
-     "chip_geo": "chips/iron_2_geo.jpg",
+     "chip_tc": "chips/iron_laayoune_2_tc.jpg",
+     "chip_geo": "chips/iron_laayoune_2_geo.jpg",
      "chip_date": "2026-11-04"
     },
     {
-     "lat": 26.5946,
-     "lon": -10.94234,
-     "area_ha": 877,
-     "peak": 4.01,
+     "lat": 27.08618,
+     "lon": -13.09513,
+     "area_ha": 423,
+     "peak": 6.13,
      "model": "iron",
-     "_comp": 647,
+     "_comp": 102,
      "rank": 3,
-     "rel": 54,
+     "rel": 59,
+     "region": "laayoune",
+     "where": {
+      "ar": "13 كم جنوب شرق العيون",
+      "fr": "13 km SE de Laâyoune",
+      "km": 13
+     },
+     "chip_tc": "chips/iron_laayoune_3_tc.jpg",
+     "chip_geo": "chips/iron_laayoune_3_geo.jpg",
+     "chip_date": "2026-09-20"
+    },
+    {
+     "lat": 26.59358,
+     "lon": -10.94024,
+     "area_ha": 521,
+     "peak": 4.08,
+     "model": "iron",
+     "_comp": 249,
+     "rank": 4,
+     "rel": 57,
      "region": "laayoune",
      "where": {
       "ar": "74 كم شرق السمارة",
       "fr": "74 km E de Smara",
       "km": 74
      },
-     "chip_tc": "chips/iron_3_tc.jpg",
-     "chip_geo": "chips/iron_3_geo.jpg",
+     "chip_tc": "chips/iron_laayoune_4_tc.jpg",
+     "chip_geo": "chips/iron_laayoune_4_geo.jpg",
      "chip_date": "2026-10-05"
     },
     {
-     "lat": 26.62352,
-     "lon": -10.25279,
-     "area_ha": 762,
+     "lat": 26.62246,
+     "lon": -10.2522,
+     "area_ha": 468,
      "peak": 4.0,
      "model": "iron",
-     "_comp": 555,
-     "rank": 4,
-     "rel": 46,
+     "_comp": 184,
+     "rank": 5,
+     "rel": 51,
      "region": "laayoune",
      "where": {
       "ar": "142 كم شرق السمارة",
       "fr": "142 km E de Smara",
       "km": 142
      },
-     "chip_tc": "chips/iron_4_tc.jpg",
-     "chip_geo": "chips/iron_4_geo.jpg",
+     "chip_tc": "chips/iron_laayoune_5_tc.jpg",
+     "chip_geo": "chips/iron_laayoune_5_geo.jpg",
      "chip_date": "2026-11-04"
     },
     {
-     "lat": 26.56719,
-     "lon": -11.00606,
-     "area_ha": 559,
-     "peak": 4.02,
+     "lat": 25.71035,
+     "lon": -13.69629,
+     "area_ha": 335,
+     "peak": 4.0,
      "model": "iron",
-     "_comp": 713,
-     "rank": 5,
-     "rel": 35,
+     "_comp": 449,
+     "rank": 6,
+     "rel": 37,
      "region": "laayoune",
      "where": {
-      "ar": "69 كم شرق السمارة",
-      "fr": "69 km E de Smara",
-      "km": 69
+      "ar": "91 كم جنوب شرق بوجدور",
+      "fr": "91 km SE de Boujdour",
+      "km": 91
      },
-     "chip_tc": "chips/iron_5_tc.jpg",
-     "chip_geo": "chips/iron_5_geo.jpg",
-     "chip_date": "2026-10-05"
+     "chip_tc": "chips/iron_laayoune_6_tc.jpg",
+     "chip_geo": "chips/iron_laayoune_6_geo.jpg",
+     "chip_date": "2026-09-20"
     },
     {
-     "lat": 26.18645,
-     "lon": -11.46111,
-     "area_ha": 486,
-     "peak": 3.96,
+     "lat": 26.95319,
+     "lon": -9.93955,
+     "area_ha": 325,
+     "peak": 4.61,
      "model": "iron",
-     "_comp": 789,
-     "rank": 6,
-     "rel": 29,
+     "_comp": 126,
+     "rank": 7,
+     "rel": 36,
+     "region": "laayoune",
+     "where": {
+      "ar": "174 كم شرق السمارة",
+      "fr": "174 km E de Smara",
+      "km": 174
+     },
+     "chip_tc": "chips/iron_laayoune_7_tc.jpg",
+     "chip_geo": "chips/iron_laayoune_7_geo.jpg",
+     "chip_date": "2026-10-12"
+    },
+    {
+     "lat": 26.45337,
+     "lon": -9.79374,
+     "area_ha": 253,
+     "peak": 4.71,
+     "model": "iron",
+     "_comp": 343,
+     "rank": 8,
+     "rel": 30,
+     "region": "laayoune",
+     "where": {
+      "ar": "189 كم شرق السمارة",
+      "fr": "189 km E de Smara",
+      "km": 189
+     },
+     "chip_tc": "chips/iron_laayoune_8_tc.jpg",
+     "chip_geo": "chips/iron_laayoune_8_geo.jpg",
+     "chip_date": "2026-10-12"
+    },
+    {
+     "lat": 26.18598,
+     "lon": -11.46268,
+     "area_ha": 225,
+     "peak": 4.0,
+     "model": "iron",
+     "_comp": 400,
+     "rank": 9,
+     "rel": 25,
      "region": "laayoune",
      "where": {
       "ar": "65 كم جنوب السمارة",
       "fr": "65 km S de Smara",
       "km": 65
      },
-     "chip_tc": "chips/iron_6_tc.jpg",
-     "chip_geo": "chips/iron_6_geo.jpg",
+     "chip_tc": "chips/iron_laayoune_9_tc.jpg",
+     "chip_geo": "chips/iron_laayoune_9_geo.jpg",
      "chip_date": "2026-10-10"
     },
     {
-     "lat": 26.18315,
-     "lon": -11.40375,
-     "area_ha": 331,
-     "peak": 3.98,
+     "lat": 26.60716,
+     "lon": -10.2915,
+     "area_ha": 207,
+     "peak": 4.0,
      "model": "iron",
-     "_comp": 788,
-     "rank": 7,
-     "rel": 19,
+     "_comp": 230,
+     "rank": 10,
+     "rel": 23,
+     "region": "laayoune",
+     "where": {
+      "ar": "138 كم شرق السمارة",
+      "fr": "138 km E de Smara",
+      "km": 138
+     },
+     "chip_tc": "chips/iron_laayoune_10_tc.jpg",
+     "chip_geo": "chips/iron_laayoune_10_geo.jpg",
+     "chip_date": "2026-11-04"
+    },
+    {
+     "lat": 27.21314,
+     "lon": -10.27381,
+     "area_ha": 182,
+     "peak": 4.07,
+     "model": "iron",
+     "_comp": 79,
+     "rank": 11,
+     "rel": 20,
+     "region": "laayoune",
+     "where": {
+      "ar": "148 كم شرق السمارة",
+      "fr": "148 km E de Smara",
+      "km": 148
+     },
+     "chip_tc": "chips/iron_laayoune_11_tc.jpg",
+     "chip_geo": "chips/iron_laayoune_11_geo.jpg",
+     "chip_date": "2026-11-04"
+    },
+    {
+     "lat": 27.29386,
+     "lon": -10.46552,
+     "area_ha": 161,
+     "peak": 4.45,
+     "model": "iron",
+     "_comp": 67,
+     "rank": 12,
+     "rel": 18,
+     "region": "laayoune",
+     "where": {
+      "ar": "134 كم شمال شرق السمارة",
+      "fr": "134 km NE de Smara",
+      "km": 134
+     },
+     "chip_tc": "chips/iron_laayoune_12_tc.jpg",
+     "chip_geo": "chips/iron_laayoune_12_geo.jpg",
+     "chip_date": "2026-11-04"
+    },
+    {
+     "lat": 26.62482,
+     "lon": -9.36939,
+     "area_ha": 132,
+     "peak": 4.81,
+     "model": "iron",
+     "_comp": 209,
+     "rank": 13,
+     "rel": 16,
+     "region": "laayoune",
+     "where": {
+      "ar": "229 كم شرق السمارة",
+      "fr": "229 km E de Smara",
+      "km": 229
+     }
+    },
+    {
+     "lat": 26.41661,
+     "lon": -10.88878,
+     "area_ha": 130,
+     "peak": 4.0,
+     "model": "iron",
+     "_comp": 362,
+     "rank": 14,
+     "rel": 14,
+     "region": "laayoune",
+     "where": {
+      "ar": "86 كم جنوب شرق السمارة",
+      "fr": "86 km SE de Smara",
+      "km": 86
+     }
+    },
+    {
+     "lat": 26.42304,
+     "lon": -11.13108,
+     "area_ha": 119,
+     "peak": 4.83,
+     "model": "iron",
+     "_comp": 354,
+     "rank": 15,
+     "rel": 14,
+     "region": "laayoune",
+     "where": {
+      "ar": "64 كم جنوب شرق السمارة",
+      "fr": "64 km SE de Smara",
+      "km": 64
+     }
+    },
+    {
+     "lat": 25.18979,
+     "lon": -12.1765,
+     "area_ha": 123,
+     "peak": 4.0,
+     "model": "iron",
+     "_comp": 465,
+     "rank": 16,
+     "rel": 13,
+     "region": "laayoune",
+     "where": {
+      "ar": "20 كم شرق كلتة زمور",
+      "fr": "20 km E de Guelta Zemmur",
+      "km": 20
+     }
+    },
+    {
+     "lat": 24.96262,
+     "lon": -12.37332,
+     "area_ha": 117,
+     "peak": 4.03,
+     "model": "iron",
+     "_comp": 471,
+     "rank": 17,
+     "rel": 13,
+     "region": "laayoune",
+     "where": {
+      "ar": "20 كم جنوب كلتة زمور",
+      "fr": "20 km S de Guelta Zemmur",
+      "km": 20
+     }
+    },
+    {
+     "lat": 26.18774,
+     "lon": -11.39638,
+     "area_ha": 115,
+     "peak": 4.2,
+     "model": "iron",
+     "_comp": 398,
+     "rank": 18,
+     "rel": 13,
      "region": "laayoune",
      "where": {
       "ar": "67 كم جنوب شرق السمارة",
       "fr": "67 km SE de Smara",
       "km": 67
-     },
-     "chip_tc": "chips/iron_7_tc.jpg",
-     "chip_geo": "chips/iron_7_geo.jpg",
-     "chip_date": "2026-10-10"
-    },
-    {
-     "lat": 26.59149,
-     "lon": -11.05248,
-     "area_ha": 308,
-     "peak": 3.51,
-     "model": "iron",
-     "_comp": 663,
-     "rank": 8,
-     "rel": 17,
-     "region": "laayoune",
-     "where": {
-      "ar": "64 كم شرق السمارة",
-      "fr": "64 km E de Smara",
-      "km": 64
-     },
-     "chip_tc": "chips/iron_8_tc.jpg",
-     "chip_geo": "chips/iron_8_geo.jpg",
-     "chip_date": "2026-10-05"
-    },
-    {
-     "lat": 26.17951,
-     "lon": -11.65472,
-     "area_ha": 266,
-     "peak": 3.98,
-     "model": "iron",
-     "_comp": 801,
-     "rank": 9,
-     "rel": 16,
-     "region": "laayoune",
-     "where": {
-      "ar": "62 كم جنوب السمارة",
-      "fr": "62 km S de Smara",
-      "km": 62
-     },
-     "chip_tc": "chips/iron_9_tc.jpg",
-     "chip_geo": "chips/iron_9_geo.jpg",
-     "chip_date": "2026-10-10"
-    },
-    {
-     "lat": 26.60289,
-     "lon": -10.42252,
-     "area_ha": 236,
-     "peak": 3.92,
-     "model": "iron",
-     "_comp": 614,
-     "rank": 10,
-     "rel": 14,
-     "region": "laayoune",
-     "where": {
-      "ar": "125 كم شرق السمارة",
-      "fr": "125 km E de Smara",
-      "km": 125
-     },
-     "chip_tc": "chips/iron_10_tc.jpg",
-     "chip_geo": "chips/iron_10_geo.jpg",
-     "chip_date": "2026-11-04"
-    },
-    {
-     "lat": 26.10464,
-     "lon": -11.66532,
-     "area_ha": 232,
-     "peak": 3.92,
-     "model": "iron",
-     "_comp": 829,
-     "rank": 11,
-     "rel": 13,
-     "region": "laayoune",
-     "where": {
-      "ar": "71 كم جنوب السمارة",
-      "fr": "71 km S de Smara",
-      "km": 71
-     },
-     "chip_tc": "chips/iron_11_tc.jpg",
-     "chip_geo": "chips/iron_11_geo.jpg",
-     "chip_date": "2026-10-10"
-    },
-    {
-     "lat": 26.63038,
-     "lon": -10.52655,
-     "area_ha": 215,
-     "peak": 3.96,
-     "model": "iron",
-     "_comp": 559,
-     "rank": 12,
-     "rel": 13,
-     "region": "laayoune",
-     "where": {
-      "ar": "114 كم شرق السمارة",
-      "fr": "114 km E de Smara",
-      "km": 114
-     },
-     "chip_tc": "chips/iron_12_tc.jpg",
-     "chip_geo": "chips/iron_12_geo.jpg",
-     "chip_date": "2026-11-04"
-    },
-    {
-     "lat": 26.61983,
-     "lon": -10.16917,
-     "area_ha": 213,
-     "peak": 3.88,
-     "model": "iron",
-     "_comp": 590,
-     "rank": 13,
-     "rel": 12,
-     "region": "laayoune",
-     "where": {
-      "ar": "150 كم شرق السمارة",
-      "fr": "150 km E de Smara",
-      "km": 150
      }
     },
     {
-     "lat": 26.65305,
-     "lon": -10.48351,
-     "area_ha": 199,
-     "peak": 3.7,
+     "lat": 27.03274,
+     "lon": -13.07591,
+     "area_ha": 101,
+     "peak": 4.97,
      "model": "iron",
-     "_comp": 526,
-     "rank": 14,
-     "rel": 12,
-     "region": "laayoune",
-     "where": {
-      "ar": "118 كم شرق السمارة",
-      "fr": "118 km E de Smara",
-      "km": 118
-     }
-    },
-    {
-     "lat": 26.68948,
-     "lon": -10.52428,
-     "area_ha": 191,
-     "peak": 3.91,
-     "model": "iron",
-     "_comp": 506,
-     "rank": 15,
-     "rel": 11,
-     "region": "laayoune",
-     "where": {
-      "ar": "114 كم شرق السمارة",
-      "fr": "114 km E de Smara",
-      "km": 114
-     }
-    },
-    {
-     "lat": 26.5995,
-     "lon": -10.36965,
-     "area_ha": 183,
-     "peak": 3.98,
-     "model": "iron",
-     "_comp": 630,
-     "rank": 16,
-     "rel": 11,
-     "region": "laayoune",
-     "where": {
-      "ar": "130 كم شرق السمارة",
-      "fr": "130 km E de Smara",
-      "km": 130
-     }
-    },
-    {
-     "lat": 26.70101,
-     "lon": -10.35243,
-     "area_ha": 159,
-     "peak": 3.5,
-     "model": "iron",
-     "_comp": 501,
-     "rank": 17,
-     "rel": 9,
-     "region": "laayoune",
-     "where": {
-      "ar": "131 كم شرق السمارة",
-      "fr": "131 km E de Smara",
-      "km": 131
-     }
-    },
-    {
-     "lat": 26.81735,
-     "lon": -10.86892,
-     "area_ha": 142,
-     "peak": 3.77,
-     "model": "iron",
-     "_comp": 468,
-     "rank": 18,
-     "rel": 8,
-     "region": "laayoune",
-     "where": {
-      "ar": "80 كم شرق السمارة",
-      "fr": "80 km E de Smara",
-      "km": 80
-     }
-    },
-    {
-     "lat": 26.60627,
-     "lon": -11.01448,
-     "area_ha": 138,
-     "peak": 3.7,
-     "model": "iron",
-     "_comp": 632,
+     "_comp": 114,
      "rank": 19,
-     "rel": 8,
+     "rel": 12,
+     "region": "laayoune",
+     "where": {
+      "ar": "18 كم جنوب شرق العيون",
+      "fr": "18 km SE de Laâyoune",
+      "km": 18
+     }
+    },
+    {
+     "lat": 26.56412,
+     "lon": -11.02467,
+     "area_ha": 105,
+     "peak": 4.0,
+     "model": "iron",
+     "_comp": 302,
+     "rank": 20,
+     "rel": 12,
      "region": "laayoune",
      "where": {
       "ar": "67 كم شرق السمارة",
@@ -478,682 +1010,666 @@
      }
     },
     {
-     "lat": 26.61826,
-     "lon": -10.82458,
-     "area_ha": 136,
-     "peak": 3.67,
+     "lat": 27.39962,
+     "lon": -11.34351,
+     "area_ha": 100,
+     "peak": 4.0,
      "model": "iron",
-     "_comp": 592,
-     "rank": 20,
-     "rel": 8,
-     "region": "laayoune",
-     "where": {
-      "ar": "85 كم شرق السمارة",
-      "fr": "85 km E de Smara",
-      "km": 85
-     }
-    },
-    {
-     "lat": 27.12604,
-     "lon": -10.50827,
-     "area_ha": 102,
-     "peak": 3.56,
-     "model": "iron",
-     "_comp": 250,
+     "_comp": 25,
      "rank": 21,
-     "rel": 6,
+     "rel": 11,
      "region": "laayoune",
      "where": {
-      "ar": "123 كم شرق السمارة",
-      "fr": "123 km E de Smara",
-      "km": 123
+      "ar": "80 كم شمال شرق السمارة",
+      "fr": "80 km NE de Smara",
+      "km": 80
      }
     },
     {
-     "lat": 26.63708,
-     "lon": -10.43687,
-     "area_ha": 94,
-     "peak": 3.96,
-     "model": "iron",
-     "_comp": 549,
-     "rank": 22,
-     "rel": 6,
-     "region": "laayoune",
-     "where": {
-      "ar": "123 كم شرق السمارة",
-      "fr": "123 km E de Smara",
-      "km": 123
-     }
-    },
-    {
-     "lat": 27.17697,
-     "lon": -10.64517,
-     "area_ha": 95,
-     "peak": 3.66,
-     "model": "iron",
-     "_comp": 205,
-     "rank": 23,
-     "rel": 5,
-     "region": "laayoune",
-     "where": {
-      "ar": "113 كم شمال شرق السمارة",
-      "fr": "113 km NE de Smara",
-      "km": 113
-     }
-    },
-    {
-     "lat": 26.14648,
-     "lon": -11.61734,
+     "lat": 27.18921,
+     "lon": -10.40184,
      "area_ha": 82,
-     "peak": 3.8,
+     "peak": 4.97,
      "model": "iron",
-     "_comp": 810,
-     "rank": 24,
-     "rel": 5,
+     "_comp": 89,
+     "rank": 22,
+     "rel": 10,
      "region": "laayoune",
      "where": {
-      "ar": "66 كم جنوب السمارة",
-      "fr": "66 km S de Smara",
-      "km": 66
+      "ar": "135 كم شرق السمارة",
+      "fr": "135 km E de Smara",
+      "km": 135
      }
     },
     {
-     "lat": 26.82322,
-     "lon": -10.82157,
-     "area_ha": 83,
-     "peak": 3.69,
+     "lat": 26.18023,
+     "lon": -11.65503,
+     "area_ha": 86,
+     "peak": 4.0,
      "model": "iron",
-     "_comp": 459,
-     "rank": 25,
-     "rel": 5,
+     "_comp": 404,
+     "rank": 23,
+     "rel": 9,
      "region": "laayoune",
      "where": {
-      "ar": "85 كم شرق السمارة",
-      "fr": "85 km E de Smara",
-      "km": 85
+      "ar": "62 كم جنوب السمارة",
+      "fr": "62 km S de Smara",
+      "km": 62
      }
     },
     {
-     "lat": 26.5794,
-     "lon": -10.53678,
-     "area_ha": 80,
-     "peak": 3.47,
-     "model": "iron",
-     "_comp": 707,
-     "rank": 26,
-     "rel": 4,
-     "region": "laayoune",
-     "where": {
-      "ar": "114 كم شرق السمارة",
-      "fr": "114 km E de Smara",
-      "km": 114
-     }
-    },
-    {
-     "lat": 27.56265,
-     "lon": -10.74328,
+     "lat": 26.07358,
+     "lon": -9.09312,
      "area_ha": 72,
-     "peak": 3.59,
+     "peak": 5.58,
      "model": "iron",
-     "_comp": 11,
-     "rank": 27,
-     "rel": 4,
+     "_comp": 432,
+     "rank": 24,
+     "rel": 9,
      "region": "laayoune",
      "where": {
-      "ar": "130 كم شمال شرق السمارة",
-      "fr": "130 km NE de Smara",
-      "km": 130
+      "ar": "267 كم شرق السمارة",
+      "fr": "267 km E de Smara",
+      "km": 267
      }
     },
     {
-     "lat": 27.32611,
-     "lon": -11.24085,
-     "area_ha": 70,
-     "peak": 3.39,
+     "lat": 26.45741,
+     "lon": -13.10666,
+     "area_ha": 83,
+     "peak": 4.0,
      "model": "iron",
-     "_comp": 170,
-     "rank": 28,
-     "rel": 4,
+     "_comp": 341,
+     "rank": 25,
+     "rel": 9,
      "region": "laayoune",
      "where": {
-      "ar": "78 كم شمال شرق السمارة",
-      "fr": "78 km NE de Smara",
+      "ar": "78 كم جنوب العيون",
+      "fr": "78 km S de Laâyoune",
       "km": 78
      }
     },
     {
-     "lat": 26.04267,
-     "lon": -11.67735,
-     "area_ha": 71,
-     "peak": 3.37,
+     "lat": 26.2622,
+     "lon": -11.33732,
+     "area_ha": 76,
+     "peak": 4.34,
      "model": "iron",
-     "_comp": 858,
-     "rank": 29,
-     "rel": 4,
+     "_comp": 384,
+     "rank": 26,
+     "rel": 9,
      "region": "laayoune",
      "where": {
-      "ar": "77 كم جنوب السمارة",
-      "fr": "77 km S de Smara",
-      "km": 77
+      "ar": "63 كم جنوب شرق السمارة",
+      "fr": "63 km SE de Smara",
+      "km": 63
      }
     },
     {
-     "lat": 27.48684,
-     "lon": -11.00893,
-     "area_ha": 62,
-     "peak": 3.96,
+     "lat": 27.34903,
+     "lon": -11.32138,
+     "area_ha": 76,
+     "peak": 4.0,
      "model": "iron",
-     "_comp": 36,
-     "rank": 30,
-     "rel": 4,
+     "_comp": 50,
+     "rank": 27,
+     "rel": 8,
      "region": "laayoune",
      "where": {
-      "ar": "106 كم شمال شرق السمارة",
-      "fr": "106 km NE de Smara",
-      "km": 106
+      "ar": "76 كم شمال شرق السمارة",
+      "fr": "76 km NE de Smara",
+      "km": 76
+     }
+    },
+    {
+     "lat": 24.46076,
+     "lon": -13.2672,
+     "area_ha": 68,
+     "peak": 4.39,
+     "model": "iron",
+     "_comp": 481,
+     "rank": 28,
+     "rel": 7,
+     "region": "laayoune",
+     "where": {
+      "ar": "118 كم جنوب غرب كلتة زمور",
+      "fr": "118 km SO de Guelta Zemmur",
+      "km": 118
+     }
+    },
+    {
+     "lat": 26.63417,
+     "lon": -9.08954,
+     "area_ha": 62,
+     "peak": 4.54,
+     "model": "iron",
+     "_comp": 193,
+     "rank": 29,
+     "rel": 7,
+     "region": "laayoune",
+     "where": {
+      "ar": "257 كم شرق السمارة",
+      "fr": "257 km E de Smara",
+      "km": 257
+     }
+    },
+    {
+     "lat": 26.61298,
+     "lon": -11.00045,
+     "area_ha": 65,
+     "peak": 4.0,
+     "model": "iron",
+     "_comp": 232,
+     "rank": 30,
+     "rel": 7,
+     "region": "laayoune",
+     "where": {
+      "ar": "68 كم شرق السمارة",
+      "fr": "68 km E de Smara",
+      "km": 68
      }
     }
    ],
    "check": [],
-   "p_chance": 0.00473
+   "p_chance": 0.00949
   },
   "alteration": {
    "ar": "التغيّر الحراري (ذهب ونحاس)",
    "fr": "Altération (or, cuivre)",
    "targets": [
     {
-     "lat": 27.29943,
-     "lon": -11.3862,
-     "area_ha": 3284,
-     "peak": 6.22,
+     "lat": 22.48563,
+     "lon": -16.39564,
+     "area_ha": 2719,
+     "peak": 8.0,
      "model": "alteration",
-     "_comp": 7,
+     "_comp": 73,
      "rank": 1,
      "rel": 100,
-     "region": "laayoune",
+     "region": "dakhla",
      "where": {
-      "ar": "68 كم شمال شرق السمارة",
-      "fr": "68 km NE de Smara",
-      "km": 68
+      "ar": "98 كم شمال بئر كندوز",
+      "fr": "98 km N de Bir Gandouz",
+      "km": 98
      },
-     "chip_tc": "chips/alteration_1_tc.jpg",
-     "chip_geo": "chips/alteration_1_geo.jpg",
-     "chip_date": "2026-11-04"
+     "chip_tc": "chips/alteration_dakhla_1_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_1_geo.jpg",
+     "chip_date": "2026-02-25"
     },
     {
-     "lat": 27.28475,
-     "lon": -11.30771,
-     "area_ha": 1912,
-     "peak": 5.59,
+     "lat": 22.1659,
+     "lon": -16.59668,
+     "area_ha": 1160,
+     "peak": 7.99,
      "model": "alteration",
-     "_comp": 13,
+     "_comp": 113,
      "rank": 2,
-     "rel": 53,
-     "region": "laayoune",
+     "rel": 40,
+     "region": "dakhla",
      "where": {
-      "ar": "71 كم شمال شرق السمارة",
-      "fr": "71 km NE de Smara",
-      "km": 71
+      "ar": "63 كم شمال بئر كندوز",
+      "fr": "63 km N de Bir Gandouz",
+      "km": 63
      },
-     "chip_tc": "chips/alteration_2_tc.jpg",
-     "chip_geo": "chips/alteration_2_geo.jpg",
-     "chip_date": "2026-11-04"
+     "chip_tc": "chips/alteration_dakhla_2_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_2_geo.jpg",
+     "chip_date": "2026-02-25"
     },
     {
-     "lat": 23.09549,
-     "lon": -16.13335,
-     "area_ha": 1985,
-     "peak": 4.51,
+     "lat": 21.85363,
+     "lon": -16.82217,
+     "area_ha": 419,
+     "peak": 8.0,
      "model": "alteration",
-     "_comp": 241,
+     "_comp": 144,
      "rank": 3,
-     "rel": 46,
+     "rel": 15,
+     "region": "dakhla",
+     "where": {
+      "ar": "46 كم شمال غرب بئر كندوز",
+      "fr": "46 km NO de Bir Gandouz",
+      "km": 46
+     },
+     "chip_tc": "chips/alteration_dakhla_3_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_3_geo.jpg",
+     "chip_date": "2026-02-25"
+    },
+    {
+     "lat": 23.10416,
+     "lon": -16.10418,
+     "area_ha": 464,
+     "peak": 6.88,
+     "model": "alteration",
+     "_comp": 42,
+     "rank": 4,
+     "rel": 15,
+     "region": "dakhla",
+     "where": {
+      "ar": "69 كم جنوب الداخلة",
+      "fr": "69 km S de Dakhla",
+      "km": 69
+     },
+     "chip_tc": "chips/alteration_dakhla_4_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_4_geo.jpg",
+     "chip_date": "2026-11-05"
+    },
+    {
+     "lat": 22.20651,
+     "lon": -16.55918,
+     "area_ha": 373,
+     "peak": 7.91,
+     "model": "alteration",
+     "_comp": 106,
+     "rank": 5,
+     "rel": 13,
+     "region": "dakhla",
+     "where": {
+      "ar": "67 كم شمال بئر كندوز",
+      "fr": "67 km N de Bir Gandouz",
+      "km": 67
+     },
+     "chip_tc": "chips/alteration_dakhla_5_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_5_geo.jpg",
+     "chip_date": "2026-02-25"
+    },
+    {
+     "lat": 23.00754,
+     "lon": -16.1361,
+     "area_ha": 213,
+     "peak": 7.93,
+     "model": "alteration",
+     "_comp": 66,
+     "rank": 6,
+     "rel": 7,
+     "region": "dakhla",
+     "where": {
+      "ar": "80 كم جنوب الداخلة",
+      "fr": "80 km S de Dakhla",
+      "km": 80
+     },
+     "chip_tc": "chips/alteration_dakhla_6_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_6_geo.jpg",
+     "chip_date": "2026-11-05"
+    },
+    {
+     "lat": 22.26278,
+     "lon": -16.56526,
+     "area_ha": 182,
+     "peak": 7.57,
+     "model": "alteration",
+     "_comp": 94,
+     "rank": 7,
+     "rel": 6,
+     "region": "dakhla",
+     "where": {
+      "ar": "73 كم شمال بئر كندوز",
+      "fr": "73 km N de Bir Gandouz",
+      "km": 73
+     },
+     "chip_tc": "chips/alteration_dakhla_7_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_7_geo.jpg",
+     "chip_date": "2026-02-25"
+    },
+    {
+     "lat": 23.1053,
+     "lon": -16.17204,
+     "area_ha": 162,
+     "peak": 6.45,
+     "model": "alteration",
+     "_comp": 44,
+     "rank": 8,
+     "rel": 5,
      "region": "dakhla",
      "where": {
       "ar": "71 كم جنوب الداخلة",
       "fr": "71 km S de Dakhla",
       "km": 71
      },
-     "chip_tc": "chips/alteration_3_tc.jpg",
-     "chip_geo": "chips/alteration_3_geo.jpg",
+     "chip_tc": "chips/alteration_dakhla_8_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_8_geo.jpg",
      "chip_date": "2026-11-05"
     },
     {
-     "lat": 27.15105,
-     "lon": -11.42069,
-     "area_ha": 1069,
-     "peak": 5.47,
+     "lat": 23.94362,
+     "lon": -15.60702,
+     "area_ha": 120,
+     "peak": 7.78,
      "model": "alteration",
-     "_comp": 67,
-     "rank": 4,
-     "rel": 31,
-     "region": "laayoune",
-     "where": {
-      "ar": "52 كم شمال شرق السمارة",
-      "fr": "52 km NE de Smara",
-      "km": 52
-     },
-     "chip_tc": "chips/alteration_4_tc.jpg",
-     "chip_geo": "chips/alteration_4_geo.jpg",
-     "chip_date": "2026-11-04"
-    },
-    {
-     "lat": 27.2248,
-     "lon": -11.32046,
-     "area_ha": 738,
-     "peak": 5.81,
-     "model": "alteration",
-     "_comp": 36,
-     "rank": 5,
-     "rel": 22,
-     "region": "laayoune",
-     "where": {
-      "ar": "64 كم شمال شرق السمارة",
-      "fr": "64 km NE de Smara",
-      "km": 64
-     },
-     "chip_tc": "chips/alteration_5_tc.jpg",
-     "chip_geo": "chips/alteration_5_geo.jpg",
-     "chip_date": "2026-11-04"
-    },
-    {
-     "lat": 27.282,
-     "lon": -12.98738,
-     "area_ha": 806,
-     "peak": 4.98,
-     "model": "alteration",
-     "_comp": 20,
-     "rank": 6,
-     "rel": 20,
-     "region": "laayoune",
-     "where": {
-      "ar": "26 كم شمال شرق العيون",
-      "fr": "26 km NE de Laâyoune",
-      "km": 26
-     },
-     "chip_tc": "chips/alteration_6_tc.jpg",
-     "chip_geo": "chips/alteration_6_geo.jpg",
-     "chip_date": "2026-09-30"
-    },
-    {
-     "lat": 24.20191,
-     "lon": -12.74392,
-     "area_ha": 649,
-     "peak": 4.6,
-     "model": "alteration",
-     "_comp": 195,
-     "rank": 7,
-     "rel": 15,
-     "region": "dakhla",
-     "where": {
-      "ar": "111 كم جنوب كلتة زمور",
-      "fr": "111 km S de Guelta Zemmur",
-      "km": 111
-     },
-     "chip_tc": "chips/alteration_7_tc.jpg",
-     "chip_geo": "chips/alteration_7_geo.jpg",
-     "chip_date": "2026-11-04"
-    },
-    {
-     "lat": 24.23519,
-     "lon": -12.78401,
-     "area_ha": 622,
-     "peak": 5.72,
-     "model": "alteration",
-     "_comp": 191,
-     "rank": 8,
-     "rel": 15,
-     "region": "dakhla",
-     "where": {
-      "ar": "109 كم جنوب غرب كلتة زمور",
-      "fr": "109 km SO de Guelta Zemmur",
-      "km": 109
-     },
-     "chip_tc": "chips/alteration_8_tc.jpg",
-     "chip_geo": "chips/alteration_8_geo.jpg",
-     "chip_date": "2026-11-04"
-    },
-    {
-     "lat": 25.36245,
-     "lon": -13.40816,
-     "area_ha": 526,
-     "peak": 4.26,
-     "model": "alteration",
-     "_comp": 166,
+     "_comp": 16,
      "rank": 9,
-     "rel": 13,
-     "region": "laayoune",
+     "rel": 4,
+     "region": "dakhla",
      "where": {
-      "ar": "107 كم غرب كلتة زمور",
-      "fr": "107 km O de Guelta Zemmur",
-      "km": 107
+      "ar": "43 كم شمال شرق الداخلة",
+      "fr": "43 km NE de Dakhla",
+      "km": 43
      },
-     "chip_tc": "chips/alteration_9_tc.jpg",
-     "chip_geo": "chips/alteration_9_geo.jpg",
-     "chip_date": "2026-09-20"
+     "chip_tc": "chips/alteration_dakhla_9_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_9_geo.jpg",
+     "chip_date": "2026-10-18"
     },
     {
-     "lat": 27.18844,
-     "lon": -10.7249,
-     "area_ha": 456,
-     "peak": 5.62,
+     "lat": 22.12247,
+     "lon": -16.81067,
+     "area_ha": 115,
+     "peak": 7.78,
      "model": "alteration",
-     "_comp": 61,
+     "_comp": 119,
      "rank": 10,
-     "rel": 12,
-     "region": "laayoune",
+     "rel": 4,
+     "region": "dakhla",
      "where": {
-      "ar": "106 كم شمال شرق السمارة",
-      "fr": "106 km NE de Smara",
-      "km": 106
+      "ar": "68 كم شمال غرب بئر كندوز",
+      "fr": "68 km NO de Bir Gandouz",
+      "km": 68
      },
-     "chip_tc": "chips/alteration_10_tc.jpg",
-     "chip_geo": "chips/alteration_10_geo.jpg",
-     "chip_date": "2026-11-04"
+     "chip_tc": "chips/alteration_dakhla_10_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_10_geo.jpg",
+     "chip_date": "2026-02-25"
     },
     {
-     "lat": 27.21682,
-     "lon": -10.78647,
-     "area_ha": 336,
-     "peak": 5.47,
+     "lat": 24.2186,
+     "lon": -12.77819,
+     "area_ha": 100,
+     "peak": 7.82,
      "model": "alteration",
-     "_comp": 41,
+     "_comp": 5,
      "rank": 11,
-     "rel": 9,
-     "region": "laayoune",
+     "rel": 3,
+     "region": "dakhla",
      "where": {
-      "ar": "103 كم شمال شرق السمارة",
-      "fr": "103 km NE de Smara",
-      "km": 103
+      "ar": "110 كم جنوب كلتة زمور",
+      "fr": "110 km S de Guelta Zemmur",
+      "km": 110
      },
-     "chip_tc": "chips/alteration_11_tc.jpg",
-     "chip_geo": "chips/alteration_11_geo.jpg",
+     "chip_tc": "chips/alteration_dakhla_11_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_11_geo.jpg",
      "chip_date": "2026-11-04"
     },
     {
-     "lat": 27.24573,
-     "lon": -13.03552,
-     "area_ha": 347,
-     "peak": 4.0,
+     "lat": 22.36404,
+     "lon": -15.51949,
+     "area_ha": 103,
+     "peak": 7.86,
      "model": "alteration",
-     "_comp": 26,
+     "_comp": 86,
      "rank": 12,
-     "rel": 8,
-     "region": "laayoune",
-     "where": {
-      "ar": "20 كم شمال شرق العيون",
-      "fr": "20 km NE de Laâyoune",
-      "km": 20
-     },
-     "chip_tc": "chips/alteration_12_tc.jpg",
-     "chip_geo": "chips/alteration_12_geo.jpg",
-     "chip_date": "2026-09-30"
-    },
-    {
-     "lat": 24.5096,
-     "lon": -15.08224,
-     "area_ha": 302,
-     "peak": 5.88,
-     "model": "alteration",
-     "_comp": 168,
-     "rank": 13,
-     "rel": 8,
-     "region": "laayoune",
-     "where": {
-      "ar": "89 كم شمال غرب بئر أنزران",
-      "fr": "89 km NO de Bir Anzarane",
-      "km": 89
-     }
-    },
-    {
-     "lat": 27.32077,
-     "lon": -11.3279,
-     "area_ha": 296,
-     "peak": 4.94,
-     "model": "alteration",
-     "_comp": 15,
-     "rank": 14,
-     "rel": 8,
-     "region": "laayoune",
-     "where": {
-      "ar": "73 كم شمال شرق السمارة",
-      "fr": "73 km NE de Smara",
-      "km": 73
-     }
-    },
-    {
-     "lat": 23.01497,
-     "lon": -16.13414,
-     "area_ha": 304,
-     "peak": 5.06,
-     "model": "alteration",
-     "_comp": 261,
-     "rank": 15,
-     "rel": 7,
-     "region": "dakhla",
-     "where": {
-      "ar": "79 كم جنوب الداخلة",
-      "fr": "79 km S de Dakhla",
-      "km": 79
-     }
-    },
-    {
-     "lat": 27.51653,
-     "lon": -13.00847,
-     "area_ha": 236,
-     "peak": 4.87,
-     "model": "alteration",
-     "_comp": 1,
-     "rank": 16,
-     "rel": 6,
-     "region": "laayoune",
-     "where": {
-      "ar": "45 كم شمال شرق العيون",
-      "fr": "45 km NE de Laâyoune",
-      "km": 45
-     }
-    },
-    {
-     "lat": 22.48808,
-     "lon": -16.38783,
-     "area_ha": 234,
-     "peak": 4.77,
-     "model": "alteration",
-     "_comp": 276,
-     "rank": 17,
-     "rel": 6,
-     "region": "dakhla",
-     "where": {
-      "ar": "98 كم شمال بئر كندوز",
-      "fr": "98 km N de Bir Gandouz",
-      "km": 98
-     }
-    },
-    {
-     "lat": 23.86533,
-     "lon": -15.82619,
-     "area_ha": 222,
-     "peak": 4.0,
-     "model": "alteration",
-     "_comp": 211,
-     "rank": 18,
-     "rel": 5,
-     "region": "dakhla",
-     "where": {
-      "ar": "21 كم شمال شرق الداخلة",
-      "fr": "21 km NE de Dakhla",
-      "km": 21
-     }
-    },
-    {
-     "lat": 23.26037,
-     "lon": -15.92255,
-     "area_ha": 222,
-     "peak": 4.1,
-     "model": "alteration",
-     "_comp": 236,
-     "rank": 19,
-     "rel": 5,
-     "region": "dakhla",
-     "where": {
-      "ar": "49 كم جنوب الداخلة",
-      "fr": "49 km S de Dakhla",
-      "km": 49
-     }
-    },
-    {
-     "lat": 26.57201,
-     "lon": -13.74375,
-     "area_ha": 198,
-     "peak": 4.28,
-     "model": "alteration",
-     "_comp": 142,
-     "rank": 20,
-     "rel": 5,
-     "region": "laayoune",
-     "where": {
-      "ar": "84 كم جنوب غرب العيون",
-      "fr": "84 km SO de Laâyoune",
-      "km": 84
-     }
-    },
-    {
-     "lat": 26.49395,
-     "lon": -13.88122,
-     "area_ha": 178,
-     "peak": 4.57,
-     "model": "alteration",
-     "_comp": 144,
-     "rank": 21,
-     "rel": 4,
-     "region": "laayoune",
-     "where": {
-      "ar": "73 كم شمال شرق بوجدور",
-      "fr": "73 km NE de Boujdour",
-      "km": 73
-     }
-    },
-    {
-     "lat": 22.707,
-     "lon": -16.30815,
-     "area_ha": 182,
-     "peak": 4.0,
-     "model": "alteration",
-     "_comp": 271,
-     "rank": 22,
-     "rel": 4,
-     "region": "dakhla",
-     "where": {
-      "ar": "117 كم جنوب الداخلة",
-      "fr": "117 km S de Dakhla",
-      "km": 117
-     }
-    },
-    {
-     "lat": 22.83559,
-     "lon": -15.08904,
-     "area_ha": 175,
-     "peak": 4.0,
-     "model": "alteration",
-     "_comp": 263,
-     "rank": 23,
-     "rel": 4,
-     "region": "dakhla",
-     "where": {
-      "ar": "84 كم غرب أوسرد",
-      "fr": "84 km O de Aousserd",
-      "km": 84
-     }
-    },
-    {
-     "lat": 22.36387,
-     "lon": -15.52125,
-     "area_ha": 149,
-     "peak": 6.06,
-     "model": "alteration",
-     "_comp": 286,
-     "rank": 24,
-     "rel": 4,
+     "rel": 3,
      "region": "dakhla",
      "where": {
       "ar": "103 كم شمال غرب تيشلا",
       "fr": "103 km NO de Tichla",
       "km": 103
-     }
+     },
+     "chip_tc": "chips/alteration_dakhla_12_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_12_geo.jpg",
+     "chip_date": "2026-10-18"
     },
     {
-     "lat": 27.48446,
-     "lon": -11.37618,
-     "area_ha": 141,
-     "peak": 4.97,
+     "lat": 23.13786,
+     "lon": -16.14847,
+     "area_ha": 106,
+     "peak": 6.95,
      "model": "alteration",
-     "_comp": 2,
-     "rank": 25,
-     "rel": 4,
-     "region": "laayoune",
-     "where": {
-      "ar": "88 كم شمال السمارة",
-      "fr": "88 km N de Smara",
-      "km": 88
-     }
-    },
-    {
-     "lat": 27.21719,
-     "lon": -11.42669,
-     "area_ha": 129,
-     "peak": 5.73,
-     "model": "alteration",
-     "_comp": 43,
-     "rank": 26,
-     "rel": 4,
-     "region": "laayoune",
-     "where": {
-      "ar": "58 كم شمال شرق السمارة",
-      "fr": "58 km NE de Smara",
-      "km": 58
-     }
-    },
-    {
-     "lat": 26.42937,
-     "lon": -13.88298,
-     "area_ha": 138,
-     "peak": 4.29,
-     "model": "alteration",
-     "_comp": 147,
-     "rank": 27,
+     "_comp": 37,
+     "rank": 13,
      "rel": 3,
-     "region": "laayoune",
+     "region": "dakhla",
      "where": {
-      "ar": "69 كم شمال شرق بوجدور",
-      "fr": "69 km NE de Boujdour",
+      "ar": "67 كم جنوب الداخلة",
+      "fr": "67 km S de Dakhla",
+      "km": 67
+     }
+    },
+    {
+     "lat": 22.42462,
+     "lon": -14.56261,
+     "area_ha": 103,
+     "peak": 6.53,
+     "model": "alteration",
+     "_comp": 77,
+     "rank": 14,
+     "rel": 3,
+     "region": "dakhla",
+     "where": {
+      "ar": "28 كم جنوب غرب أوسرد",
+      "fr": "28 km SO de Aousserd",
+      "km": 28
+     }
+    },
+    {
+     "lat": 23.06726,
+     "lon": -13.96096,
+     "area_ha": 88,
+     "peak": 7.95,
+     "model": "alteration",
+     "_comp": 51,
+     "rank": 15,
+     "rel": 3,
+     "region": "dakhla",
+     "where": {
+      "ar": "69 كم شمال شرق أوسرد",
+      "fr": "69 km NE de Aousserd",
       "km": 69
      }
     },
     {
-     "lat": 21.8075,
-     "lon": -16.93978,
-     "area_ha": 130,
-     "peak": 4.2,
+     "lat": 24.18613,
+     "lon": -12.75788,
+     "area_ha": 81,
+     "peak": 7.67,
      "model": "alteration",
-     "_comp": 303,
-     "rank": 28,
+     "_comp": 12,
+     "rank": 16,
      "rel": 3,
      "region": "dakhla",
      "where": {
-      "ar": "54 كم شمال غرب بئر كندوز",
-      "fr": "54 km NO de Bir Gandouz",
+      "ar": "113 كم جنوب كلتة زمور",
+      "fr": "113 km S de Guelta Zemmur",
+      "km": 113
+     }
+    },
+    {
+     "lat": 22.20731,
+     "lon": -16.7637,
+     "area_ha": 74,
+     "peak": 7.67,
+     "model": "alteration",
+     "_comp": 109,
+     "rank": 17,
+     "rel": 3,
+     "region": "dakhla",
+     "where": {
+      "ar": "73 كم شمال غرب بئر كندوز",
+      "fr": "73 km NO de Bir Gandouz",
+      "km": 73
+     }
+    },
+    {
+     "lat": 21.71533,
+     "lon": -16.97404,
+     "area_ha": 73,
+     "peak": 6.71,
+     "model": "alteration",
+     "_comp": 148,
+     "rank": 18,
+     "rel": 2,
+     "region": "dakhla",
+     "where": {
+      "ar": "54 كم غرب بئر كندوز",
+      "fr": "54 km O de Bir Gandouz",
       "km": 54
      }
     },
     {
-     "lat": 23.0421,
-     "lon": -13.92481,
-     "area_ha": 116,
-     "peak": 6.07,
+     "lat": 21.93488,
+     "lon": -14.91504,
+     "area_ha": 62,
+     "peak": 7.54,
      "model": "alteration",
-     "_comp": 258,
+     "_comp": 138,
+     "rank": 19,
+     "rel": 2,
+     "region": "dakhla",
+     "where": {
+      "ar": "39 كم شمال تيشلا",
+      "fr": "39 km N de Tichla",
+      "km": 39
+     }
+    },
+    {
+     "lat": 22.86452,
+     "lon": -16.28813,
+     "area_ha": 65,
+     "peak": 5.73,
+     "model": "alteration",
+     "_comp": 72,
+     "rank": 20,
+     "rel": 2,
+     "region": "dakhla",
+     "where": {
+      "ar": "100 كم جنوب الداخلة",
+      "fr": "100 km S de Dakhla",
+      "km": 100
+     }
+    },
+    {
+     "lat": 23.1643,
+     "lon": -16.07816,
+     "area_ha": 53,
+     "peak": 6.32,
+     "model": "alteration",
+     "_comp": 33,
+     "rank": 21,
+     "rel": 2,
+     "region": "dakhla",
+     "where": {
+      "ar": "62 كم جنوب الداخلة",
+      "fr": "62 km S de Dakhla",
+      "km": 62
+     }
+    },
+    {
+     "lat": 23.85108,
+     "lon": -15.70478,
+     "area_ha": 45,
+     "peak": 6.85,
+     "model": "alteration",
+     "_comp": 23,
+     "rank": 22,
+     "rel": 1,
+     "region": "dakhla",
+     "where": {
+      "ar": "29 كم شمال شرق الداخلة",
+      "fr": "29 km NE de Dakhla",
+      "km": 29
+     }
+    },
+    {
+     "lat": 22.04839,
+     "lon": -16.81946,
+     "area_ha": 45,
+     "peak": 6.78,
+     "model": "alteration",
+     "_comp": 133,
+     "rank": 23,
+     "rel": 1,
+     "region": "dakhla",
+     "where": {
+      "ar": "61 كم شمال غرب بئر كندوز",
+      "fr": "61 km NO de Bir Gandouz",
+      "km": 61
+     }
+    },
+    {
+     "lat": 23.06052,
+     "lon": -16.10231,
+     "area_ha": 44,
+     "peak": 6.39,
+     "model": "alteration",
+     "_comp": 52,
+     "rank": 24,
+     "rel": 1,
+     "region": "dakhla",
+     "where": {
+      "ar": "74 كم جنوب الداخلة",
+      "fr": "74 km S de Dakhla",
+      "km": 74
+     }
+    },
+    {
+     "lat": 22.39916,
+     "lon": -16.4293,
+     "area_ha": 38,
+     "peak": 7.09,
+     "model": "alteration",
+     "_comp": 83,
+     "rank": 25,
+     "rel": 1,
+     "region": "dakhla",
+     "where": {
+      "ar": "88 كم شمال بئر كندوز",
+      "fr": "88 km N de Bir Gandouz",
+      "km": 88
+     }
+    },
+    {
+     "lat": 22.29324,
+     "lon": -15.18228,
+     "area_ha": 31,
+     "peak": 6.05,
+     "model": "alteration",
+     "_comp": 91,
+     "rank": 26,
+     "rel": 1,
+     "region": "dakhla",
+     "where": {
+      "ar": "81 كم شمال تيشلا",
+      "fr": "81 km N de Tichla",
+      "km": 81
+     }
+    },
+    {
+     "lat": 23.82593,
+     "lon": -15.73615,
+     "area_ha": 30,
+     "peak": 6.18,
+     "model": "alteration",
+     "_comp": 27,
+     "rank": 27,
+     "rel": 1,
+     "region": "dakhla",
+     "where": {
+      "ar": "24 كم شمال شرق الداخلة",
+      "fr": "24 km NE de Dakhla",
+      "km": 24
+     }
+    },
+    {
+     "lat": 21.96926,
+     "lon": -16.82692,
+     "area_ha": 27,
+     "peak": 7.22,
+     "model": "alteration",
+     "_comp": 136,
+     "rank": 28,
+     "rel": 1,
+     "region": "dakhla",
+     "where": {
+      "ar": "55 كم شمال غرب بئر كندوز",
+      "fr": "55 km NO de Bir Gandouz",
+      "km": 55
+     }
+    },
+    {
+     "lat": 23.0414,
+     "lon": -13.93157,
+     "area_ha": 24,
+     "peak": 7.86,
+     "model": "alteration",
+     "_comp": 62,
      "rank": 29,
-     "rel": 3,
+     "rel": 1,
      "region": "dakhla",
      "where": {
       "ar": "68 كم شمال شرق أوسرد",
@@ -1162,522 +1678,1330 @@
      }
     },
     {
-     "lat": 21.83002,
-     "lon": -16.83669,
-     "area_ha": 96,
-     "peak": 6.17,
+     "lat": 23.08915,
+     "lon": -14.09246,
+     "area_ha": 26,
+     "peak": 7.15,
      "model": "alteration",
-     "_comp": 301,
+     "_comp": 47,
      "rank": 30,
-     "rel": 3,
+     "rel": 1,
      "region": "dakhla",
      "where": {
-      "ar": "46 كم شمال غرب بئر كندوز",
-      "fr": "46 km NO de Bir Gandouz",
+      "ar": "64 كم شمال أوسرد",
+      "fr": "64 km N de Aousserd",
+      "km": 64
+     }
+    },
+    {
+     "lat": 27.28937,
+     "lon": -11.39089,
+     "area_ha": 2311,
+     "peak": 8.0,
+     "model": "alteration",
+     "_comp": 21,
+     "rank": 1,
+     "rel": 100,
+     "region": "laayoune",
+     "where": {
+      "ar": "67 كم شمال شرق السمارة",
+      "fr": "67 km NE de Smara",
+      "km": 67
+     },
+     "chip_tc": "chips/alteration_laayoune_1_tc.jpg",
+     "chip_geo": "chips/alteration_laayoune_1_geo.jpg",
+     "chip_date": "2026-11-04"
+    },
+    {
+     "lat": 27.14971,
+     "lon": -11.41567,
+     "area_ha": 732,
+     "peak": 7.67,
+     "model": "alteration",
+     "_comp": 154,
+     "rank": 2,
+     "rel": 29,
+     "region": "laayoune",
+     "where": {
+      "ar": "52 كم شمال شرق السمارة",
+      "fr": "52 km NE de Smara",
+      "km": 52
+     },
+     "chip_tc": "chips/alteration_laayoune_2_tc.jpg",
+     "chip_geo": "chips/alteration_laayoune_2_geo.jpg",
+     "chip_date": "2026-11-04"
+    },
+    {
+     "lat": 26.99282,
+     "lon": -10.1002,
+     "area_ha": 634,
+     "peak": 7.06,
+     "model": "alteration",
+     "_comp": 195,
+     "rank": 3,
+     "rel": 25,
+     "region": "laayoune",
+     "where": {
+      "ar": "158 كم شرق السمارة",
+      "fr": "158 km E de Smara",
+      "km": 158
+     },
+     "chip_tc": "chips/alteration_laayoune_3_tc.jpg",
+     "chip_geo": "chips/alteration_laayoune_3_geo.jpg",
+     "chip_date": "2026-11-04"
+    },
+    {
+     "lat": 25.74504,
+     "lon": -13.68873,
+     "area_ha": 450,
+     "peak": 7.99,
+     "model": "alteration",
+     "_comp": 230,
+     "rank": 4,
+     "rel": 19,
+     "region": "laayoune",
+     "where": {
+      "ar": "90 كم جنوب شرق بوجدور",
+      "fr": "90 km SE de Boujdour",
+      "km": 90
+     },
+     "chip_tc": "chips/alteration_laayoune_4_tc.jpg",
+     "chip_geo": "chips/alteration_laayoune_4_geo.jpg",
+     "chip_date": "2026-09-20"
+    },
+    {
+     "lat": 27.18866,
+     "lon": -10.73112,
+     "area_ha": 469,
+     "peak": 7.99,
+     "model": "alteration",
+     "_comp": 122,
+     "rank": 5,
+     "rel": 19,
+     "region": "laayoune",
+     "where": {
+      "ar": "106 كم شمال شرق السمارة",
+      "fr": "106 km NE de Smara",
+      "km": 106
+     },
+     "chip_tc": "chips/alteration_laayoune_5_tc.jpg",
+     "chip_geo": "chips/alteration_laayoune_5_geo.jpg",
+     "chip_date": "2026-11-04"
+    },
+    {
+     "lat": 27.22403,
+     "lon": -11.32427,
+     "area_ha": 409,
+     "peak": 7.99,
+     "model": "alteration",
+     "_comp": 93,
+     "rank": 6,
+     "rel": 17,
+     "region": "laayoune",
+     "where": {
+      "ar": "64 كم شمال شرق السمارة",
+      "fr": "64 km NE de Smara",
+      "km": 64
+     },
+     "chip_tc": "chips/alteration_laayoune_6_tc.jpg",
+     "chip_geo": "chips/alteration_laayoune_6_geo.jpg",
+     "chip_date": "2026-11-04"
+    },
+    {
+     "lat": 25.71279,
+     "lon": -13.6683,
+     "area_ha": 385,
+     "peak": 7.84,
+     "model": "alteration",
+     "_comp": 238,
+     "rank": 7,
+     "rel": 16,
+     "region": "laayoune",
+     "where": {
+      "ar": "94 كم جنوب شرق بوجدور",
+      "fr": "94 km SE de Boujdour",
+      "km": 94
+     },
+     "chip_tc": "chips/alteration_laayoune_7_tc.jpg",
+     "chip_geo": "chips/alteration_laayoune_7_geo.jpg",
+     "chip_date": "2026-09-20"
+    },
+    {
+     "lat": 24.50966,
+     "lon": -15.08119,
+     "area_ha": 363,
+     "peak": 7.99,
+     "model": "alteration",
+     "_comp": 257,
+     "rank": 8,
+     "rel": 15,
+     "region": "laayoune",
+     "where": {
+      "ar": "89 كم شمال غرب بئر أنزران",
+      "fr": "89 km NO de Bir Anzarane",
+      "km": 89
+     },
+     "chip_tc": "chips/alteration_laayoune_8_tc.jpg",
+     "chip_geo": "chips/alteration_laayoune_8_geo.jpg",
+     "chip_date": "2026-10-18"
+    },
+    {
+     "lat": 27.21873,
+     "lon": -10.78285,
+     "area_ha": 222,
+     "peak": 7.96,
+     "model": "alteration",
+     "_comp": 99,
+     "rank": 9,
+     "rel": 9,
+     "region": "laayoune",
+     "where": {
+      "ar": "103 كم شمال شرق السمارة",
+      "fr": "103 km NE de Smara",
+      "km": 103
+     },
+     "chip_tc": "chips/alteration_laayoune_9_tc.jpg",
+     "chip_geo": "chips/alteration_laayoune_9_geo.jpg",
+     "chip_date": "2026-11-04"
+    },
+    {
+     "lat": 27.31368,
+     "lon": -11.30496,
+     "area_ha": 189,
+     "peak": 7.79,
+     "model": "alteration",
+     "_comp": 42,
+     "rank": 10,
+     "rel": 8,
+     "region": "laayoune",
+     "where": {
+      "ar": "74 كم شمال شرق السمارة",
+      "fr": "74 km NE de Smara",
+      "km": 74
+     },
+     "chip_tc": "chips/alteration_laayoune_10_tc.jpg",
+     "chip_geo": "chips/alteration_laayoune_10_geo.jpg",
+     "chip_date": "2026-11-04"
+    },
+    {
+     "lat": 27.25965,
+     "lon": -11.31121,
+     "area_ha": 180,
+     "peak": 6.94,
+     "model": "alteration",
+     "_comp": 83,
+     "rank": 11,
+     "rel": 7,
+     "region": "laayoune",
+     "where": {
+      "ar": "68 كم شمال شرق السمارة",
+      "fr": "68 km NE de Smara",
+      "km": 68
+     },
+     "chip_tc": "chips/alteration_laayoune_11_tc.jpg",
+     "chip_geo": "chips/alteration_laayoune_11_geo.jpg",
+     "chip_date": "2026-11-04"
+    },
+    {
+     "lat": 27.48542,
+     "lon": -11.3754,
+     "area_ha": 158,
+     "peak": 6.66,
+     "model": "alteration",
+     "_comp": 14,
+     "rank": 12,
+     "rel": 6,
+     "region": "laayoune",
+     "where": {
+      "ar": "88 كم شمال السمارة",
+      "fr": "88 km N de Smara",
+      "km": 88
+     },
+     "chip_tc": "chips/alteration_laayoune_12_tc.jpg",
+     "chip_geo": "chips/alteration_laayoune_12_geo.jpg",
+     "chip_date": "2026-11-04"
+    },
+    {
+     "lat": 27.30749,
+     "lon": -11.93333,
+     "area_ha": 123,
+     "peak": 6.68,
+     "model": "alteration",
+     "_comp": 33,
+     "rank": 13,
+     "rel": 5,
+     "region": "laayoune",
+     "where": {
+      "ar": "68 كم شمال السمارة",
+      "fr": "68 km N de Smara",
+      "km": 68
+     }
+    },
+    {
+     "lat": 25.57711,
+     "lon": -13.68205,
+     "area_ha": 122,
+     "peak": 7.28,
+     "model": "alteration",
+     "_comp": 250,
+     "rank": 14,
+     "rel": 5,
+     "region": "laayoune",
+     "where": {
+      "ar": "101 كم جنوب شرق بوجدور",
+      "fr": "101 km SE de Boujdour",
+      "km": 101
+     }
+    },
+    {
+     "lat": 27.1713,
+     "lon": -10.85944,
+     "area_ha": 100,
+     "peak": 7.18,
+     "model": "alteration",
+     "_comp": 147,
+     "rank": 15,
+     "rel": 4,
+     "region": "laayoune",
+     "where": {
+      "ar": "94 كم شمال شرق السمارة",
+      "fr": "94 km NE de Smara",
+      "km": 94
+     }
+    },
+    {
+     "lat": 27.16496,
+     "lon": -10.81094,
+     "area_ha": 96,
+     "peak": 7.52,
+     "model": "alteration",
+     "_comp": 156,
+     "rank": 16,
+     "rel": 4,
+     "region": "laayoune",
+     "where": {
+      "ar": "98 كم شمال شرق السمارة",
+      "fr": "98 km NE de Smara",
+      "km": 98
+     }
+    },
+    {
+     "lat": 25.67295,
+     "lon": -13.36331,
+     "area_ha": 90,
+     "peak": 7.81,
+     "model": "alteration",
+     "_comp": 249,
+     "rank": 17,
+     "rel": 4,
+     "region": "laayoune",
+     "where": {
+      "ar": "116 كم شمال غرب كلتة زمور",
+      "fr": "116 km NO de Guelta Zemmur",
+      "km": 116
+     }
+    },
+    {
+     "lat": 26.16827,
+     "lon": -14.02885,
+     "area_ha": 94,
+     "peak": 6.73,
+     "model": "alteration",
+     "_comp": 216,
+     "rank": 18,
+     "rel": 4,
+     "region": "laayoune",
+     "where": {
+      "ar": "46 كم شرق بوجدور",
+      "fr": "46 km E de Boujdour",
       "km": 46
+     }
+    },
+    {
+     "lat": 26.19496,
+     "lon": -14.00064,
+     "area_ha": 88,
+     "peak": 7.07,
+     "model": "alteration",
+     "_comp": 213,
+     "rank": 19,
+     "rel": 3,
+     "region": "laayoune",
+     "where": {
+      "ar": "49 كم شرق بوجدور",
+      "fr": "49 km E de Boujdour",
+      "km": 49
+     }
+    },
+    {
+     "lat": 27.33121,
+     "lon": -11.34655,
+     "area_ha": 89,
+     "peak": 6.82,
+     "model": "alteration",
+     "_comp": 30,
+     "rank": 20,
+     "rel": 3,
+     "region": "laayoune",
+     "where": {
+      "ar": "73 كم شمال شرق السمارة",
+      "fr": "73 km NE de Smara",
+      "km": 73
+     }
+    },
+    {
+     "lat": 24.81879,
+     "lon": -12.24999,
+     "area_ha": 78,
+     "peak": 7.54,
+     "model": "alteration",
+     "_comp": 253,
+     "rank": 21,
+     "rel": 3,
+     "region": "laayoune",
+     "where": {
+      "ar": "38 كم جنوب كلتة زمور",
+      "fr": "38 km S de Guelta Zemmur",
+      "km": 38
+     }
+    },
+    {
+     "lat": 26.15936,
+     "lon": -14.06938,
+     "area_ha": 78,
+     "peak": 7.3,
+     "model": "alteration",
+     "_comp": 218,
+     "rank": 22,
+     "rel": 3,
+     "region": "laayoune",
+     "where": {
+      "ar": "42 كم شرق بوجدور",
+      "fr": "42 km E de Boujdour",
+      "km": 42
+     }
+    },
+    {
+     "lat": 27.36959,
+     "lon": -11.9426,
+     "area_ha": 70,
+     "peak": 7.02,
+     "model": "alteration",
+     "_comp": 19,
+     "rank": 23,
+     "rel": 3,
+     "region": "laayoune",
+     "where": {
+      "ar": "75 كم شمال السمارة",
+      "fr": "75 km N de Smara",
+      "km": 75
+     }
+    },
+    {
+     "lat": 27.33223,
+     "lon": -10.99907,
+     "area_ha": 62,
+     "peak": 7.67,
+     "model": "alteration",
+     "_comp": 34,
+     "rank": 24,
+     "rel": 3,
+     "region": "laayoune",
+     "where": {
+      "ar": "94 كم شمال شرق السمارة",
+      "fr": "94 km NE de Smara",
+      "km": 94
+     }
+    },
+    {
+     "lat": 26.82937,
+     "lon": -12.38701,
+     "area_ha": 61,
+     "peak": 7.44,
+     "model": "alteration",
+     "_comp": 200,
+     "rank": 25,
+     "rel": 2,
+     "region": "laayoune",
+     "where": {
+      "ar": "72 كم غرب السمارة",
+      "fr": "72 km O de Smara",
+      "km": 72
+     }
+    },
+    {
+     "lat": 24.80017,
+     "lon": -12.28792,
+     "area_ha": 61,
+     "peak": 6.88,
+     "model": "alteration",
+     "_comp": 255,
+     "rank": 26,
+     "rel": 2,
+     "region": "laayoune",
+     "where": {
+      "ar": "39 كم جنوب كلتة زمور",
+      "fr": "39 km S de Guelta Zemmur",
+      "km": 39
+     }
+    },
+    {
+     "lat": 26.85887,
+     "lon": -12.47446,
+     "area_ha": 55,
+     "peak": 7.42,
+     "model": "alteration",
+     "_comp": 197,
+     "rank": 27,
+     "rel": 2,
+     "region": "laayoune",
+     "where": {
+      "ar": "79 كم جنوب شرق العيون",
+      "fr": "79 km SE de Laâyoune",
+      "km": 79
+     }
+    },
+    {
+     "lat": 27.53236,
+     "lon": -10.99664,
+     "area_ha": 48,
+     "peak": 7.25,
+     "model": "alteration",
+     "_comp": 10,
+     "rank": 28,
+     "rel": 2,
+     "region": "laayoune",
+     "where": {
+      "ar": "111 كم شمال شرق السمارة",
+      "fr": "111 km NE de Smara",
+      "km": 111
+     }
+    },
+    {
+     "lat": 27.35362,
+     "lon": -11.38468,
+     "area_ha": 45,
+     "peak": 6.96,
+     "model": "alteration",
+     "_comp": 23,
+     "rank": 29,
+     "rel": 2,
+     "region": "laayoune",
+     "where": {
+      "ar": "74 كم شمال شرق السمارة",
+      "fr": "74 km NE de Smara",
+      "km": 74
+     }
+    },
+    {
+     "lat": 26.00194,
+     "lon": -13.22865,
+     "area_ha": 41,
+     "peak": 6.81,
+     "model": "alteration",
+     "_comp": 224,
+     "rank": 30,
+     "rel": 2,
+     "region": "laayoune",
+     "where": {
+      "ar": "126 كم شرق بوجدور",
+      "fr": "126 km E de Boujdour",
+      "km": 126
      }
     }
    ],
    "check": [],
-   "p_chance": 0.00415
+   "p_chance": 0.00787
   },
   "carbonatite": {
    "ar": "الكربوناتيت والعناصر النادرة",
    "fr": "Carbonatite et terres rares",
    "targets": [
     {
-     "lat": 26.11354,
-     "lon": -11.50831,
-     "area_ha": 1353,
-     "peak": 2.87,
+     "lat": 22.16676,
+     "lon": -16.59385,
+     "area_ha": 648,
+     "peak": 2.8,
      "model": "carbonatite",
-     "_comp": 918,
+     "_comp": 374,
      "rank": 1,
      "rel": 100,
-     "region": "laayoune",
+     "region": "dakhla",
      "where": {
-      "ar": "71 كم جنوب السمارة",
-      "fr": "71 km S de Smara",
-      "km": 71
+      "ar": "63 كم شمال بئر كندوز",
+      "fr": "63 km N de Bir Gandouz",
+      "km": 63
      },
-     "chip_tc": "chips/carbonatite_1_tc.jpg",
-     "chip_geo": "chips/carbonatite_1_geo.jpg",
-     "chip_date": "2026-10-10"
+     "chip_tc": "chips/carbonatite_dakhla_1_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_1_geo.jpg",
+     "chip_date": "2026-02-25"
     },
     {
-     "lat": 26.59331,
-     "lon": -10.93943,
-     "area_ha": 635,
-     "peak": 2.81,
+     "lat": 23.49187,
+     "lon": -14.73275,
+     "area_ha": 568,
+     "peak": 3.13,
      "model": "carbonatite",
-     "_comp": 635,
+     "_comp": 178,
      "rank": 2,
-     "rel": 48,
-     "region": "laayoune",
+     "rel": 89,
+     "region": "dakhla",
      "where": {
-      "ar": "75 كم شرق السمارة",
-      "fr": "75 km E de Smara",
-      "km": 75
+      "ar": "49 كم جنوب غرب بئر أنزران",
+      "fr": "49 km SO de Bir Anzarane",
+      "km": 49
      },
-     "chip_tc": "chips/carbonatite_2_tc.jpg",
-     "chip_geo": "chips/carbonatite_2_geo.jpg",
-     "chip_date": "2026-10-05"
+     "chip_tc": "chips/carbonatite_dakhla_2_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_2_geo.jpg",
+     "chip_date": "2026-10-18"
     },
     {
-     "lat": 26.62211,
-     "lon": -10.25179,
-     "area_ha": 590,
-     "peak": 2.83,
+     "lat": 23.44602,
+     "lon": -14.70212,
+     "area_ha": 271,
+     "peak": 3.74,
      "model": "carbonatite",
-     "_comp": 553,
+     "_comp": 197,
      "rank": 3,
-     "rel": 44,
-     "region": "laayoune",
+     "rel": 46,
+     "region": "dakhla",
      "where": {
-      "ar": "142 كم شرق السمارة",
-      "fr": "142 km E de Smara",
-      "km": 142
+      "ar": "52 كم جنوب بئر أنزران",
+      "fr": "52 km S de Bir Anzarane",
+      "km": 52
      },
-     "chip_tc": "chips/carbonatite_3_tc.jpg",
-     "chip_geo": "chips/carbonatite_3_geo.jpg",
+     "chip_tc": "chips/carbonatite_dakhla_3_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_3_geo.jpg",
+     "chip_date": "2026-10-18"
+    },
+    {
+     "lat": 23.68487,
+     "lon": -14.58747,
+     "area_ha": 245,
+     "peak": 2.8,
+     "model": "carbonatite",
+     "_comp": 124,
+     "rank": 4,
+     "rel": 38,
+     "region": "dakhla",
+     "where": {
+      "ar": "24 كم جنوب بئر أنزران",
+      "fr": "24 km S de Bir Anzarane",
+      "km": 24
+     },
+     "chip_tc": "chips/carbonatite_dakhla_4_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_4_geo.jpg",
+     "chip_date": "2026-10-18"
+    },
+    {
+     "lat": 22.5201,
+     "lon": -16.39371,
+     "area_ha": 242,
+     "peak": 2.88,
+     "model": "carbonatite",
+     "_comp": 286,
+     "rank": 5,
+     "rel": 37,
+     "region": "dakhla",
+     "where": {
+      "ar": "101 كم شمال بئر كندوز",
+      "fr": "101 km N de Bir Gandouz",
+      "km": 101
+     },
+     "chip_tc": "chips/carbonatite_dakhla_5_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_5_geo.jpg",
+     "chip_date": "2026-02-25"
+    },
+    {
+     "lat": 22.20768,
+     "lon": -16.55704,
+     "area_ha": 193,
+     "peak": 2.8,
+     "model": "carbonatite",
+     "_comp": 366,
+     "rank": 6,
+     "rel": 30,
+     "region": "dakhla",
+     "where": {
+      "ar": "67 كم شمال بئر كندوز",
+      "fr": "67 km N de Bir Gandouz",
+      "km": 67
+     },
+     "chip_tc": "chips/carbonatite_dakhla_6_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_6_geo.jpg",
+     "chip_date": "2026-02-25"
+    },
+    {
+     "lat": 22.93019,
+     "lon": -16.19465,
+     "area_ha": 139,
+     "peak": 4.82,
+     "model": "carbonatite",
+     "_comp": 263,
+     "rank": 7,
+     "rel": 26,
+     "region": "dakhla",
+     "where": {
+      "ar": "90 كم جنوب الداخلة",
+      "fr": "90 km S de Dakhla",
+      "km": 90
+     },
+     "chip_tc": "chips/carbonatite_dakhla_7_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_7_geo.jpg",
+     "chip_date": "2026-11-05"
+    },
+    {
+     "lat": 21.87709,
+     "lon": -15.37417,
+     "area_ha": 142,
+     "peak": 3.53,
+     "model": "carbonatite",
+     "_comp": 446,
+     "rank": 8,
+     "rel": 24,
+     "region": "dakhla",
+     "where": {
+      "ar": "53 كم شمال غرب تيشلا",
+      "fr": "53 km NO de Tichla",
+      "km": 53
+     },
+     "chip_tc": "chips/carbonatite_dakhla_8_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_8_geo.jpg",
+     "chip_date": "2026-10-18"
+    },
+    {
+     "lat": 22.44052,
+     "lon": -14.53482,
+     "area_ha": 124,
+     "peak": 4.33,
+     "model": "carbonatite",
+     "_comp": 304,
+     "rank": 9,
+     "rel": 22,
+     "region": "dakhla",
+     "where": {
+      "ar": "24 كم جنوب غرب أوسرد",
+      "fr": "24 km SO de Aousserd",
+      "km": 24
+     },
+     "chip_tc": "chips/carbonatite_dakhla_9_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_9_geo.jpg",
+     "chip_date": "2026-11-02"
+    },
+    {
+     "lat": 24.28166,
+     "lon": -12.51806,
+     "area_ha": 117,
+     "peak": 3.65,
+     "model": "carbonatite",
+     "_comp": 21,
+     "rank": 10,
+     "rel": 22,
+     "region": "dakhla",
+     "where": {
+      "ar": "97 كم جنوب كلتة زمور",
+      "fr": "97 km S de Guelta Zemmur",
+      "km": 97
+     },
+     "chip_tc": "chips/carbonatite_dakhla_10_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_10_geo.jpg",
      "chip_date": "2026-11-04"
     },
     {
-     "lat": 26.74879,
-     "lon": -11.23457,
-     "area_ha": 493,
-     "peak": 3.12,
+     "lat": 23.0656,
+     "lon": -13.96071,
+     "area_ha": 99,
+     "peak": 4.64,
      "model": "carbonatite",
-     "_comp": 440,
-     "rank": 4,
-     "rel": 36,
+     "_comp": 245,
+     "rank": 11,
+     "rel": 20,
+     "region": "dakhla",
+     "where": {
+      "ar": "68 كم شمال شرق أوسرد",
+      "fr": "68 km NE de Aousserd",
+      "km": 68
+     },
+     "chip_tc": "chips/carbonatite_dakhla_11_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_11_geo.jpg",
+     "chip_date": "2026-10-18"
+    },
+    {
+     "lat": 22.80275,
+     "lon": -15.10569,
+     "area_ha": 112,
+     "peak": 3.21,
+     "model": "carbonatite",
+     "_comp": 279,
+     "rank": 12,
+     "rel": 19,
+     "region": "dakhla",
+     "where": {
+      "ar": "84 كم غرب أوسرد",
+      "fr": "84 km O de Aousserd",
+      "km": 84
+     },
+     "chip_tc": "chips/carbonatite_dakhla_12_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_12_geo.jpg",
+     "chip_date": "2026-10-18"
+    },
+    {
+     "lat": 22.44657,
+     "lon": -16.39194,
+     "area_ha": 119,
+     "peak": 3.07,
+     "model": "carbonatite",
+     "_comp": 303,
+     "rank": 13,
+     "rel": 19,
+     "region": "dakhla",
+     "where": {
+      "ar": "93 كم شمال بئر كندوز",
+      "fr": "93 km N de Bir Gandouz",
+      "km": 93
+     }
+    },
+    {
+     "lat": 24.00025,
+     "lon": -13.20794,
+     "area_ha": 104,
+     "peak": 4.54,
+     "model": "carbonatite",
+     "_comp": 56,
+     "rank": 14,
+     "rel": 18,
+     "region": "dakhla",
+     "where": {
+      "ar": "135 كم شرق بئر أنزران",
+      "fr": "135 km E de Bir Anzarane",
+      "km": 135
+     }
+    },
+    {
+     "lat": 21.5834,
+     "lon": -14.93988,
+     "area_ha": 109,
+     "peak": 2.8,
+     "model": "carbonatite",
+     "_comp": 522,
+     "rank": 15,
+     "rel": 17,
+     "region": "dakhla",
+     "where": {
+      "ar": "3 كم شرق تيشلا",
+      "fr": "3 km E de Tichla",
+      "km": 3
+     }
+    },
+    {
+     "lat": 24.01964,
+     "lon": -13.07518,
+     "area_ha": 85,
+     "peak": 4.24,
+     "model": "carbonatite",
+     "_comp": 53,
+     "rank": 16,
+     "rel": 16,
+     "region": "dakhla",
+     "where": {
+      "ar": "144 كم جنوب غرب كلتة زمور",
+      "fr": "144 km SO de Guelta Zemmur",
+      "km": 144
+     }
+    },
+    {
+     "lat": 21.94246,
+     "lon": -15.60849,
+     "area_ha": 90,
+     "peak": 3.44,
+     "model": "carbonatite",
+     "_comp": 424,
+     "rank": 17,
+     "rel": 15,
+     "region": "dakhla",
+     "where": {
+      "ar": "77 كم شمال غرب تيشلا",
+      "fr": "77 km NO de Tichla",
+      "km": 77
+     }
+    },
+    {
+     "lat": 21.83413,
+     "lon": -16.83603,
+     "area_ha": 96,
+     "peak": 2.8,
+     "model": "carbonatite",
+     "_comp": 457,
+     "rank": 18,
+     "rel": 15,
+     "region": "dakhla",
+     "where": {
+      "ar": "46 كم شمال غرب بئر كندوز",
+      "fr": "46 km NO de Bir Gandouz",
+      "km": 46
+     }
+    },
+    {
+     "lat": 22.17603,
+     "lon": -15.33162,
+     "area_ha": 78,
+     "peak": 3.87,
+     "model": "carbonatite",
+     "_comp": 375,
+     "rank": 19,
+     "rel": 14,
+     "region": "dakhla",
+     "where": {
+      "ar": "75 كم شمال غرب تيشلا",
+      "fr": "75 km NO de Tichla",
+      "km": 75
+     }
+    },
+    {
+     "lat": 21.9417,
+     "lon": -15.21529,
+     "area_ha": 80,
+     "peak": 3.59,
+     "model": "carbonatite",
+     "_comp": 425,
+     "rank": 20,
+     "rel": 14,
+     "region": "dakhla",
+     "where": {
+      "ar": "47 كم شمال غرب تيشلا",
+      "fr": "47 km NO de Tichla",
+      "km": 47
+     }
+    },
+    {
+     "lat": 23.51404,
+     "lon": -14.68515,
+     "area_ha": 90,
+     "peak": 2.81,
+     "model": "carbonatite",
+     "_comp": 173,
+     "rank": 21,
+     "rel": 14,
+     "region": "dakhla",
+     "where": {
+      "ar": "45 كم جنوب بئر أنزران",
+      "fr": "45 km S de Bir Anzarane",
+      "km": 45
+     }
+    },
+    {
+     "lat": 22.30595,
+     "lon": -13.9357,
+     "area_ha": 62,
+     "peak": 4.97,
+     "model": "carbonatite",
+     "_comp": 341,
+     "rank": 22,
+     "rel": 14,
+     "region": "dakhla",
+     "where": {
+      "ar": "49 كم جنوب شرق أوسرد",
+      "fr": "49 km SE de Aousserd",
+      "km": 49
+     }
+    },
+    {
+     "lat": 22.22772,
+     "lon": -15.69316,
+     "area_ha": 61,
+     "peak": 4.91,
+     "model": "carbonatite",
+     "_comp": 361,
+     "rank": 23,
+     "rel": 13,
+     "region": "dakhla",
+     "where": {
+      "ar": "103 كم شمال غرب تيشلا",
+      "fr": "103 km NO de Tichla",
+      "km": 103
+     }
+    },
+    {
+     "lat": 22.32684,
+     "lon": -15.70408,
+     "area_ha": 59,
+     "peak": 5.11,
+     "model": "carbonatite",
+     "_comp": 337,
+     "rank": 24,
+     "rel": 13,
+     "region": "dakhla",
+     "where": {
+      "ar": "111 كم شمال شرق بئر كندوز",
+      "fr": "111 km NE de Bir Gandouz",
+      "km": 111
+     }
+    },
+    {
+     "lat": 23.99755,
+     "lon": -13.25688,
+     "area_ha": 55,
+     "peak": 5.03,
+     "model": "carbonatite",
+     "_comp": 58,
+     "rank": 25,
+     "rel": 12,
+     "region": "dakhla",
+     "where": {
+      "ar": "130 كم شرق بئر أنزران",
+      "fr": "130 km E de Bir Anzarane",
+      "km": 130
+     }
+    },
+    {
+     "lat": 21.63767,
+     "lon": -15.65439,
+     "area_ha": 68,
+     "peak": 3.87,
+     "model": "carbonatite",
+     "_comp": 509,
+     "rank": 26,
+     "rel": 12,
+     "region": "dakhla",
+     "where": {
+      "ar": "71 كم غرب تيشلا",
+      "fr": "71 km O de Tichla",
+      "km": 71
+     }
+    },
+    {
+     "lat": 22.119,
+     "lon": -15.75674,
+     "area_ha": 67,
+     "peak": 3.77,
+     "model": "carbonatite",
+     "_comp": 390,
+     "rank": 27,
+     "rel": 12,
+     "region": "dakhla",
+     "where": {
+      "ar": "92 كم شمال شرق بئر كندوز",
+      "fr": "92 km NE de Bir Gandouz",
+      "km": 92
+     }
+    },
+    {
+     "lat": 22.32416,
+     "lon": -15.53189,
+     "area_ha": 67,
+     "peak": 3.18,
+     "model": "carbonatite",
+     "_comp": 338,
+     "rank": 28,
+     "rel": 11,
+     "region": "dakhla",
+     "where": {
+      "ar": "100 كم شمال غرب تيشلا",
+      "fr": "100 km NO de Tichla",
+      "km": 100
+     }
+    },
+    {
+     "lat": 21.61627,
+     "lon": -13.05343,
+     "area_ha": 47,
+     "peak": 4.22,
+     "model": "carbonatite",
+     "_comp": 516,
+     "rank": 29,
+     "rel": 9,
+     "region": "dakhla",
+     "where": {
+      "ar": "168 كم جنوب شرق أوسرد",
+      "fr": "168 km SE de Aousserd",
+      "km": 168
+     }
+    },
+    {
+     "lat": 23.63335,
+     "lon": -14.61312,
+     "area_ha": 57,
+     "peak": 2.8,
+     "model": "carbonatite",
+     "_comp": 152,
+     "rank": 30,
+     "rel": 9,
+     "region": "dakhla",
+     "where": {
+      "ar": "30 كم جنوب بئر أنزران",
+      "fr": "30 km S de Bir Anzarane",
+      "km": 30
+     }
+    },
+    {
+     "lat": 26.74924,
+     "lon": -11.24092,
+     "area_ha": 671,
+     "peak": 4.9,
+     "model": "carbonatite",
+     "_comp": 469,
+     "rank": 1,
+     "rel": 100,
      "region": "laayoune",
      "where": {
       "ar": "43 كم شرق السمارة",
       "fr": "43 km E de Smara",
       "km": 43
      },
-     "chip_tc": "chips/carbonatite_4_tc.jpg",
-     "chip_geo": "chips/carbonatite_4_geo.jpg",
+     "chip_tc": "chips/carbonatite_laayoune_1_tc.jpg",
+     "chip_geo": "chips/carbonatite_laayoune_1_geo.jpg",
      "chip_date": "2026-10-05"
     },
     {
-     "lat": 26.56697,
-     "lon": -11.0056,
-     "area_ha": 463,
-     "peak": 2.82,
+     "lat": 26.82168,
+     "lon": -10.88958,
+     "area_ha": 460,
+     "peak": 4.27,
      "model": "carbonatite",
-     "_comp": 704,
-     "rank": 5,
-     "rel": 35,
+     "_comp": 429,
+     "rank": 2,
+     "rel": 65,
      "region": "laayoune",
      "where": {
-      "ar": "69 كم شرق السمارة",
-      "fr": "69 km E de Smara",
-      "km": 69
+      "ar": "78 كم شرق السمارة",
+      "fr": "78 km E de Smara",
+      "km": 78
      },
-     "chip_tc": "chips/carbonatite_5_tc.jpg",
-     "chip_geo": "chips/carbonatite_5_geo.jpg",
-     "chip_date": "2026-10-05"
-    },
-    {
-     "lat": 26.18695,
-     "lon": -11.46029,
-     "area_ha": 383,
-     "peak": 2.77,
-     "model": "carbonatite",
-     "_comp": 896,
-     "rank": 6,
-     "rel": 27,
-     "region": "laayoune",
-     "where": {
-      "ar": "65 كم جنوب السمارة",
-      "fr": "65 km S de Smara",
-      "km": 65
-     },
-     "chip_tc": "chips/carbonatite_6_tc.jpg",
-     "chip_geo": "chips/carbonatite_6_geo.jpg",
-     "chip_date": "2026-10-10"
-    },
-    {
-     "lat": 26.61179,
-     "lon": -10.30852,
-     "area_ha": 335,
-     "peak": 2.79,
-     "model": "carbonatite",
-     "_comp": 580,
-     "rank": 7,
-     "rel": 24,
-     "region": "laayoune",
-     "where": {
-      "ar": "136 كم شرق السمارة",
-      "fr": "136 km E de Smara",
-      "km": 136
-     },
-     "chip_tc": "chips/carbonatite_7_tc.jpg",
-     "chip_geo": "chips/carbonatite_7_geo.jpg",
+     "chip_tc": "chips/carbonatite_laayoune_2_tc.jpg",
+     "chip_geo": "chips/carbonatite_laayoune_2_geo.jpg",
      "chip_date": "2026-11-04"
     },
     {
-     "lat": 26.18001,
-     "lon": -11.65398,
-     "area_ha": 304,
-     "peak": 3.13,
+     "lat": 27.09071,
+     "lon": -13.09478,
+     "area_ha": 222,
+     "peak": 4.29,
      "model": "carbonatite",
-     "_comp": 907,
-     "rank": 8,
-     "rel": 23,
+     "_comp": 133,
+     "rank": 3,
+     "rel": 31,
      "region": "laayoune",
      "where": {
-      "ar": "62 كم جنوب السمارة",
-      "fr": "62 km S de Smara",
-      "km": 62
+      "ar": "13 كم جنوب شرق العيون",
+      "fr": "13 km SE de Laâyoune",
+      "km": 13
      },
-     "chip_tc": "chips/carbonatite_8_tc.jpg",
-     "chip_geo": "chips/carbonatite_8_geo.jpg",
+     "chip_tc": "chips/carbonatite_laayoune_3_tc.jpg",
+     "chip_geo": "chips/carbonatite_laayoune_3_geo.jpg",
+     "chip_date": "2026-09-20"
+    },
+    {
+     "lat": 26.10492,
+     "lon": -11.66543,
+     "area_ha": 201,
+     "peak": 4.43,
+     "model": "carbonatite",
+     "_comp": 823,
+     "rank": 4,
+     "rel": 28,
+     "region": "laayoune",
+     "where": {
+      "ar": "71 كم جنوب السمارة",
+      "fr": "71 km S de Smara",
+      "km": 71
+     },
+     "chip_tc": "chips/carbonatite_laayoune_4_tc.jpg",
+     "chip_geo": "chips/carbonatite_laayoune_4_geo.jpg",
      "chip_date": "2026-10-10"
     },
     {
-     "lat": 26.26219,
-     "lon": -11.59857,
-     "area_ha": 280,
-     "peak": 2.98,
-     "model": "carbonatite",
-     "_comp": 860,
-     "rank": 9,
-     "rel": 20,
-     "region": "laayoune",
-     "where": {
-      "ar": "54 كم جنوب السمارة",
-      "fr": "54 km S de Smara",
-      "km": 54
-     },
-     "chip_tc": "chips/carbonatite_9_tc.jpg",
-     "chip_geo": "chips/carbonatite_9_geo.jpg",
-     "chip_date": "2026-10-05"
-    },
-    {
-     "lat": 26.10511,
-     "lon": -11.6652,
-     "area_ha": 267,
-     "peak": 3.05,
-     "model": "carbonatite",
-     "_comp": 945,
-     "rank": 10,
-     "rel": 20,
-     "region": "laayoune",
-     "where": {
-      "ar": "70 كم جنوب السمارة",
-      "fr": "70 km S de Smara",
-      "km": 70
-     },
-     "chip_tc": "chips/carbonatite_10_tc.jpg",
-     "chip_geo": "chips/carbonatite_10_geo.jpg",
-     "chip_date": "2026-10-10"
-    },
-    {
-     "lat": 26.42646,
-     "lon": -11.59774,
-     "area_ha": 260,
-     "peak": 2.86,
-     "model": "carbonatite",
-     "_comp": 798,
-     "rank": 11,
-     "rel": 19,
-     "region": "laayoune",
-     "where": {
-      "ar": "36 كم جنوب السمارة",
-      "fr": "36 km S de Smara",
-      "km": 36
-     },
-     "chip_tc": "chips/carbonatite_11_tc.jpg",
-     "chip_geo": "chips/carbonatite_11_geo.jpg",
-     "chip_date": "2026-10-05"
-    },
-    {
-     "lat": 26.72207,
-     "lon": -11.44345,
-     "area_ha": 192,
-     "peak": 2.87,
-     "model": "carbonatite",
-     "_comp": 465,
-     "rank": 12,
-     "rel": 14,
-     "region": "laayoune",
-     "where": {
-      "ar": "23 كم شرق السمارة",
-      "fr": "23 km E de Smara",
-      "km": 23
-     },
-     "chip_tc": "chips/carbonatite_12_tc.jpg",
-     "chip_geo": "chips/carbonatite_12_geo.jpg",
-     "chip_date": "2026-10-05"
-    },
-    {
-     "lat": 26.60319,
-     "lon": -10.42294,
+     "lat": 26.95326,
+     "lon": -9.94509,
      "area_ha": 183,
-     "peak": 2.75,
+     "peak": 4.19,
      "model": "carbonatite",
-     "_comp": 610,
-     "rank": 13,
-     "rel": 13,
+     "_comp": 259,
+     "rank": 5,
+     "rel": 25,
      "region": "laayoune",
      "where": {
-      "ar": "125 كم شرق السمارة",
-      "fr": "125 km E de Smara",
-      "km": 125
-     }
+      "ar": "173 كم شرق السمارة",
+      "fr": "173 km E de Smara",
+      "km": 173
+     },
+     "chip_tc": "chips/carbonatite_laayoune_5_tc.jpg",
+     "chip_geo": "chips/carbonatite_laayoune_5_geo.jpg",
+     "chip_date": "2026-10-12"
     },
     {
-     "lat": 26.35543,
-     "lon": -11.58855,
-     "area_ha": 171,
-     "peak": 2.73,
+     "lat": 26.07347,
+     "lon": -9.09261,
+     "area_ha": 109,
+     "peak": 6.3,
      "model": "carbonatite",
-     "_comp": 832,
-     "rank": 14,
-     "rel": 12,
+     "_comp": 837,
+     "rank": 6,
+     "rel": 20,
      "region": "laayoune",
      "where": {
-      "ar": "43 كم جنوب السمارة",
-      "fr": "43 km S de Smara",
-      "km": 43
-     }
+      "ar": "267 كم شرق السمارة",
+      "fr": "267 km E de Smara",
+      "km": 267
+     },
+     "chip_tc": "chips/carbonatite_laayoune_6_tc.jpg",
+     "chip_geo": "chips/carbonatite_laayoune_6_geo.jpg",
+     "chip_date": "2026-09-17"
     },
     {
-     "lat": 26.18935,
-     "lon": -11.39565,
-     "area_ha": 159,
-     "peak": 2.78,
+     "lat": 26.77227,
+     "lon": -11.20908,
+     "area_ha": 120,
+     "peak": 4.81,
      "model": "carbonatite",
-     "_comp": 894,
-     "rank": 15,
-     "rel": 11,
+     "_comp": 458,
+     "rank": 7,
+     "rel": 18,
      "region": "laayoune",
      "where": {
-      "ar": "67 كم جنوب شرق السمارة",
-      "fr": "67 km SE de Smara",
-      "km": 67
-     }
+      "ar": "46 كم شرق السمارة",
+      "fr": "46 km E de Smara",
+      "km": 46
+     },
+     "chip_tc": "chips/carbonatite_laayoune_7_tc.jpg",
+     "chip_geo": "chips/carbonatite_laayoune_7_geo.jpg",
+     "chip_date": "2026-10-05"
     },
     {
-     "lat": 26.6744,
-     "lon": -11.41879,
-     "area_ha": 151,
-     "peak": 2.81,
+     "lat": 26.67395,
+     "lon": -11.41826,
+     "area_ha": 119,
+     "peak": 4.56,
      "model": "carbonatite",
-     "_comp": 502,
-     "rank": 16,
-     "rel": 11,
+     "_comp": 528,
+     "rank": 8,
+     "rel": 17,
      "region": "laayoune",
      "where": {
       "ar": "26 كم شرق السمارة",
       "fr": "26 km E de Smara",
       "km": 26
-     }
+     },
+     "chip_tc": "chips/carbonatite_laayoune_8_tc.jpg",
+     "chip_geo": "chips/carbonatite_laayoune_8_geo.jpg",
+     "chip_date": "2026-10-05"
     },
     {
-     "lat": 26.62911,
-     "lon": -10.52201,
-     "area_ha": 135,
-     "peak": 2.77,
+     "lat": 26.70046,
+     "lon": -10.35223,
+     "area_ha": 108,
+     "peak": 4.39,
      "model": "carbonatite",
-     "_comp": 566,
-     "rank": 17,
-     "rel": 10,
-     "region": "laayoune",
-     "where": {
-      "ar": "115 كم شرق السمارة",
-      "fr": "115 km E de Smara",
-      "km": 115
-     }
-    },
-    {
-     "lat": 26.44514,
-     "lon": -11.56031,
-     "area_ha": 127,
-     "peak": 3.03,
-     "model": "carbonatite",
-     "_comp": 786,
-     "rank": 18,
-     "rel": 9,
-     "region": "laayoune",
-     "where": {
-      "ar": "35 كم جنوب السمارة",
-      "fr": "35 km S de Smara",
-      "km": 35
-     }
-    },
-    {
-     "lat": 26.65292,
-     "lon": -10.48231,
-     "area_ha": 133,
-     "peak": 2.59,
-     "model": "carbonatite",
-     "_comp": 522,
-     "rank": 19,
-     "rel": 9,
-     "region": "laayoune",
-     "where": {
-      "ar": "119 كم شرق السمارة",
-      "fr": "119 km E de Smara",
-      "km": 119
-     }
-    },
-    {
-     "lat": 26.81722,
-     "lon": -10.87055,
-     "area_ha": 116,
-     "peak": 2.94,
-     "model": "carbonatite",
-     "_comp": 393,
-     "rank": 20,
-     "rel": 8,
-     "region": "laayoune",
-     "where": {
-      "ar": "80 كم شرق السمارة",
-      "fr": "80 km E de Smara",
-      "km": 80
-     }
-    },
-    {
-     "lat": 26.61839,
-     "lon": -10.17012,
-     "area_ha": 119,
-     "peak": 2.67,
-     "model": "carbonatite",
-     "_comp": 591,
-     "rank": 21,
-     "rel": 8,
-     "region": "laayoune",
-     "where": {
-      "ar": "150 كم شرق السمارة",
-      "fr": "150 km E de Smara",
-      "km": 150
-     }
-    },
-    {
-     "lat": 26.70071,
-     "lon": -10.35,
-     "area_ha": 105,
-     "peak": 2.69,
-     "model": "carbonatite",
-     "_comp": 481,
-     "rank": 22,
-     "rel": 7,
+     "_comp": 514,
+     "rank": 9,
+     "rel": 15,
      "region": "laayoune",
      "where": {
       "ar": "131 كم شرق السمارة",
       "fr": "131 km E de Smara",
       "km": 131
-     }
+     },
+     "chip_tc": "chips/carbonatite_laayoune_9_tc.jpg",
+     "chip_geo": "chips/carbonatite_laayoune_9_geo.jpg",
+     "chip_date": "2026-11-04"
     },
     {
-     "lat": 26.52983,
-     "lon": -11.56038,
-     "area_ha": 101,
-     "peak": 2.91,
+     "lat": 26.61179,
+     "lon": -10.25253,
+     "area_ha": 103,
+     "peak": 4.81,
      "model": "carbonatite",
-     "_comp": 733,
-     "rank": 23,
-     "rel": 7,
+     "_comp": 577,
+     "rank": 10,
+     "rel": 15,
      "region": "laayoune",
      "where": {
-      "ar": "26 كم جنوب شرق السمارة",
-      "fr": "26 km SE de Smara",
-      "km": 26
-     }
+      "ar": "142 كم شرق السمارة",
+      "fr": "142 km E de Smara",
+      "km": 142
+     },
+     "chip_tc": "chips/carbonatite_laayoune_10_tc.jpg",
+     "chip_geo": "chips/carbonatite_laayoune_10_geo.jpg",
+     "chip_date": "2026-11-04"
     },
     {
-     "lat": 26.50186,
-     "lon": -11.52422,
+     "lat": 26.92254,
+     "lon": -9.91928,
      "area_ha": 95,
-     "peak": 2.75,
+     "peak": 4.54,
      "model": "carbonatite",
-     "_comp": 742,
-     "rank": 24,
-     "rel": 7,
+     "_comp": 299,
+     "rank": 11,
+     "rel": 14,
      "region": "laayoune",
      "where": {
-      "ar": "30 كم جنوب شرق السمارة",
-      "fr": "30 km SE de Smara",
-      "km": 30
-     }
+      "ar": "175 كم شرق السمارة",
+      "fr": "175 km E de Smara",
+      "km": 175
+     },
+     "chip_tc": "chips/carbonatite_laayoune_11_tc.jpg",
+     "chip_geo": "chips/carbonatite_laayoune_11_geo.jpg",
+     "chip_date": "2026-10-12"
     },
     {
-     "lat": 26.61295,
-     "lon": -10.99988,
+     "lat": 26.9056,
+     "lon": -9.87889,
      "area_ha": 92,
-     "peak": 2.75,
+     "peak": 4.42,
      "model": "carbonatite",
-     "_comp": 608,
-     "rank": 25,
-     "rel": 7,
+     "_comp": 335,
+     "rank": 12,
+     "rel": 13,
      "region": "laayoune",
      "where": {
-      "ar": "68 كم شرق السمارة",
-      "fr": "68 km E de Smara",
-      "km": 68
+      "ar": "179 كم شرق السمارة",
+      "fr": "179 km E de Smara",
+      "km": 179
+     },
+     "chip_tc": "chips/carbonatite_laayoune_12_tc.jpg",
+     "chip_geo": "chips/carbonatite_laayoune_12_geo.jpg",
+     "chip_date": "2026-10-12"
+    },
+    {
+     "lat": 26.27218,
+     "lon": -11.59939,
+     "area_ha": 85,
+     "peak": 4.08,
+     "model": "carbonatite",
+     "_comp": 756,
+     "rank": 13,
+     "rel": 12,
+     "region": "laayoune",
+     "where": {
+      "ar": "52 كم جنوب السمارة",
+      "fr": "52 km S de Smara",
+      "km": 52
      }
     },
     {
-     "lat": 26.68773,
-     "lon": -10.52395,
-     "area_ha": 92,
-     "peak": 2.74,
+     "lat": 26.41305,
+     "lon": -10.89473,
+     "area_ha": 86,
+     "peak": 3.77,
      "model": "carbonatite",
-     "_comp": 496,
-     "rank": 26,
-     "rel": 6,
+     "_comp": 716,
+     "rank": 14,
+     "rel": 11,
      "region": "laayoune",
      "where": {
-      "ar": "114 كم شرق السمارة",
-      "fr": "114 km E de Smara",
-      "km": 114
+      "ar": "85 كم جنوب شرق السمارة",
+      "fr": "85 km SE de Smara",
+      "km": 85
      }
     },
     {
-     "lat": 26.59694,
-     "lon": -10.36742,
-     "area_ha": 87,
-     "peak": 2.79,
+     "lat": 26.71648,
+     "lon": -11.28087,
+     "area_ha": 77,
+     "peak": 4.33,
      "model": "carbonatite",
-     "_comp": 652,
-     "rank": 27,
-     "rel": 6,
-     "region": "laayoune",
-     "where": {
-      "ar": "131 كم شرق السمارة",
-      "fr": "131 km E de Smara",
-      "km": 131
-     }
-    },
-    {
-     "lat": 26.44549,
-     "lon": -11.49798,
-     "area_ha": 83,
-     "peak": 2.98,
-     "model": "carbonatite",
-     "_comp": 787,
-     "rank": 28,
-     "rel": 6,
-     "region": "laayoune",
-     "where": {
-      "ar": "37 كم جنوب شرق السمارة",
-      "fr": "37 km SE de Smara",
-      "km": 37
-     }
-    },
-    {
-     "lat": 26.75449,
-     "lon": -11.27797,
-     "area_ha": 84,
-     "peak": 2.75,
-     "model": "carbonatite",
-     "_comp": 449,
-     "rank": 29,
-     "rel": 6,
+     "_comp": 500,
+     "rank": 15,
+     "rel": 11,
      "region": "laayoune",
      "where": {
       "ar": "39 كم شرق السمارة",
@@ -1686,19 +3010,243 @@
      }
     },
     {
-     "lat": 26.85231,
-     "lon": -11.23502,
-     "area_ha": 82,
-     "peak": 2.58,
+     "lat": 26.72371,
+     "lon": -11.44279,
+     "area_ha": 78,
+     "peak": 4.32,
      "model": "carbonatite",
-     "_comp": 330,
+     "_comp": 496,
+     "rank": 16,
+     "rel": 11,
+     "region": "laayoune",
+     "where": {
+      "ar": "23 كم شرق السمارة",
+      "fr": "23 km E de Smara",
+      "km": 23
+     }
+    },
+    {
+     "lat": 26.57444,
+     "lon": -10.43371,
+     "area_ha": 67,
+     "peak": 4.63,
+     "model": "carbonatite",
+     "_comp": 626,
+     "rank": 17,
+     "rel": 10,
+     "region": "laayoune",
+     "where": {
+      "ar": "124 كم شرق السمارة",
+      "fr": "124 km E de Smara",
+      "km": 124
+     }
+    },
+    {
+     "lat": 27.12821,
+     "lon": -10.53389,
+     "area_ha": 72,
+     "peak": 4.16,
+     "model": "carbonatite",
+     "_comp": 120,
+     "rank": 18,
+     "rel": 10,
+     "region": "laayoune",
+     "where": {
+      "ar": "121 كم شرق السمارة",
+      "fr": "121 km E de Smara",
+      "km": 121
+     }
+    },
+    {
+     "lat": 26.42328,
+     "lon": -10.84788,
+     "area_ha": 67,
+     "peak": 4.04,
+     "model": "carbonatite",
+     "_comp": 700,
+     "rank": 19,
+     "rel": 9,
+     "region": "laayoune",
+     "where": {
+      "ar": "89 كم جنوب شرق السمارة",
+      "fr": "89 km SE de Smara",
+      "km": 89
+     }
+    },
+    {
+     "lat": 27.19378,
+     "lon": -10.2013,
+     "area_ha": 64,
+     "peak": 4.02,
+     "model": "carbonatite",
+     "_comp": 76,
+     "rank": 20,
+     "rel": 9,
+     "region": "laayoune",
+     "where": {
+      "ar": "154 كم شرق السمارة",
+      "fr": "154 km E de Smara",
+      "km": 154
+     }
+    },
+    {
+     "lat": 26.44581,
+     "lon": -11.49787,
+     "area_ha": 61,
+     "peak": 4.27,
+     "model": "carbonatite",
+     "_comp": 685,
+     "rank": 21,
+     "rel": 9,
+     "region": "laayoune",
+     "where": {
+      "ar": "37 كم جنوب شرق السمارة",
+      "fr": "37 km SE de Smara",
+      "km": 37
+     }
+    },
+    {
+     "lat": 27.07855,
+     "lon": -10.75452,
+     "area_ha": 62,
+     "peak": 4.08,
+     "model": "carbonatite",
+     "_comp": 178,
+     "rank": 22,
+     "rel": 9,
+     "region": "laayoune",
+     "where": {
+      "ar": "98 كم شمال شرق السمارة",
+      "fr": "98 km NE de Smara",
+      "km": 98
+     }
+    },
+    {
+     "lat": 27.3796,
+     "lon": -11.29673,
+     "area_ha": 62,
+     "peak": 3.78,
+     "model": "carbonatite",
+     "_comp": 20,
+     "rank": 23,
+     "rel": 8,
+     "region": "laayoune",
+     "where": {
+      "ar": "80 كم شمال شرق السمارة",
+      "fr": "80 km NE de Smara",
+      "km": 80
+     }
+    },
+    {
+     "lat": 26.76088,
+     "lon": -11.16612,
+     "area_ha": 58,
+     "peak": 4.3,
+     "model": "carbonatite",
+     "_comp": 472,
+     "rank": 24,
+     "rel": 8,
+     "region": "laayoune",
+     "where": {
+      "ar": "50 كم شرق السمارة",
+      "fr": "50 km E de Smara",
+      "km": 50
+     }
+    },
+    {
+     "lat": 26.67788,
+     "lon": -11.369,
+     "area_ha": 56,
+     "peak": 4.31,
+     "model": "carbonatite",
+     "_comp": 529,
+     "rank": 25,
+     "rel": 8,
+     "region": "laayoune",
+     "where": {
+      "ar": "31 كم شرق السمارة",
+      "fr": "31 km E de Smara",
+      "km": 31
+     }
+    },
+    {
+     "lat": 26.17696,
+     "lon": -11.65237,
+     "area_ha": 54,
+     "peak": 4.44,
+     "model": "carbonatite",
+     "_comp": 798,
+     "rank": 26,
+     "rel": 8,
+     "region": "laayoune",
+     "where": {
+      "ar": "63 كم جنوب السمارة",
+      "fr": "63 km S de Smara",
+      "km": 63
+     }
+    },
+    {
+     "lat": 26.89728,
+     "lon": -10.39755,
+     "area_ha": 49,
+     "peak": 4.01,
+     "model": "carbonatite",
+     "_comp": 355,
+     "rank": 27,
+     "rel": 7,
+     "region": "laayoune",
+     "where": {
+      "ar": "128 كم شرق السمارة",
+      "fr": "128 km E de Smara",
+      "km": 128
+     }
+    },
+    {
+     "lat": 26.44294,
+     "lon": -11.56019,
+     "area_ha": 47,
+     "peak": 4.23,
+     "model": "carbonatite",
+     "_comp": 689,
+     "rank": 28,
+     "rel": 7,
+     "region": "laayoune",
+     "where": {
+      "ar": "35 كم جنوب السمارة",
+      "fr": "35 km S de Smara",
+      "km": 35
+     }
+    },
+    {
+     "lat": 26.91927,
+     "lon": -9.96724,
+     "area_ha": 46,
+     "peak": 4.38,
+     "model": "carbonatite",
+     "_comp": 302,
+     "rank": 29,
+     "rel": 6,
+     "region": "laayoune",
+     "where": {
+      "ar": "170 كم شرق السمارة",
+      "fr": "170 km E de Smara",
+      "km": 170
+     }
+    },
+    {
+     "lat": 26.52979,
+     "lon": -11.5582,
+     "area_ha": 45,
+     "peak": 4.48,
+     "model": "carbonatite",
+     "_comp": 647,
      "rank": 30,
      "rel": 6,
      "region": "laayoune",
      "where": {
-      "ar": "45 كم شرق السمارة",
-      "fr": "45 km E de Smara",
-      "km": 45
+      "ar": "26 كم جنوب شرق السمارة",
+      "fr": "26 km SE de Smara",
+      "km": 26
      }
     }
    ],
@@ -1709,9 +3257,9 @@
      "lat": 22.44,
      "lon": -16.04,
      "model": "carbonatite",
-     "percentile": 80.96,
-     "nearest_km": 602.2,
-     "nearest_rank": 10,
+     "percentile": 95.76,
+     "nearest_km": 36.2,
+     "nearest_rank": 13,
      "hit": false
     },
     {
@@ -1720,9 +3268,9 @@
      "lat": 22.15,
      "lon": -14.85,
      "model": "carbonatite",
-     "percentile": 85.2,
-     "nearest_km": 545.7,
-     "nearest_rank": 10,
+     "percentile": 92.98,
+     "nearest_km": 44.2,
+     "nearest_rank": 20,
      "hit": false
     },
     {
@@ -1731,9 +3279,9 @@
      "lat": 22.195,
      "lon": -14.85,
      "model": "carbonatite",
-     "percentile": 92.64,
-     "nearest_km": 541.7,
-     "nearest_rank": 10,
+     "percentile": 96.8,
+     "nearest_km": 42.4,
+     "nearest_rank": 9,
      "hit": false
     },
     {
@@ -1742,13 +3290,13 @@
      "lat": 22.23,
      "lon": -14.93,
      "model": "carbonatite",
-     "percentile": 87.65,
-     "nearest_km": 543.4,
-     "nearest_rank": 10,
+     "percentile": 95.53,
+     "nearest_km": 41.8,
+     "nearest_rank": 19,
      "hit": false
     }
    ],
-   "p_chance": 0.00485
+   "p_chance": 0.00922
   }
  },
  "tiles": {
@@ -1765,36 +3313,62 @@
    "have": {
     "iron": [
      "0_5",
+     "0_6",
      "0_7",
      "0_8",
      "0_9",
      "0_10",
+     "0_11",
+     "1_4",
      "1_5",
+     "1_6",
      "1_7",
      "1_8",
      "1_9",
      "1_10",
      "1_11",
+     "2_3",
      "2_4",
      "2_5",
      "2_7",
      "2_8",
+     "2_9",
+     "2_10",
      "2_11",
+     "3_3",
+     "3_4",
+     "3_5",
+     "3_6",
      "3_7",
+     "4_2",
+     "4_3",
+     "4_4",
      "4_5",
      "4_6",
      "4_7",
      "5_1",
+     "5_2",
      "5_3",
+     "5_4",
+     "5_5",
+     "5_7",
      "6_1",
      "6_2",
+     "6_3",
      "6_4",
      "7_0",
      "7_1",
      "7_2",
+     "7_3",
+     "7_4",
+     "7_5",
      "8_0",
+     "8_1",
+     "8_2",
      "8_3",
-     "8_4"
+     "8_4",
+     "8_5",
+     "9_0"
     ],
     "alteration": [
      "0_5",
@@ -1816,7 +3390,9 @@
      "2_4",
      "2_5",
      "2_6",
+     "2_7",
      "2_8",
+     "2_9",
      "3_3",
      "3_4",
      "3_5",
@@ -1844,21 +3420,23 @@
      "7_1",
      "7_2",
      "7_3",
+     "7_4",
      "7_5",
      "8_0",
      "8_1",
      "8_2",
      "8_3",
      "8_4",
-     "8_5",
      "9_0"
     ],
     "carbonatite": [
      "0_5",
+     "0_6",
      "0_7",
      "0_8",
      "0_9",
      "0_10",
+     "0_11",
      "1_4",
      "1_5",
      "1_6",
@@ -1873,22 +3451,29 @@
      "2_7",
      "2_8",
      "2_9",
+     "2_10",
      "2_11",
      "3_3",
+     "3_4",
+     "3_5",
+     "3_6",
      "3_7",
      "4_2",
      "4_3",
+     "4_4",
      "4_5",
      "4_6",
      "4_7",
      "5_1",
      "5_2",
      "5_3",
+     "5_4",
      "5_5",
      "5_6",
      "5_7",
      "6_1",
      "6_2",
+     "6_3",
      "6_4",
      "6_5",
      "7_0",
@@ -2288,10 +3873,34 @@
    "tile": "MGRS-28QCL"
   },
   {
+   "id": "S2C_28QCM_20260124_0_L2A",
+   "date": "2026-01-24",
+   "cloud": 0.84,
+   "tile": "MGRS-28QCM"
+  },
+  {
+   "id": "S2A_28REN_20260920_0_L2A",
+   "date": "2026-09-20",
+   "cloud": 0.01,
+   "tile": "MGRS-28REN"
+  },
+  {
    "id": "S2A_28RFN_20260920_2_L2A",
    "date": "2026-09-20",
    "cloud": 0.0,
    "tile": "MGRS-28RFN"
+  },
+  {
+   "id": "S2B_28RGN_20260930_0_L2A",
+   "date": "2026-09-30",
+   "cloud": 0.0,
+   "tile": "MGRS-28RGN"
+  },
+  {
+   "id": "S2C_29RLJ_20260912_0_L2A",
+   "date": "2026-09-12",
+   "cloud": 0.0,
+   "tile": "MGRS-29RLJ"
   },
   {
    "id": "S2B_29RLK_20261010_0_L2A",
@@ -2300,10 +3909,52 @@
    "tile": "MGRS-29RLK"
   },
   {
+   "id": "S2C_29RLL_20261005_0_L2A",
+   "date": "2026-10-05",
+   "cloud": 0.0,
+   "tile": "MGRS-29RLL"
+  },
+  {
+   "id": "S2B_29RMK_20260917_0_L2A",
+   "date": "2026-09-17",
+   "cloud": 0.0,
+   "tile": "MGRS-29RMK"
+  },
+  {
+   "id": "S2A_28QCM_20251217_1_L2A",
+   "date": "2025-12-17",
+   "cloud": 1.38,
+   "tile": "MGRS-28QCM"
+  },
+  {
    "id": "S2C_28QFM_20260508_0_L2A",
    "date": "2026-05-08",
    "cloud": 0.0,
    "tile": "MGRS-28QFM"
+  },
+  {
+   "id": "S2B_28RFP_20260913_0_L2A",
+   "date": "2026-09-13",
+   "cloud": 0.0,
+   "tile": "MGRS-28RFP"
+  },
+  {
+   "id": "S2C_28QFM_20260428_0_L2A",
+   "date": "2026-04-28",
+   "cloud": 0.33,
+   "tile": "MGRS-28QFM"
+  },
+  {
+   "id": "S2A_28RFN_20260811_1_L2A",
+   "date": "2026-08-11",
+   "cloud": 0.02,
+   "tile": "MGRS-28RFN"
+  },
+  {
+   "id": "S2B_28RFP_20260804_0_L2A",
+   "date": "2026-08-04",
+   "cloud": 0.0,
+   "tile": "MGRS-28RFP"
   }
  ],
  "check_km": 3.0
