@@ -1,5 +1,5 @@
 """
-Dakhla Fish Radar - FORECAST layer (D+1, D+2, D+3).
+Madar Offshore - FORECAST layer (D+1, D+2, D+3).
 
 Idea: on the Dakhla coast the chain is
   north wind strengthens -> cold water upwells (1-3 days later) -> fronts form
@@ -224,7 +224,7 @@ def draw(lats, lons, frames, scores, zones_by_day, days, cui, today, path, demo)
     for s in ax.spines.values():
         s.set_color("#1c3448")
     src = "DEMO DATA" if demo else "Copernicus Marine model + Open-Meteo wind"
-    fig.suptitle(f"Dakhla Fish Radar · FORECAST from {today} · {src}", color="#e6eef3", fontsize=13)
+    fig.suptitle(f"Madar Offshore · FORECAST from {today} · {src}", color="#e6eef3", fontsize=13)
     fig.tight_layout()
     fig.savefig(path, facecolor=fig.get_facecolor())
     plt.close(fig)
@@ -238,7 +238,7 @@ def message(days, zones_by_day, cui, today):
         if v > best_val:
             best_day, best_val = d, v
     strong = best_val >= CFG.get("cui_strong", 200.0)
-    lines = [f"🔭 توقعات رادار الصيد · مساء {today}"]
+    lines = [f"🔭 توقعات مدار السفن الكبيرة · مساء {today}"]
     if strong:
         lines.append(f"رياح شمالية قوية متوقعة يوم {DAYS_AR[best_day.weekday()]}: صعود مياه قوي وجبهات جديدة قرب الساحل بعدها بيوم أو يومين.")
     else:
@@ -258,7 +258,7 @@ def message(days, zones_by_day, cui, today):
 def page(msg, days, today, demo):
     warn = "<p class='w'>بيانات تجريبية (demo).</p>" if demo else ""
     doc = f"""<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>توقعات رادار الصيد</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>توقعات مدار السفن الكبيرة</title>
 <style>body{{margin:0;background:#06121d;color:#e6eef3;font-family:system-ui,sans-serif;padding:16px}}
 main{{max-width:1100px;margin:auto}}img{{width:100%;border-radius:12px;border:1px solid #1c3448}}
 pre{{white-space:pre-wrap;background:#0a2a22;border:1px solid #1f5b49;border-radius:12px;padding:12px;font:15px/1.7 system-ui}}

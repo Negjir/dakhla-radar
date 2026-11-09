@@ -1,4 +1,4 @@
-<title>Dakhla Coast Radar</title>
+<title>Madar · Côte · Dakhla</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Readex+Pro:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
@@ -168,7 +168,7 @@ button,input{font:inherit;color:inherit}
 </style>
 
 <div class="boot" id="boot" aria-hidden="true"><div class="in">
-  <h1>DAKHLA COAST RADAR</h1>
+  <h1>MADAR · COAST</h1>
   <div class="pb"><i id="pb"></i></div>
   <div id="bootl"></div>
 </div></div>
@@ -247,22 +247,22 @@ const T={
   tide:"المد والريح · 30 ساعة",wind:"الريح",front:"جبهة حرارية",chl:"كلوروفيل (غذاء)",cold:"مياه صاعدة باردة",sst:"حرارة",chlv:"كلوروفيل",rt:"ذهاب وإياب",
   km:"كم",from:"من",shore:"من الشاطئ",eta:"الوصول",fuel:"وقود",high:"ثقة مرتفعة",medium:"ثقة متوسطة",low:"ثقة منخفضة",none:"لا توجد جبهات واضحة قرب الساحل اليوم.",
   wave:"الموج",up:"صعود المياه",tides:"المد",hi:"عالٍ",lo:"منخفض",species:"الكوربين · التاسرگال · البوري · البونيت",clouds:"غيوم",nochl:"لا كلوروفيل اليوم (غيوم)",
-  score:"مؤشر المنطقة",sstl:"حرارة الماء °C",chll:"كلوروفيل mg/m³",zone:"المنطقة",strong:"قوي",weak:"ضعيف",mod:"متوسط",now:"الآن",data:"بيانات",radar:"رادار الساحل",
-  comp:["شمال","شمال شرق","شرق","جنوب شرق","جنوب","جنوب غرب","غرب","شمال غرب"],min:"د",depth:"العمق",depthl:"عمق القاع m (GEBCO)",xlink:"← رادار السفن الكبيرة"},
+  score:"مؤشر المنطقة",sstl:"حرارة الماء °C",chll:"كلوروفيل mg/m³",zone:"المنطقة",strong:"قوي",weak:"ضعيف",mod:"متوسط",now:"الآن",data:"بيانات",radar:"مدار الساحل",
+  comp:["شمال","شمال شرق","شرق","جنوب شرق","جنوب","جنوب غرب","غرب","شمال غرب"],min:"د",depth:"العمق",depthl:"عمق القاع m (GEBCO)",xlink:"← مدار السفن الكبيرة"},
  fr:{mOct:"🐙 Poulpe",mFish:"🐟 Poisson",spOct:"Poulpe · profondeur et température du fond",dep:"Profondeur favorable",tmp:"Temp. du fond",food:"Nourriture (chloro.)",bt:"Temp. fond",fit:"Adéquation",safeT:"Mer pour petites barques",go:"Mer praticable aujourd'hui",caution:"Prudence : vent ou houle modérés, restez proche",no:"Sortie déconseillée aujourd'hui",unknown:"État de mer indisponible",safeNote:"Estimation automatique (prévisions vent et houle). La décision revient au patron ; suivez le bulletin marine officiel.",seasonOpen:"Saison du poulpe : ouverte",seasonClosed:"Saison du poulpe : fermée (repos biologique)",seasonCheck:"Saison du poulpe : vérifiez la décision du Ministère",until:"jusqu'au",next:"ouverture prévue",pots:"Mes pots en mer",potHere:"Enregistrer ma position",potAdd:"Ajouter par coordonnées",potName:"Nom de la ligne (optionnel)",potGo:"Y aller",potDel:"Suppr.",potSure:"Sûr ?",potNone:"Aucune ligne enregistrée. En posant une ligne de pots, appuyez sur « Enregistrer ma position ».",potNote:"Positions gardées uniquement sur votre téléphone, jamais envoyées. Gardez aussi le fichier GPX en sauvegarde.",potWait:"Localisation…",potErr:"Position introuvable. Activez le GPS et autorisez la localisation.",potSaved:"Enregistré",row:"Ligne",away:"à",noneOct:"Aucune zone favorable dans le rayon aujourd'hui.",noteOct:"Indice quotidien : profondeur (GEBCO), température du fond (Copernicus) et satellites. Préférences du poulpe initiales, à ajuster avec les pêcheurs. Ne garantit pas la pêche.",nav:"Aller à la zone",copyc:"Copier",copiedc:"OK",openapp:"Ouvrir dans l'app de navigation",gpx:"Télécharger GPX",gpxok:"Téléchargé",navnote:"Entrez le point dans le GPS et vérifiez la route sur la carte marine officielle. Le fichier GPX contient toutes les zones et le port ; il s'ouvre dans les apps de navigation et de nombreux chartplotters via carte mémoire.",zones:"Meilleures zones du jour",why:"Pourquoi cette zone",boat:"Votre barque et le carburant",speed:"Vitesse",cons:"Conso.",copy:"Copier le message WhatsApp",copied:"Copié",
   note:"Indice satellite quotidien des eaux les plus favorables. Il ne garantit pas la présence de poisson. Marée et état de mer approximatifs, pas pour la navigation.",
   tide:"Marée et vent · 30 h",wind:"Vent",front:"Front thermique",chl:"Chlorophylle (nourriture)",cold:"Remontée d'eau froide",sst:"Temp.",chlv:"Chloro.",rt:"aller-retour",
   km:"km",from:"de",shore:"de la côte",eta:"Trajet",fuel:"Carburant",high:"confiance élevée",medium:"confiance moyenne",low:"confiance faible",none:"Pas de front net près de la côte aujourd'hui.",
   wave:"Houle",up:"Upwelling",tides:"Marée",hi:"PM",lo:"BM",species:"Courbine · Tassergal · Mulet · Bonite",clouds:"nuages",nochl:"Pas de chlorophylle aujourd'hui (nuages)",
-  score:"Indice de zone",sstl:"Température de l'eau °C",chll:"Chlorophylle mg/m³",zone:"Zone",strong:"fort",weak:"faible",mod:"moyen",now:"maint.",data:"données",radar:"Radar côtier",
-  comp:["N","NE","E","SE","S","SO","O","NO"],min:"min",depth:"Profondeur",depthl:"Profondeur m (GEBCO)",xlink:"Radar large →"},
+  score:"Indice de zone",sstl:"Température de l'eau °C",chll:"Chlorophylle mg/m³",zone:"Zone",strong:"fort",weak:"faible",mod:"moyen",now:"maint.",data:"données",radar:"Madar Côte",
+  comp:["N","NE","E","SE","S","SO","O","NO"],min:"min",depth:"Profondeur",depthl:"Profondeur m (GEBCO)",xlink:"Madar Large →"},
  en:{mOct:"🐙 Octopus",mFish:"🐟 Fish",spOct:"Octopus · depth and bottom temperature",dep:"Suitable depth",tmp:"Bottom temp.",food:"Food (chlorophyll)",bt:"Bottom temp.",fit:"Suitability",safeT:"Sea for small boats",go:"Sea OK today",caution:"Caution: moderate wind or waves, stay close",no:"Going out not advised today",unknown:"Sea state unavailable",safeNote:"Automatic estimate from wind and wave forecasts. The skipper decides; follow the official marine bulletin.",seasonOpen:"Octopus season: open",seasonClosed:"Octopus season: closed (biological rest)",seasonCheck:"Octopus season: check the Ministry decision",until:"until",next:"expected opening",pots:"My pots at sea",potHere:"Save my position now",potAdd:"Add by coordinates",potName:"Line name (optional)",potGo:"Go",potDel:"Delete",potSure:"Sure?",potNone:"No saved lines yet. When you set a line of pots, tap “Save my position now”.",potNote:"Positions stay on your phone only and are never sent. Keep the GPX file as a backup.",potWait:"Locating…",potErr:"Could not get a position. Turn on GPS and allow location.",potSaved:"Saved",row:"Line",away:"",noneOct:"No suitable ground within range today.",noteOct:"Daily index from depth (GEBCO), bottom temperature (Copernicus) and satellites. Octopus preferences are initial values, tuned with fishers. Does not guarantee a catch.",nav:"Go to the zone",copyc:"Copy",copiedc:"Done",openapp:"Open in navigation app",gpx:"Download GPX",gpxok:"Downloaded",navnote:"Enter the point in the GPS and check the route on the official nautical chart. The GPX file holds every zone and the port; it opens in navigation apps and many chartplotters from a memory card.",zones:"Best zones today",why:"Why this spot",boat:"Your boat and fuel",speed:"Speed",cons:"Burn",copy:"Copy WhatsApp message",copied:"Copied",
   note:"Daily satellite index of the most favourable water. It does not guarantee fish. Tide and sea state are approximate and not for navigation.",
   tide:"Tide and wind · 30 h",wind:"Wind",front:"Thermal front",chl:"Chlorophyll (food)",cold:"Cold upwelled water",sst:"SST",chlv:"Chl",rt:"round trip",
   km:"km",from:"from",shore:"off shore",eta:"Run",fuel:"Fuel",high:"high confidence",medium:"medium confidence",low:"low confidence",none:"No clear front near the coast today.",
   wave:"Waves",up:"Upwelling",tides:"Tide",hi:"High",lo:"Low",species:"Meagre · Bluefish · Mullet · Bonito",clouds:"clouds",nochl:"No chlorophyll today (clouds)",
-  score:"Zone score",sstl:"Water temperature °C",chll:"Chlorophyll mg/m³",zone:"Zone",strong:"strong",weak:"weak",mod:"moderate",now:"now",data:"data",radar:"Coast radar",
-  comp:["N","NE","E","SE","S","SW","W","NW"],min:"min",depth:"Depth",depthl:"Sea-floor depth m (GEBCO)",xlink:"Offshore radar →"}};
+  score:"Zone score",sstl:"Water temperature °C",chll:"Chlorophyll mg/m³",zone:"Zone",strong:"strong",weak:"weak",mod:"moderate",now:"now",data:"data",radar:"Madar Coast",
+  comp:["N","NE","E","SE","S","SW","W","NW"],min:"min",depth:"Depth",depthl:"Sea-floor depth m (GEBCO)",xlink:"Madar Offshore →"}};
 const NAME={ar:p=>p.ar,fr:p=>p.fr,en:p=>p.fr};
 const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
 let L="ar",PI=0,ZI=0,layer="score",MODE="oct";
@@ -477,7 +477,7 @@ function gpxFile(){
   const P0=P.point,day=(P.date||DATA.day||"").slice(5).replace("-",""),tag=(P.point.id||"pt").slice(0,3).toUpperCase(),esc=x=>String(x).replace(/[<>&"]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;"}[c]));
   const w=(la,lo,nm,ds)=>`<wpt lat="${la.toFixed(5)}" lon="${lo.toFixed(5)}"><name>${esc(nm)}</name><desc>${esc(ds)}</desc><sym>Fishing Area</sym></wpt>`;
   const body=w(P0.lat,P0.lon,tag+"-PORT",P0.fr||"")+P.zones.map(z=>w(z.lat,z.lon,tag+"-"+z.id+day,`${z.km} km ${z.brg}deg ${z.pct!=null?z.pct+"%":z.conf}${z.depth_m?" depth "+z.depth_m+"m":""} ${P.date||DATA.day}`)).join("");
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Dakhla Fish Radar" xmlns="http://www.topografix.com/GPX/1/1"><metadata><name>${esc(tag+" "+(P.date||DATA.day))}</name></metadata>${body}</gpx>`}
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Madar" xmlns="http://www.topografix.com/GPX/1/1"><metadata><name>${esc(tag+" "+(P.date||DATA.day))}</name></metadata>${body}</gpx>`}
 function navPanel(){
   const z=P.zones[ZI],box=$("#nav");if(!z){box.innerHTML="";$("#navz").textContent="";return}
   $("#navz").textContent=`${t("zone")} ${z.id}`;
@@ -506,7 +506,7 @@ function kmBrg(a,b){const R=6371,p1=a.lat*Math.PI/180,p2=b.lat*Math.PI/180,dl=(b
   const d=2*R*Math.asin(Math.sqrt(Math.sin((p2-p1)/2)**2+Math.cos(p1)*Math.cos(p2)*Math.sin(dl/2)**2));
   const y=Math.sin(dl)*Math.cos(p2),x=Math.cos(p1)*Math.sin(p2)-Math.sin(p1)*Math.cos(p2)*Math.cos(dl);return[d,(Math.atan2(y,x)*180/Math.PI+360)%360]}
 function potsGpx(){const esc=x=>String(x).replace(/[<>&"]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;"}[c]));
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Dakhla Coast Radar" xmlns="http://www.topografix.com/GPX/1/1">`+
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Madar" xmlns="http://www.topografix.com/GPX/1/1">`+
   POTS.map(q=>`<wpt lat="${q.lat.toFixed(6)}" lon="${q.lon.toFixed(6)}"><name>${esc(q.name)}</name><time>${esc(q.t)}</time><sym>Buoy, White</sym></wpt>`).join("")+`</gpx>`}
 function potsUI(){
   potsLoad();const box=$("#pots");$("#t-pots").textContent=t("pots");

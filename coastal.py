@@ -1,5 +1,5 @@
 """
-Dakhla Coastal Radar - satellite-only help for small artisanal boats (barques, 15-30 hp, 2-4 crew).
+Madar Coast (formerly Dakhla Coastal Radar) - satellite-only help for small artisanal boats (barques, 15-30 hp, 2-4 crew).
 
 Two modes, because the artisanal fleet of Dakhla is mostly an OCTOPUS fishery
 (about half of the annual catch, >80% cephalopods; pots and jigs; grounds 3-8 nautical miles
@@ -484,7 +484,7 @@ SAFE_AR = {"go": "🟢 البحر مناسب للقوارب الصغيرة ال�
 
 def message(p, r, cond, day, sst_day):
     sf = safety(cond)
-    lines = [f"🐙 رادار الساحل · {p['ar']} · {day}", SAFE_AR[sf["level"]]]
+    lines = [f"🐙 مدار الساحل · {p['ar']} · {day}", SAFE_AR[sf["level"]]]
     if SEASON.get("status") == "open":
         lines.append("موسم الأخطبوط: مفتوح" + (f" (حتى {SEASON['until']})" if SEASON.get("until") else ""))
     elif SEASON.get("status") == "closed":
@@ -583,12 +583,12 @@ def page(items, day, demo):
     warn = "<p class='w'>بيانات تجريبية (demo).</p>" if demo else ""
     first = items[0]["p"]["id"] if items else ""
     doc = f"""<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>رادار الساحل · الداخلة</title><style>body{{margin:0;background:#06121d;color:#e6eef3;font-family:system-ui,sans-serif;padding:16px}}
+<title>مدار الساحل · الداخلة</title><style>body{{margin:0;background:#06121d;color:#e6eef3;font-family:system-ui,sans-serif;padding:16px}}
 main{{max-width:760px;margin:auto}}nav{{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}}nav button{{border:1px solid #1c3448;background:#0b1c2b;color:#e6eef3;border-radius:999px;padding:10px 16px;font-size:15px}}
 nav button.on{{background:#4fe3d6;color:#06121d;font-weight:700}}img{{width:100%;border-radius:12px;border:1px solid #1c3448}}
 pre{{white-space:pre-wrap;background:#0a2a22;border:1px solid #1f5b49;border-radius:12px;padding:12px;font:15px/1.8 system-ui}}
 .copy{{background:#4fe3d6;border:0;border-radius:999px;padding:12px 18px;font-weight:700;font-size:15px}}.w{{color:#ffb547}}.s{{color:#8aa3b4;font-size:13px;line-height:1.7}}</style></head>
-<body><main><h1>رادار الساحل · الداخلة</h1><p class="s">قوارب الصيد التقليدي · {html.escape(SPECIES)} · {day}</p>{warn}
+<body><main><h1>مدار الساحل · الداخلة</h1><p class="s">قوارب الصيد التقليدي · {html.escape(SPECIES)} · {day}</p>{warn}
 <nav>{tabs}</nav>{secs}
 <p class="s">مؤشر يومي من الأقمار الصناعية: جبهات حرارة الماء (NASA MUR، 1 كم)، والكلوروفيل (Copernicus Marine)، وصعود المياه الباردة من الرياح، على شريط حتى {MAX_KM} كم من الشاطئ.
 يدل على أنسب ظروف الماء للأسماك التي تتبع الكتل المائية، ولا يضمن وجود السمك. المد وحالة البحر تقريبيان ولا يصلحان للملاحة.</p></main>

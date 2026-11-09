@@ -1,5 +1,5 @@
 """
-Dakhla Fish Radar - daily potential fishing zones (PFZ) for pelagic fish.
+Madar Offshore (formerly Dakhla Fish Radar) - daily potential fishing zones (PFZ) for pelagic fish.
 
 Steps:
   1. Download yesterday's sea surface temperature (SST) and chlorophyll (CHL)
@@ -376,13 +376,13 @@ COMPASS = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
 
 def message(zones, data_day):
     if not zones:
-        return f"رادار الصيد · {data_day}\nلا توجد جبهات قوية اليوم في مدى {CFG.get('max_range_nm',150)} ميل."
+        return f"مدار السفن الكبيرة · {data_day}\nلا توجد جبهات قوية اليوم في مدى {CFG.get('max_range_nm',150)} ميل."
     z = zones[0]
     k = round(z["bearing_deg"] / 45) % 8
     away = ltr("%s nm · %s° %s" % (z["distance_nm"], z["bearing_deg"], COMPASS[k]))
     fuel = ltr("{:,} L".format(z["fuel_l"]))
     lines = [
-        f"🐟 رادار الصيد · {ltr(data_day)}",
+        f"🐟 مدار السفن الكبيرة · {ltr(data_day)}",
         f"أفضل منطقة: {z['id']} (ثقة {z['confidence']}%)",
         f"الموقع: {pos(z['lat'], z['lon'])}" + (f" · عمق ~{ltr(str(z['depth_m']) + ' m')}" if z.get("depth_m") else ""),
         f"من الميناء: {away} ({COMPASS_AR[k]})",
@@ -463,7 +463,7 @@ def draw_map(lats, lons, sst, chl, score, grad, zones, data_day, path, only_inde
             ax.text(z["lon"] - 0.12, z["lat"], f"{z['distance_nm']} nm", color="white", ha="right", va="center",
                     fontsize=8, bbox=dict(fc="#06121d", ec="none", alpha=0.7, pad=1.5))
     src = "DEMO DATA" if demo else " · ".join(v.rsplit(" ", 1)[0] for v in SOURCES.values()) or "Copernicus Marine"
-    fig.suptitle(f"Dakhla Fish Radar · {data_day} · {src}", color="#e6eef3", fontsize=13)
+    fig.suptitle(f"Madar Offshore · {data_day} · {src}", color="#e6eef3", fontsize=13)
     fig.tight_layout()
     fig.savefig(path, facecolor=fig.get_facecolor())
     plt.close(fig)
@@ -475,14 +475,14 @@ def write_page(zones, msg, data_day, demo):
         f"<td dir='ltr'>{z['distance_nm']} nm · {z['bearing_deg']}°</td><td dir='ltr'>{z['fuel_l']:,} L</td></tr>" for z in zones)
     warn = "<p class='w'>بيانات تجريبية (demo) وليست قراءات حقيقية.</p>" if demo else ""
     page = f"""<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>رادار الصيد · الداخلة</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>مدار السفن الكبيرة · الداخلة</title>
 <style>body{{margin:0;background:#06121d;color:#e6eef3;font-family:system-ui,sans-serif;padding:16px}}
 main{{max-width:1100px;margin:auto}}img{{width:100%;border-radius:12px;border:1px solid #1c3448}}
 table{{width:100%;border-collapse:collapse;font-size:14px}}td,th{{padding:8px;border-bottom:1px solid #1c3448;text-align:start}}
 pre{{white-space:pre-wrap;background:#0a2a22;border:1px solid #1f5b49;border-radius:12px;padding:12px;font:15px/1.7 system-ui}}
 button{{background:#4fe3d6;border:0;border-radius:999px;padding:12px 18px;font-weight:700;font-size:15px}}
 .w{{color:#ffb547}}.s{{color:#8aa3b4;font-size:13px}}.t{{overflow-x:auto}}</style></head><body><main>
-<h1>رادار الصيد · الداخلة</h1><p><a style="color:#4fe3d6;font-weight:700" href="forecast.html">← توقعات الأيام الثلاثة القادمة</a></p><p><a style="color:#4fe3d6;font-weight:700" href="coastal/">← رادار الساحل للقوارب التقليدية</a></p><p class="s">بيانات يوم {data_day} · تحديث {dt.datetime.now(dt.timezone.utc):%Y-%m-%d %H:%M} UTC</p>{warn}
+<h1>مدار السفن الكبيرة · الداخلة</h1><p><a style="color:#4fe3d6;font-weight:700" href="forecast.html">← توقعات الأيام الثلاثة القادمة</a></p><p><a style="color:#4fe3d6;font-weight:700" href="coastal/">← مدار الساحل للقوارب التقليدية</a></p><p class="s">بيانات يوم {data_day} · تحديث {dt.datetime.now(dt.timezone.utc):%Y-%m-%d %H:%M} UTC</p>{warn}
 <img src="captain.png?v={data_day}" alt="خريطة مؤشر الصيد للربابنة"><p class="s">الصورة أعلاه للإرسال إلى الربابنة. التفاصيل الكاملة: <a style="color:#4fe3d6" href="map.png?v={data_day}">الحرارة والكلوروفيل</a></p>
 <h2>رسالة الربابنة</h2><pre id="m">{html.escape(msg)}</pre>
 <button onclick="navigator.clipboard.writeText(document.getElementById('m').innerText).then(()=>this.textContent='تم النسخ')">نسخ الرسالة</button>

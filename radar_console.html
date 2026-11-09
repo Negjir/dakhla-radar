@@ -1,4 +1,4 @@
-<title>Dakhla Fish Radar</title>
+<title>Madar · Large · Dakhla</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Readex+Pro:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
@@ -147,7 +147,7 @@ button,input{font:inherit;color:inherit}
 </style>
 
 <div class="boot" id="boot" aria-hidden="true"><div class="in">
-  <h1>DAKHLA FISH RADAR</h1>
+  <h1>MADAR · OFFSHORE</h1>
   <div class="pb"><i id="pb"></i></div>
   <div id="bootl"></div>
 </div></div>
@@ -156,7 +156,7 @@ button,input{font:inherit;color:inherit}
   <header class="hd glass">
     <div class="logo">
       <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="none" stroke="#4fe6ff" stroke-opacity=".5"/><circle cx="15" cy="15" r="7" fill="none" stroke="#4fe6ff" stroke-opacity=".35"/><path d="M15 15 L26 8 A13 13 0 0 1 28 15 Z" fill="#4fe6ff" fill-opacity=".45"/><circle cx="21" cy="11" r="2" fill="#5dffa8"/></svg>
-      <div><b>DAKHLA FISH RADAR</b><small id="sub">OFFSHORE · PELAGIC</small></div>
+      <div><b>MADAR · OFFSHORE</b><small id="sub">OFFSHORE · PELAGIC</small></div>
     </div>
     <nav class="pts" id="pts" role="tablist"></nav>
     <div class="leds" id="leds"></div>
@@ -226,25 +226,25 @@ const T={
   tide:"مستوى البحر والريح · 30 ساعة",wind:"الريح",front:"جبهة حرارية",chl:"كلوروفيل (غذاء)",cold:"مياه صاعدة باردة",sst:"حرارة",chlv:"كلوروفيل",rt:"ذهاب وإياب",
   km:"ميل",from:"من",shore:"",eta:"الوصول",fuel:"وقود",high:"ثقة مرتفعة",medium:"ثقة متوسطة",low:"ثقة منخفضة",none:"لا توجد جبهات قوية في المدى اليوم.",
   wave:"الموج",up:"صعود المياه",tides:"المد",hi:"عالٍ",lo:"منخفض",species:"السردين · الماكريل · السردينيلا",clouds:"غيوم",nochl:"لا كلوروفيل لهذه المنطقة",
-  score:"مؤشر الصيد",sstl:"حرارة الماء °C",chll:"كلوروفيل mg/m³",zone:"المنطقة",strong:"قوي",weak:"ضعيف",mod:"متوسط",now:"الآن",data:"بيانات",radar:"رادار الصيد",
+  score:"مؤشر الصيد",sstl:"حرارة الماء °C",chll:"كلوروفيل mg/m³",zone:"المنطقة",strong:"قوي",weak:"ضعيف",mod:"متوسط",now:"الآن",data:"بيانات",radar:"مدار السفن الكبيرة",
   comp:["شمال","شمال شرق","شرق","جنوب شرق","جنوب","جنوب غرب","غرب","شمال غرب"],min:"د",h:"س",confp:"ثقة",today:"اليوم",
-  fcnote:"توقع من نموذج المحيط والرياح. الخريطة الملونة هي أقمار اليوم، والمناطق هي المتوقعة لذلك اليوم.",depth:"العمق",depthl:"عمق القاع m (GEBCO)",xlink:"رادار الساحل ←",src:"المصادر"},
+  fcnote:"توقع من نموذج المحيط والرياح. الخريطة الملونة هي أقمار اليوم، والمناطق هي المتوقعة لذلك اليوم.",depth:"العمق",depthl:"عمق القاع m (GEBCO)",xlink:"مدار الساحل ←",src:"المصادر"},
  fr:{nav:"Aller à la zone",copyc:"Copier",copiedc:"OK",openapp:"Ouvrir dans l'app de navigation",gpx:"Télécharger GPX",gpxok:"Téléchargé",navnote:"Entrez le point dans le GPS et vérifiez la route sur la carte marine officielle. Le fichier GPX contient toutes les zones et le port ; il s'ouvre dans les apps de navigation et de nombreux chartplotters via carte mémoire.",zones:"Meilleures zones",why:"Pourquoi cette zone",boat:"Votre navire et le carburant",speed:"Vitesse",cons:"Conso.",copy:"Copier le message capitaine",copied:"Copié",
   note:"Indice satellite (température et chlorophylle) des eaux les plus favorables. Il ne garantit pas le poisson : confirmez au sonar. Respectez zones interdites et quotas.",
   tide:"Niveau de la mer et vent · 30 h",wind:"Vent",front:"Front thermique",chl:"Chlorophylle (nourriture)",cold:"Remontée d'eau froide",sst:"Temp.",chlv:"Chloro.",rt:"aller-retour",
   km:"nm",from:"de",shore:"",eta:"Route",fuel:"Carburant",high:"confiance élevée",medium:"confiance moyenne",low:"confiance faible",none:"Aucun front fort à portée aujourd'hui.",
   wave:"Houle",up:"Upwelling",tides:"Marée",hi:"PM",lo:"BM",species:"Sardine · Maquereau · Sardinelle",clouds:"nuages",nochl:"Pas de chlorophylle pour cette zone",
-  score:"Indice de pêche",sstl:"Température de l'eau °C",chll:"Chlorophylle mg/m³",zone:"Zone",strong:"fort",weak:"faible",mod:"moyen",now:"maint.",data:"données",radar:"Radar de pêche",
+  score:"Indice de pêche",sstl:"Température de l'eau °C",chll:"Chlorophylle mg/m³",zone:"Zone",strong:"fort",weak:"faible",mod:"moyen",now:"maint.",data:"données",radar:"Madar Large",
   comp:["N","NE","E","SE","S","SO","O","NO"],min:"min",h:"h",confp:"confiance",today:"Aujourd'hui",
-  fcnote:"Prévision (modèle océan + vent). La carte colorée est le satellite du jour, les zones sont celles prévues pour ce jour.",depth:"Profondeur",depthl:"Profondeur m (GEBCO)",xlink:"Radar côtier →",src:"Sources"},
+  fcnote:"Prévision (modèle océan + vent). La carte colorée est le satellite du jour, les zones sont celles prévues pour ce jour.",depth:"Profondeur",depthl:"Profondeur m (GEBCO)",xlink:"Madar Côte →",src:"Sources"},
  en:{nav:"Go to the zone",copyc:"Copy",copiedc:"Done",openapp:"Open in navigation app",gpx:"Download GPX",gpxok:"Downloaded",navnote:"Enter the point in the GPS and check the route on the official nautical chart. The GPX file holds every zone and the port; it opens in navigation apps and many chartplotters from a memory card.",zones:"Best zones",why:"Why this spot",boat:"Your vessel and fuel",speed:"Speed",cons:"Burn",copy:"Copy captain message",copied:"Copied",
   note:"Satellite index (sea temperature and chlorophyll) of the most favourable water. It does not guarantee fish: confirm on sonar. Respect closed areas and quotas.",
   tide:"Sea level and wind · 30 h",wind:"Wind",front:"Thermal front",chl:"Chlorophyll (food)",cold:"Cold upwelled water",sst:"SST",chlv:"Chl",rt:"round trip",
   km:"nm",from:"from",shore:"",eta:"Run",fuel:"Fuel",high:"high confidence",medium:"medium confidence",low:"low confidence",none:"No strong front within range today.",
   wave:"Waves",up:"Upwelling",tides:"Tide",hi:"High",lo:"Low",species:"Sardine · Mackerel · Sardinella",clouds:"clouds",nochl:"No chlorophyll for this spot",
-  score:"Fishing index",sstl:"Water temperature °C",chll:"Chlorophyll mg/m³",zone:"Zone",strong:"strong",weak:"weak",mod:"moderate",now:"now",data:"data",radar:"Fish radar",
+  score:"Fishing index",sstl:"Water temperature °C",chll:"Chlorophyll mg/m³",zone:"Zone",strong:"strong",weak:"weak",mod:"moderate",now:"now",data:"data",radar:"Madar Offshore",
   comp:["N","NE","E","SE","S","SW","W","NW"],min:"min",h:"h",confp:"confidence",today:"Today",
-  fcnote:"Forecast (ocean + wind model). The coloured map is today's satellite; the zones are those forecast for that day.",depth:"Depth",depthl:"Sea-floor depth m (GEBCO)",xlink:"Coastal radar →",src:"Sources"}};
+  fcnote:"Forecast (ocean + wind model). The coloured map is today's satellite; the zones are those forecast for that day.",depth:"Depth",depthl:"Sea-floor depth m (GEBCO)",xlink:"Madar Coast →",src:"Sources"}};
 const NAME={ar:p=>p.ar,fr:p=>p.fr,en:p=>p.fr};
 const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
 let L="ar",PI=0,ZI=0,layer="score";
@@ -454,7 +454,7 @@ function gpxFile(){
   const P0=P.point,day=(P.date||DATA.day||"").slice(5).replace("-",""),tag="DFR",esc=x=>String(x).replace(/[<>&"]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;"}[c]));
   const w=(la,lo,nm,ds)=>`<wpt lat="${la.toFixed(5)}" lon="${lo.toFixed(5)}"><name>${esc(nm)}</name><desc>${esc(ds)}</desc><sym>Fishing Area</sym></wpt>`;
   const body=w(P0.lat,P0.lon,tag+"-PORT",P0.fr||"")+P.zones.map(z=>w(z.lat,z.lon,tag+"-"+z.id+day,`${z.km} nm ${z.brg}deg ${z.pct!=null?z.pct+"%":z.conf}${z.depth_m?" depth "+z.depth_m+"m":""} ${P.date||DATA.day}`)).join("");
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Dakhla Fish Radar" xmlns="http://www.topografix.com/GPX/1/1"><metadata><name>${esc(tag+" "+(P.date||DATA.day))}</name></metadata>${body}</gpx>`}
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Madar" xmlns="http://www.topografix.com/GPX/1/1"><metadata><name>${esc(tag+" "+(P.date||DATA.day))}</name></metadata>${body}</gpx>`}
 function navPanel(){
   const z=P.zones[ZI],box=$("#nav");if(!z){box.innerHTML="";$("#navz").textContent="";return}
   $("#navz").textContent=`${t("zone")} ${z.id}`;
@@ -463,7 +463,7 @@ function navPanel(){
     `<div class="navbtns"><button class="nbtn" type="button" id="gpxb">⬇ ${t("gpx")}</button><a class="nbtn" href="geo:${z.lat},${z.lon}?q=${z.lat},${z.lon}(${encodeURIComponent("Zone "+z.id)})">${t("openapp")}</a></div><p class="note">${t("navnote")}</p>`;
   box.querySelectorAll(".cbtn").forEach(b=>b.onclick=()=>copyText(rows[+b.dataset.i][1],b,t("copiedc"),t("copyc")));
   $("#gpxb").onclick=function(){const b=this;try{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([gpxFile()],{type:"application/gpx+xml"}));
-    a.download=`dakhla-${"radar"}-${P.date||DATA.day}.gpx`;document.body.appendChild(a);a.click();a.remove();b.textContent="✓ "+t("gpxok");setTimeout(()=>b.textContent="⬇ "+t("gpx"),1600)}catch(e){copyText(gpxFile(),b,t("copiedc"),"⬇ "+t("gpx"))}};
+    a.download=`madar-${"large"}-${P.date||DATA.day}.gpx`;document.body.appendChild(a);a.click();a.remove();b.textContent="✓ "+t("gpxok");setTimeout(()=>b.textContent="⬇ "+t("gpx"),1600)}catch(e){copyText(gpxFile(),b,t("copiedc"),"⬇ "+t("gpx"))}};
 }
 
 /* ---------- conditions ---------- */
@@ -547,7 +547,7 @@ function select(i){PI=i;ZI=0;try{localStorage.setItem("rr_p",i)}catch(e){}P=DATA
 /* ---------- boot ---------- */
 function boot(){
   const b=$("#boot"),l=$("#bootl");
-  if(!DATA){b.classList.add("off");$(".mapbox").innerHTML='<div class="empty">No data yet. Run radar.py to build today\'s map.</div>';return}
+  if(!DATA){b.classList.add("off");$(".mapbox").innerHTML='<div class="empty">No data yet. Run the daily job to build today\'s map.</div>';return}
   $("#demo").hidden=!DATA.demo;texts();if(PI>=DATA.points.length)PI=0;size();select(PI);requestAnimationFrame(frame);
   const S=DATA.sources||{};
   const rows=[["SEA TEMPERATURE",S.SST||"DEMO",S.SST?"":"w"],["CHLOROPHYLL",S.CHL||"—",S.CHL?"":"w"],["FRONT DETECTION","OK",""],["3-DAY OUTLOOK",((DATA.forecast||{}).days||[]).length+" DAYS",""],["ZONES",DATA.zones.length+"",""],["WIND · WAVES",DATA.conditions?"OK":"—",DATA.conditions?"":"w"]];
