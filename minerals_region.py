@@ -213,6 +213,9 @@ def ratios(b):
         "ree": (b["rededge1"] + b["nir08"]) / (b["rededge2"] + b["rededge3"] + eps),
         "swir22": b["swir22"], "bright": bright,
     }
+    # Damp ground: sabkha floors and wet flats are dark in the SWIR and mimic iron / clay anomalies.
+    ndmi = (b["nir08"] - b["swir16"]) / (b["nir08"] + b["swir16"] + eps)
+    r["wet"] = (ndmi > -0.06) & np.isfinite(ndmi)
     rgb = np.dstack([b["red"], b["green"], b["blue"]])
     return ok, r, rgb
 
@@ -220,6 +223,7 @@ def ratios(b):
 def scan(demo):
     h, w = shape()
     keys = ["clay", "ferric", "ferrous", "ree", "swir22", "bright"]
+    wet = np.zeros((h, w), bool)
     G = {k: np.full((h, w), np.nan, "float16") for k in keys}
     valid = np.zeros((h, w), bool)
     filled = np.zeros((h, w), bool)
@@ -232,6 +236,8 @@ def scan(demo):
         ok, r, col = ratios(b)
         for k in keys:
             G[k][:] = r[k]
+        wet[:] = r["wet"]
+        G["wet"] = wet
         valid[:] = ok & inside
         land[:] = (b["scl"] != 6) & inside
         rgb[:] = to8(col)
@@ -269,6 +275,7 @@ def scan(demo):
                 sub = G[k][r0:r1, c0:c1]
                 sub[put] = r[k][put]
             valid[r0:r1, c0:c1][put] = ok[put]
+            wet[r0:r1, c0:c1][put] = r["wet"][put]
             rgb[r0:r1, c0:c1][put] = to8(col)[put]
             filled[r0:r1, c0:c1] |= put
             land[r0:r1, c0:c1] |= put & (b["scl"] != 6)
@@ -280,6 +287,7 @@ def scan(demo):
                 it.id, rec["date"], rec["cloud"], put.sum() / 1e6, 100 * (filled & inside).sum() / inside.sum()))
     valid &= inside
     land &= inside
+    G["wet"] = wet
     return G, valid, rgb, inside, land, used, by_id
 
 
@@ -346,7 +354,18 @@ def outcrop(G, valid):
     tex[~valid] = np.nan
     thr = float(np.nanpercentile(tex[valid][::7], 50))
     bright = G["bright"].astype("float32")
-    keep = valid & (tex >= thr) & (bright < 0.38)
+    damp = ndimage.binary_dilation(G["wet"], iterations=4)          # sabkhas + 400 m margin
+    keep = valid & (tex >= thr) & (bright < 0.38) & ~damp
+    # towns, ports and roads around them light up too: leave 6 km around each town out
+    lat0, lat1, lon0, lon1 = BOX
+    r = int(round(6.0 / (RES * 111)))
+    for tw in TOWNS:
+        j, i = int((lat1 - tw["lat"]) / RES), int((tw["lon"] - lon0) / RES)
+        y0, x0, y1, x1 = max(j - r, 0), max(i - r, 0), min(j + r + 1, keep.shape[0]), min(i + r + 1, keep.shape[1])
+        if y1 > y0 and x1 > x0:
+            yy, xx = np.ogrid[y0 - j:y1 - j, x0 - i:x1 - i]
+            keep[y0:y1, x0:x1] &= (yy * yy + xx * xx) > r * r
+    print(f"[mask] damp ground (sabkha) removed: {damp[valid].mean() * 100:.1f}% of valid")
     print(f"[mask] valid {valid.mean() * 100:.1f}% of box, rock outcrop kept {keep.sum() / max(valid.sum(), 1) * 100:.1f}% of valid")
     return keep, tex
 
