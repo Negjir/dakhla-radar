@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Madar · Huîtres · Dakhla</title>
+<meta name="description" content="Madar Huîtres — veille quotidienne de l'eau des parcs conchylicoles de la baie de Dakhla par satellite.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Spectral:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<!--
+  Madar Oysters console. Data is injected by oyster.py (replaces the DATA placeholder).
+  Identity: nacre (pearl) paper, deep lagoon ink, oyster-shell greys, a single nacre-violet accent.
+-->
+<style>
+:root{
+  --paper:#f4f1ea; --paper-2:#ebe6dc; --card:#fbf9f5; --ink:#10282c; --ink-2:#3e5458; --mute:#7c8a88;
+  --rule:#d8d1c3; --lagoon:#145a63; --lagoon-2:#1f7a83; --nacre:#8a6fb0; --nacre-2:#b9a5d6;
+  --ok:#2f8a5b; --warn:#c08a1e; --bad:#b4442f;
+  --ok-bg:#e5f1ea; --warn-bg:#f7eed8; --bad-bg:#f6e2dc;
+  --shadow:0 1px 0 rgba(16,40,44,.04),0 8px 24px -14px rgba(16,40,44,.25);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0d1d20; --paper-2:#112529; --card:#132a2e; --ink:#eef0ea; --ink-2:#c3cdc9; --mute:#8a9b98;
+  --rule:#27434a; --lagoon:#5fb6be; --lagoon-2:#7fd0d6; --nacre:#b9a5d6; --nacre-2:#d6c9ea;
+  --ok-bg:#16352a; --warn-bg:#3a2f15; --bad-bg:#3d1e18; --shadow:none}}
+:root[data-theme="dark"]{
+  --paper:#0d1d20; --paper-2:#112529; --card:#132a2e; --ink:#eef0ea; --ink-2:#c3cdc9; --mute:#8a9b98;
+  --rule:#27434a; --lagoon:#5fb6be; --lagoon-2:#7fd0d6; --nacre:#b9a5d6; --nacre-2:#d6c9ea;
+  --ok-bg:#16352a; --warn-bg:#3a2f15; --bad-bg:#3d1e18; --shadow:none}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink)}
+body{font:15px/1.6 "IBM Plex Sans Arabic","IBM Plex Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+html[lang="fr"] body{font-family:"IBM Plex Sans",system-ui,sans-serif}
+a{color:var(--lagoon)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header{border-bottom:1px solid var(--rule);background:linear-gradient(180deg,var(--paper-2),var(--paper))}
+.hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;min-width:0}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:40px;height:40px;flex:none}
+.brand b{display:block;font:600 22px/1.1 "Amiri",serif;letter-spacing:.01em}
+html[lang="fr"] .brand b{font:600 21px/1.1 "Spectral",serif}
+.brand small{display:block;color:var(--mute);font:500 11px/1.4 "IBM Plex Sans",sans-serif;letter-spacing:.18em;text-transform:uppercase}
+.tools{display:flex;gap:6px;flex:none}
+.tools button{border:1px solid var(--rule);background:var(--card);color:var(--ink-2);border-radius:999px;padding:6px 12px;font:500 13px "IBM Plex Sans",sans-serif;cursor:pointer}
+.tools button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.status{margin:20px 0 8px;border-radius:14px;padding:18px 20px;display:grid;grid-template-columns:auto 1fr;gap:6px 16px;align-items:center;box-shadow:var(--shadow);border:1px solid var(--rule);background:var(--card)}
+.status .dot{width:16px;height:16px;border-radius:50%;grid-row:span 2}
+.status h1{margin:0;font:600 24px/1.25 "Amiri",serif}
+html[lang="fr"] .status h1{font:600 22px/1.3 "Spectral",serif}
+.status p{margin:0;color:var(--ink-2);font-size:14px}
+.l0 .dot{background:var(--ok);box-shadow:0 0 0 6px var(--ok-bg)} .l1 .dot{background:var(--warn);box-shadow:0 0 0 6px var(--warn-bg)} .l2 .dot{background:var(--bad);box-shadow:0 0 0 6px var(--bad-bg)}
+.demo{background:var(--warn-bg);color:var(--ink);border-radius:10px;padding:8px 12px;margin:10px 0;font-size:13px}
+.grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px;margin:18px 0}
+@media (max-width:980px){.grid{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--card);border:1px solid var(--rule);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;min-width:0}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;border-bottom:1px solid var(--rule);flex-wrap:wrap}
+.ph h2{margin:0;font:600 15px/1.3 "IBM Plex Sans Arabic","IBM Plex Sans",sans-serif}
+.ph small{color:var(--mute);font-size:12px}
+.seg{display:flex;gap:4px;flex-wrap:wrap}
+.seg button{border:1px solid var(--rule);background:transparent;color:var(--ink-2);border-radius:8px;padding:5px 10px;font:500 12.5px inherit;font-family:inherit;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--lagoon);border-color:var(--lagoon);color:#fff}
+.map{position:relative;background:#0b2226;aspect-ratio:var(--ar,1.25)}
+.map canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.legend{display:flex;align-items:center;gap:8px;padding:10px 14px;font-size:12px;color:var(--ink-2);flex-wrap:wrap;border-top:1px solid var(--rule)}
+.ramp{height:8px;width:150px;border-radius:4px}
+.note{color:var(--mute);font-size:12px;padding:0 14px 12px}
+.zones{display:grid;gap:10px;padding:12px}
+.zone{border:1px solid var(--rule);border-radius:12px;padding:12px 14px;cursor:pointer;background:var(--card);text-align:start;font:inherit;color:inherit;width:100%}
+.zone[aria-pressed="true"]{border-color:var(--lagoon);box-shadow:inset 0 0 0 1px var(--lagoon)}
+.zt{display:flex;align-items:center;gap:10px;justify-content:space-between}
+.zt b{font-size:16px}
+.chip{font-size:12px;border-radius:999px;padding:2px 10px;font-weight:600;white-space:nowrap}
+.c0{background:var(--ok-bg);color:var(--ok)} .c1{background:var(--warn-bg);color:var(--warn)} .c2{background:var(--bad-bg);color:var(--bad)}
+.nums{display:flex;gap:16px;margin:6px 0 4px;flex-wrap:wrap;font:500 13px "IBM Plex Sans",sans-serif;color:var(--ink-2)}
+.nums span b{color:var(--ink);font-size:16px}
+.why{margin:4px 0 0;padding:0;list-style:none;font-size:13.5px;color:var(--ink-2)}
+.why li{padding-inline-start:14px;position:relative;margin:2px 0}
+.why li:before{content:"";position:absolute;inset-inline-start:0;top:.65em;width:6px;height:6px;border-radius:50%;background:var(--mute)}
+.why li.w1:before{background:var(--warn)} .why li.w2:before{background:var(--bad)} .why li.w0:before{background:var(--ok)}
+.charts{padding:6px 14px 14px}
+.charts h3{margin:12px 0 2px;font:600 13px inherit;font-family:inherit;color:var(--ink-2)}
+svg.ch{width:100%;height:150px;display:block;direction:ltr}
+.row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;margin:0 0 18px}
+@media (max-width:980px){.row2{grid-template-columns:minmax(0,1fr)}}
+pre.msg{white-space:pre-wrap;margin:0;padding:14px;font:13.5px/1.7 "IBM Plex Sans Arabic","IBM Plex Sans",sans-serif;color:var(--ink);max-height:360px;overflow:auto}
+.btns{display:flex;gap:8px;padding:0 14px 14px;flex-wrap:wrap}
+.btn{border:1px solid var(--lagoon);background:var(--lagoon);color:#fff;border-radius:10px;padding:8px 14px;font:600 13px inherit;font-family:inherit;cursor:pointer;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--lagoon)}
+details{border-top:1px solid var(--rule);padding:12px 14px}
+details summary{cursor:pointer;font-weight:600}
+details p,details li{color:var(--ink-2);font-size:14px}
+.warnbox{margin:18px 0;border-inline-start:4px solid var(--nacre);background:var(--card);border-radius:10px;padding:12px 16px;font-size:14px;color:var(--ink-2);box-shadow:var(--shadow)}
+footer{color:var(--mute);font-size:12.5px;padding:24px 0 40px;border-top:1px solid var(--rule);margin-top:10px}
+footer a{margin-inline-end:14px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;padding:12px 14px;font-size:13.5px}
+.kv dt{color:var(--mute)} .kv dd{margin:0}
+.ltr{direction:ltr;unicode-bidi:isolate}
+</style>
+</head>
+<body>
+<header><div class="wrap hd">
+  <div class="brand">
+    <svg class="mark" viewBox="0 0 40 40" aria-hidden="true"><defs><radialGradient id="pg" cx="38%" cy="34%" r="70%"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#e7def3"/><stop offset="1" stop-color="#9c86c2"/></radialGradient></defs>
+      <path d="M6 22c0-9 7-16 15-16s13 6 13 13c0 9-8 15-16 15C11 34 6 29 6 22z" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".55"/>
+      <path d="M10 22c2-6 7-10 12-10" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".35"/>
+      <circle cx="21" cy="21" r="6.2" fill="url(#pg)"/></svg>
+    <div><b id="t-brand">مدار · المحار</b><small>Madar · Huîtres · Dakhla</small></div>
+  </div>
+  <div class="tools"><button data-l="ar" aria-pressed="true">ع</button><button data-l="fr" aria-pressed="false">FR</button></div>
+</div></header>
+
+<main class="wrap">
+  <div id="demo" class="demo" hidden></div>
+  <section id="status" class="status"><span class="dot"></span><h1 id="st-h"></h1><p id="st-p"></p></section>
+
+  <div class="grid">
+    <section class="panel">
+      <div class="ph"><h2 id="t-map"></h2>
+        <div class="seg" id="layers"><button data-k="chl" aria-pressed="true"></button><button data-k="turb" aria-pressed="false"></button><button data-k="true" aria-pressed="false"></button></div></div>
+      <div class="map" id="map"><canvas id="cv"></canvas></div>
+      <div class="legend" id="legend"></div>
+      <div class="note" id="t-approx"></div>
+    </section>
+    <section class="panel">
+      <div class="ph"><h2 id="t-zones"></h2><small id="t-zones-s"></small></div>
+      <div class="zones" id="zones"></div>
+    </section>
+  </div>
+
+  <div class="row2">
+    <section class="panel">
+      <div class="ph"><h2 id="t-trend"></h2><small id="t-trend-z"></small></div>
+      <div class="charts"><h3 id="t-sst"></h3><svg class="ch" id="ch-sst"></svg><h3 id="t-chl"></h3><svg class="ch" id="ch-chl"></svg></div>
+    </section>
+    <section class="panel">
+      <div class="ph"><h2 id="t-msg"></h2><small id="t-msg-s"></small></div>
+      <pre class="msg" id="msg"></pre>
+      <div class="btns"><button class="btn" id="copy"></button><a class="btn ghost" id="wa" target="_blank" rel="noopener"></a></div>
+      <div class="ph" style="border-top:1px solid var(--rule)"><h2 id="t-wind"></h2><small id="t-wind-s"></small></div>
+      <div class="charts"><svg class="ch" id="ch-wind" style="height:110px"></svg></div>
+    </section>
+  </div>
+
+  <div class="warnbox" id="t-toxin"></div>
+
+  <section class="panel">
+    <details open><summary id="t-how"></summary><div id="how"></div></details>
+    <details><summary id="t-src"></summary><dl class="kv" id="src"></dl></details>
+  </section>
+</main>
+<footer><div class="wrap"><span id="t-made"></span><br><a href="../coastal/" id="f1"></a><a href="../" id="f2"></a><a href="../minerals/" id="f3"></a></div></footer>
+
+<script>
+const DATA=/*__DATA__*/null;
+const T={
+ ar:{brand:"مدار · المحار",map:"خليج الداخلة من القمر",chl:"الطحالب",turb:"العكارة",true:"صورة حقيقية",
+  zones:"مناطق المحار",zs:"اضغط على منطقة لرؤية منحنياتها",trend:"آخر 30 يوماً",sst:"حرارة الماء °C",chlt:"الكلوروفيل mg/m³ (غذاء المحار، وأول علامة لازدهار الطحالب)",
+  msg:"رسالة اليوم للمربين",msgs:"انسخها وأرسلها في مجموعة WhatsApp",copy:"نسخ الرسالة",copied:"✓ نُسخت",wa:"إرسال عبر WhatsApp",
+  wind:"الرياح 48 ساعة",winds:"عقدة",work:"رياح قوية للعمل في الأحواض",
+  st:["الوضع هادئ في كل المناطق","انتباه في بعض المناطق","إنذار: إشارة قوية في منطقة أو أكثر"],
+  stp:(d)=>`حرارة الماء: ${d.sst_day||"–"} · الكلوروفيل: ${d.chl_day||"–"} · صورة Sentinel-2: ${d.s2?d.s2.day:"لا صورة صافية"}`,
+  lv:["هادئ","انتباه","إنذار"],approx:"مواقع المناطق تقريبية حسب أسماء النشرات الرسمية. صححوها معنا بإحداثيات أحواضكم الحقيقية.",
+  noimg:"لا توجد صورة Sentinel-2 صافية للخليج في الأيام الأخيرة (غيوم).",
+  lgChl:["ماء صافٍ","أخضر","طحالب كثيفة"],lgTurb:["صافٍ","عكر"],lgTrue:"ألوان طبيعية كما تراها العين",
+  s2date:(s)=>`صورة ${s.day} (قبل ${s.age} يوم)`,ndci:"مؤشر الطحالب",fnu:"عكارة",
+  toxin:"<b>الأقمار لا تقيس السموم.</b> مدار المحار إنذار مبكر يقول لكم <b>أين ومتى</b> تزيدون أخذ العينات. قرار الجني والبيع يبقى فقط لنشرات المعهد الوطني للبحث في الصيد البحري (INRH) وكتابة الدولة المكلفة بالصيد البحري.",
+  how:"كيف يعمل؟",src:"المصادر والتواريخ",
+  howh:`<ul><li><b>الكلوروفيل</b> (من أقمار لون المحيط، 1 كم): هو غذاء المحار. لكن إذا تضاعف فجأة عن معدل الشهر فهذا ازدهار طحالب، وبعض الطحالب تنتج سموماً.</li>
+  <li><b>حرارة الماء</b> (NASA MUR، 1 كم): فوق 24° يبدأ الإجهاد، وفوق 26° يرتفع خطر النفوق. والبرودة المفاجئة تعني دخول مياه عميقة غنية قد يتبعها ازدهار.</li>
+  <li><b>صورة Sentinel-2</b> (20 م): نرى الخليج كله، فنعرف <b>أين</b> بالضبط الماء الأخضر أو العكر. مؤشر الطحالب (NDCI) يقارن الأحمر بالأحمر الحافي.</li>
+  <li><b>الرياح</b>: للعمل في الأحواض، ولأن الرياح الشمالية القوية تدفع الماء البارد الغني إلى الساحل.</li></ul>
+  <p><b>حدود:</b> الخليج ضحل، فالقاع قد يؤثر على الصورة في المياه الضحلة جداً. البيانات بدقة 1 كم تعطي صورة عامة لكل منطقة وليس لكل حوض. الغيوم تمنع الصورة بعض الأيام.</p>`,
+  made:(d)=>`تحديث ${d.made} · يتجدد كل صباح تلقائياً`,f1:"مدار الساحل",f2:"مدار السفن الكبيرة",f3:"مدار المعادن",
+  srck:{sst:"حرارة الماء",chl:"الكلوروفيل",s2:"الصورة",wind:"الرياح"},demo:"بيانات تجريبية للعرض فقط، وليست قياسات حقيقية."},
+ fr:{brand:"Madar · Huîtres",map:"La baie de Dakhla vue du satellite",chl:"Algues",turb:"Turbidité",true:"Couleurs réelles",
+  zones:"Zones conchylicoles",zs:"Touchez une zone pour voir ses courbes",trend:"30 derniers jours",sst:"Température de l'eau °C",chlt:"Chlorophylle mg/m³ (nourriture de l'huître, premier signe d'efflorescence)",
+  msg:"Message du jour aux ostréiculteurs",msgs:"À copier dans le groupe WhatsApp",copy:"Copier le message",copied:"✓ Copié",wa:"Envoyer par WhatsApp",
+  wind:"Vent 48 h",winds:"nœuds",work:"Vent fort pour le travail sur les parcs",
+  st:["Situation calme dans toutes les zones","Vigilance dans certaines zones","Alerte : signal fort dans une zone ou plus"],
+  stp:(d)=>`Température : ${d.sst_day||"–"} · Chlorophylle : ${d.chl_day||"–"} · Image Sentinel-2 : ${d.s2?d.s2.day:"pas d'image claire"}`,
+  lv:["Calme","Vigilance","Alerte"],approx:"Positions des zones approximatives (noms des bulletins officiels). Corrigez-les avec les coordonnées réelles de vos parcs.",
+  noimg:"Pas d'image Sentinel-2 claire de la baie ces derniers jours (nuages).",
+  lgChl:["eau claire","verte","algues denses"],lgTurb:["claire","trouble"],lgTrue:"Couleurs naturelles, comme à l'œil",
+  s2date:(s)=>`Image du ${s.day} (il y a ${s.age} j)`,ndci:"indice algues",fnu:"turbidité",
+  toxin:"<b>Les satellites ne mesurent pas les toxines.</b> Madar Huîtres est une alerte précoce qui indique <b>où et quand</b> renforcer les prélèvements. La décision de récolte et de vente relève uniquement des bulletins de l'INRH et du Département de la Pêche maritime.",
+  how:"Comment ça marche ?",src:"Sources et dates",
+  howh:`<ul><li><b>Chlorophylle</b> (couleur de l'océan, 1 km) : la nourriture de l'huître. Une hausse brutale par rapport au mois signale une efflorescence ; certaines microalgues produisent des toxines.</li>
+  <li><b>Température</b> (NASA MUR, 1 km) : stress au-delà de 24°, risque de mortalité au-delà de 26°. Un refroidissement brutal signale une remontée d'eau profonde riche, souvent suivie d'efflorescences.</li>
+  <li><b>Image Sentinel-2</b> (20 m) : toute la baie, pour voir <b>où</b> l'eau est verte ou trouble. L'indice algues (NDCI) compare le rouge et le red-edge.</li>
+  <li><b>Vent</b> : pour le travail sur les parcs, et parce que le vent du nord fort pousse l'eau froide et riche vers la côte.</li></ul>
+  <p><b>Limites :</b> baie peu profonde, le fond peut influencer l'image sur les hauts-fonds. Les données à 1 km donnent une image par zone, pas par parc. Les nuages bloquent l'image certains jours.</p>`,
+  made:(d)=>`Mis à jour ${d.made} · actualisé chaque matin`,f1:"Madar Côte",f2:"Madar Large",f3:"Madar Minerais",
+  srck:{sst:"Température",chl:"Chlorophylle",s2:"Image",wind:"Vent"},demo:"Données de démonstration, pas des mesures réelles."}
+};
+let L=(()=>{try{return localStorage.getItem("madar-lang")||"ar"}catch(e){return "ar"}})();
+let LAYER="chl",SEL=null;
+const $=s=>document.querySelector(s);
+const t=k=>T[L][k];
+const COL=["var(--ok)","var(--warn)","var(--bad)"];
+const imgs={};
+function loadImg(k,src){return new Promise(r=>{const i=new Image();i.onload=()=>{imgs[k]=i;r()};i.onerror=()=>r();i.src=src+"?v="+encodeURIComponent(DATA.made)})}
+
+function lang(l){L=l;try{localStorage.setItem("madar-lang",l)}catch(e){}
+  document.documentElement.lang=l;document.documentElement.dir=l==="ar"?"rtl":"ltr";
+  document.querySelectorAll(".tools button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===l));render()}
+
+function render(){
+  const d=DATA;
+  $("#t-brand").textContent=t("brand");
+  $("#demo").hidden=!d.demo;$("#demo").textContent=t("demo");
+  $("#status").className="status l"+d.level;$("#st-h").textContent=t("st")[d.level];$("#st-p").textContent=t("stp")(d);
+  $("#t-map").textContent=t("map");
+  document.querySelectorAll("#layers button").forEach(b=>{b.textContent=t(b.dataset.k);b.setAttribute("aria-pressed",b.dataset.k===LAYER)});
+  $("#t-approx").textContent=(d.s2?t("s2date")(d.s2)+" · ":"")+t("approx");
+  $("#t-zones").textContent=t("zones");$("#t-zones-s").textContent=t("zs");
+  $("#t-trend").textContent=t("trend");$("#t-sst").textContent=t("sst");$("#t-chl").textContent=t("chlt");
+  $("#t-msg").textContent=t("msg");$("#t-msg-s").textContent=t("msgs");
+  $("#msg").textContent=L==="ar"?d.msg_ar:d.msg_fr;$("#copy").textContent=t("copy");
+  $("#wa").textContent=t("wa");$("#wa").href="https://wa.me/?text="+encodeURIComponent(L==="ar"?d.msg_ar:d.msg_fr);
+  $("#t-wind").textContent=t("wind");$("#t-wind-s").textContent=d.wind?`${t("winds")} · max ${d.wind.max_kn}`:"–";
+  $("#t-toxin").innerHTML=t("toxin");$("#t-how").textContent=t("how");$("#how").innerHTML=t("howh");$("#t-src").textContent=t("src");
+  const S=d.sources||{},K=t("srck");
+  $("#src").innerHTML=Object.keys(K).map(k=>`<dt>${K[k]}</dt><dd>${S[k]||"–"}${k==="sst"&&d.sst_day?" · "+d.sst_day:""}${k==="chl"&&d.chl_day?" · "+d.chl_day:""}${k==="s2"&&d.s2?" · "+d.s2.day:""}</dd>`).join("");
+  $("#t-made").textContent=t("made")(d);$("#f1").textContent=t("f1");$("#f2").textContent=t("f2");$("#f3").textContent=t("f3");
+  zonesList();legend();draw();charts();windChart();
+}
+
+function zname(z){return L==="ar"?z.ar:z.fr}
+function zonesList(){
+  const box=$("#zones");box.innerHTML="";
+  DATA.zones.forEach(z=>{
+    const b=document.createElement("button");b.className="zone";b.setAttribute("aria-pressed",SEL===z.id);
+    const s2=z.s2||{};
+    const nums=[`<span><b class="ltr">${z.sst!=null?z.sst.toFixed(1)+"°":"–"}</b></span>`,
+      `<span>chl <b class="ltr">${z.chl!=null?z.chl.toFixed(1):"–"}</b>${z.chl_ratio?` <span class="ltr">×${z.chl_ratio.toFixed(1)}</span>`:""}</span>`];
+    if(s2.ndci!=null)nums.push(`<span>${t("ndci")} <b class="ltr">${s2.ndci.toFixed(2)}</b></span>`);
+    if(s2.turb!=null)nums.push(`<span>${t("fnu")} <b class="ltr">${s2.turb.toFixed(0)}</b></span>`);
+    b.innerHTML=`<div class="zt"><b>${zname(z)}</b><span class="chip c${z.level}">${t("lv")[z.level]}</span></div>
+      <div class="nums">${nums.join("")}</div><ul class="why">${z.reasons.map(r=>`<li class="w${r.level}">${L==="ar"?r.ar:r.fr}</li>`).join("")}</ul>`;
+    b.onclick=()=>{SEL=SEL===z.id?null:z.id;zonesList();draw();charts()};
+    box.appendChild(b)});
+}
+
+function legend(){
+  const g=$("#legend");
+  if(LAYER==="true"){g.innerHTML=`<span>${t("lgTrue")}</span>`;return}
+  if(LAYER==="chl"){const l=t("lgChl");g.innerHTML=`<span>${l[0]}</span><span class="ramp" style="background:linear-gradient(90deg,#2846a0,#3c96be,#78c896,#f0d250,#dc5a32,#961428)"></span><span>${l[2]}</span>`}
+  else{const l=t("lgTurb");g.innerHTML=`<span>${l[0]}</span><span class="ramp" style="background:linear-gradient(90deg,#1e3c78,#468cb4,#bebe8c,#be8246,#784628)"></span><span>${l[1]}</span>`}
+  if(document.dir==="rtl")g.querySelector(".ramp").style.transform="scaleX(-1)";
+}
+
+function draw(){
+  const cv=$("#cv"),box=$("#map"),r=box.getBoundingClientRect(),dpr=window.devicePixelRatio||1;
+  cv.width=Math.round(r.width*dpr);cv.height=Math.round(r.height*dpr);
+  const c=cv.getContext("2d");c.setTransform(dpr,0,0,dpr,0,0);const W=r.width,H=r.height;
+  c.fillStyle="#0b2226";c.fillRect(0,0,W,H);
+  const [la0,la1,lo0,lo1]=DATA.box;
+  const X=lo=>(lo-lo0)/(lo1-lo0)*W,Y=la=>(la1-la)/(la1-la0)*H;
+  if(imgs.true){c.globalAlpha=LAYER==="true"?1:.55;c.drawImage(imgs.true,0,0,W,H);c.globalAlpha=1}
+  if(LAYER!=="true"&&imgs[LAYER])c.drawImage(imgs[LAYER],0,0,W,H);
+  if(!imgs.true){c.fillStyle="#cfe3e4";c.font="14px sans-serif";c.textAlign="center";c.fillText(t("noimg"),W/2,H/2)}
+  const kmPx=W/((lo1-lo0)*111*Math.cos(23.76*Math.PI/180));
+  DATA.zones.forEach(z=>{
+    const x=X(z.lon),y=Y(z.lat),rr=DATA.zone_km*kmPx,col=getComputedStyle(document.documentElement).getPropertyValue(["--ok","--warn","--bad"][z.level]).trim();
+    c.beginPath();c.arc(x,y,rr,0,7);c.lineWidth=SEL===z.id?3:2;c.strokeStyle=col;c.setLineDash(z.approx?[5,4]:[]);c.stroke();c.setLineDash([]);
+    c.beginPath();c.arc(x,y,4,0,7);c.fillStyle=col;c.fill();
+    c.font="600 13px 'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif";c.textAlign="center";
+    const label=zname(z),tw=c.measureText(label).width+12;
+    c.fillStyle="rgba(10,30,34,.78)";c.beginPath();c.roundRect?c.roundRect(x-tw/2,y-rr-24,tw,20,6):c.rect(x-tw/2,y-rr-24,tw,20);c.fill();
+    c.fillStyle="#fff";c.fillText(label,x,y-rr-9)});
+  // scale bar + north
+  const sb=5*kmPx,x0=document.dir==="rtl"?W-16-sb:16,y0=H-18;
+  c.strokeStyle="#fff";c.lineWidth=2;c.beginPath();c.moveTo(x0,y0);c.lineTo(x0+sb,y0);c.stroke();
+  c.fillStyle="#fff";c.font="11px 'IBM Plex Sans',sans-serif";c.textAlign="center";c.fillText("5 km",x0+sb/2,y0-6);
+  const nx=document.dir==="rtl"?22:W-22;c.beginPath();c.moveTo(nx,14);c.lineTo(nx-6,30);c.lineTo(nx+6,30);c.closePath();c.fill();c.fillText("N",nx,44);
+}
+
+function line(svg,days,series,unit,opts={}){
+  const el=$(svg),W=el.clientWidth||600,H=el.clientHeight||150,p={l:34,r:10,t:10,b:20};
+  const sel=SEL?DATA.zones.filter(z=>z.id===SEL):DATA.zones;
+  const all=sel.flatMap(z=>z[series]).filter(v=>v!=null);
+  if(!all.length||!days.length){el.innerHTML=`<text x="50%" y="50%" text-anchor="middle" fill="var(--mute)" font-size="12">–</text>`;return}
+  let lo=Math.min(...all),hi=Math.max(...all);if(opts.zero)lo=0;const pad=(hi-lo)*.12||1;lo-=opts.zero?0:pad;hi+=pad;
+  const n=days.length,X=i=>p.l+i*(W-p.l-p.r)/Math.max(1,n-1),Y=v=>p.t+(hi-v)/(hi-lo)*(H-p.t-p.b);
+  const rtl=document.dir==="rtl",FX=i=>X(i);
+  let s=`<g font-size="10" fill="var(--mute)" font-family="IBM Plex Sans">`;
+  for(let k=0;k<=3;k++){const v=lo+(hi-lo)*k/3,y=Y(v);s+=`<line x1="${p.l}" x2="${W-p.r}" y1="${y}" y2="${y}" stroke="var(--rule)"/><text x="4" y="${y+3}" text-anchor="start">${v.toFixed(v<10?1:0)}</text>`}
+  [0,Math.floor(n/2),n-1].forEach((i,k)=>s+=`<text x="${FX(i)}" y="${H-4}" text-anchor="${["start","middle","end"][k]}">${days[i].slice(5)}</text>`);
+  s+="</g>";
+  if(opts.th)opts.th.forEach(([v,col])=>{if(v>lo&&v<hi)s+=`<line x1="${p.l}" x2="${W-p.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="${col}" stroke-dasharray="4 4" opacity=".8"/>`});
+  const pal=["#145a63","#8a6fb0","#c08a1e","#2f8a5b","#b4442f"];
+  sel.forEach((z,zi)=>{const vals=z[series];let d="",pen=false;vals.forEach((v,i)=>{if(v==null){pen=false;return}d+=(pen?"L":"M")+FX(i).toFixed(1)+","+Y(v).toFixed(1);pen=true});
+    const col=SEL?"var(--lagoon)":pal[DATA.zones.indexOf(z)%pal.length];
+    s+=`<path d="${d}" fill="none" stroke="${col}" stroke-width="${SEL?2.5:1.6}" stroke-linejoin="round"/>`;
+    const li=vals.length-1-[...vals].reverse().findIndex(v=>v!=null);if(li<vals.length&&vals[li]!=null)s+=`<circle cx="${FX(li)}" cy="${Y(vals[li])}" r="3" fill="${col}"/>`});
+  el.innerHTML=s;
+}
+function charts(){
+  const z=SEL&&DATA.zones.find(z=>z.id===SEL);$("#t-trend-z").textContent=z?zname(z):(L==="ar"?"كل المناطق":"Toutes les zones");
+  line("#ch-sst",DATA.sst_days,"sst_series","°",{th:[[DATA.limits.sst_warm,"var(--warn)"],[DATA.limits.sst_hot,"var(--bad)"]]});
+  line("#ch-chl",DATA.chl_days,"chl_series","",{zero:true,th:[[DATA.limits.chl_high,"var(--warn)"]]});
+}
+function windChart(){
+  const el=$("#ch-wind"),w=DATA.wind;if(!w){el.innerHTML="";return}
+  const W=el.clientWidth||600,H=el.clientHeight||110,n=w.speed.length,mx=Math.max(30,...w.speed.filter(v=>v!=null)),bw=(W-20)/n,rtl=document.dir==="rtl";
+  let s="";w.speed.forEach((v,i)=>{if(v==null)return;const h=(v/mx)*(H-24),x=10+i*bw;
+    s+=`<rect x="${x+.5}" y="${H-16-h}" width="${Math.max(1,bw-1)}" height="${h}" fill="${v>=DATA.limits.wind_work_kn?"var(--bad)":v>=18?"var(--warn)":"var(--lagoon-2)"}" rx="1"/>`});
+  const y=H-16-(DATA.limits.wind_work_kn/mx)*(H-24);
+  s+=`<line x1="10" x2="${W-10}" y1="${y}" y2="${y}" stroke="var(--bad)" stroke-dasharray="4 4"/><text x="${W-12}" y="${y-4}" font-size="10" fill="var(--bad)" text-anchor="end">${t("work")} · ${DATA.limits.wind_work_kn} kn</text>`;
+  s+=`<text x="10" y="${H-3}" font-size="10" fill="var(--mute)">${w.t0.replace("T"," ")}</text><text x="${W-10}" y="${H-3}" font-size="10" fill="var(--mute)" text-anchor="end">+48 h</text>`;
+  el.innerHTML=s;
+}
+
+document.querySelectorAll(".tools button").forEach(b=>b.onclick=()=>lang(b.dataset.l));
+document.querySelectorAll("#layers button").forEach(b=>b.onclick=()=>{LAYER=b.dataset.k;render()});
+$("#copy").onclick=async()=>{try{await navigator.clipboard.writeText($("#msg").textContent);$("#copy").textContent=t("copied");setTimeout(()=>$("#copy").textContent=t("copy"),1500)}catch(e){}};
+let rz;addEventListener("resize",()=>{clearTimeout(rz);rz=setTimeout(()=>{draw();charts();windChart()},120)});
+
+(async()=>{
+  if(!DATA){document.body.innerHTML="<p style='padding:20px'>No data yet.</p>";return}
+  if(DATA.s2&&DATA.s2.size){document.querySelector("#map").style.setProperty("--ar",(DATA.s2.size[0]/DATA.s2.size[1]).toFixed(3))}
+  else{const[a0,a1,o0,o1]=DATA.box;document.querySelector("#map").style.setProperty("--ar",((o1-o0)*Math.cos(23.76*Math.PI/180)/(a1-a0)).toFixed(3))}
+  lang(L);
+  if(DATA.s2){await Promise.all([loadImg("true","s2_true.jpg"),loadImg("chl","s2_chl.png"),loadImg("turb","s2_turb.png")]);draw()}
+})();
+</script>
+</body>
+</html>

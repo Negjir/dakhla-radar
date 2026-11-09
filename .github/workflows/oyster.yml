@@ -1,0 +1,48 @@
+name: Madar Oysters (Dakhla Bay water watch)
+
+on:
+  schedule:
+    - cron: "40 6 * * *"   # every morning, after the fishing maps
+  push:
+    branches: [main]
+    paths: ["oyster.py", "oyster_console.html", ".github/workflows/oyster.yml"]
+  workflow_dispatch:
+    inputs:
+      demo:
+        description: "Use demo data (true/false)"
+        required: false
+        default: "false"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: oyster
+  cancel-in-progress: false
+
+jobs:
+  oyster:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt rasterio pystac-client pillow
+      - name: Build the oyster page
+        env:
+          COPERNICUSMARINE_SERVICE_USERNAME: ${{ secrets.CMEMS_USER }}
+          COPERNICUSMARINE_SERVICE_PASSWORD: ${{ secrets.CMEMS_PASS }}
+        run: |
+          ARGS=""
+          if [ "${{ github.event.inputs.demo }}" = "true" ]; then ARGS="--demo"; fi
+          python oyster.py $ARGS
+      - name: Save results
+        run: |
+          git config user.name "radar-bot"
+          git config user.email "radar-bot@users.noreply.github.com"
+          git add docs/oyster
+          git commit -m "Oysters $(date -u +%F-%H%M)" || echo "nothing to commit"
+          for i in 1 2 3; do git pull --rebase && git push && break; sleep 5; done
