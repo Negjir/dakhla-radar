@@ -195,70 +195,13 @@
      "chip_date": "2026-10-18"
     },
     {
-     "lat": 22.16783,
-     "lon": -16.59415,
-     "area_ha": 634,
-     "peak": 4.0,
-     "model": "iron",
-     "_comp": 95,
-     "rank": 4,
-     "rel": 32,
-     "region": "dakhla",
-     "where": {
-      "ar": "64 كم شمال بئر كندوز",
-      "fr": "64 km N de Bir Gandouz",
-      "km": 64
-     },
-     "chip_tc": "chips/iron_dakhla_4_tc.jpg",
-     "chip_geo": "chips/iron_dakhla_4_geo.jpg",
-     "chip_date": "2026-02-25"
-    },
-    {
-     "lat": 21.86346,
-     "lon": -16.82032,
-     "area_ha": 184,
-     "peak": 4.0,
-     "model": "iron",
-     "_comp": 128,
-     "rank": 5,
-     "rel": 9,
-     "region": "dakhla",
-     "where": {
-      "ar": "47 كم شمال غرب بئر كندوز",
-      "fr": "47 km NO de Bir Gandouz",
-      "km": 47
-     },
-     "chip_tc": "chips/iron_dakhla_5_tc.jpg",
-     "chip_geo": "chips/iron_dakhla_5_geo.jpg",
-     "chip_date": "2026-02-25"
-    },
-    {
-     "lat": 22.20814,
-     "lon": -16.55594,
-     "area_ha": 148,
-     "peak": 4.0,
-     "model": "iron",
-     "_comp": 91,
-     "rank": 6,
-     "rel": 8,
-     "region": "dakhla",
-     "where": {
-      "ar": "67 كم شمال بئر كندوز",
-      "fr": "67 km N de Bir Gandouz",
-      "km": 67
-     },
-     "chip_tc": "chips/iron_dakhla_6_tc.jpg",
-     "chip_geo": "chips/iron_dakhla_6_geo.jpg",
-     "chip_date": "2026-02-25"
-    },
-    {
      "lat": 23.63479,
      "lon": -14.61188,
      "area_ha": 144,
      "peak": 4.0,
      "model": "iron",
      "_comp": 40,
-     "rank": 7,
+     "rank": 4,
      "rel": 7,
      "region": "dakhla",
      "where": {
@@ -266,8 +209,8 @@
       "fr": "30 km S de Bir Anzarane",
       "km": 30
      },
-     "chip_tc": "chips/iron_dakhla_7_tc.jpg",
-     "chip_geo": "chips/iron_dakhla_7_geo.jpg",
+     "chip_tc": "chips/iron_dakhla_4_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_4_geo.jpg",
      "chip_date": "2026-10-18"
     },
     {
@@ -277,7 +220,7 @@
      "peak": 4.0,
      "model": "iron",
      "_comp": 60,
-     "rank": 8,
+     "rank": 5,
      "rel": 7,
      "region": "dakhla",
      "where": {
@@ -285,8 +228,8 @@
       "fr": "84 km O de Aousserd",
       "km": 84
      },
-     "chip_tc": "chips/iron_dakhla_8_tc.jpg",
-     "chip_geo": "chips/iron_dakhla_8_geo.jpg",
+     "chip_tc": "chips/iron_dakhla_5_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_5_geo.jpg",
      "chip_date": "2026-10-18"
     },
     {
@@ -296,7 +239,7 @@
      "peak": 3.98,
      "model": "iron",
      "_comp": 118,
-     "rank": 9,
+     "rank": 6,
      "rel": 6,
      "region": "dakhla",
      "where": {
@@ -304,8 +247,8 @@
       "fr": "39 km N de Tichla",
       "km": 39
      },
-     "chip_tc": "chips/iron_dakhla_9_tc.jpg",
-     "chip_geo": "chips/iron_dakhla_9_geo.jpg",
+     "chip_tc": "chips/iron_dakhla_6_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_6_geo.jpg",
      "chip_date": "2026-10-18"
     },
     {
@@ -315,7 +258,7 @@
      "peak": 4.0,
      "model": "iron",
      "_comp": 12,
-     "rank": 10,
+     "rank": 7,
      "rel": 6,
      "region": "dakhla",
      "where": {
@@ -323,8 +266,8 @@
       "fr": "97 km S de Guelta Zemmur",
       "km": 97
      },
-     "chip_tc": "chips/iron_dakhla_10_tc.jpg",
-     "chip_geo": "chips/iron_dakhla_10_geo.jpg",
+     "chip_tc": "chips/iron_dakhla_7_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_7_geo.jpg",
      "chip_date": "2026-11-04"
     },
     {
@@ -334,7 +277,7 @@
      "peak": 4.0,
      "model": "iron",
      "_comp": 98,
-     "rank": 11,
+     "rank": 8,
      "rel": 6,
      "region": "dakhla",
      "where": {
@@ -342,9 +285,28 @@
       "fr": "61 km N de Tichla",
       "km": 61
      },
-     "chip_tc": "chips/iron_dakhla_11_tc.jpg",
-     "chip_geo": "chips/iron_dakhla_11_geo.jpg",
+     "chip_tc": "chips/iron_dakhla_8_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_8_geo.jpg",
      "chip_date": "2026-10-18"
+    },
+    {
+     "lat": 21.87222,
+     "lon": -16.79619,
+     "area_ha": 101,
+     "peak": 4.0,
+     "model": "iron",
+     "_comp": 127,
+     "rank": 9,
+     "rel": 5,
+     "region": "dakhla",
+     "where": {
+      "ar": "45 كم شمال غرب بئر كندوز",
+      "fr": "45 km NO de Bir Gandouz",
+      "km": 45
+     },
+     "chip_tc": "chips/iron_dakhla_9_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_9_geo.jpg",
+     "chip_date": "2026-02-25"
     },
     {
      "lat": 21.42862,
@@ -353,7 +315,7 @@
      "peak": 3.92,
      "model": "iron",
      "_comp": 232,
-     "rank": 12,
+     "rank": 10,
      "rel": 5,
      "region": "dakhla",
      "where": {
@@ -361,8 +323,8 @@
       "fr": "44 km SO de Tichla",
       "km": 44
      },
-     "chip_tc": "chips/iron_dakhla_12_tc.jpg",
-     "chip_geo": "chips/iron_dakhla_12_geo.jpg",
+     "chip_tc": "chips/iron_dakhla_10_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_10_geo.jpg",
      "chip_date": "2026-10-18"
     },
     {
@@ -372,14 +334,17 @@
      "peak": 4.0,
      "model": "iron",
      "_comp": 64,
-     "rank": 13,
+     "rank": 11,
      "rel": 5,
      "region": "dakhla",
      "where": {
       "ar": "101 كم شمال بئر كندوز",
       "fr": "101 km N de Bir Gandouz",
       "km": 101
-     }
+     },
+     "chip_tc": "chips/iron_dakhla_11_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_11_geo.jpg",
+     "chip_date": "2026-02-25"
     },
     {
      "lat": 21.73045,
@@ -388,14 +353,17 @@
      "peak": 3.89,
      "model": "iron",
      "_comp": 166,
-     "rank": 14,
+     "rank": 12,
      "rel": 4,
      "region": "dakhla",
      "where": {
       "ar": "21 كم شمال شرق تيشلا",
       "fr": "21 km NE de Tichla",
       "km": 21
-     }
+     },
+     "chip_tc": "chips/iron_dakhla_12_tc.jpg",
+     "chip_geo": "chips/iron_dakhla_12_geo.jpg",
+     "chip_date": "2026-11-02"
     },
     {
      "lat": 21.60532,
@@ -404,7 +372,7 @@
      "peak": 3.96,
      "model": "iron",
      "_comp": 211,
-     "rank": 15,
+     "rank": 13,
      "rel": 3,
      "region": "dakhla",
      "where": {
@@ -420,7 +388,7 @@
      "peak": 3.82,
      "model": "iron",
      "_comp": 79,
-     "rank": 16,
+     "rank": 14,
      "rel": 3,
      "region": "dakhla",
      "where": {
@@ -436,7 +404,7 @@
      "peak": 4.68,
      "model": "iron",
      "_comp": 21,
-     "rank": 17,
+     "rank": 15,
      "rel": 3,
      "region": "dakhla",
      "where": {
@@ -452,7 +420,7 @@
      "peak": 4.13,
      "model": "iron",
      "_comp": 3,
-     "rank": 18,
+     "rank": 16,
      "rel": 3,
      "region": "dakhla",
      "where": {
@@ -468,7 +436,7 @@
      "peak": 4.58,
      "model": "iron",
      "_comp": 82,
-     "rank": 19,
+     "rank": 17,
      "rel": 2,
      "region": "dakhla",
      "where": {
@@ -484,7 +452,7 @@
      "peak": 4.0,
      "model": "iron",
      "_comp": 152,
-     "rank": 20,
+     "rank": 18,
      "rel": 2,
      "region": "dakhla",
      "where": {
@@ -500,7 +468,7 @@
      "peak": 3.97,
      "model": "iron",
      "_comp": 144,
-     "rank": 21,
+     "rank": 19,
      "rel": 2,
      "region": "dakhla",
      "where": {
@@ -516,7 +484,7 @@
      "peak": 3.99,
      "model": "iron",
      "_comp": 51,
-     "rank": 22,
+     "rank": 20,
      "rel": 2,
      "region": "dakhla",
      "where": {
@@ -532,7 +500,7 @@
      "peak": 3.93,
      "model": "iron",
      "_comp": 231,
-     "rank": 23,
+     "rank": 21,
      "rel": 2,
      "region": "dakhla",
      "where": {
@@ -548,7 +516,7 @@
      "peak": 3.93,
      "model": "iron",
      "_comp": 96,
-     "rank": 24,
+     "rank": 22,
      "rel": 2,
      "region": "dakhla",
      "where": {
@@ -558,13 +526,29 @@
      }
     },
     {
+     "lat": 21.83998,
+     "lon": -16.82155,
+     "area_ha": 35,
+     "peak": 3.94,
+     "model": "iron",
+     "_comp": 139,
+     "rank": 23,
+     "rel": 2,
+     "region": "dakhla",
+     "where": {
+      "ar": "45 كم شمال غرب بئر كندوز",
+      "fr": "45 km NO de Bir Gandouz",
+      "km": 45
+     }
+    },
+    {
      "lat": 23.99695,
      "lon": -13.257,
      "area_ha": 28,
      "peak": 4.52,
      "model": "iron",
      "_comp": 29,
-     "rank": 25,
+     "rank": 24,
      "rel": 1,
      "region": "dakhla",
      "where": {
@@ -580,7 +564,7 @@
      "peak": 3.97,
      "model": "iron",
      "_comp": 32,
-     "rank": 26,
+     "rank": 25,
      "rel": 1,
      "region": "dakhla",
      "where": {
@@ -590,29 +574,13 @@
      }
     },
     {
-     "lat": 22.44266,
-     "lon": -16.39102,
-     "area_ha": 27,
-     "peak": 4.0,
-     "model": "iron",
-     "_comp": 74,
-     "rank": 27,
-     "rel": 1,
-     "region": "dakhla",
-     "where": {
-      "ar": "93 كم شمال بئر كندوز",
-      "fr": "93 km N de Bir Gandouz",
-      "km": 93
-     }
-    },
-    {
      "lat": 21.34443,
      "lon": -14.24648,
      "area_ha": 30,
      "peak": 3.76,
      "model": "iron",
      "_comp": 244,
-     "rank": 28,
+     "rank": 26,
      "rel": 1,
      "region": "dakhla",
      "where": {
@@ -628,7 +596,7 @@
      "peak": 3.95,
      "model": "iron",
      "_comp": 80,
-     "rank": 29,
+     "rank": 27,
      "rel": 1,
      "region": "dakhla",
      "where": {
@@ -644,13 +612,45 @@
      "peak": 3.64,
      "model": "iron",
      "_comp": 89,
-     "rank": 30,
+     "rank": 28,
      "rel": 1,
      "region": "dakhla",
      "where": {
       "ar": "76 كم شمال شرق بئر كندوز",
       "fr": "76 km NE de Bir Gandouz",
       "km": 76
+     }
+    },
+    {
+     "lat": 21.71565,
+     "lon": -14.86571,
+     "area_ha": 18,
+     "peak": 3.9,
+     "model": "iron",
+     "_comp": 176,
+     "rank": 29,
+     "rel": 1,
+     "region": "dakhla",
+     "where": {
+      "ar": "18 كم شمال شرق تيشلا",
+      "fr": "18 km NE de Tichla",
+      "km": 18
+     }
+    },
+    {
+     "lat": 23.87398,
+     "lon": -13.15241,
+     "area_ha": 16,
+     "peak": 5.2,
+     "model": "iron",
+     "_comp": 35,
+     "rank": 30,
+     "rel": 1,
+     "region": "dakhla",
+     "where": {
+      "ar": "140 كم شرق بئر أنزران",
+      "fr": "140 km E de Bir Anzarane",
+      "km": 140
      }
     },
     {
@@ -1171,7 +1171,7 @@
     }
    ],
    "check": [],
-   "p_chance": 0.00915
+   "p_chance": 0.00939
   },
   "alteration": {
    "ar": "التغيّر الحراري (ذهب ونحاس)",
@@ -1197,32 +1197,13 @@
      "chip_date": "2026-11-04"
     },
     {
-     "lat": 22.1669,
-     "lon": -16.59583,
-     "area_ha": 766,
-     "peak": 7.97,
-     "model": "alteration",
-     "_comp": 200,
-     "rank": 2,
-     "rel": 87,
-     "region": "dakhla",
-     "where": {
-      "ar": "63 كم شمال بئر كندوز",
-      "fr": "63 km N de Bir Gandouz",
-      "km": 63
-     },
-     "chip_tc": "chips/alteration_dakhla_2_tc.jpg",
-     "chip_geo": "chips/alteration_dakhla_2_geo.jpg",
-     "chip_date": "2026-02-25"
-    },
-    {
      "lat": 23.50353,
      "lon": -12.82282,
      "area_ha": 1012,
      "peak": 4.28,
      "model": "alteration",
      "_comp": 94,
-     "rank": 3,
+     "rank": 2,
      "rel": 82,
      "region": "dakhla",
      "where": {
@@ -1230,28 +1211,9 @@
       "fr": "179 km E de Bir Anzarane",
       "km": 179
      },
-     "chip_tc": "chips/alteration_dakhla_3_tc.jpg",
-     "chip_geo": "chips/alteration_dakhla_3_geo.jpg",
+     "chip_tc": "chips/alteration_dakhla_2_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_2_geo.jpg",
      "chip_date": "2026-11-04"
-    },
-    {
-     "lat": 21.85293,
-     "lon": -16.82428,
-     "area_ha": 618,
-     "peak": 8.0,
-     "model": "alteration",
-     "_comp": 228,
-     "rank": 4,
-     "rel": 79,
-     "region": "dakhla",
-     "where": {
-      "ar": "46 كم شمال غرب بئر كندوز",
-      "fr": "46 km NO de Bir Gandouz",
-      "km": 46
-     },
-     "chip_tc": "chips/alteration_dakhla_4_tc.jpg",
-     "chip_geo": "chips/alteration_dakhla_4_geo.jpg",
-     "chip_date": "2026-02-25"
     },
     {
      "lat": 22.51707,
@@ -1260,7 +1222,7 @@
      "peak": 7.94,
      "model": "alteration",
      "_comp": 157,
-     "rank": 5,
+     "rank": 3,
      "rel": 35,
      "region": "dakhla",
      "where": {
@@ -1268,27 +1230,8 @@
       "fr": "101 km N de Bir Gandouz",
       "km": 101
      },
-     "chip_tc": "chips/alteration_dakhla_5_tc.jpg",
-     "chip_geo": "chips/alteration_dakhla_5_geo.jpg",
-     "chip_date": "2026-02-25"
-    },
-    {
-     "lat": 22.20855,
-     "lon": -16.5555,
-     "area_ha": 164,
-     "peak": 7.97,
-     "model": "alteration",
-     "_comp": 191,
-     "rank": 6,
-     "rel": 21,
-     "region": "dakhla",
-     "where": {
-      "ar": "67 كم شمال بئر كندوز",
-      "fr": "67 km N de Bir Gandouz",
-      "km": 67
-     },
-     "chip_tc": "chips/alteration_dakhla_6_tc.jpg",
-     "chip_geo": "chips/alteration_dakhla_6_geo.jpg",
+     "chip_tc": "chips/alteration_dakhla_3_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_3_geo.jpg",
      "chip_date": "2026-02-25"
     },
     {
@@ -1298,7 +1241,7 @@
      "peak": 6.08,
      "model": "alteration",
      "_comp": 180,
-     "rank": 7,
+     "rank": 4,
      "rel": 19,
      "region": "dakhla",
      "where": {
@@ -1306,27 +1249,27 @@
       "fr": "82 km N de Tichla",
       "km": 82
      },
-     "chip_tc": "chips/alteration_dakhla_7_tc.jpg",
-     "chip_geo": "chips/alteration_dakhla_7_geo.jpg",
+     "chip_tc": "chips/alteration_dakhla_4_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_4_geo.jpg",
      "chip_date": "2026-10-18"
     },
     {
-     "lat": 22.26477,
-     "lon": -16.56966,
-     "area_ha": 112,
-     "peak": 7.8,
+     "lat": 21.87175,
+     "lon": -16.79413,
+     "area_ha": 170,
+     "peak": 6.53,
      "model": "alteration",
-     "_comp": 184,
-     "rank": 8,
-     "rel": 13,
+     "_comp": 226,
+     "rank": 5,
+     "rel": 18,
      "region": "dakhla",
      "where": {
-      "ar": "74 كم شمال بئر كندوز",
-      "fr": "74 km N de Bir Gandouz",
-      "km": 74
+      "ar": "45 كم شمال غرب بئر كندوز",
+      "fr": "45 km NO de Bir Gandouz",
+      "km": 45
      },
-     "chip_tc": "chips/alteration_dakhla_8_tc.jpg",
-     "chip_geo": "chips/alteration_dakhla_8_geo.jpg",
+     "chip_tc": "chips/alteration_dakhla_5_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_5_geo.jpg",
      "chip_date": "2026-02-25"
     },
     {
@@ -1336,7 +1279,7 @@
      "peak": 4.0,
      "model": "alteration",
      "_comp": 109,
-     "rank": 9,
+     "rank": 6,
      "rel": 12,
      "region": "dakhla",
      "where": {
@@ -1344,8 +1287,8 @@
       "fr": "187 km S de Guelta Zemmur",
       "km": 187
      },
-     "chip_tc": "chips/alteration_dakhla_9_tc.jpg",
-     "chip_geo": "chips/alteration_dakhla_9_geo.jpg",
+     "chip_tc": "chips/alteration_dakhla_6_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_6_geo.jpg",
      "chip_date": "2026-11-04"
     },
     {
@@ -1355,7 +1298,7 @@
      "peak": 4.05,
      "model": "alteration",
      "_comp": 210,
-     "rank": 10,
+     "rank": 7,
      "rel": 12,
      "region": "dakhla",
      "where": {
@@ -1363,8 +1306,8 @@
       "fr": "61 km N de Tichla",
       "km": 61
      },
-     "chip_tc": "chips/alteration_dakhla_10_tc.jpg",
-     "chip_geo": "chips/alteration_dakhla_10_geo.jpg",
+     "chip_tc": "chips/alteration_dakhla_7_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_7_geo.jpg",
      "chip_date": "2026-11-02"
     },
     {
@@ -1374,7 +1317,7 @@
      "peak": 5.33,
      "model": "alteration",
      "_comp": 167,
-     "rank": 11,
+     "rank": 8,
      "rel": 11,
      "region": "dakhla",
      "where": {
@@ -1382,8 +1325,8 @@
       "fr": "28 km SO de Aousserd",
       "km": 28
      },
-     "chip_tc": "chips/alteration_dakhla_11_tc.jpg",
-     "chip_geo": "chips/alteration_dakhla_11_geo.jpg",
+     "chip_tc": "chips/alteration_dakhla_8_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_8_geo.jpg",
      "chip_date": "2026-11-02"
     },
     {
@@ -1393,7 +1336,7 @@
      "peak": 4.0,
      "model": "alteration",
      "_comp": 79,
-     "rank": 12,
+     "rank": 9,
      "rel": 9,
      "region": "dakhla",
      "where": {
@@ -1401,8 +1344,8 @@
       "fr": "22 km S de Bir Anzarane",
       "km": 22
      },
-     "chip_tc": "chips/alteration_dakhla_12_tc.jpg",
-     "chip_geo": "chips/alteration_dakhla_12_geo.jpg",
+     "chip_tc": "chips/alteration_dakhla_9_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_9_geo.jpg",
      "chip_date": "2026-10-18"
     },
     {
@@ -1412,14 +1355,17 @@
      "peak": 5.31,
      "model": "alteration",
      "_comp": 224,
-     "rank": 13,
+     "rank": 10,
      "rel": 9,
      "region": "dakhla",
      "where": {
       "ar": "54 كم شمال غرب تيشلا",
       "fr": "54 km NO de Tichla",
       "km": 54
-     }
+     },
+     "chip_tc": "chips/alteration_dakhla_10_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_10_geo.jpg",
+     "chip_date": "2026-10-18"
     },
     {
      "lat": 21.89293,
@@ -1428,14 +1374,17 @@
      "peak": 5.12,
      "model": "alteration",
      "_comp": 221,
-     "rank": 14,
+     "rank": 11,
      "rel": 8,
      "region": "dakhla",
      "where": {
       "ar": "53 كم شمال غرب تيشلا",
       "fr": "53 km NO de Tichla",
       "km": 53
-     }
+     },
+     "chip_tc": "chips/alteration_dakhla_11_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_11_geo.jpg",
+     "chip_date": "2026-10-18"
     },
     {
      "lat": 22.97433,
@@ -1444,30 +1393,17 @@
      "peak": 4.03,
      "model": "alteration",
      "_comp": 136,
-     "rank": 15,
+     "rank": 12,
      "rel": 8,
      "region": "dakhla",
      "where": {
       "ar": "84 كم جنوب الداخلة",
       "fr": "84 km S de Dakhla",
       "km": 84
-     }
-    },
-    {
-     "lat": 23.25469,
-     "lon": -16.05367,
-     "area_ha": 101,
-     "peak": 4.0,
-     "model": "alteration",
-     "_comp": 121,
-     "rank": 16,
-     "rel": 8,
-     "region": "dakhla",
-     "where": {
-      "ar": "52 كم جنوب الداخلة",
-      "fr": "52 km S de Dakhla",
-      "km": 52
-     }
+     },
+     "chip_tc": "chips/alteration_dakhla_12_tc.jpg",
+     "chip_geo": "chips/alteration_dakhla_12_geo.jpg",
+     "chip_date": "2026-11-05"
     },
     {
      "lat": 24.30862,
@@ -1476,7 +1412,7 @@
      "peak": 4.09,
      "model": "alteration",
      "_comp": 30,
-     "rank": 17,
+     "rank": 13,
      "rel": 7,
      "region": "dakhla",
      "where": {
@@ -1486,45 +1422,13 @@
      }
     },
     {
-     "lat": 22.30958,
-     "lon": -16.41412,
-     "area_ha": 78,
-     "peak": 4.0,
-     "model": "alteration",
-     "_comp": 177,
-     "rank": 18,
-     "rel": 6,
-     "region": "dakhla",
-     "where": {
-      "ar": "78 كم شمال بئر كندوز",
-      "fr": "78 km N de Bir Gandouz",
-      "km": 78
-     }
-    },
-    {
-     "lat": 22.44313,
-     "lon": -16.39005,
-     "area_ha": 44,
-     "peak": 7.92,
-     "model": "alteration",
-     "_comp": 165,
-     "rank": 19,
-     "rel": 6,
-     "region": "dakhla",
-     "where": {
-      "ar": "93 كم شمال بئر كندوز",
-      "fr": "93 km N de Bir Gandouz",
-      "km": 93
-     }
-    },
-    {
      "lat": 24.34525,
      "lon": -12.80756,
      "area_ha": 70,
      "peak": 4.0,
      "model": "alteration",
      "_comp": 1,
-     "rank": 20,
+     "rank": 14,
      "rel": 6,
      "region": "dakhla",
      "where": {
@@ -1540,7 +1444,7 @@
      "peak": 4.0,
      "model": "alteration",
      "_comp": 35,
-     "rank": 21,
+     "rank": 15,
      "rel": 6,
      "region": "dakhla",
      "where": {
@@ -1556,7 +1460,7 @@
      "peak": 7.83,
      "model": "alteration",
      "_comp": 75,
-     "rank": 22,
+     "rank": 16,
      "rel": 5,
      "region": "dakhla",
      "where": {
@@ -1566,13 +1470,29 @@
      }
     },
     {
+     "lat": 21.81987,
+     "lon": -16.83602,
+     "area_ha": 42,
+     "peak": 7.76,
+     "model": "alteration",
+     "_comp": 244,
+     "rank": 17,
+     "rel": 5,
+     "region": "dakhla",
+     "where": {
+      "ar": "45 كم شمال غرب بئر كندوز",
+      "fr": "45 km NO de Bir Gandouz",
+      "km": 45
+     }
+    },
+    {
      "lat": 22.15663,
      "lon": -14.70485,
      "area_ha": 46,
      "peak": 6.24,
      "model": "alteration",
      "_comp": 202,
-     "rank": 23,
+     "rank": 18,
      "rel": 5,
      "region": "dakhla",
      "where": {
@@ -1582,29 +1502,13 @@
      }
     },
     {
-     "lat": 22.191,
-     "lon": -16.65074,
-     "area_ha": 37,
-     "peak": 6.6,
-     "model": "alteration",
-     "_comp": 198,
-     "rank": 24,
-     "rel": 4,
-     "region": "dakhla",
-     "where": {
-      "ar": "68 كم شمال بئر كندوز",
-      "fr": "68 km N de Bir Gandouz",
-      "km": 68
-     }
-    },
-    {
      "lat": 22.29879,
      "lon": -14.61956,
      "area_ha": 42,
      "peak": 5.3,
      "model": "alteration",
      "_comp": 181,
-     "rank": 25,
+     "rank": 19,
      "rel": 4,
      "region": "dakhla",
      "where": {
@@ -1620,7 +1524,7 @@
      "peak": 4.44,
      "model": "alteration",
      "_comp": 239,
-     "rank": 26,
+     "rank": 20,
      "rel": 4,
      "region": "dakhla",
      "where": {
@@ -1636,7 +1540,7 @@
      "peak": 7.35,
      "model": "alteration",
      "_comp": 187,
-     "rank": 27,
+     "rank": 21,
      "rel": 4,
      "region": "dakhla",
      "where": {
@@ -1652,7 +1556,7 @@
      "peak": 4.89,
      "model": "alteration",
      "_comp": 258,
-     "rank": 28,
+     "rank": 22,
      "rel": 3,
      "region": "dakhla",
      "where": {
@@ -1662,35 +1566,131 @@
      }
     },
     {
-     "lat": 22.10198,
-     "lon": -16.80138,
-     "area_ha": 30,
-     "peak": 6.16,
-     "model": "alteration",
-     "_comp": 211,
-     "rank": 29,
-     "rel": 3,
-     "region": "dakhla",
-     "where": {
-      "ar": "65 كم شمال غرب بئر كندوز",
-      "fr": "65 km NO de Bir Gandouz",
-      "km": 65
-     }
-    },
-    {
      "lat": 24.04906,
      "lon": -12.5387,
      "area_ha": 37,
      "peak": 4.0,
      "model": "alteration",
      "_comp": 63,
-     "rank": 30,
+     "rank": 23,
      "rel": 3,
      "region": "dakhla",
      "where": {
       "ar": "123 كم جنوب كلتة زمور",
       "fr": "123 km S de Guelta Zemmur",
       "km": 123
+     }
+    },
+    {
+     "lat": 23.49529,
+     "lon": -14.73263,
+     "area_ha": 35,
+     "peak": 3.99,
+     "model": "alteration",
+     "_comp": 103,
+     "rank": 24,
+     "rel": 3,
+     "region": "dakhla",
+     "where": {
+      "ar": "48 كم جنوب غرب بئر أنزران",
+      "fr": "48 km SO de Bir Anzarane",
+      "km": 48
+     }
+    },
+    {
+     "lat": 21.40506,
+     "lon": -16.89469,
+     "area_ha": 35,
+     "peak": 4.2,
+     "model": "alteration",
+     "_comp": 252,
+     "rank": 25,
+     "rel": 3,
+     "region": "dakhla",
+     "where": {
+      "ar": "50 كم جنوب غرب بئر كندوز",
+      "fr": "50 km SO de Bir Gandouz",
+      "km": 50
+     }
+    },
+    {
+     "lat": 21.44974,
+     "lon": -17.00283,
+     "area_ha": 30,
+     "peak": 5.07,
+     "model": "alteration",
+     "_comp": 251,
+     "rank": 26,
+     "rel": 3,
+     "region": "dakhla",
+     "where": {
+      "ar": "59 كم غرب بئر كندوز",
+      "fr": "59 km O de Bir Gandouz",
+      "km": 59
+     }
+    },
+    {
+     "lat": 24.2787,
+     "lon": -12.74892,
+     "area_ha": 32,
+     "peak": 4.0,
+     "model": "alteration",
+     "_comp": 53,
+     "rank": 27,
+     "rel": 3,
+     "region": "dakhla",
+     "where": {
+      "ar": "103 كم جنوب كلتة زمور",
+      "fr": "103 km S de Guelta Zemmur",
+      "km": 103
+     }
+    },
+    {
+     "lat": 22.47134,
+     "lon": -16.38248,
+     "area_ha": 21,
+     "peak": 7.48,
+     "model": "alteration",
+     "_comp": 162,
+     "rank": 28,
+     "rel": 3,
+     "region": "dakhla",
+     "where": {
+      "ar": "96 كم شمال بئر كندوز",
+      "fr": "96 km N de Bir Gandouz",
+      "km": 96
+     }
+    },
+    {
+     "lat": 23.63432,
+     "lon": -14.61292,
+     "area_ha": 24,
+     "peak": 4.0,
+     "model": "alteration",
+     "_comp": 83,
+     "rank": 29,
+     "rel": 2,
+     "region": "dakhla",
+     "where": {
+      "ar": "30 كم جنوب بئر أنزران",
+      "fr": "30 km S de Bir Anzarane",
+      "km": 30
+     }
+    },
+    {
+     "lat": 23.68948,
+     "lon": -15.71236,
+     "area_ha": 23,
+     "peak": 4.39,
+     "model": "alteration",
+     "_comp": 81,
+     "rank": 30,
+     "rel": 2,
+     "region": "dakhla",
+     "where": {
+      "ar": "23 كم شرق الداخلة",
+      "fr": "23 km E de Dakhla",
+      "km": 23
      }
     },
     {
@@ -1808,32 +1808,13 @@
      "chip_date": "2026-11-04"
     },
     {
-     "lat": 25.99998,
-     "lon": -13.23458,
-     "area_ha": 264,
-     "peak": 7.07,
-     "model": "alteration",
-     "_comp": 357,
-     "rank": 7,
-     "rel": 11,
-     "region": "laayoune",
-     "where": {
-      "ar": "126 كم شرق بوجدور",
-      "fr": "126 km E de Boujdour",
-      "km": 126
-     },
-     "chip_tc": "chips/alteration_laayoune_7_tc.jpg",
-     "chip_geo": "chips/alteration_laayoune_7_geo.jpg",
-     "chip_date": "2026-09-20"
-    },
-    {
      "lat": 25.57707,
      "lon": -13.68171,
      "area_ha": 230,
      "peak": 6.93,
      "model": "alteration",
      "_comp": 391,
-     "rank": 8,
+     "rank": 7,
      "rel": 10,
      "region": "laayoune",
      "where": {
@@ -1841,8 +1822,8 @@
       "fr": "101 km SE de Boujdour",
       "km": 101
      },
-     "chip_tc": "chips/alteration_laayoune_8_tc.jpg",
-     "chip_geo": "chips/alteration_laayoune_8_geo.jpg",
+     "chip_tc": "chips/alteration_laayoune_7_tc.jpg",
+     "chip_geo": "chips/alteration_laayoune_7_geo.jpg",
      "chip_date": "2026-09-20"
     },
     {
@@ -1852,7 +1833,7 @@
      "peak": 6.27,
      "model": "alteration",
      "_comp": 123,
-     "rank": 9,
+     "rank": 8,
      "rel": 8,
      "region": "laayoune",
      "where": {
@@ -1860,8 +1841,8 @@
       "fr": "64 km N de Smara",
       "km": 64
      },
-     "chip_tc": "chips/alteration_laayoune_9_tc.jpg",
-     "chip_geo": "chips/alteration_laayoune_9_geo.jpg",
+     "chip_tc": "chips/alteration_laayoune_8_tc.jpg",
+     "chip_geo": "chips/alteration_laayoune_8_geo.jpg",
      "chip_date": "2026-11-04"
     },
     {
@@ -1871,7 +1852,7 @@
      "peak": 6.78,
      "model": "alteration",
      "_comp": 20,
-     "rank": 10,
+     "rank": 9,
      "rel": 7,
      "region": "laayoune",
      "where": {
@@ -1879,8 +1860,8 @@
       "fr": "48 km NE de Laâyoune",
       "km": 48
      },
-     "chip_tc": "chips/alteration_laayoune_10_tc.jpg",
-     "chip_geo": "chips/alteration_laayoune_10_geo.jpg",
+     "chip_tc": "chips/alteration_laayoune_9_tc.jpg",
+     "chip_geo": "chips/alteration_laayoune_9_geo.jpg",
      "chip_date": "2026-09-30"
     },
     {
@@ -1890,7 +1871,7 @@
      "peak": 6.76,
      "model": "alteration",
      "_comp": 172,
-     "rank": 11,
+     "rank": 10,
      "rel": 6,
      "region": "laayoune",
      "where": {
@@ -1898,8 +1879,8 @@
       "fr": "100 km NE de Smara",
       "km": 100
      },
-     "chip_tc": "chips/alteration_laayoune_11_tc.jpg",
-     "chip_geo": "chips/alteration_laayoune_11_geo.jpg",
+     "chip_tc": "chips/alteration_laayoune_10_tc.jpg",
+     "chip_geo": "chips/alteration_laayoune_10_geo.jpg",
      "chip_date": "2026-11-04"
     },
     {
@@ -1909,7 +1890,7 @@
      "peak": 5.85,
      "model": "alteration",
      "_comp": 193,
-     "rank": 12,
+     "rank": 11,
      "rel": 5,
      "region": "laayoune",
      "where": {
@@ -1917,8 +1898,8 @@
       "fr": "154 km E de Smara",
       "km": 154
      },
-     "chip_tc": "chips/alteration_laayoune_12_tc.jpg",
-     "chip_geo": "chips/alteration_laayoune_12_geo.jpg",
+     "chip_tc": "chips/alteration_laayoune_11_tc.jpg",
+     "chip_geo": "chips/alteration_laayoune_11_geo.jpg",
      "chip_date": "2026-11-04"
     },
     {
@@ -1928,14 +1909,17 @@
      "peak": 7.2,
      "model": "alteration",
      "_comp": 388,
-     "rank": 13,
+     "rank": 12,
      "rel": 5,
      "region": "laayoune",
      "where": {
       "ar": "97 كم جنوب شرق بوجدور",
       "fr": "97 km SE de Boujdour",
       "km": 97
-     }
+     },
+     "chip_tc": "chips/alteration_laayoune_12_tc.jpg",
+     "chip_geo": "chips/alteration_laayoune_12_geo.jpg",
+     "chip_date": "2026-09-20"
     },
     {
      "lat": 26.00634,
@@ -1944,7 +1928,7 @@
      "peak": 5.81,
      "model": "alteration",
      "_comp": 358,
-     "rank": 14,
+     "rank": 13,
      "rel": 5,
      "region": "laayoune",
      "where": {
@@ -1960,7 +1944,7 @@
      "peak": 7.47,
      "model": "alteration",
      "_comp": 282,
-     "rank": 15,
+     "rank": 14,
      "rel": 4,
      "region": "laayoune",
      "where": {
@@ -1976,7 +1960,7 @@
      "peak": 6.44,
      "model": "alteration",
      "_comp": 186,
-     "rank": 16,
+     "rank": 15,
      "rel": 4,
      "region": "laayoune",
      "where": {
@@ -1992,7 +1976,7 @@
      "peak": 7.8,
      "model": "alteration",
      "_comp": 86,
-     "rank": 17,
+     "rank": 16,
      "rel": 4,
      "region": "laayoune",
      "where": {
@@ -2008,7 +1992,7 @@
      "peak": 6.05,
      "model": "alteration",
      "_comp": 98,
-     "rank": 18,
+     "rank": 17,
      "rel": 3,
      "region": "laayoune",
      "where": {
@@ -2024,7 +2008,7 @@
      "peak": 6.47,
      "model": "alteration",
      "_comp": 317,
-     "rank": 19,
+     "rank": 18,
      "rel": 3,
      "region": "laayoune",
      "where": {
@@ -2040,7 +2024,7 @@
      "peak": 5.64,
      "model": "alteration",
      "_comp": 9,
-     "rank": 20,
+     "rank": 19,
      "rel": 3,
      "region": "laayoune",
      "where": {
@@ -2056,7 +2040,7 @@
      "peak": 5.32,
      "model": "alteration",
      "_comp": 393,
-     "rank": 21,
+     "rank": 20,
      "rel": 3,
      "region": "laayoune",
      "where": {
@@ -2072,7 +2056,7 @@
      "peak": 5.59,
      "model": "alteration",
      "_comp": 398,
-     "rank": 22,
+     "rank": 21,
      "rel": 3,
      "region": "laayoune",
      "where": {
@@ -2088,7 +2072,7 @@
      "peak": 7.18,
      "model": "alteration",
      "_comp": 121,
-     "rank": 23,
+     "rank": 22,
      "rel": 3,
      "region": "laayoune",
      "where": {
@@ -2104,7 +2088,7 @@
      "peak": 5.9,
      "model": "alteration",
      "_comp": 268,
-     "rank": 24,
+     "rank": 23,
      "rel": 3,
      "region": "laayoune",
      "where": {
@@ -2120,7 +2104,7 @@
      "peak": 5.42,
      "model": "alteration",
      "_comp": 279,
-     "rank": 25,
+     "rank": 24,
      "rel": 2,
      "region": "laayoune",
      "where": {
@@ -2136,7 +2120,7 @@
      "peak": 5.85,
      "model": "alteration",
      "_comp": 192,
-     "rank": 26,
+     "rank": 25,
      "rel": 2,
      "region": "laayoune",
      "where": {
@@ -2152,7 +2136,7 @@
      "peak": 6.31,
      "model": "alteration",
      "_comp": 248,
-     "rank": 27,
+     "rank": 26,
      "rel": 2,
      "region": "laayoune",
      "where": {
@@ -2168,7 +2152,7 @@
      "peak": 5.72,
      "model": "alteration",
      "_comp": 116,
-     "rank": 28,
+     "rank": 27,
      "rel": 2,
      "region": "laayoune",
      "where": {
@@ -2184,13 +2168,29 @@
      "peak": 6.25,
      "model": "alteration",
      "_comp": 61,
-     "rank": 29,
+     "rank": 28,
      "rel": 2,
      "region": "laayoune",
      "where": {
       "ar": "77 كم شمال السمارة",
       "fr": "77 km N de Smara",
       "km": 77
+     }
+    },
+    {
+     "lat": 26.02613,
+     "lon": -13.22025,
+     "area_ha": 41,
+     "peak": 6.08,
+     "model": "alteration",
+     "_comp": 355,
+     "rank": 29,
+     "rel": 2,
+     "region": "laayoune",
+     "where": {
+      "ar": "125 كم جنوب العيون",
+      "fr": "125 km S de Laâyoune",
+      "km": 125
      }
     },
     {
@@ -2211,7 +2211,7 @@
     }
    ],
    "check": [],
-   "p_chance": 0.00718
+   "p_chance": 0.00779
   },
   "carbonatite": {
    "ar": "الكربوناتيت والعناصر النادرة",
@@ -2256,32 +2256,13 @@
      "chip_date": "2026-10-18"
     },
     {
-     "lat": 22.16909,
-     "lon": -16.59305,
-     "area_ha": 455,
-     "peak": 2.8,
-     "model": "carbonatite",
-     "_comp": 178,
-     "rank": 3,
-     "rel": 35,
-     "region": "dakhla",
-     "where": {
-      "ar": "64 كم شمال بئر كندوز",
-      "fr": "64 km N de Bir Gandouz",
-      "km": 64
-     },
-     "chip_tc": "chips/carbonatite_dakhla_3_tc.jpg",
-     "chip_geo": "chips/carbonatite_dakhla_3_geo.jpg",
-     "chip_date": "2026-02-25"
-    },
-    {
      "lat": 23.68357,
      "lon": -14.58842,
      "area_ha": 419,
      "peak": 2.8,
      "model": "carbonatite",
      "_comp": 74,
-     "rank": 4,
+     "rank": 3,
      "rel": 32,
      "region": "dakhla",
      "where": {
@@ -2289,8 +2270,8 @@
       "fr": "24 km S de Bir Anzarane",
       "km": 24
      },
-     "chip_tc": "chips/carbonatite_dakhla_4_tc.jpg",
-     "chip_geo": "chips/carbonatite_dakhla_4_geo.jpg",
+     "chip_tc": "chips/carbonatite_dakhla_3_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_3_geo.jpg",
      "chip_date": "2026-10-18"
     },
     {
@@ -2300,7 +2281,7 @@
      "peak": 3.46,
      "model": "carbonatite",
      "_comp": 241,
-     "rank": 5,
+     "rank": 4,
      "rel": 23,
      "region": "dakhla",
      "where": {
@@ -2308,8 +2289,8 @@
       "fr": "54 km NO de Tichla",
       "km": 54
      },
-     "chip_tc": "chips/carbonatite_dakhla_5_tc.jpg",
-     "chip_geo": "chips/carbonatite_dakhla_5_geo.jpg",
+     "chip_tc": "chips/carbonatite_dakhla_4_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_4_geo.jpg",
      "chip_date": "2026-10-18"
     },
     {
@@ -2319,7 +2300,7 @@
      "peak": 3.66,
      "model": "carbonatite",
      "_comp": 21,
-     "rank": 6,
+     "rank": 5,
      "rel": 12,
      "region": "dakhla",
      "where": {
@@ -2327,8 +2308,8 @@
       "fr": "97 km S de Guelta Zemmur",
       "km": 97
      },
-     "chip_tc": "chips/carbonatite_dakhla_6_tc.jpg",
-     "chip_geo": "chips/carbonatite_dakhla_6_geo.jpg",
+     "chip_tc": "chips/carbonatite_dakhla_5_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_5_geo.jpg",
      "chip_date": "2026-11-04"
     },
     {
@@ -2338,7 +2319,7 @@
      "peak": 3.94,
      "model": "carbonatite",
      "_comp": 238,
-     "rank": 7,
+     "rank": 6,
      "rel": 12,
      "region": "dakhla",
      "where": {
@@ -2346,28 +2327,9 @@
       "fr": "53 km NO de Tichla",
       "km": 53
      },
-     "chip_tc": "chips/carbonatite_dakhla_7_tc.jpg",
-     "chip_geo": "chips/carbonatite_dakhla_7_geo.jpg",
+     "chip_tc": "chips/carbonatite_dakhla_6_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_6_geo.jpg",
      "chip_date": "2026-10-18"
-    },
-    {
-     "lat": 22.20788,
-     "lon": -16.5563,
-     "area_ha": 138,
-     "peak": 2.8,
-     "model": "carbonatite",
-     "_comp": 171,
-     "rank": 8,
-     "rel": 11,
-     "region": "dakhla",
-     "where": {
-      "ar": "67 كم شمال بئر كندوز",
-      "fr": "67 km N de Bir Gandouz",
-      "km": 67
-     },
-     "chip_tc": "chips/carbonatite_dakhla_8_tc.jpg",
-     "chip_geo": "chips/carbonatite_dakhla_8_geo.jpg",
-     "chip_date": "2026-02-25"
     },
     {
      "lat": 24.00026,
@@ -2376,7 +2338,7 @@
      "peak": 4.62,
      "model": "carbonatite",
      "_comp": 47,
-     "rank": 9,
+     "rank": 7,
      "rel": 10,
      "region": "dakhla",
      "where": {
@@ -2384,8 +2346,8 @@
       "fr": "135 km E de Bir Anzarane",
       "km": 135
      },
-     "chip_tc": "chips/carbonatite_dakhla_9_tc.jpg",
-     "chip_geo": "chips/carbonatite_dakhla_9_geo.jpg",
+     "chip_tc": "chips/carbonatite_dakhla_7_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_7_geo.jpg",
      "chip_date": "2026-10-17"
     },
     {
@@ -2395,7 +2357,7 @@
      "peak": 3.22,
      "model": "carbonatite",
      "_comp": 135,
-     "rank": 10,
+     "rank": 8,
      "rel": 9,
      "region": "dakhla",
      "where": {
@@ -2403,28 +2365,9 @@
       "fr": "84 km O de Aousserd",
       "km": 84
      },
-     "chip_tc": "chips/carbonatite_dakhla_10_tc.jpg",
-     "chip_geo": "chips/carbonatite_dakhla_10_geo.jpg",
+     "chip_tc": "chips/carbonatite_dakhla_8_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_8_geo.jpg",
      "chip_date": "2026-10-18"
-    },
-    {
-     "lat": 21.86352,
-     "lon": -16.81976,
-     "area_ha": 119,
-     "peak": 2.8,
-     "model": "carbonatite",
-     "_comp": 243,
-     "rank": 11,
-     "rel": 9,
-     "region": "dakhla",
-     "where": {
-      "ar": "47 كم شمال غرب بئر كندوز",
-      "fr": "47 km NO de Bir Gandouz",
-      "km": 47
-     },
-     "chip_tc": "chips/carbonatite_dakhla_11_tc.jpg",
-     "chip_geo": "chips/carbonatite_dakhla_11_geo.jpg",
-     "chip_date": "2026-02-25"
     },
     {
      "lat": 21.94206,
@@ -2433,7 +2376,7 @@
      "peak": 3.47,
      "model": "carbonatite",
      "_comp": 219,
-     "rank": 12,
+     "rank": 9,
      "rel": 9,
      "region": "dakhla",
      "where": {
@@ -2441,8 +2384,8 @@
       "fr": "77 km NO de Tichla",
       "km": 77
      },
-     "chip_tc": "chips/carbonatite_dakhla_12_tc.jpg",
-     "chip_geo": "chips/carbonatite_dakhla_12_geo.jpg",
+     "chip_tc": "chips/carbonatite_dakhla_9_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_9_geo.jpg",
      "chip_date": "2026-10-18"
     },
     {
@@ -2452,14 +2395,17 @@
      "peak": 4.33,
      "model": "carbonatite",
      "_comp": 43,
-     "rank": 13,
+     "rank": 10,
      "rel": 9,
      "region": "dakhla",
      "where": {
       "ar": "144 كم جنوب غرب كلتة زمور",
       "fr": "144 km SO de Guelta Zemmur",
       "km": 144
-     }
+     },
+     "chip_tc": "chips/carbonatite_dakhla_10_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_10_geo.jpg",
+     "chip_date": "2026-10-17"
     },
     {
      "lat": 22.17615,
@@ -2468,14 +2414,17 @@
      "peak": 3.94,
      "model": "carbonatite",
      "_comp": 179,
-     "rank": 14,
+     "rank": 11,
      "rel": 8,
      "region": "dakhla",
      "where": {
       "ar": "75 كم شمال غرب تيشلا",
       "fr": "75 km NO de Tichla",
       "km": 75
-     }
+     },
+     "chip_tc": "chips/carbonatite_dakhla_11_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_11_geo.jpg",
+     "chip_date": "2026-10-18"
     },
     {
      "lat": 21.94191,
@@ -2484,14 +2433,17 @@
      "peak": 3.62,
      "model": "carbonatite",
      "_comp": 220,
-     "rank": 15,
+     "rank": 12,
      "rel": 8,
      "region": "dakhla",
      "where": {
       "ar": "47 كم شمال غرب تيشلا",
       "fr": "47 km NO de Tichla",
       "km": 47
-     }
+     },
+     "chip_tc": "chips/carbonatite_dakhla_12_tc.jpg",
+     "chip_geo": "chips/carbonatite_dakhla_12_geo.jpg",
+     "chip_date": "2026-10-18"
     },
     {
      "lat": 22.13878,
@@ -2500,7 +2452,7 @@
      "peak": 3.07,
      "model": "carbonatite",
      "_comp": 189,
-     "rank": 16,
+     "rank": 13,
      "rel": 7,
      "region": "dakhla",
      "where": {
@@ -2516,7 +2468,7 @@
      "peak": 3.93,
      "model": "carbonatite",
      "_comp": 314,
-     "rank": 17,
+     "rank": 14,
      "rel": 7,
      "region": "dakhla",
      "where": {
@@ -2532,7 +2484,7 @@
      "peak": 3.21,
      "model": "carbonatite",
      "_comp": 162,
-     "rank": 18,
+     "rank": 15,
      "rel": 7,
      "region": "dakhla",
      "where": {
@@ -2548,7 +2500,7 @@
      "peak": 2.8,
      "model": "carbonatite",
      "_comp": 92,
-     "rank": 19,
+     "rank": 16,
      "rel": 7,
      "region": "dakhla",
      "where": {
@@ -2564,7 +2516,7 @@
      "peak": 5.13,
      "model": "carbonatite",
      "_comp": 50,
-     "rank": 20,
+     "rank": 17,
      "rel": 7,
      "region": "dakhla",
      "where": {
@@ -2580,7 +2532,7 @@
      "peak": 3.01,
      "model": "carbonatite",
      "_comp": 236,
-     "rank": 21,
+     "rank": 18,
      "rel": 6,
      "region": "dakhla",
      "where": {
@@ -2596,7 +2548,7 @@
      "peak": 3.44,
      "model": "carbonatite",
      "_comp": 275,
-     "rank": 22,
+     "rank": 19,
      "rel": 5,
      "region": "dakhla",
      "where": {
@@ -2606,13 +2558,29 @@
      }
     },
     {
+     "lat": 21.87254,
+     "lon": -16.79629,
+     "area_ha": 68,
+     "peak": 2.8,
+     "model": "carbonatite",
+     "_comp": 242,
+     "rank": 20,
+     "rel": 5,
+     "region": "dakhla",
+     "where": {
+      "ar": "45 كم شمال غرب بئر كندوز",
+      "fr": "45 km NO de Bir Gandouz",
+      "km": 45
+     }
+    },
+    {
      "lat": 21.73068,
      "lon": -14.82772,
      "area_ha": 65,
      "peak": 3.16,
      "model": "carbonatite",
      "_comp": 289,
-     "rank": 23,
+     "rank": 21,
      "rel": 5,
      "region": "dakhla",
      "where": {
@@ -2628,7 +2596,7 @@
      "peak": 4.31,
      "model": "carbonatite",
      "_comp": 326,
-     "rank": 24,
+     "rank": 22,
      "rel": 5,
      "region": "dakhla",
      "where": {
@@ -2644,7 +2612,7 @@
      "peak": 3.94,
      "model": "carbonatite",
      "_comp": 226,
-     "rank": 25,
+     "rank": 23,
      "rel": 5,
      "region": "dakhla",
      "where": {
@@ -2660,7 +2628,7 @@
      "peak": 4.99,
      "model": "carbonatite",
      "_comp": 163,
-     "rank": 26,
+     "rank": 24,
      "rel": 5,
      "region": "dakhla",
      "where": {
@@ -2676,7 +2644,7 @@
      "peak": 3.22,
      "model": "carbonatite",
      "_comp": 130,
-     "rank": 27,
+     "rank": 25,
      "rel": 5,
      "region": "dakhla",
      "where": {
@@ -2692,7 +2660,7 @@
      "peak": 2.8,
      "model": "carbonatite",
      "_comp": 154,
-     "rank": 28,
+     "rank": 26,
      "rel": 4,
      "region": "dakhla",
      "where": {
@@ -2708,7 +2676,7 @@
      "peak": 4.03,
      "model": "carbonatite",
      "_comp": 32,
-     "rank": 29,
+     "rank": 27,
      "rel": 3,
      "region": "dakhla",
      "where": {
@@ -2724,13 +2692,45 @@
      "peak": 3.01,
      "model": "carbonatite",
      "_comp": 341,
-     "rank": 30,
+     "rank": 28,
      "rel": 3,
      "region": "dakhla",
      "where": {
       "ar": "45 كم جنوب غرب تيشلا",
       "fr": "45 km SO de Tichla",
       "km": 45
+     }
+    },
+    {
+     "lat": 23.99479,
+     "lon": -13.04548,
+     "area_ha": 38,
+     "peak": 3.17,
+     "model": "carbonatite",
+     "_comp": 51,
+     "rank": 29,
+     "rel": 3,
+     "region": "dakhla",
+     "where": {
+      "ar": "145 كم جنوب غرب كلتة زمور",
+      "fr": "145 km SO de Guelta Zemmur",
+      "km": 145
+     }
+    },
+    {
+     "lat": 21.67678,
+     "lon": -13.06976,
+     "area_ha": 30,
+     "peak": 4.5,
+     "model": "carbonatite",
+     "_comp": 304,
+     "rank": 30,
+     "rel": 3,
+     "region": "dakhla",
+     "where": {
+      "ar": "162 كم جنوب شرق أوسرد",
+      "fr": "162 km SE de Aousserd",
+      "km": 162
      }
     },
     {
@@ -3259,7 +3259,7 @@
      "model": "carbonatite",
      "percentile": 95.9,
      "nearest_km": 38.5,
-     "nearest_rank": 28,
+     "nearest_rank": 26,
      "hit": false
     },
     {
@@ -3270,7 +3270,7 @@
      "model": "carbonatite",
      "percentile": 93.22,
      "nearest_km": 14.2,
-     "nearest_rank": 16,
+     "nearest_rank": 13,
      "hit": false
     },
     {
@@ -3281,7 +3281,7 @@
      "model": "carbonatite",
      "percentile": 96.89,
      "nearest_km": 15.5,
-     "nearest_rank": 16,
+     "nearest_rank": 13,
      "hit": false
     },
     {
@@ -3292,11 +3292,11 @@
      "model": "carbonatite",
      "percentile": 95.61,
      "nearest_km": 11.8,
-     "nearest_rank": 16,
+     "nearest_rank": 13,
      "hit": false
     }
    ],
-   "p_chance": 0.00917
+   "p_chance": 0.00941
   }
  },
  "tiles": {
