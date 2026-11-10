@@ -170,6 +170,7 @@ details[open] summary::after{content:"−"}
     <nav class="sites" id="sites" role="tablist"></nav>
     <div class="hd-end">
       <span class="demo" id="demo" hidden>Demo</span>
+      <a class="proof" href="../field/" id="field"><b>➤</b> <span id="fieldT">مدار الميدان</span></a>
       <a class="proof" href="sahara/" id="sahara"><b>◈</b> <span id="saharaT">مسح الصحراء</span></a>
       <a class="proof" href="test.html" id="proof"></a>
       <div class="langs" id="langs"><button data-l="ar">ع</button><button data-l="fr">FR</button><button data-l="en">EN</button></div>
@@ -408,10 +409,12 @@ function init(){
   $("langs").onclick = e => { const b = e.target.closest("button"); if (!b) return; lang = b.dataset.l; try{localStorage.setItem("madar-min-lang", lang)}catch(e){} render(true); };
   $("reveal").onclick = () => { revealed = !revealed; renderBlind(); renderReveal(); if (revealed) fitReveal(); else draw(); };
   new ResizeObserver(resize).observe(cv);
+  const hi = DATA.sites.findIndex(s => "#" + s.id === location.hash); if (hi >= 0) cur = hi;     // ./#anzarane opens that site
   render(false);
+  const at = document.querySelector(`.site-t[data-i="${cur}"]`); if (at && at.scrollIntoView) at.scrollIntoView({block: "nearest", inline: "center"});
   fetch("test/test.json").then(r => r.ok ? r.json() : null).then(d => { if (d && d.summary){ window.TEST_SUMMARY = d.summary; $("proof").innerHTML = proofText(); } }).catch(() => {});
 }
-const SAHARA_T={ar:"مسح الصحراء",fr:"Levé du Sahara",en:"Sahara survey"};
+const SAHARA_T={ar:"مسح الصحراء",fr:"Levé du Sahara",en:"Sahara survey"},FIELD_T={ar:"مدار الميدان",fr:"Madar Terrain",en:"Madar Field"};
 function proofText(){
   const t = L(); let txt = "";
   try{ const s = (window.TEST_SUMMARY || {}); if (s.n) txt = `${s.hits}/${s.n}`; }catch(e){}
@@ -420,7 +423,7 @@ function proofText(){
 function render(keepView){
   const t = L(), app = $("app");
   app.dir = t.dir; document.documentElement.lang = lang; document.documentElement.dir = t.dir;
-  $("saharaT").textContent = SAHARA_T[lang] || SAHARA_T.ar;
+  $("saharaT").textContent = SAHARA_T[lang] || SAHARA_T.ar; $("fieldT").textContent = FIELD_T[lang] || FIELD_T.ar;
   $("wmSub").textContent = t.wm; $("proof").innerHTML = proofText();
   [...$("langs").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.l === lang));
   $("sites").innerHTML = DATA.sites.map((s, i) => `<button class="site-t" role="tab" aria-selected="${i===cur}" data-i="${i}"><b>${esc(lang==="ar"?s.name_ar:s.name)}</b><span>${esc(lang==="ar"?s.metal_ar:s.metal)}</span></button>`).join("");

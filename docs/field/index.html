@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0c1f1b">
+<title>Madar Terrain</title>
+<meta name="description" content="Madar Terrain — offline field app: go to Madar Minerals targets with GPS and compass, log samples with photos, export.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<!--
+  Madar Terrain (مدار الميدان). Field companion of Madar Minerals.
+  Works offline after the first visit (service worker). Samples and photos stay on the phone (IndexedDB)
+  until exported as a ZIP (GeoJSON + CSV + photos). Built for strong sun: light paper, heavy ink, big targets.
+-->
+<style>
+:root{--paper:#f3eee2;--card:#fffdf8;--ink:#13201d;--ink-2:#41504c;--mute:#7b8682;--rule:#d9d0bd;--mal:#0c1f1b;--gold:#b0852f;--gold-2:#e4c88e;
+  --iron:#b5482f;--alteration:#a87a1c;--carbonatite:#2f7f63;--ok:#2f7f4f;--warn:#b8761a;--bad:#b23b2a}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI","Noto Sans Arabic",Tahoma,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+header{position:sticky;top:0;z-index:5;background:var(--mal);color:#efe8d8;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;display:flex;align-items:center;gap:12px}
+header b{font-size:19px;letter-spacing:.01em}
+header small{display:block;color:#9fb3a8;font-size:12px}
+header .sp{flex:1}
+.gps{font-size:12px;color:#9fb3a8;text-align:end;direction:ltr}
+.gps i{display:inline-block;width:8px;height:8px;border-radius:50%;background:#7b8682;margin-inline-end:6px}
+.gps.on i{background:#7fc2a6}
+nav{position:fixed;bottom:0;inset-inline:0;z-index:5;display:grid;grid-template-columns:repeat(4,1fr);background:var(--card);border-top:1px solid var(--rule);padding-bottom:env(safe-area-inset-bottom)}
+nav button{border:0;background:none;padding:10px 4px 12px;font-size:13px;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:2px;min-height:58px}
+nav button b{font-size:20px;line-height:1}
+nav button[aria-current="true"]{color:var(--ink);font-weight:700;box-shadow:inset 0 3px 0 var(--gold)}
+main{padding:14px 16px 96px;max-width:720px;margin:0 auto}
+section[hidden]{display:none}
+h2{font-size:18px;margin:6px 0 10px}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:14px;margin:10px 0}
+.seg{display:flex;gap:4px;background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:4px;flex-wrap:wrap}
+.seg button{flex:1;border:0;background:none;border-radius:7px;padding:8px 6px;font-size:14px;min-height:40px;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper);font-weight:600}
+.list{list-style:none;margin:10px 0;padding:0}
+.list li{display:grid;grid-template-columns:auto 1fr auto;gap:4px 12px;align-items:center;background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:12px;margin:8px 0;cursor:pointer}
+.rk{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;font-size:15px}
+.l1{font-weight:600}
+.l2{font-size:13px;color:var(--ink-2)}
+.dist{text-align:end;font-weight:700;direction:ltr;white-space:nowrap}
+.dist small{display:block;font-weight:400;color:var(--mute);font-size:12px}
+.nav-top{text-align:center}
+.nav-top .name{font-size:20px;font-weight:700}
+.nav-top .sub{color:var(--ink-2);font-size:14px}
+.compass{position:relative;width:min(78vw,320px);aspect-ratio:1;margin:16px auto}
+.compass svg{width:100%;height:100%;display:block}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:center}
+.big div{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:12px}
+.big b{display:block;font-size:30px;direction:ltr;line-height:1.1}
+.big span{font-size:13px;color:var(--mute)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;border-radius:12px;border:0;background:var(--ink);color:var(--paper);font-weight:700;font-size:16px;cursor:pointer;margin:10px 0;text-decoration:none}
+.btn.gold{background:var(--gold);color:#fff}
+.btn.ghost{background:none;border:1.5px solid var(--ink);color:var(--ink)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:block;font-size:13px;color:var(--ink-2);margin:10px 0 4px}
+input[type=text],select,textarea{width:100%;min-height:48px;border:1.5px solid var(--rule);border-radius:10px;padding:10px 12px;background:#fff}
+textarea{min-height:90px}
+.chips-sel{display:flex;flex-wrap:wrap;gap:6px}
+.chips-sel button{border:1.5px solid var(--rule);background:#fff;border-radius:999px;padding:8px 12px;font-size:14px;min-height:40px}
+.chips-sel button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.photos{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.photos img{width:84px;height:84px;object-fit:cover;border-radius:8px;border:1px solid var(--rule)}
+.note{font-size:13px;color:var(--mute)}
+.warn{background:#fbefd8;border:1px solid #e8cf9a;color:#5b4310;border-radius:10px;padding:10px 12px;font-size:14px}
+.chip-img{width:100%;border-radius:10px;border:1px solid var(--rule);display:block}
+.ltr{direction:ltr;unicode-bidi:isolate}
+.s-list li{grid-template-columns:auto 1fr auto}
+.s-list img{width:52px;height:52px;object-fit:cover;border-radius:8px}
+.toast{position:fixed;bottom:84px;inset-inline:16px;background:var(--ink);color:var(--paper);padding:12px 14px;border-radius:10px;z-index:9;display:none;text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <svg width="30" height="30" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="15.5" fill="none" stroke="#cba35c" stroke-width="1"/><path d="M17 6.5l6.5 10.5L17 27.5 10.5 17z" fill="#1f5c4b" stroke="#e4c88e" stroke-width=".9"/><path d="M17 6.5l6.5 10.5H10.5z" fill="#e4c88e"/></svg>
+  <div><b id="hTitle">مدار الميدان</b><small id="hSub"></small></div>
+  <div class="sp"></div>
+  <div class="gps" id="gps"><i></i><span>GPS…</span></div>
+</header>
+<main>
+  <section id="v-targets">
+    <div class="seg" id="srcSeg"></div>
+    <div class="seg" id="modelSeg" style="margin-top:8px"></div>
+    <ul class="list" id="tlist"></ul>
+  </section>
+  <section id="v-go" hidden>
+    <div id="goBody"></div>
+  </section>
+  <section id="v-sample" hidden>
+    <h2 id="sTitle"></h2>
+    <div class="card" id="sForm"></div>
+  </section>
+  <section id="v-log" hidden>
+    <h2 id="lTitle"></h2>
+    <button class="btn gold" id="exp"></button>
+    <ul class="list s-list" id="slist"></ul>
+    <div class="card"><b id="offT"></b><p class="note" id="offP"></p><button class="btn ghost" id="offB"></button></div>
+    <div class="card"><div class="seg" id="langSeg"><button data-l="ar">العربية</button><button data-l="fr">Français</button></div></div>
+  </section>
+</main>
+<nav id="nav">
+  <button data-v="targets"><b>◎</b><span></span></button>
+  <button data-v="go"><b>➤</b><span></span></button>
+  <button data-v="sample"><b>＋</b><span></span></button>
+  <button data-v="log"><b>☰</b><span></span></button>
+</nav>
+<div class="toast" id="toast"></div>
+
+<script>
+const T={
+ ar:{dir:"rtl",title:"مدار الميدان",sub:"رفيق مدار المعادن في الميدان",nav:["الأهداف","التوجه","عينة","السجل"],
+  src:{sites:"المواقع المدروسة",sahara:"مسح الصحراء"},model:{all:"الكل",iron:"الحديد",alteration:"ذهب ونحاس",carbonatite:"عناصر نادرة"},
+  nogps:"شغّل تحديد الموقع لترى المسافة إلى كل هدف.",loading:"تحميل الأهداف…",target:"الهدف",
+  pick:"اختر هدفاً من قائمة الأهداف أولاً.",dist:"المسافة",bear:"الاتجاه",acc:"دقة GPS",heading:"اتجاه الهاتف",
+  compassOn:"تشغيل البوصلة",compassHint:"إذا لم يتحرك السهم: امسك الهاتف أفقياً، أو اتبع رقم الاتجاه بالدرجات (0 = الشمال).",
+  arrived:"وصلت إلى الهدف (أقل من 100 م). سجّل عينة.",logHere:"سجّل عينة هنا",maps:"افتح في Google Maps",
+  sTitle:"تسجيل عينة",sid:"رقم العينة",pos:"الموقع",posNow:"تحديث الموقع",near:"قرب الهدف",none:"بدون هدف",
+  rock:"نوع الصخر",rocks:["صخر داكن","صخر أحمر / صدئ","صخر أبيض / فاتح","عروق كوارتز","صخر مغير / طيني","رمل","أخرى"],
+  colour:"اللون",magnet:"المغناطيس يجذبها؟",yes:"نعم",no:"لا",unk:"لم أجرب",photos:"الصور",addPhoto:"＋ صورة",notes:"ملاحظات",
+  save:"حفظ العينة",saved:"✓ حُفظت العينة على الهاتف",needPos:"لا يوجد موقع GPS بعد. انتظر أو اضغط «تحديث الموقع».",
+  lTitle:"سجل العينات",exp:"تصدير الكل (ZIP: GeoJSON + CSV + صور)",empty:"لا توجد عينات بعد.",del:"حذف",
+  delQ:"حذف هذه العينة نهائياً؟",offT:"العمل دون إنترنت",offP:"التطبيق يعمل دون إنترنت بعد أول فتح. اضغط لتحميل صور الأهداف أيضاً (حوالي 4 ميغا).",
+  offB:"تحميل للعمل دون إنترنت",offDone:"✓ جاهز للعمل دون إنترنت",km:"كم",m:"م",rank:"رقم",of:"من"},
+ fr:{dir:"ltr",title:"Madar Terrain",sub:"Le compagnon de terrain de Madar Minerais",nav:["Cibles","Aller","Échantillon","Journal"],
+  src:{sites:"Sites étudiés",sahara:"Levé du Sahara"},model:{all:"Tout",iron:"Fer",alteration:"Or, cuivre",carbonatite:"Terres rares"},
+  nogps:"Activez la localisation pour voir la distance à chaque cible.",loading:"Chargement des cibles…",target:"Cible",
+  pick:"Choisissez d'abord une cible dans la liste.",dist:"Distance",bear:"Cap",acc:"Précision GPS",heading:"Cap du téléphone",
+  compassOn:"Activer la boussole",compassHint:"Si la flèche ne bouge pas : tenez le téléphone à plat, ou suivez le cap en degrés (0 = nord).",
+  arrived:"Vous êtes sur la cible (moins de 100 m). Enregistrez un échantillon.",logHere:"Échantillon ici",maps:"Ouvrir dans Google Maps",
+  sTitle:"Nouvel échantillon",sid:"N° d'échantillon",pos:"Position",posNow:"Actualiser la position",near:"Près de la cible",none:"Sans cible",
+  rock:"Type de roche",rocks:["Roche sombre","Roche rouge / rouillée","Roche blanche / claire","Veines de quartz","Roche altérée / argileuse","Sable","Autre"],
+  colour:"Couleur",magnet:"Attirée par l'aimant ?",yes:"Oui",no:"Non",unk:"Pas testé",photos:"Photos",addPhoto:"＋ Photo",notes:"Notes",
+  save:"Enregistrer",saved:"✓ Échantillon enregistré sur le téléphone",needPos:"Pas encore de position GPS. Patientez ou touchez « Actualiser ».",
+  lTitle:"Journal des échantillons",exp:"Tout exporter (ZIP : GeoJSON + CSV + photos)",empty:"Aucun échantillon pour l'instant.",del:"Supprimer",
+  delQ:"Supprimer définitivement cet échantillon ?",offT:"Travail hors ligne",offP:"L'application marche hors ligne après la première ouverture. Touchez pour charger aussi les images des cibles (~4 Mo).",
+  offB:"Préparer le hors-ligne",offDone:"✓ Prêt pour le hors-ligne",km:"km",m:"m",rank:"n°",of:"de"}
+};
+const MCOL={iron:"#b5482f",alteration:"#a87a1c",carbonatite:"#2f7f63"};
+let L=(()=>{try{return localStorage.getItem("madar-lang")==="fr"?"fr":"ar"}catch(e){return "ar"}})();
+const $=s=>document.querySelector(s),t=k=>T[L][k];
+let VIEW="targets",SRC="sahara",MODEL="all",TG=[],SEL=null,POS=null,HEAD=null,FORM={rock:null,mag:null,photos:[]};
+
+// ---------- data ----------
+async function loadTargets(){
+  const out=[];
+  try{const d=await fetch("../minerals/minerals.json").then(r=>r.json());
+    d.sites.forEach(s=>s.targets.forEach(z=>out.push({src:"sites",key:`${s.id}-${z.rank}`,name:`${L==="ar"?s.name_ar:s.name} · ${z.label||"T"+z.rank}`,
+      name_ar:`${s.name_ar} · ${z.label||"T"+z.rank}`,name_fr:`${s.name} · ${z.label||"T"+z.rank}`,lat:z.lat,lon:z.lon,rank:z.rank,area:z.area_ha,
+      model:s.profile==="alteration"?"alteration":s.profile==="iron"?"iron":"carbonatite"})))}catch(e){}
+  try{const d=await fetch("../minerals/sahara/sahara.json").then(r=>r.json());
+    Object.entries(d.models).forEach(([m,v])=>v.targets.forEach(z=>out.push({src:"sahara",key:`${m}-${z.region}-${z.rank}`,
+      name_ar:`${d.models[m].ar} · ${z.rank}`,name_fr:`${d.models[m].fr} · ${z.rank}`,where_ar:z.where.ar,where_fr:z.where.fr,
+      lat:z.lat,lon:z.lon,rank:z.rank,area:z.area_ha,model:m,region:z.region,chip:z.chip_tc?"../minerals/sahara/"+z.chip_tc:null,geo:z.chip_geo?"../minerals/sahara/"+z.chip_geo:null})))}catch(e){}
+  TG=out;
+}
+// ---------- geo ----------
+function km(a,b,c,d){const p=Math.PI/180,x=Math.sin((c-a)*p/2)**2+Math.cos(a*p)*Math.cos(c*p)*Math.sin((d-b)*p/2)**2;return 12742*Math.asin(Math.sqrt(x))}
+function brg(a,b,c,d){const p=Math.PI/180,y=Math.sin((d-b)*p)*Math.cos(c*p),x=Math.cos(a*p)*Math.sin(c*p)-Math.sin(a*p)*Math.cos(c*p)*Math.cos((d-b)*p);return (Math.atan2(y,x)/p+360)%360}
+function fmtD(k){return k<1?`${Math.round(k*1000)} ${t("m")}`:k<20?`${k.toFixed(1)} ${t("km")}`:`${Math.round(k)} ${t("km")}`}
+navigator.geolocation&&navigator.geolocation.watchPosition(p=>{POS={lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy,alt:p.coords.altitude,ts:p.timestamp};gpsUI();if(VIEW==="targets")listUI();if(VIEW==="go")goUI()},
+  ()=>{POS=null;gpsUI()},{enableHighAccuracy:true,maximumAge:5000,timeout:20000});
+function gpsUI(){const g=$("#gps");g.classList.toggle("on",!!POS);g.querySelector("span").textContent=POS?`${POS.lat.toFixed(5)}, ${POS.lon.toFixed(5)} ±${Math.round(POS.acc)}m`:"GPS…"}
+function onHeading(e){let h=null;if(typeof e.webkitCompassHeading==="number")h=e.webkitCompassHeading;else if(e.absolute&&e.alpha!=null)h=(360-e.alpha)%360;else if(e.alpha!=null)h=(360-e.alpha)%360;
+  if(h!=null){HEAD=h;if(VIEW==="go")arrow()}}
+async function compassOn(){try{if(window.DeviceOrientationEvent&&typeof DeviceOrientationEvent.requestPermission==="function"){const r=await DeviceOrientationEvent.requestPermission();if(r!=="granted")return}
+  addEventListener("deviceorientationabsolute",onHeading);addEventListener("deviceorientation",onHeading)}catch(e){}}
+
+// ---------- views ----------
+function show(v){VIEW=v;["targets","go","sample","log"].forEach(k=>$("#v-"+k).hidden=k!==v);document.querySelectorAll("#nav button").forEach(b=>b.setAttribute("aria-current",b.dataset.v===v));
+  ({targets:listUI,go:goUI,sample:formUI,log:logUI})[v]();scrollTo(0,0)}
+function chrome(){document.documentElement.lang=L;document.documentElement.dir=t("dir");$("#hTitle").textContent=t("title");$("#hSub").textContent=t("sub");
+  document.querySelectorAll("#nav button span").forEach((s,i)=>s.textContent=t("nav")[i]);
+  $("#srcSeg").innerHTML=Object.entries(t("src")).map(([k,v])=>`<button data-s="${k}" aria-pressed="${k===SRC}">${v}</button>`).join("");
+  document.querySelectorAll("#srcSeg button").forEach(b=>b.onclick=()=>{SRC=b.dataset.s;chrome();listUI()});
+  $("#modelSeg").innerHTML=Object.entries(t("model")).map(([k,v])=>`<button data-m="${k}" aria-pressed="${k===MODEL}">${v}</button>`).join("");
+  document.querySelectorAll("#modelSeg button").forEach(b=>b.onclick=()=>{MODEL=b.dataset.m;chrome();listUI()});
+  document.querySelectorAll("#langSeg button").forEach(b=>{b.setAttribute("aria-pressed",b.dataset.l===L);b.onclick=()=>{L=b.dataset.l;try{localStorage.setItem("madar-lang",L)}catch(e){}chrome();show(VIEW)}});
+}
+function nm(z){return L==="ar"?z.name_ar:z.name_fr}
+function wh(z){return z.where_ar?(L==="ar"?z.where_ar:z.where_fr):""}
+function listUI(){
+  const ul=$("#tlist");if(!TG.length){ul.innerHTML=`<li>${t("loading")}</li>`;return}
+  let a=TG.filter(z=>z.src===SRC&&(MODEL==="all"||z.model===MODEL));
+  if(POS){a.forEach(z=>z._d=km(POS.lat,POS.lon,z.lat,z.lon));a.sort((x,y)=>x._d-y._d)}
+  ul.innerHTML=(POS?"":`<li style="display:block;cursor:default" class="warn">${t("nogps")}</li>`)+a.slice(0,150).map(z=>`<li data-k="${z.key}">
+    <span class="rk" style="background:${MCOL[z.model]}">${z.rank}</span>
+    <span><span class="l1">${nm(z)}</span><br><span class="l2">${wh(z)||""} <span class="ltr">${z.lat.toFixed(4)}, ${z.lon.toFixed(4)}</span></span></span>
+    <span class="dist">${POS?fmtD(z._d):""}<small>${POS?Math.round(brg(POS.lat,POS.lon,z.lat,z.lon))+"°":""}</small></span></li>`).join("");
+  ul.querySelectorAll("li[data-k]").forEach(li=>li.onclick=()=>{SEL=TG.find(z=>z.key===li.dataset.k);try{localStorage.setItem("madar-sel",SEL.key)}catch(e){}show("go")});
+}
+function goUI(){
+  const b=$("#goBody");if(!SEL){b.innerHTML=`<div class="card">${t("pick")}</div>`;return}
+  const d=POS?km(POS.lat,POS.lon,SEL.lat,SEL.lon):null,br=POS?brg(POS.lat,POS.lon,SEL.lat,SEL.lon):null;
+  b.innerHTML=`<div class="nav-top"><div class="name">${nm(SEL)}</div><div class="sub">${wh(SEL)} <span class="ltr">${SEL.lat.toFixed(5)}, ${SEL.lon.toFixed(5)}</span></div></div>
+   <div class="compass"><svg viewBox="-110 -110 220 220" aria-hidden="true">
+     <circle r="104" fill="#fffdf8" stroke="#d9d0bd" stroke-width="2"/>
+     <g id="dial">${[...Array(36)].map((_,i)=>`<line x1="0" y1="-104" x2="0" y2="${i%9===0?-88:-96}" stroke="#7b8682" stroke-width="${i%9===0?3:1.5}" transform="rotate(${i*10})"/>`).join("")}
+       <text y="-70" text-anchor="middle" font-size="18" font-weight="700" fill="#b23b2a">N</text></g>
+     <g id="arr"><path d="M0,-78 L18,10 L0,-2 L-18,10 Z" fill="#13201d"/><circle r="6" fill="#b0852f"/></g></svg></div>
+   <div class="big"><div><b>${d!=null?fmtD(d):"–"}</b><span>${t("dist")}</span></div><div><b>${br!=null?Math.round(br)+"°":"–"}</b><span>${t("bear")}</span></div>
+     <div><b>${POS?"±"+Math.round(POS.acc)+" m":"–"}</b><span>${t("acc")}</span></div><div><b id="hd">${HEAD!=null?Math.round(HEAD)+"°":"–"}</b><span>${t("heading")}</span></div></div>
+   ${d!=null&&d<0.1?`<div class="warn" style="margin-top:10px">${t("arrived")}</div>`:""}
+   <button class="btn ghost" id="cOn">${t("compassOn")}</button><p class="note">${t("compassHint")}</p>
+   <button class="btn gold" id="logHere">${t("logHere")}</button>
+   ${SEL.chip?`<div class="row"><img class="chip-img" src="${SEL.chip}" alt=""><img class="chip-img" src="${SEL.geo}" alt=""></div>`:""}
+   <a class="btn ghost" href="https://www.google.com/maps/dir/?api=1&destination=${SEL.lat},${SEL.lon}" target="_blank" rel="noopener">${t("maps")}</a>`;
+  $("#cOn").onclick=compassOn;$("#logHere").onclick=()=>show("sample");arrow();
+}
+function arrow(){const a=$("#arr"),dial=$("#dial");if(!a||!SEL)return;const br=POS?brg(POS.lat,POS.lon,SEL.lat,SEL.lon):0,h=HEAD||0;
+  dial.setAttribute("transform",`rotate(${-h})`);a.setAttribute("transform",`rotate(${br-h})`);const hd=$("#hd");if(hd)hd.textContent=HEAD!=null?Math.round(HEAD)+"°":"–"}
+
+// ---------- storage (IndexedDB) ----------
+let DB;function db(){return DB||(DB=new Promise((res,rej)=>{const r=indexedDB.open("madar-terrain",1);r.onupgradeneeded=()=>{r.result.createObjectStore("samples",{keyPath:"id"})};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}))}
+async function put(s){const d=await db();return new Promise((res,rej)=>{const x=d.transaction("samples","readwrite");x.objectStore("samples").put(s);x.oncomplete=res;x.onerror=()=>rej(x.error)})}
+async function all(){const d=await db();return new Promise(res=>{const r=d.transaction("samples").objectStore("samples").getAll();r.onsuccess=()=>res(r.result.sort((a,b)=>a.time<b.time?1:-1))})}
+async function del(id){const d=await db();return new Promise(res=>{const x=d.transaction("samples","readwrite");x.objectStore("samples").delete(id);x.oncomplete=res})}
+async function nextId(){const n=(await all()).length+1,d=new Date();return `MDR-${d.getFullYear()}${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}-${String(n).padStart(3,"0")}`}
+function shrink(file){return new Promise(res=>{const i=new Image(),u=URL.createObjectURL(file);i.onload=()=>{const s=Math.min(1,1600/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=Math.round(i.width*s);c.height=Math.round(i.height*s);
+  c.getContext("2d").drawImage(i,0,0,c.width,c.height);c.toBlob(b=>{URL.revokeObjectURL(u);res(b)},"image/jpeg",0.82)};i.src=u})}
+
+// ---------- sample form ----------
+async function formUI(){
+  $("#sTitle").textContent=t("sTitle");const id=await nextId();
+  const near=SEL&&POS&&km(POS.lat,POS.lon,SEL.lat,SEL.lon)<5?SEL:null;
+  const opt=k=>`<button data-v="${k}" aria-pressed="${FORM.mag===k}">${t(k)}</button>`;
+  $("#sForm").innerHTML=`<label>${t("sid")}</label><input type="text" id="fId" value="${id}">
+   <label>${t("pos")}</label><div class="ltr" id="fPos" style="font-weight:600">${POS?`${POS.lat.toFixed(6)}, ${POS.lon.toFixed(6)} ±${Math.round(POS.acc)} m`:"–"}</div>
+   <button class="btn ghost" id="fRe">${t("posNow")}</button>
+   <label>${t("near")}</label><select id="fT"><option value="">${t("none")}</option>${TG.filter(z=>POS?km(POS.lat,POS.lon,z.lat,z.lon)<10:z===SEL).slice(0,30).map(z=>`<option value="${z.key}" ${near&&near.key===z.key?"selected":""}>${nm(z)}</option>`).join("")}</select>
+   <label>${t("rock")}</label><div class="chips-sel" id="fRock">${t("rocks").map((r,i)=>`<button data-v="${i}" aria-pressed="${FORM.rock===i}">${r}</button>`).join("")}</div>
+   <label>${t("colour")}</label><input type="text" id="fCol">
+   <label>${t("magnet")}</label><div class="chips-sel" id="fMag">${opt("yes")}${opt("no")}${opt("unk")}</div>
+   <label>${t("photos")}</label><input type="file" id="fPh" accept="image/*" capture="environment" multiple hidden><button class="btn ghost" id="fPhB">${t("addPhoto")}</button><div class="photos" id="fPhs"></div>
+   <label>${t("notes")}</label><textarea id="fN"></textarea>
+   <button class="btn gold" id="fSave">${t("save")}</button>`;
+  const thumbs=()=>$("#fPhs").innerHTML=FORM.photos.map(b=>`<img src="${URL.createObjectURL(b)}" alt="">`).join("");thumbs();
+  $("#fRe").onclick=()=>navigator.geolocation.getCurrentPosition(p=>{POS={lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy,alt:p.coords.altitude,ts:p.timestamp};gpsUI();$("#fPos").textContent=`${POS.lat.toFixed(6)}, ${POS.lon.toFixed(6)} ±${Math.round(POS.acc)} m`},()=>{},{enableHighAccuracy:true,maximumAge:0,timeout:20000});
+  document.querySelectorAll("#fRock button").forEach(b=>b.onclick=()=>{FORM.rock=+b.dataset.v;document.querySelectorAll("#fRock button").forEach(x=>x.setAttribute("aria-pressed",x===b))});
+  document.querySelectorAll("#fMag button").forEach(b=>b.onclick=()=>{FORM.mag=b.dataset.v;document.querySelectorAll("#fMag button").forEach(x=>x.setAttribute("aria-pressed",x===b))});
+  $("#fPhB").onclick=()=>$("#fPh").click();
+  $("#fPh").onchange=async e=>{for(const f of e.target.files)FORM.photos.push(await shrink(f));thumbs()};
+  $("#fSave").onclick=async()=>{if(!POS){toast(t("needPos"));return}
+    const tk=$("#fT").value,tz=TG.find(z=>z.key===tk);
+    await put({id:$("#fId").value.trim()||id,time:new Date().toISOString(),lat:POS.lat,lon:POS.lon,acc:Math.round(POS.acc),alt:POS.alt,
+      target:tk||null,target_name:tz?tz.name_fr:null,target_km:tz?+km(POS.lat,POS.lon,tz.lat,tz.lon).toFixed(3):null,
+      rock:FORM.rock!=null?T.fr.rocks[FORM.rock]:null,rock_ar:FORM.rock!=null?T.ar.rocks[FORM.rock]:null,colour:$("#fCol").value,magnet:FORM.mag,notes:$("#fN").value,photos:FORM.photos});
+    FORM={rock:null,mag:null,photos:[]};toast(t("saved"));show("log")};
+}
+// ---------- log + export ----------
+async function logUI(){
+  $("#lTitle").textContent=t("lTitle");$("#exp").textContent=t("exp");$("#offT").textContent=t("offT");$("#offP").textContent=t("offP");$("#offB").textContent=t("offB");
+  const s=await all(),ul=$("#slist");
+  ul.innerHTML=s.length?s.map(x=>`<li data-id="${x.id}">${x.photos&&x.photos[0]?`<img src="${URL.createObjectURL(x.photos[0])}" alt="">`:`<span class="rk" style="background:#7b8682">·</span>`}
+    <span><span class="l1 ltr">${x.id}</span><br><span class="l2">${(L==="ar"?x.rock_ar:x.rock)||""} ${x.target_name?"· "+x.target_name:""}<br><span class="ltr">${x.lat.toFixed(5)}, ${x.lon.toFixed(5)} · ${x.time.slice(0,16).replace("T"," ")}</span></span></span>
+    <button class="btn ghost" style="width:auto;min-height:40px;padding:0 12px;margin:0" data-del="${x.id}">${t("del")}</button></li>`).join(""):`<li style="display:block;cursor:default">${t("empty")}</li>`;
+  ul.querySelectorAll("[data-del]").forEach(b=>b.onclick=async e=>{e.stopPropagation();if(confirm(t("delQ"))){await del(b.dataset.del);logUI()}});
+}
+$("#exp").onclick=async()=>{const s=await all();if(!s.length){toast(t("empty"));return}
+  const feats=s.map(x=>({type:"Feature",geometry:{type:"Point",coordinates:[x.lon,x.lat]},properties:{id:x.id,time:x.time,accuracy_m:x.acc,altitude_m:x.alt,target:x.target_name,target_km:x.target_km,rock:x.rock,colour:x.colour,magnet:x.magnet,notes:x.notes,photos:(x.photos||[]).map((_,i)=>`photos/${x.id}_${i+1}.jpg`)}}));
+  const esc=v=>`"${String(v??"").replace(/"/g,'""')}"`;
+  const csv=["id,time,lat,lon,accuracy_m,target,target_km,rock,colour,magnet,notes,photos"].concat(s.map(x=>[x.id,x.time,x.lat,x.lon,x.acc,x.target_name,x.target_km,x.rock,x.colour,x.magnet,x.notes,(x.photos||[]).length].map(esc).join(","))).join("\n");
+  const files=[["samples.geojson",new TextEncoder().encode(JSON.stringify({type:"FeatureCollection",features:feats},null,1))],["samples.csv",new TextEncoder().encode("﻿"+csv)]];
+  for(const x of s)for(let i=0;i<(x.photos||[]).length;i++)files.push([`photos/${x.id}_${i+1}.jpg`,new Uint8Array(await x.photos[i].arrayBuffer())]);
+  const blob=zip(files),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`madar-terrain-${new Date().toISOString().slice(0,10)}.zip`;a.click()};
+// minimal ZIP writer (stored, no compression) with CRC32
+const CRC=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+function crc(b){let c=0xFFFFFFFF;for(let i=0;i<b.length;i++)c=CRC[(c^b[i])&255]^(c>>>8);return (c^0xFFFFFFFF)>>>0}
+function zip(files){const parts=[],cen=[];let off=0;const enc=new TextEncoder();
+  for(const [name,data] of files){const n=enc.encode(name),c=crc(data),h=new DataView(new ArrayBuffer(30));
+    h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(6,0x0800,true);h.setUint32(14,c,true);h.setUint32(18,data.length,true);h.setUint32(22,data.length,true);h.setUint16(26,n.length,true);
+    parts.push(h,n,data);const e=new DataView(new ArrayBuffer(46));e.setUint32(0,0x02014b50,true);e.setUint16(4,20,true);e.setUint16(6,20,true);e.setUint16(8,0x0800,true);
+    e.setUint32(16,c,true);e.setUint32(20,data.length,true);e.setUint32(24,data.length,true);e.setUint16(28,n.length,true);e.setUint32(42,off,true);cen.push(e,n);off+=30+n.length+data.length}
+  const size=cen.reduce((a,x)=>a+(x.byteLength||x.length),0),end=new DataView(new ArrayBuffer(22));end.setUint32(0,0x06054b50,true);end.setUint16(8,files.length,true);end.setUint16(10,files.length,true);end.setUint32(12,size,true);end.setUint32(16,off,true);
+  return new Blob([...parts,...cen,end],{type:"application/zip"})}
+// ---------- offline ----------
+$("#offB").onclick=async()=>{if(!navigator.serviceWorker)return;const urls=TG.filter(z=>z.chip).flatMap(z=>[z.chip,z.geo]);
+  const reg=await navigator.serviceWorker.ready;reg.active&&reg.active.postMessage({cache:urls});toast(t("offDone"))};
+function toast(m){const e=$("#toast");e.textContent=m;e.style.display="block";clearTimeout(e._t);e._t=setTimeout(()=>e.style.display="none",2600)}
+document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>show(b.dataset.v));
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+(async()=>{chrome();gpsUI();show("targets");await loadTargets();
+  try{const k=localStorage.getItem("madar-sel");if(k)SEL=TG.find(z=>z.key===k)||null}catch(e){}listUI()})();
+</script>
+</body>
+</html>
