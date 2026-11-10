@@ -35,7 +35,9 @@
      "peak": 4.03,
      "rank": 1,
      "label": "T1",
-     "rel": 100
+     "rel": 100,
+     "struct_km": 0.76,
+     "ring_km": null
     },
     {
      "lat": 31.24683,
@@ -44,7 +46,9 @@
      "peak": 3.16,
      "rank": 2,
      "label": "T2",
-     "rel": 79
+     "rel": 79,
+     "struct_km": 0.0,
+     "ring_km": null
     },
     {
      "lat": 31.24519,
@@ -53,7 +57,9 @@
      "peak": 2.86,
      "rank": 3,
      "label": "T3",
-     "rel": 45
+     "rel": 45,
+     "struct_km": 0.48,
+     "ring_km": null
     },
     {
      "lat": 31.33346,
@@ -62,7 +68,9 @@
      "peak": 4.0,
      "rank": 4,
      "label": "T4",
-     "rel": 43
+     "rel": 43,
+     "struct_km": 0.48,
+     "ring_km": null
     },
     {
      "lat": 31.30973,
@@ -71,7 +79,9 @@
      "peak": 2.87,
      "rank": 5,
      "label": "T5",
-     "rel": 24
+     "rel": 24,
+     "struct_km": 0.19,
+     "ring_km": null
     },
     {
      "lat": 31.41346,
@@ -80,7 +90,9 @@
      "peak": 2.1,
      "rank": 6,
      "label": "T6",
-     "rel": 20
+     "rel": 20,
+     "struct_km": 0.3,
+     "ring_km": null
     },
     {
      "lat": 31.33879,
@@ -89,7 +101,9 @@
      "peak": 3.28,
      "rank": 7,
      "label": "T7",
-     "rel": 20
+     "rel": 20,
+     "struct_km": 0.54,
+     "ring_km": null
     },
     {
      "lat": 31.38862,
@@ -98,7 +112,9 @@
      "peak": 2.2,
      "rank": 8,
      "label": "T8",
-     "rel": 15
+     "rel": 15,
+     "struct_km": 0.13,
+     "ring_km": null
     },
     {
      "lat": 31.34649,
@@ -107,7 +123,9 @@
      "peak": 2.38,
      "rank": 9,
      "label": "T9",
-     "rel": 12
+     "rel": 12,
+     "struct_km": 1.62,
+     "ring_km": null
     },
     {
      "lat": 31.35597,
@@ -116,7 +134,9 @@
      "peak": 3.46,
      "rank": 10,
      "label": "T10",
-     "rel": 10
+     "rel": 10,
+     "struct_km": 0.95,
+     "ring_km": null
     }
    ],
    "blind_test": [
@@ -161,10 +181,37 @@
     "clay.png": "imiter/clay.png",
     "iron.png": "imiter/iron.png",
     "score.png": "imiter/score.png",
-    "ree.png": "imiter/ree.png"
+    "ree.png": "imiter/ree.png",
+    "struct.jpg": "imiter/struct.jpg"
    },
    "gis": "imiter/MADAR-imiter-GIS.zip",
-   "report": "imiter/MADAR-imiter-rapport.pdf"
+   "report": "imiter/MADAR-imiter-rapport.pdf",
+   "structure": {
+    "rose": [
+     0.375,
+     0.588,
+     0.704,
+     0.47,
+     0.491,
+     0.559,
+     1.0,
+     0.685,
+     0.488,
+     0.308,
+     0.297,
+     0.192,
+     0.147,
+     0.118,
+     0.202,
+     0.257,
+     0.17,
+     0.26
+    ],
+    "dominant_az": 65.0,
+    "rings": [],
+    "lineament_km": 258.9,
+    "src": "Copernicus DEM GLO-30, curvature + structure tensor + circular vote"
+   }
   },
   {
    "id": "bouazzer",
@@ -196,7 +243,9 @@
      "peak": 3.86,
      "rank": 1,
      "label": "T1",
-     "rel": 100
+     "rel": 100,
+     "struct_km": 1.85,
+     "ring_km": 20.09
     },
     {
      "lat": 30.48205,
@@ -205,7 +254,9 @@
      "peak": 2.82,
      "rank": 2,
      "label": "T2",
-     "rel": 31
+     "rel": 31,
+     "struct_km": 0.36,
+     "ring_km": 22.4
     },
     {
      "lat": 30.52079,
@@ -214,7 +265,9 @@
      "peak": 3.66,
      "rank": 3,
      "label": "T3",
-     "rel": 28
+     "rel": 28,
+     "struct_km": 1.85,
+     "ring_km": 11.14
     },
     {
      "lat": 30.50835,
@@ -223,7 +276,9 @@
      "peak": 3.51,
      "rank": 4,
      "label": "T4",
-     "rel": 23
+     "rel": 23,
+     "struct_km": 0.77,
+     "ring_km": 14.6
     },
     {
      "lat": 30.44024,
@@ -232,7 +287,9 @@
      "peak": 3.94,
      "rank": 5,
      "label": "T5",
-     "rel": 23
+     "rel": 23,
+     "struct_km": 4.79,
+     "ring_km": 28.19
     },
     {
      "lat": 30.47894,
@@ -241,7 +298,9 @@
      "peak": 2.67,
      "rank": 6,
      "label": "T6",
-     "rel": 19
+     "rel": 19,
+     "struct_km": 0.39,
+     "ring_km": 23.5
     },
     {
      "lat": 30.56522,
@@ -250,7 +309,9 @@
      "peak": 4.38,
      "rank": 7,
      "label": "T7",
-     "rel": 14
+     "rel": 14,
+     "struct_km": 3.19,
+     "ring_km": 15.7
     },
     {
      "lat": 30.60882,
@@ -259,7 +320,9 @@
      "peak": 2.87,
      "rank": 8,
      "label": "T8",
-     "rel": 10
+     "rel": 10,
+     "struct_km": 9.11,
+     "ring_km": 36.47
     },
     {
      "lat": 30.54899,
@@ -268,7 +331,9 @@
      "peak": 3.23,
      "rank": 9,
      "label": "T9",
-     "rel": 8
+     "rel": 8,
+     "struct_km": 1.32,
+     "ring_km": 11.33
     },
     {
      "lat": 30.43845,
@@ -277,7 +342,9 @@
      "peak": 3.61,
      "rank": 10,
      "label": "T10",
-     "rel": 8
+     "rel": 8,
+     "struct_km": 1.41,
+     "ring_km": 23.49
     }
    ],
    "blind_test": [
@@ -322,10 +389,56 @@
     "clay.png": "bouazzer/clay.png",
     "iron.png": "bouazzer/iron.png",
     "score.png": "bouazzer/score.png",
-    "ree.png": "bouazzer/ree.png"
+    "ree.png": "bouazzer/ree.png",
+    "struct.jpg": "bouazzer/struct.jpg"
    },
    "gis": "bouazzer/MADAR-bouazzer-GIS.zip",
-   "report": "bouazzer/MADAR-bouazzer-rapport.pdf"
+   "report": "bouazzer/MADAR-bouazzer-rapport.pdf",
+   "structure": {
+    "rose": [
+     0.407,
+     0.732,
+     0.49,
+     0.462,
+     0.675,
+     0.758,
+     0.631,
+     0.91,
+     0.651,
+     0.517,
+     1.0,
+     0.683,
+     0.393,
+     0.314,
+     0.184,
+     0.338,
+     0.369,
+     0.421
+    ],
+    "dominant_az": 105.0,
+    "rings": [
+     {
+      "id": "R1",
+      "lat": 30.43769,
+      "lon": -6.9546,
+      "radius_km": 1.2,
+      "closure": 0.62,
+      "tangential": 0.53,
+      "score": 1.08
+     },
+     {
+      "id": "R2",
+      "lat": 30.41462,
+      "lon": -6.85164,
+      "radius_km": 2.4,
+      "closure": 0.62,
+      "tangential": 0.53,
+      "score": 0.67
+     }
+    ],
+    "lineament_km": 430.1,
+    "src": "Copernicus DEM GLO-30, curvature + structure tensor + circular vote"
+   }
   },
   {
    "id": "kediet",
@@ -357,7 +470,9 @@
      "peak": 2.59,
      "rank": 1,
      "label": "T1",
-     "rel": 100
+     "rel": 100,
+     "struct_km": 4.51,
+     "ring_km": 5.07
     },
     {
      "lat": 22.60558,
@@ -366,7 +481,9 @@
      "peak": 2.75,
      "rank": 2,
      "label": "T2",
-     "rel": 91
+     "rel": 91,
+     "struct_km": 3.58,
+     "ring_km": 4.19
     },
     {
      "lat": 22.69481,
@@ -375,7 +492,9 @@
      "peak": 3.62,
      "rank": 3,
      "label": "T3",
-     "rel": 70
+     "rel": 70,
+     "struct_km": 0.4,
+     "ring_km": 0.51
     },
     {
      "lat": 22.65184,
@@ -384,7 +503,9 @@
      "peak": 4.0,
      "rank": 4,
      "label": "T4",
-     "rel": 60
+     "rel": 60,
+     "struct_km": 0.8,
+     "ring_km": 3.35
     },
     {
      "lat": 22.58663,
@@ -393,7 +514,9 @@
      "peak": 2.36,
      "rank": 5,
      "label": "T5",
-     "rel": 50
+     "rel": 50,
+     "struct_km": 4.34,
+     "ring_km": 7.0
     },
     {
      "lat": 22.59128,
@@ -402,7 +525,9 @@
      "peak": 2.29,
      "rank": 6,
      "label": "T6",
-     "rel": 35
+     "rel": 35,
+     "struct_km": 4.69,
+     "ring_km": 5.82
     },
     {
      "lat": 22.70829,
@@ -411,7 +536,9 @@
      "peak": 4.07,
      "rank": 7,
      "label": "T7",
-     "rel": 32
+     "rel": 32,
+     "struct_km": 0.0,
+     "ring_km": 1.52
     },
     {
      "lat": 22.62268,
@@ -420,7 +547,9 @@
      "peak": 2.61,
      "rank": 8,
      "label": "T8",
-     "rel": 20
+     "rel": 20,
+     "struct_km": 3.23,
+     "ring_km": 3.99
     },
     {
      "lat": 22.60593,
@@ -429,7 +558,9 @@
      "peak": 3.1,
      "rank": 9,
      "label": "T9",
-     "rel": 18
+     "rel": 18,
+     "struct_km": 3.65,
+     "ring_km": 7.54
     },
     {
      "lat": 22.63842,
@@ -438,7 +569,9 @@
      "peak": 2.9,
      "rank": 10,
      "label": "T10",
-     "rel": 16
+     "rel": 16,
+     "struct_km": 0.6,
+     "ring_km": 4.47
     }
    ],
    "blind_test": [
@@ -468,10 +601,74 @@
     "clay.png": "kediet/clay.png",
     "iron.png": "kediet/iron.png",
     "score.png": "kediet/score.png",
-    "ree.png": "kediet/ree.png"
+    "ree.png": "kediet/ree.png",
+    "struct.jpg": "kediet/struct.jpg"
    },
    "gis": "kediet/MADAR-kediet-GIS.zip",
-   "report": "kediet/MADAR-kediet-rapport.pdf"
+   "report": "kediet/MADAR-kediet-rapport.pdf",
+   "structure": {
+    "rose": [
+     0.249,
+     0.27,
+     0.291,
+     0.144,
+     0.149,
+     0.2,
+     0.372,
+     0.602,
+     0.527,
+     0.434,
+     0.425,
+     0.466,
+     0.342,
+     0.636,
+     1.0,
+     0.945,
+     0.555,
+     0.373
+    ],
+    "dominant_az": 145.0,
+    "rings": [
+     {
+      "id": "R1",
+      "lat": 22.66035,
+      "lon": -12.63788,
+      "radius_km": 2.1,
+      "closure": 0.79,
+      "tangential": 0.63,
+      "score": 1.03
+     },
+     {
+      "id": "R2",
+      "lat": 22.68284,
+      "lon": -12.48482,
+      "radius_km": 2.7,
+      "closure": 0.62,
+      "tangential": 0.73,
+      "score": 0.98
+     },
+     {
+      "id": "R3",
+      "lat": 22.69003,
+      "lon": -12.53844,
+      "radius_km": 1.2,
+      "closure": 0.75,
+      "tangential": 0.56,
+      "score": 0.94
+     },
+     {
+      "id": "R4",
+      "lat": 22.64145,
+      "lon": -12.51894,
+      "radius_km": 1.2,
+      "closure": 0.71,
+      "tangential": 0.71,
+      "score": 0.93
+     }
+    ],
+    "lineament_km": 291.0,
+    "src": "Copernicus DEM GLO-30, curvature + structure tensor + circular vote"
+   }
   },
   {
    "id": "twihinate",
@@ -503,7 +700,9 @@
      "peak": 2.52,
      "rank": 1,
      "label": "T1",
-     "rel": 100
+     "rel": 100,
+     "struct_km": 0.5,
+     "ring_km": 1.25
     },
     {
      "lat": 22.46962,
@@ -512,7 +711,9 @@
      "peak": 2.35,
      "rank": 2,
      "label": "T2",
-     "rel": 71
+     "rel": 71,
+     "struct_km": 0.68,
+     "ring_km": 0.75
     },
     {
      "lat": 22.47521,
@@ -521,7 +722,9 @@
      "peak": 2.48,
      "rank": 3,
      "label": "T3",
-     "rel": 56
+     "rel": 56,
+     "struct_km": 1.12,
+     "ring_km": 1.53
     },
     {
      "lat": 22.32858,
@@ -530,7 +733,9 @@
      "peak": 2.53,
      "rank": 4,
      "label": "T4",
-     "rel": 37
+     "rel": 37,
+     "struct_km": 0.66,
+     "ring_km": 7.09
     },
     {
      "lat": 22.30288,
@@ -539,7 +744,9 @@
      "peak": 2.76,
      "rank": 5,
      "label": "T5",
-     "rel": 33
+     "rel": 33,
+     "struct_km": 2.05,
+     "ring_km": 10.01
     },
     {
      "lat": 22.33862,
@@ -548,7 +755,9 @@
      "peak": 2.39,
      "rank": 6,
      "label": "T6",
-     "rel": 29
+     "rel": 29,
+     "struct_km": 0.6,
+     "ring_km": 5.48
     },
     {
      "lat": 22.46464,
@@ -557,7 +766,9 @@
      "peak": 2.33,
      "rank": 7,
      "label": "T7",
-     "rel": 29
+     "rel": 29,
+     "struct_km": 0.09,
+     "ring_km": 0.49
     },
     {
      "lat": 22.47932,
@@ -566,7 +777,9 @@
      "peak": 2.43,
      "rank": 8,
      "label": "T8",
-     "rel": 22
+     "rel": 22,
+     "struct_km": 0.88,
+     "ring_km": 1.83
     },
     {
      "lat": 22.29547,
@@ -575,7 +788,9 @@
      "peak": 2.26,
      "rank": 9,
      "label": "T9",
-     "rel": 22
+     "rel": 22,
+     "struct_km": 2.68,
+     "ring_km": 11.02
     },
     {
      "lat": 22.45717,
@@ -584,7 +799,9 @@
      "peak": 2.57,
      "rank": 10,
      "label": "T10",
-     "rel": 17
+     "rel": 17,
+     "struct_km": 0.29,
+     "ring_km": 1.04
     }
    ],
    "blind_test": [
@@ -619,10 +836,65 @@
     "clay.png": "twihinate/clay.png",
     "iron.png": "twihinate/iron.png",
     "score.png": "twihinate/score.png",
-    "ree.png": "twihinate/ree.png"
+    "ree.png": "twihinate/ree.png",
+    "struct.jpg": "twihinate/struct.jpg"
    },
    "gis": "twihinate/MADAR-twihinate-GIS.zip",
-   "report": "twihinate/MADAR-twihinate-rapport.pdf"
+   "report": "twihinate/MADAR-twihinate-rapport.pdf",
+   "structure": {
+    "rose": [
+     1.0,
+     0.772,
+     0.595,
+     0.547,
+     0.532,
+     0.474,
+     0.394,
+     0.395,
+     0.412,
+     0.275,
+     0.254,
+     0.371,
+     0.472,
+     0.387,
+     0.426,
+     0.536,
+     0.671,
+     0.683
+    ],
+    "dominant_az": 5.0,
+    "rings": [
+     {
+      "id": "R1",
+      "lat": 22.44961,
+      "lon": -16.04181,
+      "radius_km": 1.5,
+      "closure": 0.71,
+      "tangential": 0.76,
+      "score": 1.65
+     },
+     {
+      "id": "R2",
+      "lat": 22.39613,
+      "lon": -16.14753,
+      "radius_km": 1.5,
+      "closure": 0.67,
+      "tangential": 0.69,
+      "score": 1.19
+     },
+     {
+      "id": "R3",
+      "lat": 22.57412,
+      "lon": -16.01922,
+      "radius_km": 1.2,
+      "closure": 0.88,
+      "tangential": 0.52,
+      "score": 0.78
+     }
+    ],
+    "lineament_km": 421.4,
+    "src": "Copernicus DEM GLO-30, curvature + structure tensor + circular vote"
+   }
   },
   {
    "id": "lafhouda",
@@ -654,7 +926,9 @@
      "peak": 3.38,
      "rank": 1,
      "label": "T1",
-     "rel": 100
+     "rel": 100,
+     "struct_km": 4.72,
+     "ring_km": 15.91
     },
     {
      "lat": 22.20294,
@@ -663,7 +937,9 @@
      "peak": 2.97,
      "rank": 2,
      "label": "T2",
-     "rel": 7
+     "rel": 7,
+     "struct_km": 1.49,
+     "ring_km": 19.01
     },
     {
      "lat": 22.00477,
@@ -672,7 +948,9 @@
      "peak": 1.96,
      "rank": 3,
      "label": "T3",
-     "rel": 5
+     "rel": 5,
+     "struct_km": 8.45,
+     "ring_km": 13.14
     },
     {
      "lat": 22.04655,
@@ -681,7 +959,9 @@
      "peak": 3.08,
      "rank": 4,
      "label": "T4",
-     "rel": 5
+     "rel": 5,
+     "struct_km": 0.21,
+     "ring_km": 0.32
     },
     {
      "lat": 22.12895,
@@ -690,7 +970,9 @@
      "peak": 3.62,
      "rank": 5,
      "label": "T5",
-     "rel": 4
+     "rel": 4,
+     "struct_km": 1.42,
+     "ring_km": 15.28
     },
     {
      "lat": 22.09936,
@@ -699,7 +981,9 @@
      "peak": 4.55,
      "rank": 6,
      "label": "T6",
-     "rel": 4
+     "rel": 4,
+     "struct_km": 2.33,
+     "ring_km": 8.84
     },
     {
      "lat": 22.04664,
@@ -708,7 +992,9 @@
      "peak": 3.89,
      "rank": 7,
      "label": "T7",
-     "rel": 3
+     "rel": 3,
+     "struct_km": 0.34,
+     "ring_km": 0.35
     },
     {
      "lat": 22.10785,
@@ -717,7 +1003,9 @@
      "peak": 3.16,
      "rank": 8,
      "label": "T8",
-     "rel": 3
+     "rel": 3,
+     "struct_km": 3.29,
+     "ring_km": 9.59
     },
     {
      "lat": 22.15504,
@@ -726,7 +1014,9 @@
      "peak": 3.87,
      "rank": 9,
      "label": "T9",
-     "rel": 3
+     "rel": 3,
+     "struct_km": 0.28,
+     "ring_km": 10.61
     },
     {
      "lat": 22.08533,
@@ -735,7 +1025,9 @@
      "peak": 2.03,
      "rank": 10,
      "label": "T10",
-     "rel": 3
+     "rel": 3,
+     "struct_km": 5.66,
+     "ring_km": 8.31
     }
    ],
    "blind_test": [
@@ -765,10 +1057,47 @@
     "clay.png": "lafhouda/clay.png",
     "iron.png": "lafhouda/iron.png",
     "score.png": "lafhouda/score.png",
-    "ree.png": "lafhouda/ree.png"
+    "ree.png": "lafhouda/ree.png",
+    "struct.jpg": "lafhouda/struct.jpg"
    },
    "gis": "lafhouda/MADAR-lafhouda-GIS.zip",
-   "report": "lafhouda/MADAR-lafhouda-rapport.pdf"
+   "report": "lafhouda/MADAR-lafhouda-rapport.pdf",
+   "structure": {
+    "rose": [
+     0.38,
+     0.761,
+     0.542,
+     1.0,
+     0.923,
+     0.39,
+     0.44,
+     0.309,
+     0.31,
+     0.15,
+     0.163,
+     0.131,
+     0.075,
+     0.028,
+     0.069,
+     0.142,
+     0.199,
+     0.222
+    ],
+    "dominant_az": 35.0,
+    "rings": [
+     {
+      "id": "R1",
+      "lat": 22.05014,
+      "lon": -14.85542,
+      "radius_km": 1.2,
+      "closure": 0.83,
+      "tangential": 0.55,
+      "score": 0.87
+     }
+    ],
+    "lineament_km": 299.9,
+    "src": "Copernicus DEM GLO-30, curvature + structure tensor + circular vote"
+   }
   },
   {
    "id": "anzarane",
@@ -800,7 +1129,9 @@
      "peak": 4.5,
      "rank": 1,
      "label": "T1",
-     "rel": 100
+     "rel": 100,
+     "struct_km": 0.43,
+     "ring_km": 0.38
     },
     {
      "lat": 23.50239,
@@ -809,7 +1140,9 @@
      "peak": 4.29,
      "rank": 2,
      "label": "T2",
-     "rel": 42
+     "rel": 42,
+     "struct_km": 0.42,
+     "ring_km": 0.43
     },
     {
      "lat": 23.69268,
@@ -818,7 +1151,9 @@
      "peak": 4.62,
      "rank": 3,
      "label": "T3",
-     "rel": 40
+     "rel": 40,
+     "struct_km": 0.89,
+     "ring_km": 5.94
     },
     {
      "lat": 23.63283,
@@ -827,7 +1162,9 @@
      "peak": 4.49,
      "rank": 4,
      "label": "T4",
-     "rel": 39
+     "rel": 39,
+     "struct_km": 0.57,
+     "ring_km": 11.63
     },
     {
      "lat": 23.46512,
@@ -836,7 +1173,9 @@
      "peak": 4.61,
      "rank": 5,
      "label": "T5",
-     "rel": 34
+     "rel": 34,
+     "struct_km": 0.67,
+     "ring_km": 2.12
     },
     {
      "lat": 23.51256,
@@ -845,7 +1184,9 @@
      "peak": 4.56,
      "rank": 6,
      "label": "T6",
-     "rel": 28
+     "rel": 28,
+     "struct_km": 0.38,
+     "ring_km": 1.6
     },
     {
      "lat": 23.51292,
@@ -854,7 +1195,9 @@
      "peak": 4.14,
      "rank": 7,
      "label": "T7",
-     "rel": 25
+     "rel": 25,
+     "struct_km": 1.84,
+     "ring_km": 1.87
     },
     {
      "lat": 23.68095,
@@ -863,7 +1206,9 @@
      "peak": 4.24,
      "rank": 8,
      "label": "T8",
-     "rel": 25
+     "rel": 25,
+     "struct_km": 1.08,
+     "ring_km": 6.54
     },
     {
      "lat": 23.49493,
@@ -872,7 +1217,9 @@
      "peak": 4.13,
      "rank": 9,
      "label": "T9",
-     "rel": 24
+     "rel": 24,
+     "struct_km": 0.87,
+     "ring_km": 2.2
     },
     {
      "lat": 23.45118,
@@ -881,7 +1228,9 @@
      "peak": 4.46,
      "rank": 10,
      "label": "T10",
-     "rel": 23
+     "rel": 23,
+     "struct_km": 0.6,
+     "ring_km": 0.97
     }
    ],
    "blind_test": [],
@@ -903,11 +1252,57 @@
     "clay.png": "anzarane/clay.png",
     "iron.png": "anzarane/iron.png",
     "score.png": "anzarane/score.png",
-    "ree.png": "anzarane/ree.png"
+    "ree.png": "anzarane/ree.png",
+    "struct.jpg": "anzarane/struct.jpg"
    },
    "gis": "anzarane/MADAR-anzarane-GIS.zip",
    "prospect": true,
-   "report": "anzarane/MADAR-anzarane-rapport.pdf"
+   "report": "anzarane/MADAR-anzarane-rapport.pdf",
+   "structure": {
+    "rose": [
+     0.375,
+     0.387,
+     0.505,
+     0.738,
+     1.0,
+     0.964,
+     0.99,
+     0.909,
+     0.974,
+     0.548,
+     0.457,
+     0.598,
+     0.392,
+     0.345,
+     0.387,
+     0.381,
+     0.624,
+     0.507
+    ],
+    "dominant_az": 45.0,
+    "rings": [
+     {
+      "id": "R1",
+      "lat": 23.47008,
+      "lon": -14.69923,
+      "radius_km": 3.3,
+      "closure": 0.67,
+      "tangential": 0.69,
+      "score": 1.44
+     },
+     {
+      "id": "R2",
+      "lat": 23.71064,
+      "lon": -14.52065,
+      "radius_km": 1.2,
+      "closure": 0.67,
+      "tangential": 0.69,
+      "score": 1.06
+     }
+    ],
+    "lineament_km": 305.9,
+    "src": "Copernicus DEM GLO-30, curvature + structure tensor + circular vote"
+   }
   }
  ]
 }

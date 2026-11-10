@@ -38,7 +38,8 @@ html[lang="fr"] body{font-family:"IBM Plex Sans",system-ui,sans-serif}
 .box input{accent-color:var(--gold)}
 .box button{border:1px solid var(--gold);background:none;color:var(--gold-2);border-radius:2px;padding:5px 10px;cursor:pointer;font:inherit;font-size:12px;margin-inline-start:8px}
 .hint{position:fixed;z-index:3;top:74px;inset-inline-start:16px;color:var(--sage-2);font-size:12px}
-.msg{position:fixed;inset:0;display:grid;place-items:center;z-index:4;color:var(--sage);text-align:center;padding:24px}
+.msg{position:fixed;inset:0;display:grid;place-items:center;z-index:4;color:var(--sage);text-align:center;padding:24px;pointer-events:none}
+.msg:empty{display:none}
 .tip{position:fixed;z-index:5;pointer-events:none;background:rgba(10,25,22,.92);border:1px solid var(--gold);color:var(--ivory);padding:6px 9px;border-radius:3px;font-size:12px;display:none;direction:ltr}
 @media (max-width:640px){.ttl b{font-size:18px}.hint{display:none}.seg button{padding:6px 8px;font-size:12px}}
 </style>
@@ -60,12 +61,12 @@ html[lang="fr"] body{font-family:"IBM Plex Sans",system-ui,sans-serif}
 <script>
 const T={
  ar:{dir:"rtl",back:"→ المواقع",hint:"اسحب للتدوير · إصبعان أو العجلة للتكبير · Shift + سحب للتحريك",ex:"المبالغة في الارتفاع",reset:"إعادة",
-   layers:{score:"نقاط مدار",truecolor:"صورة حقيقية",ratios:"تركيب المؤشرات",clay:"الطين",iron:"أكاسيد الحديد",ree:"العناصر النادرة"},
+   layers:{score:"نقاط مدار",truecolor:"صورة حقيقية",ratios:"تركيب المؤشرات",clay:"الطين",iron:"أكاسيد الحديد",ree:"العناصر النادرة",struct:"البنيات"},
    sub:(s,d)=>`${s.metal_ar} · ارتفاع ${Math.round(d.min)}–${Math.round(d.max)} م · نموذج الارتفاع Copernicus 30 م`,
    loading:"تحميل الأرض…",nodem:"نموذج الارتفاع لهذه المنطقة لم يُحسب بعد. يُضاف في التشغيل القادم.",nogl:"المتصفح لا يدعم العرض ثلاثي الأبعاد (WebGL).",
    tip:z=>`هدف ${z.rank} · ${z.area_ha} ha · ${z.lat.toFixed(4)}, ${z.lon.toFixed(4)}`},
  fr:{dir:"ltr",back:"← Sites",hint:"Glisser pour tourner · deux doigts ou molette pour zoomer · Maj + glisser pour déplacer",ex:"Exagération du relief",reset:"Réinitialiser",
-   layers:{score:"Score Madar",truecolor:"Couleurs réelles",ratios:"Composé des indices",clay:"Argiles",iron:"Oxydes de fer",ree:"Terres rares"},
+   layers:{score:"Score Madar",truecolor:"Couleurs réelles",ratios:"Composé des indices",clay:"Argiles",iron:"Oxydes de fer",ree:"Terres rares",struct:"Structures"},
    sub:(s,d)=>`${s.metal} · altitude ${Math.round(d.min)}–${Math.round(d.max)} m · MNT Copernicus 30 m`,
    loading:"Chargement du relief…",nodem:"Le relief de ce site n'est pas encore calculé. Il sera ajouté au prochain passage.",nogl:"Ce navigateur ne gère pas la 3D (WebGL).",
    tip:z=>`Cible ${z.rank} · ${z.area_ha} ha · ${z.lat.toFixed(4)}, ${z.lon.toFixed(4)}`}
@@ -85,7 +86,7 @@ function ui(){
   document.querySelectorAll(".langs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===L));
   $("#back").textContent=t("back");$("#hint").textContent=t("hint");$("#exT").textContent=t("ex");$("#reset").textContent=t("reset");
   if(SITE){$("#name").textContent=L==="ar"?SITE.name_ar:SITE.name;if(DEM)$("#sub").textContent=t("sub")(SITE,DEM)}
-  const ly=t("layers"),have=SITE?Object.keys(ly).filter(k=>k==="truecolor"?SITE.images["truecolor.jpg"]:k==="ratios"?SITE.images["ratios.jpg"]:SITE.images[k+".png"]):[];
+  const ly=t("layers"),have=SITE?Object.keys(ly).filter(k=>k==="truecolor"?SITE.images["truecolor.jpg"]:k==="ratios"||k==="struct"?SITE.images[k+".jpg"]:SITE.images[k+".png"]):[];
   $("#layers").innerHTML=have.map(k=>`<button data-k="${k}" aria-pressed="${k===LAYER}">${ly[k]}</button>`).join("");
   document.querySelectorAll("#layers button").forEach(b=>b.onclick=()=>{LAYER=b.dataset.k;ui();texture()});
 }
@@ -123,7 +124,7 @@ function build(){
 async function texture(){
   const base=await img(SITE.images["truecolor.jpg"]);if(!base)return;
   const c=document.createElement("canvas");c.width=Math.min(2048,base.width);c.height=Math.round(base.height*c.width/base.width);const x=c.getContext("2d");
-  if(LAYER==="ratios"){const r=await img(SITE.images["ratios.jpg"]);x.drawImage(r||base,0,0,c.width,c.height)}
+  if(LAYER==="ratios"||LAYER==="struct"){const r=await img(SITE.images[LAYER+".jpg"]);x.drawImage(r||base,0,0,c.width,c.height)}
   else{x.drawImage(base,0,0,c.width,c.height);if(LAYER!=="truecolor"){x.fillStyle="rgba(12,31,27,.35)";x.fillRect(0,0,c.width,c.height);const o=await img(SITE.images[LAYER+".png"]);if(o)x.drawImage(o,0,0,c.width,c.height)}}
   // WebGL1 needs power-of-two for mipmaps: copy to a POT canvas
   const p=document.createElement("canvas");p.width=2048;p.height=2048;p.getContext("2d").drawImage(c,0,0,2048,2048);

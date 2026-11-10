@@ -3,7 +3,7 @@ name: MADAR Minerals (proof on known mines)
 on:
   push:
     branches: [main]
-    paths: ["minerals_queue.txt", "minerals_dem.py"]
+    paths: ["minerals_queue.txt", "minerals_dem.py", "minerals_struct.py"]
   workflow_dispatch:
     inputs:
       site:
@@ -42,6 +42,7 @@ jobs:
             python minerals_report.py
           fi
           python minerals_dem.py
+          python minerals_struct.py
       - name: Save results
         run: |
           git config user.name "radar-bot"

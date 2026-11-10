@@ -189,6 +189,7 @@ details[open] summary::after{content:"−"}
   <aside class="dossier" id="dossier">
     <section class="head" id="head"></section>
     <section class="blind" id="blind"></section>
+    <section class="blind" id="struct"></section>
     <section><h2 class="title" id="tTitle"></h2><ol class="tlist" id="targets"></ol></section>
     <section><details><summary><h2 class="title" id="mTitle"></h2></summary><div class="txt" id="method"></div></details></section>
     <section><details><summary><h2 class="title" id="limTitle"></h2></summary><div class="txt" id="limits"></div></details></section>
@@ -200,7 +201,10 @@ details[open] summary::after{content:"−"}
 const DATA = /*__DATA__*/null;
 const T = {
   ar:{dir:"rtl",wm:"المعادن",proof:h=>`الاختبار الأعمى: <b class="num">${h}</b>`,
-    layers:{score:"نقاط مدار",truecolor:"صورة حقيقية",ratios:"تركيب المؤشرات",clay:"الطين",iron:"أكاسيد الحديد",ree:"العناصر النادرة (تجريبي)"},
+    layers:{score:"نقاط مدار",truecolor:"صورة حقيقية",ratios:"تركيب المؤشرات",clay:"الطين",iron:"أكاسيد الحديد",ree:"العناصر النادرة (تجريبي)",struct:"البنيات: صدوع وحلقات"},
+    stT:"البنيات الجيولوجية",stP:(n,az,l)=>`الصدوع والكسور تحمل المياه الساخنة التي تترك المعادن، والكربوناتيت يصعد على شكل حلقات. من نموذج الارتفاع (30 م): <b>${l} كم</b> من الخطوط البنيوية، اتجاهها الغالب <b class="num">${az}°</b>، و<b>${n}</b> بنية دائرية.`,
+    stRose:"اتجاهات الصدوع",stRing:(r)=>`حلقة ${r.id}: قطر ${(2*r.radius_km).toFixed(1)} كم، مغلقة ${Math.round(r.closure*100)}%`,stNone:"لا توجد بنية دائرية واضحة.",
+    onFault:"على صدع",onRing:"على حلقة",stLeg:["اتجاه الصدع (اللون)","الخطوط الفاتحة: قمم","الدائرة: بنية حلقية"],
     gis:"ملفات GIS",report:"تقرير الدراسة",view3d:"عرض ثلاثي الأبعاد",prospectT:"منطقة جديدة",prospect:"اكتشفها مسح الصحراء. لا يوجد منجم معروف هنا للمقارنة: الأهداف للتحقق الميداني مباشرة.",reveal:"اكشف المنجم الحقيقي",hide:"أخفِ المنجم",
     area:"المساحة المدروسة",anom:"مناطق الأولوية",red:"تقليص مساحة البحث",km2:"كم²",
     targets:"الأهداف المرتبة",ha:"هكتار",rel:"من قوة الهدف الأول",copy:"نسخ",copied:"نُسخ",
@@ -217,7 +221,10 @@ const T = {
     scenes:"الصور المستعملة",profile:{alteration:"نموذج التغيّر الحراري: طين وأكاسيد حديد",iron:"نموذج خام الحديد: حديد ثلاثي وثنائي",carbonatite:"نموذج الكربوناتيت: حديد وعناصر نادرة (تجريبي)"},
     rgb:["أحمر: طين","أخضر: أكاسيد الحديد","أزرق: حديد ثنائي"],low:"ضعيف",high:"قوي",known:"الموقع المعروف",tc:"Sentinel-2، ألوان حقيقية"},
   fr:{dir:"ltr",wm:"Minerals",proof:h=>`Test à l'aveugle : <b class="num">${h}</b>`,
-    layers:{score:"Score Madar",truecolor:"Couleurs réelles",ratios:"Composite d'indices",clay:"Argiles",iron:"Oxydes de fer",ree:"Terres rares (expérimental)"},
+    layers:{score:"Score Madar",truecolor:"Couleurs réelles",ratios:"Composite d'indices",clay:"Argiles",iron:"Oxydes de fer",ree:"Terres rares (expérimental)",struct:"Structures : failles et anneaux"},
+    stT:"Structures géologiques",stP:(n,az,l)=>`Les failles et fractures portent les fluides chauds qui déposent les métaux ; les carbonatites montent en anneaux. D'après le MNT (30 m) : <b>${l} km</b> de linéaments, direction dominante <b class="num">${az}°</b>, <b>${n}</b> structure(s) annulaire(s).`,
+    stRose:"Directions des failles",stRing:(r)=>`Anneau ${r.id} : ${(2*r.radius_km).toFixed(1)} km de diamètre, fermé à ${Math.round(r.closure*100)} %`,stNone:"Aucune structure annulaire nette.",
+    onFault:"sur faille",onRing:"sur anneau",stLeg:["Direction de la faille (couleur)","Traits clairs : crêtes","Cercle : structure annulaire"],
     gis:"Fichiers SIG",report:"Rapport d'étude",view3d:"Vue 3D",prospectT:"Nouvelle zone",prospect:"Révélée par le levé du Sahara. Pas de mine connue ici pour comparer : les cibles sont à vérifier directement sur le terrain.",reveal:"Révéler la mine réelle",hide:"Masquer la mine",
     area:"Zone étudiée",anom:"Zones prioritaires",red:"Réduction de la zone de recherche",km2:"km²",
     targets:"Cibles classées",ha:"ha",rel:"de la force de T1",copy:"Copier",copied:"Copié",
@@ -234,7 +241,10 @@ const T = {
     scenes:"Images utilisées",profile:{alteration:"Modèle altération hydrothermale : argiles et oxydes de fer",iron:"Modèle minerai de fer : fer ferrique et ferreux",carbonatite:"Modèle carbonatite : fer et terres rares (expérimental)"},
     rgb:["Rouge : argiles","Vert : oxydes de fer","Bleu : fer ferreux"],low:"faible",high:"fort",known:"Site connu",tc:"Sentinel-2, couleurs réelles"},
   en:{dir:"ltr",wm:"Minerals",proof:h=>`Blind test: <b class="num">${h}</b>`,
-    layers:{score:"Madar score",truecolor:"True colour",ratios:"Index composite",clay:"Clay",iron:"Iron oxide",ree:"Rare earths (experimental)"},
+    layers:{score:"Madar score",truecolor:"True colour",ratios:"Index composite",clay:"Clay",iron:"Iron oxide",ree:"Rare earths (experimental)",struct:"Structure: faults and rings"},
+    stT:"Geological structure",stP:(n,az,l)=>`Faults and fractures carry the hot fluids that leave metals; carbonatites rise as rings. From the terrain model (30 m): <b>${l} km</b> of lineaments, dominant direction <b class="num">${az}°</b>, <b>${n}</b> ring structure(s).`,
+    stRose:"Fault directions",stRing:(r)=>`Ring ${r.id}: ${(2*r.radius_km).toFixed(1)} km across, ${Math.round(r.closure*100)}% closed`,stNone:"No clear ring structure.",
+    onFault:"on fault",onRing:"on ring",stLeg:["Fault direction (colour)","Pale lines: crests","Circle: ring structure"],
     gis:"GIS files",report:"Study report",view3d:"3D view",prospectT:"New prospect",prospect:"Found by the Sahara survey. No known mine here to compare with: the targets go straight to field checking.",reveal:"Reveal the real mine",hide:"Hide the mine",
     area:"Area studied",anom:"Priority zones",red:"Search area reduced",km2:"km²",
     targets:"Ranked targets",ha:"ha",rel:"of T1's strength",copy:"Copy",copied:"Copied",
@@ -335,7 +345,7 @@ function draw(){
   const [x0, y0] = P(b[1][0], b[0][1]), [x1, y1] = P(b[0][0], b[1][1]);
   cx.imageSmoothingEnabled = view.k < 6000;
   const base = img(s.images["truecolor.jpg"]);
-  if (layer === "ratios"){ const r = img(s.images["ratios.jpg"]); r.complete && cx.drawImage(r, x0, y0, x1-x0, y1-y0); }
+  if (layer === "ratios" || layer === "struct"){ const r = img(s.images[layer + ".jpg"]); r.complete && cx.drawImage(r, x0, y0, x1-x0, y1-y0); }
   else {
     if (base.complete){ cx.globalAlpha = layer === "truecolor" ? 1 : .55; cx.drawImage(base, x0, y0, x1-x0, y1-y0); cx.globalAlpha = 1; }
     if (layer !== "truecolor"){ const o = img(s.images[layer + ".png"]); o.complete && cx.drawImage(o, x0, y0, x1-x0, y1-y0); }
@@ -428,8 +438,8 @@ function render(keepView){
   [...$("langs").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.l === lang));
   $("sites").innerHTML = DATA.sites.map((s, i) => `<button class="site-t" role="tab" aria-selected="${i===cur}" data-i="${i}"><b>${esc(lang==="ar"?s.name_ar:s.name)}</b><span>${esc(lang==="ar"?s.metal_ar:s.metal)}</span></button>`).join("");
   $("sites").onclick = e => { const b = e.target.closest(".site-t"); if (!b) return; cur = +b.dataset.i; revealed = false; sel = 0; render(false); };
-  if (!S().images[layer + ".png"] && !["truecolor","ratios"].includes(layer)) layer = "score";
-  $("layers").innerHTML = Object.entries(t.layers).filter(([k]) => k !== "ree" || S().images["ree.png"]).map(([k, v]) => `<button data-k="${k}" aria-pressed="${k===layer}">${v}</button>`).join("");
+  if (!S().images[layer + ".png"] && !S().images[layer + ".jpg"] && layer !== "truecolor") layer = "score";
+  $("layers").innerHTML = Object.entries(t.layers).filter(([k]) => (k !== "ree" || S().images["ree.png"]) && (k !== "struct" || S().images["struct.jpg"])).map(([k, v]) => `<button data-k="${k}" aria-pressed="${k===layer}">${v}</button>`).join("");
   $("layers").onclick = e => { const b = e.target.closest("button"); if (!b) return; layer = b.dataset.k; render(true); };
   const s = S();
   $("head").innerHTML = `<h1 class="title">${esc(lang==="ar"?s.name_ar:s.name)}</h1>
@@ -444,8 +454,8 @@ function render(keepView){
       <span class="rk num">${g.rank}</span>
       <span class="co num">${ll(g.lat, g.lon)}</span>
       <span class="st"><span class="bar"><i style="width:${g.rel}%"></i></span><button class="copy" data-c="${g.lat.toFixed(5)}, ${g.lon.toFixed(5)}">${t.copy}</button></span>
-      <span class="mt"><span class="num">${g.area_ha}</span> ${t.ha}، <span class="num">${g.rel}%</span> ${t.rel}</span></li>`).join("");
-  if (lang !== "ar") $("targets").querySelectorAll(".mt").forEach((m, i) => { const g = s.targets[i]; m.innerHTML = `<span class="num">${g.area_ha}</span> ${t.ha}, <span class="num">${g.rel}%</span> ${t.rel}`; });
+      <span class="mt"><span class="num">${g.area_ha}</span> ${t.ha}، <span class="num">${g.rel}%</span> ${t.rel}${g.struct_km!=null&&g.struct_km<0.5?` · <b style="color:var(--gold-2)">${t.onFault}</b>`:""}${g.ring_km!=null&&g.ring_km<0.5?` · <b style="color:var(--azurite)">${t.onRing}</b>`:""}</span></li>`).join("");
+  if (lang !== "ar") $("targets").querySelectorAll(".mt").forEach((m, i) => { const g = s.targets[i]; m.innerHTML = `<span class="num">${g.area_ha}</span> ${t.ha}, <span class="num">${g.rel}%</span> ${t.rel}${g.struct_km!=null&&g.struct_km<0.5?` · <b style="color:var(--gold-2)">${t.onFault}</b>`:""}${g.ring_km!=null&&g.ring_km<0.5?` · <b style="color:var(--azurite)">${t.onRing}</b>`:""}`; });
   $("targets").onclick = e => {
     const c = e.target.closest(".copy");
     if (c){ e.stopPropagation(); navigator.clipboard && navigator.clipboard.writeText(c.dataset.c).then(() => { c.textContent = t.copied; setTimeout(() => c.textContent = t.copy, 1200); }); return; }
@@ -455,10 +465,24 @@ function render(keepView){
   $("mTitle").textContent = t.mTitle; $("method").innerHTML = t.method.replace("${TOP}", DATA.top_percent);
   $("limTitle").textContent = t.limTitle; $("limits").innerHTML = t.limits;
   $("foot").innerHTML = `${esc(DATA.source)}<br>${t.scenes}: <span class="num">${s.scenes.map(x => esc(x.date)).join(", ")}</span><br><span class="num">${s.scenes.map(x => esc(x.id)).join("<br>")}</span>`;
-  renderBlind(); renderReveal(); renderLegend();
+  renderBlind(); renderStruct(); renderReveal(); renderLegend();
   if (!keepView){ born = matchMedia("(prefers-reduced-motion: reduce)").matches ? -1e9 : performance.now(); resize(); fit(s.bounds, 64); } else draw();
 }
 function renderReveal(){ $("reveal").style.visibility = S().blind_test.length ? "" : "hidden"; $("reveal").textContent = revealed ? L().hide : L().reveal; $("reveal").setAttribute("aria-pressed", revealed); }
+function renderStruct(){
+  const t = L(), s = S(), st = s.structure, box = $("struct");
+  if (!st){ box.innerHTML = ""; return; }
+  const R = 46, cxr = 60, mx = Math.max(...st.rose, 1e-6);
+  let petals = "";
+  st.rose.forEach((v, i) => { for (const off of [0, 180]) { const a0 = (i * 10 + off - 90) * Math.PI / 180, a1 = ((i + 1) * 10 + off - 90) * Math.PI / 180, rr = 6 + (R - 6) * v / mx;
+    const h = ((i * 10 + 5) * 2) % 360;
+    petals += `<path d="M${cxr},${cxr} L${cxr + rr * Math.cos(a0)},${cxr + rr * Math.sin(a0)} A${rr},${rr} 0 0 1 ${cxr + rr * Math.cos(a1)},${cxr + rr * Math.sin(a1)} Z" fill="hsl(${h},70%,62%)" fill-opacity=".85" stroke="#0c1f1b" stroke-width=".5"/>`; } });
+  const rose = `<svg width="120" height="120" viewBox="0 0 120 120" style="flex:none"><circle cx="60" cy="60" r="${R}" fill="none" stroke="#2c5248"/><circle cx="60" cy="60" r="${R/2}" fill="none" stroke="#2c5248" stroke-dasharray="2 3"/>${petals}
+    <text x="60" y="9" text-anchor="middle" fill="#e4c88e" font-size="10" font-family="Spectral">N</text></svg>`;
+  const on = s.targets.filter(g => g.struct_km != null && g.struct_km < 0.5).length, onr = s.targets.filter(g => g.ring_km != null && g.ring_km < 0.5).length;
+  box.innerHTML = `<h2 class="title">${t.stT}</h2><p>${t.stP(st.rings.length, Math.round(st.dominant_az), st.lineament_km)}</p>
+    <div style="display:flex;gap:14px;align-items:center;margin-top:10px">${rose}<div class="meta" style="margin:0">${t.stRose}<br>${st.rings.length ? st.rings.map(t.stRing).join("<br>") : t.stNone}<br><br>${t.onFault}: <b class="num">${on}</b>/${s.targets.length} · ${t.onRing}: <b class="num">${onr}</b>/${s.targets.length}</div></div>`;
+}
 function renderBlind(){
   const t = L(), s = S();
   if (!s.blind_test.length){ $("blind").innerHTML = `<h2 class="title">${t.prospectT}</h2><p>${t.prospect}</p>`; return; }
@@ -478,6 +502,7 @@ function renderBlind(){
 function renderLegend(){
   const t = L();
   if (layer === "truecolor"){ $("legend").textContent = t.tc; return; }
+  if (layer === "struct"){ $("legend").innerHTML = `<div class="bar" style="background:linear-gradient(90deg,#ff8080,#80ff80,#8080ff,#ff8080)"></div><div>${t.stLeg.join("<br>")}</div>`; return; }
   if (layer === "ratios"){ const c = ["#e05050","#50d070","#5a90f0"]; $("legend").innerHTML = `<div class="rgb">${t.rgb.map((x,i)=>`<span><i style="background:${c[i]}"></i>${x}</span>`).join("")}</div>`; return; }
   $("legend").innerHTML = `${t.layers[layer]}<div class="bar"></div><div class="two"><span>${t.low}</span><span>${t.high}</span></div>`;
 }
