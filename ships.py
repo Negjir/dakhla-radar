@@ -33,14 +33,16 @@ SAS = "https://planetarycomputer.microsoft.com/api/sas/v1/token/sentinel-1-grd"
 DEM = "https://copernicus-dem-30m.s3.amazonaws.com/{n}/{n}.tif"
 LAND_RES = 0.002                           # land mask cell (~200 m)
 LAND_BUFFER = 3                            # cells added around land (~600 m): rocks and surf are not ships
-DEC = 2                                    # read the 10 m GRD at 20 m
+DEC = 1                                    # full 10 m GRD pixels: a 34 m boat is 3-4 pixels
 BLOCK = 2048
-GUARD, BACK = 9, 51                        # CFAR windows in pixels (20 m): guard ~180 m, background ~1 km
+GUARD, BACK = 21, 81                       # CFAR windows in pixels (10 m): guard ~200 m, background ~800 m
 K_SIGMA, K_RATIO = 7.0, 10.0               # a ship must beat the sea by both tests
 MIN_PX = 2
+MAX_CV = 0.9            # sea around a ship is plain speckle; rocky shore, surf and radar streaks are not
+BAY = (23.52, 23.98, -15.96, -15.62)       # Dakhla bay: oyster tables, moorings, small boats
 PX_M = 10.0 * DEC
 FIXED_SCENES = 3                           # seen at the same spot on this many passes = not a vessel
-CHIP = 40                                  # half-size of each vessel image, pixels
+CHIP = 48                                  # half-size of each vessel image, pixels
 MAX_CHIPS = 400
 
 
@@ -142,10 +144,11 @@ def cfar(I, sea):
     mu = s1 / n_b
     sd = np.sqrt(np.maximum(s2 / n_b - mu * mu, 0))
     enough = n_b > 0.5 * (BACK * BACK - GUARD * GUARD)
-    return sea & enough & (I > mu + K_SIGMA * sd) & (I > K_RATIO * mu), mu
+    return sea & enough & (I > mu + K_SIGMA * sd) & (I > K_RATIO * mu), (mu, sd)
 
 
-def objects(hit, I, mu):
+def objects(hit, I, stats):
+    mu, sd = stats
     lab, n = ndimage.label(hit, structure=np.ones((3, 3)))
     out = []
     if not n:
@@ -159,13 +162,17 @@ def objects(hit, I, mu):
         yy, xx = np.nonzero(m)
         w = I[sl][m]
         cy, cx = (yy * w).sum() / w.sum() + sl[0].start, (xx * w).sum() / w.sum() + sl[1].start
-        if len(yy) > 2:          # long axis from the second moments of the bright pixels
-            c = np.cov(np.vstack([yy, xx]))
-            length = 4 * math.sqrt(max(np.linalg.eigvalsh(c)[-1], 0.25)) * PX_M
-        else:
-            length = len(yy) * PX_M
         peak = float(w.max())
+        core = w >= 0.25 * peak       # the hull, not the radar side-lobes around it
+        cy_, cx_ = yy[core], xx[core]
+        if len(cy_) > 2:              # long axis of a bar: sqrt(12 * variance)
+            c = np.cov(np.vstack([cy_, cx_]))
+            length = (math.sqrt(12 * max(np.linalg.eigvalsh(c)[-1], 0)) + 1) * PX_M
+        else:
+            length = len(cy_) * PX_M
+        m_, s_ = float(mu[int(cy), int(cx)]), float(sd[int(cy), int(cx)])
         out.append({"y": float(cy), "x": float(cx), "px": int(size[k]), "len_m": round(length),
+                    "cv": round(s_ / max(m_, 1e-6), 2),
                     "snr_db": round(10 * math.log10(peak / max(float(mu[int(cy), int(cx)]), 1e-6)), 1)})
     return out
 
@@ -178,10 +185,9 @@ class Geo:
         p = np.array([[g.row, g.col] for g in gcps])
         self.lon = LinearNDInterpolator(p, [g.x for g in gcps])
         self.lat = LinearNDInterpolator(p, [g.y for g in gcps])
-        self.nlon = __import__("scipy.interpolate", fromlist=["NearestNDInterpolator"]).NearestNDInterpolator(
-            p, [g.x for g in gcps])
-        self.nlat = __import__("scipy.interpolate", fromlist=["NearestNDInterpolator"]).NearestNDInterpolator(
-            p, [g.y for g in gcps])
+        from scipy.interpolate import NearestNDInterpolator
+        self.nlon = NearestNDInterpolator(p, [g.x for g in gcps])
+        self.nlat = NearestNDInterpolator(p, [g.y for g in gcps])
 
     def __call__(self, rows, cols):
         la, lo = self.lat(rows, cols), self.lon(rows, cols)
@@ -244,18 +250,18 @@ def scene_detect(item, land, geo_land, demo=None):
                 sea = ndimage.binary_erosion(sea, iterations=3)
                 if sea.sum() < 1000:
                     continue
-                hit, mu = cfar(I, sea)
-                obs = objects(hit, I, mu)
+                hit, st = cfar(I, sea)
+                obs = [o for o in objects(hit, I, st) if o["cv"] <= MAX_CV or o["snr_db"] >= 22]
                 if obs and src_vh is not None:      # cross-pol check: a hull is bright in VH too, a wave crest rarely
                     try:
                         dvh = src_vh.read(1, window=win, out_shape=shp).astype("float32")
                         Ivh = dvh * dvh
-                        mvh = ndimage.median_filter(Ivh[::4, ::4], 15)
+                        mvh = ndimage.median_filter(Ivh[::8, ::8], 15)
                         for o in obs:
                             y, x = int(o["y"]), int(o["x"])
                             loc = Ivh[max(0, y - 1):y + 2, max(0, x - 1):x + 2].max()
-                            o["vh_ratio"] = round(float(loc / max(mvh[min(y // 4, mvh.shape[0] - 1),
-                                                                     min(x // 4, mvh.shape[1] - 1)], 1e-6)), 1)
+                            o["vh_ratio"] = round(float(loc / max(mvh[min(y // 8, mvh.shape[0] - 1),
+                                                                     min(x // 8, mvh.shape[1] - 1)], 1e-6)), 1)
                     except Exception as e:  # noqa: BLE001
                         log("[vh fail]", e)
                 for o in obs:
@@ -266,7 +272,7 @@ def scene_detect(item, land, geo_land, demo=None):
                     o["lat"], o["lon"] = round(float(la1[0]), 5), round(float(lo1[0]), 5)
                     if on_land(land, geo_land, la1, lo1)[0]:
                         continue
-                    if o.get("vh_ratio") is not None and o["vh_ratio"] < 3:
+                    if o.get("vh_ratio") is not None and o["vh_ratio"] < 4:
                         continue
                     y, x = int(o["y"]), int(o["x"])
                     o["chip"] = d[max(0, y - CHIP):y + CHIP, max(0, x - CHIP):x + CHIP].copy()
@@ -292,6 +298,7 @@ def mark_fixed(dets):
         key = (round(d["lat"] / cell), round(d["lon"] / cell))
         d["fixed"] = len(seen[key]) >= FIXED_SCENES
         d["port"] = math.dist((d["lat"], d["lon"]), PORT) < 0.03
+        d["bay"] = BAY[0] <= d["lat"] <= BAY[1] and BAY[2] <= d["lon"] <= BAY[3]
 
 
 def save_chip(a, path):
@@ -334,8 +341,8 @@ def demo_detect(item, k):
     truth = [(300 + 60 * k, 400, 3), (800, 900 - 40 * k, 2), (600, 600, 2)]    # last one = platform
     for y, x, r in truth:
         sea[y - r:y + r + 1, x - r:x + r + 1] *= 400
-    hit, mu = cfar(sea, np.ones_like(sea, bool))
-    obs = objects(hit, sea, mu)
+    hit, st = cfar(sea, np.ones_like(sea, bool))
+    obs = objects(hit, sea, st)
     for o in obs:
         o["lat"] = round(25.0 - o["y"] / n * 3, 5)
         o["lon"] = round(-18.5 + o["x"] / n * 3.5, 5)
@@ -401,7 +408,7 @@ def main():
     data = {"made": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "demo": a.demo,
             "box": BOX, "port": PORT, "scenes": sorted(scs, key=lambda s: s["t"]),
             "detections": sorted(dets, key=lambda d: d["t"]),
-            "method": {"px_m": PX_M, "k_sigma": K_SIGMA, "k_ratio": K_RATIO, "fixed_scenes": FIXED_SCENES,
+            "bay": BAY, "method": {"px_m": PX_M, "max_cv": MAX_CV, "k_sigma": K_SIGMA, "k_ratio": K_RATIO, "fixed_scenes": FIXED_SCENES,
                        "land_buffer_m": LAND_BUFFER * 220},
             "sources": {"images": "Copernicus Sentinel-1 GRD (ESA), via Microsoft Planetary Computer",
                         "land": "Copernicus DEM GLO-30 (ESA), AWS open data"}}

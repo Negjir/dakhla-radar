@@ -95,6 +95,7 @@ footer{margin-top:28px;color:var(--dim);font-size:12.5px}
       </div>
       <div class="legend">
         <span><i style="background:var(--cyan)"></i>سفينة متحركة</span>
+        <span><i style="background:var(--green)"></i>داخل الخليج أو الميناء</span>
         <span><i style="background:#7a8a96"></i>جسم ثابت (منصة، عوامة، صخرة)</span>
         <span><i style="background:var(--gold)"></i>منطقة صيد مدار اليوم</span>
         <span><i style="border:1px solid var(--edge2);border-radius:2px"></i>ما صوّره القمر في المرور المختار</span>
@@ -115,7 +116,7 @@ footer{margin-top:28px;color:var(--dim);font-size:12.5px}
       <div class="glass card"><b>يرى السفن المظلمة</b><p>الرادار لا يحتاج إشارة من السفينة. سفينة أطفأت جهاز AIS تظهر هنا كما تظهر غيرها.</p></div>
       <div class="glass card"><b>لا يعرف الاسم</b><p>الصورة تقول «هنا سفينة بهذا الحجم في هذه الساعة»، لا اسمها. الربط بسفينة معينة يكون بالمكان والتوقيت والحجم ومقارنته بمسارها المعروف.</p></div>
       <div class="glass card"><b>صورة كل بضعة أيام</b><p>القمر لا يمر يومياً على كل نقطة. بين مرورين لا نعرف ما حدث.</p></div>
-      <div class="glass card"><b>الحجم تقريبي</b><p>دقة الصورة 20 م، فطول السفينة يُقدّر بخطأ قد يصل إلى ±20 م. القوارب الخشبية الصغيرة قد لا تظهر.</p></div>
+      <div class="glass card"><b>الحجم تقريبي</b><p>دقة الصورة 10 م، فطول السفينة يُقدّر بخطأ قد يصل إلى ±15 م. القوارب الخشبية الصغيرة قد لا تظهر.</p></div>
     </div>
   </div>
 
@@ -140,20 +141,20 @@ function vis(){return D.detections.filter(d=>(sel==='all'||d.scene===sel)&&(show
   (lenF==='all'||(lenF==='s'&&d.len_m<30)||(lenF==='m'&&d.len_m>=30&&d.len_m<=80)||(lenF==='l'&&d.len_m>80)))}
 
 function kpis(){
-  const mv=D.detections.filter(d=>!d.fixed&&!d.port), last=D.scenes[D.scenes.length-1];
+  const mv=D.detections.filter(d=>!d.fixed&&!d.port&&!d.bay), last=D.scenes[D.scenes.length-1];
   const per=D.scenes.map(s=>mv.filter(d=>d.scene===s.id).length);
   $('#kpis').innerHTML=`
     <div class="glass k"><b>${D.scenes.length}</b><span>مرور للقمر</span></div>
-    <div class="glass k c"><b>${mv.length}</b><span>رصد لسفينة في البحر</span></div>
+    <div class="glass k c"><b>${mv.length}</b><span>رصد لسفينة في البحر المفتوح</span></div>
     <div class="glass k g"><b>${per.length?Math.max(...per):0}</b><span>أكبر عدد سفن في مرور واحد</span></div>
     <div class="glass k"><b>${D.detections.filter(d=>d.fixed).length}</b><span>جسم ثابت حُذف</span></div>
     <div class="glass k"><b class="num" style="font-size:18px">${last?esc(last.t):'—'}</b><span>آخر مرور (UTC)</span></div>`;
 }
 
 function passes(){
-  const mv=s=>D.detections.filter(d=>d.scene===s&&!d.fixed&&!d.port).length;
+  const mv=s=>D.detections.filter(d=>d.scene===s&&!d.fixed&&!d.port&&!d.bay).length;
   const mx=Math.max(1,...D.scenes.map(s=>mv(s.id)));
-  $('#passes').innerHTML=`<button class="pass" data-s="all" aria-pressed="${sel==='all'}"><span class="t">ALL</span><span>كل المرورات</span><span class="n">${D.detections.filter(d=>!d.fixed&&!d.port).length}</span></button>`+
+  $('#passes').innerHTML=`<button class="pass" data-s="all" aria-pressed="${sel==='all'}"><span class="t">ALL</span><span>كل المرورات</span><span class="n">${D.detections.filter(d=>!d.fixed&&!d.port&&!d.bay).length}</span></button>`+
     [...D.scenes].reverse().map(s=>`<button class="pass" data-s="${esc(s.id)}" aria-pressed="${sel===s.id}"><span class="t">${esc(s.t)}</span>
       <span><div class="bar" style="width:${100*mv(s.id)/mx}%"></div></span><span class="n">${mv(s.id)}</span></button>`).join('');
   document.querySelectorAll('.pass').forEach(b=>b.onclick=()=>{sel=b.dataset.s;pick=null;passes();draw();detail()});
@@ -188,7 +189,7 @@ function draw(){
   x.font=`${12*dpr}px Readex Pro`;x.textAlign='right';x.fillText('الداخلة',X(D.port[1])-8*dpr,Y(D.port[0])+4*dpr);
   // detections
   vis().forEach(d=>{const r=(d.fixed?2.2:Math.max(3,Math.min(9,2+d.len_m/18)))*dpr;
-    x.fillStyle=d.fixed?'rgba(122,138,150,.8)':'rgba(79,230,255,.9)';x.beginPath();x.arc(X(d.lon),Y(d.lat),r,0,7);x.fill();
+    x.fillStyle=d.fixed?'rgba(122,138,150,.8)':(d.bay||d.port)?'rgba(93,255,168,.85)':'rgba(79,230,255,.9)';x.beginPath();x.arc(X(d.lon),Y(d.lat),r,0,7);x.fill();
     if(pick&&pick.id===d.id){x.strokeStyle='#fff';x.lineWidth=2*dpr;x.beginPath();x.arc(X(d.lon),Y(d.lat),r+5*dpr,0,7);x.stroke()}});
   if(!D.scenes.length){x.fillStyle='#86a9bf';x.font=`${15*dpr}px Readex Pro`;x.textAlign='center';x.fillText('لا توجد صور بعد',W/2,H/2)}
 }
@@ -196,13 +197,13 @@ function draw(){
 function detail(){
   const d=pick;if(!d){$('#det').innerHTML='<h2>السفينة المختارة</h2><p class="note">اضغط على نقطة في الخريطة.</p>';return}
   const dist=nm(d.lat,d.lon,D.port[0],D.port[1]);
-  $('#det').innerHTML=`<h2>${d.fixed?'جسم ثابت':'سفينة في البحر'}</h2>
+  $('#det').innerHTML=`<h2>${d.fixed?'جسم ثابت':(d.bay||d.port)?'جسم داخل الخليج أو الميناء':'سفينة في البحر'}</h2>
     ${d.img?`<img src="chips/${esc(d.id)}.jpg" alt="صورة رادار للسفينة">`:''}
     <dl>
       <dt>الوقت</dt><dd class="num">${esc(d.t)} UTC</dd>
       <dt>الموقع</dt><dd class="num">${d.lat.toFixed(4)}, ${d.lon.toFixed(4)}</dd>
       <dt>من ميناء الداخلة</dt><dd class="num">${dist.toFixed(0)} nm</dd>
-      <dt>الطول التقريبي</dt><dd><span class="num">${d.len_m} m</span> <span class="note">(±20 م)</span></dd>
+      <dt>الطول التقريبي</dt><dd><span class="num">${d.len_m} m</span> <span class="note">(±15 م)</span></dd>
       <dt>قوة اللمعان</dt><dd class="num">${d.snr_db} dB</dd>
       ${d.vh_ratio!=null?`<dt>تأكيد VH</dt><dd class="num">×${d.vh_ratio}</dd>`:''}
     </dl>
