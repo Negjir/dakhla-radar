@@ -111,6 +111,8 @@ footer a{margin-inline-end:14px}
 
 <main class="wrap">
   <div id="demo" class="demo" hidden></div>
+  <nav class="seg" id="bays" style="margin-top:16px" aria-label="bays"></nav>
+  <div id="planned" class="demo" hidden></div>
   <section id="status" class="status"><span class="dot"></span><h1 id="st-h"></h1><p id="st-p"></p></section>
 
   <div class="grid">
@@ -153,7 +155,7 @@ footer a{margin-inline-end:14px}
 <script>
 const DATA=/*__DATA__*/null;
 const T={
- ar:{brand:"مدار · المحار",map:"خليج الداخلة من القمر",chl:"الطحالب",turb:"العكارة",true:"صورة حقيقية",
+ ar:{brand:"مدار · المحار",map:b=>`${b} من القمر`,planned:"خليج سينترا هو القطاع M3 من المنطقة المخططة لتربية المحار، وتمتد من شمال خليج الداخلة إلى جنوب خليج سينترا. لا توجد مواقع مزارع منشورة بعد، فالقطاعات الثلاثة تقريبية: المراقبة هنا لاختيار أفضل الأماكن قبل التركيب.",chl:"الطحالب",turb:"العكارة",true:"صورة حقيقية",
   zones:"مناطق المحار",zs:"اضغط على منطقة لرؤية منحنياتها",trend:"آخر 30 يوماً",sst:"حرارة الماء °C",chlt:"الكلوروفيل mg/m³ (غذاء المحار، وأول علامة لازدهار الطحالب)",
   msg:"رسالة اليوم للمربين",msgs:"انسخها وأرسلها في مجموعة WhatsApp",copy:"نسخ الرسالة",copied:"✓ نُسخت",wa:"إرسال عبر WhatsApp",
   wind:"الرياح 48 ساعة",winds:"عقدة",work:"رياح قوية للعمل في الأحواض",
@@ -172,7 +174,7 @@ const T={
   <p><b>حدود:</b> الخليج ضحل وعكر، فأقمار لون المحيط تعطي أرقام كلوروفيل أعلى من الحقيقة. لذلك نعتمد على <b>التغير</b> وليس على الرقم نفسه. وفي المياه العكرة جداً لا نستعمل مؤشر الطحالب لأن الرواسب والقاع يرفعانه. البيانات بدقة 1 كم تعطي صورة عامة لكل منطقة وليس لكل حوض. الغيوم تمنع الصورة بعض الأيام.</p>`,
   made:(d)=>`تحديث ${d.made} · يتجدد كل صباح تلقائياً`,f1:"مدار الساحل",f2:"مدار السفن الكبيرة",f3:"مدار المعادن",
   srck:{sst:"حرارة الماء",chl:"الكلوروفيل",clim:"المعتاد في الموسم",s2:"الصورة",wind:"الرياح"},normal:"المعتاد",demo:"بيانات تجريبية للعرض فقط، وليست قياسات حقيقية."},
- fr:{brand:"Madar · Huîtres",map:"La baie de Dakhla vue du satellite",chl:"Algues",turb:"Turbidité",true:"Couleurs réelles",
+ fr:{brand:"Madar · Huîtres",map:b=>`${b} vue du satellite`,planned:"La baie de Cintra est le secteur M3 de la zone aquacole prévue entre le nord de la baie de Dakhla et le sud de la baie de Cintra. Aucune position de ferme n'est publique : les trois secteurs sont approximatifs. La veille sert ici à choisir les meilleurs emplacements avant installation.",chl:"Algues",turb:"Turbidité",true:"Couleurs réelles",
   zones:"Zones conchylicoles",zs:"Touchez une zone pour voir ses courbes",trend:"30 derniers jours",sst:"Température de l'eau °C",chlt:"Chlorophylle mg/m³ (nourriture de l'huître, premier signe d'efflorescence)",
   msg:"Message du jour aux ostréiculteurs",msgs:"À copier dans le groupe WhatsApp",copy:"Copier le message",copied:"✓ Copié",wa:"Envoyer par WhatsApp",
   wind:"Vent 48 h",winds:"nœuds",work:"Vent fort pour le travail sur les parcs",
@@ -209,7 +211,10 @@ function render(){
   $("#t-brand").textContent=t("brand");
   $("#demo").hidden=!d.demo;$("#demo").textContent=t("demo");
   $("#status").className="status l"+d.level;$("#st-h").textContent=t("st")[d.level];$("#st-p").textContent=t("stp")(d);
-  $("#t-map").textContent=t("map");
+  $("#t-map").textContent=t("map")(d.bay?(L==="ar"?d.bay.ar:d.bay.fr):(L==="ar"?"خليج الداخلة":"La baie de Dakhla"));
+  const nv=d.nav||[];$("#bays").hidden=nv.length<2;
+  $("#bays").innerHTML=nv.map(b=>`<a href="${b.href}" class="bay" aria-current="${b.current?"page":"false"}" style="flex:1;text-align:center;text-decoration:none;padding:8px 10px;border-radius:8px;font-weight:600;${b.current?"background:var(--lagoon);color:#fff":"color:var(--ink-2)"}">${L==="ar"?b.ar:b.fr}</a>`).join("");
+  $("#planned").hidden=!(d.bay&&d.bay.planned);$("#planned").textContent=t("planned");
   document.querySelectorAll("#layers button").forEach(b=>{b.textContent=t(b.dataset.k);b.setAttribute("aria-pressed",b.dataset.k===LAYER)});
   $("#t-approx").textContent=(d.s2?t("s2date")(d.s2)+" · ":"")+t("approx");
   $("#t-zones").textContent=t("zones");$("#t-zones-s").textContent=t("zs");
@@ -222,6 +227,7 @@ function render(){
   const S=d.sources||{},K=t("srck");
   $("#src").innerHTML=Object.keys(K).map(k=>`<dt>${K[k]}</dt><dd>${S[k]||"–"}${k==="sst"&&d.sst_day?" · "+d.sst_day:""}${k==="chl"&&d.chl_day?" · "+d.chl_day:""}${k==="s2"&&d.s2?" · "+d.s2.day:""}</dd>`).join("");
   $("#t-made").textContent=t("made")(d);$("#f1").textContent=t("f1");$("#f2").textContent=t("f2");$("#f3").textContent=t("f3");
+  const up=d.bay&&d.bay.id!=="dakhla"?"../../":"../";$("#f1").href=up+"coastal/";$("#f2").href=up;$("#f3").href=up+"minerals/";
   zonesList();legend();draw();charts();windChart();
 }
 

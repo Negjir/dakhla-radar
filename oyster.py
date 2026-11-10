@@ -42,6 +42,21 @@ ZONES = CFG.get("zones") or [
     {"id": "boutalha", "ar": "بوطلحة", "fr": "Boutalha", "lat": 23.840, "lon": -15.795, "approx": True},
     {"id": "tiniguir", "ar": "تنيكير", "fr": "Tiniguir", "lat": 23.905, "lon": -15.745, "approx": True},
 ]
+# Bays watched. Dakhla Bay: the farms today. Cintra Bay (~120 km south): sector M3 of the planned aquaculture
+# zone that runs from the north of Dakhla Bay to the south of Cintra Bay; no farm positions are public yet,
+# so its three sectors are placed on the bay itself (centre 22.952 N, 16.216 W; ~24 km across, open to the west).
+BAYS = [
+    {"id": "dakhla", "ar": "خليج الداخلة", "fr": "Baie de Dakhla", "box": BOX, "zones": ZONES, "out": "",
+     "centre": [23.765, -15.833], "planned": False},
+    {"id": "cintra", "ar": "خليج سينترا", "fr": "Baie de Cintra", "box": [22.78, 23.13, -16.46, -16.02], "out": "cintra",
+     "centre": [22.952, -16.216], "planned": True,
+     "zones": [
+         {"id": "c_nord", "ar": "شمال خليج سينترا", "fr": "Cintra nord", "lat": 23.040, "lon": -16.225, "approx": True},
+         {"id": "c_centre", "ar": "وسط خليج سينترا", "fr": "Cintra centre", "lat": 22.952, "lon": -16.240, "approx": True},
+         {"id": "c_sud", "ar": "جنوب خليج سينترا", "fr": "Cintra sud", "lat": 22.860, "lon": -16.245, "approx": True},
+     ]},
+]
+BAY = BAYS[0]
 ZONE_KM = 2.5            # radius used around each zone for the Sentinel-2 statistics
 DAYS = 30
 
@@ -254,7 +269,7 @@ def sentinel2(day, max_days=20, max_cloud=40):
 
 
 def wind_48h():
-    lat, lon = 23.765, -15.833
+    lat, lon = BAY["centre"]
     js = json.loads(radar.http_get(
         "https://api.open-meteo.com/v1/forecast?latitude=%.3f&longitude=%.3f&hourly=wind_speed_10m,wind_direction_10m"
         "&wind_speed_unit=kn&forecast_days=3&timezone=Africa%%2FCasablanca" % (lat, lon), timeout=60).decode())
@@ -461,8 +476,8 @@ def images(b, water, ndci, turb):
 # ------------------------------------------------------------------ outputs
 def message(data):
     L = {0: "🟢", 1: "🟡", 2: "🔴"}
-    ar = [f"🦪 مدار المحار · خليج الداخلة · {data['day']}", ""]
-    fr = [f"🦪 Madar Huîtres · Baie de Dakhla · {data['day']}", ""]
+    ar = [f"🦪 مدار المحار · {BAY['ar']} · {data['day']}", ""]
+    fr = [f"🦪 Madar Huîtres · {BAY['fr']} · {data['day']}", ""]
     for z in data["zones"]:
         s = f"{z['sst']:.1f}°" if z["sst"] is not None else "–"
         c = f"{z['chl']:.1f}" if z["chl"] is not None else "–"
@@ -484,11 +499,27 @@ def build_page(data):
 
 
 def main():
+    global BOX, ZONES, OUT, BAY
     ap = argparse.ArgumentParser()
     ap.add_argument("--demo", action="store_true")
     ap.add_argument("--date")
+    ap.add_argument("--bay", help="dakhla, cintra (default: all)")
     a = ap.parse_args()
     day = dt.date.fromisoformat(a.date) if a.date else dt.date.today()
+    base = OUT
+    for bay in BAYS:
+        if a.bay and bay["id"] != a.bay:
+            continue
+        BAY, BOX, ZONES = bay, bay["box"], bay["zones"]
+        OUT = base / bay["out"] if bay["out"] else base
+        print(f"==== {bay['fr']}")
+        try:
+            run_bay(day, a)
+        except Exception as e:  # noqa: BLE001  one bay failing must not stop the other
+            print("[fail]", bay["id"], e)
+
+
+def run_bay(day, a):
     OUT.mkdir(parents=True, exist_ok=True)
     src = {}
     if a.demo:
@@ -550,6 +581,10 @@ def main():
     data = {
         "day": day.isoformat(), "made": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "demo": a.demo,
         "box": BOX, "zone_km": ZONE_KM, "limits": LIM,
+        "bay": {k: BAY[k] for k in ("id", "ar", "fr", "planned", "centre")},
+        "nav": [{"id": b["id"], "ar": b["ar"], "fr": b["fr"], "current": b["id"] == BAY["id"],
+                 "href": ("./" if b["id"] == BAY["id"] else
+                          (("../" if BAY["out"] else "./") + (b["out"] + "/" if b["out"] else "")))} for b in BAYS],
         "sst_days": sdays_k, "chl_days": cdays_k,
         "sst_day": sdays_k[-1] if sdays_k else None, "chl_day": cdays_k[-1] if cdays_k else None,
         "s2": {"day": s2_day, "age": s2_age, "ids": s2_ids, "size": size} if s2_day else None,
