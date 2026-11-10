@@ -1,10 +1,10 @@
 🦪 مدار المحار · خليج الداخلة · 2026-11-10
 
-🟡 لاسارگا: 21.1° · كلوروفيل 9.2 — الكلوروفيل أعلى ×1.7 عن المعتاد في هذا الموسم (9.2 mg/m³)
-🟡 دونا بلانكا: 21.8° · كلوروفيل 12.4 — برودة مفاجئة (-2.1° في أيام): مياه عميقة غنية دخلت الخليج، وقد يتبعها ازدهار طحالب
-🟢 وسط الخليج: 22.6° · كلوروفيل 7.0 — ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة
-🟢 بوطلحة: 23.7° · كلوروفيل 8.4 — ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة
-🟡 تنيكير: 22.7° · كلوروفيل 8.2 — ماء عكر (~41 FNU): غذاء أقل جودة ورواسب
+🟢 لاسارگا: 21.1° · كلوروفيل 3.5 — ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة
+🟡 دونا بلانكا: 21.8° · كلوروفيل 4.1 — برودة مفاجئة (-2.1° في أيام): مياه عميقة غنية دخلت الخليج، وقد يتبعها ازدهار طحالب
+🟢 وسط الخليج: 22.6° · كلوروفيل 4.5 — ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة
+🟢 بوطلحة: 23.7° · كلوروفيل 5.2 — ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة
+🟡 تنيكير: 22.7° · كلوروفيل 4.4 — ماء عكر (~41 FNU): غذاء أقل جودة ورواسب
 
 💨 الرياح 48 ساعة: حتى 13 عقدة
 
@@ -12,11 +12,11 @@
 
 🦪 Madar Huîtres · Baie de Dakhla · 2026-11-10
 
-🟡 La Sarga : 21.1° · chl 9.2 — Chlorophylle ×1.7 par rapport à la normale de saison (9.2 mg/m³)
-🟡 Duna Blanca : 21.8° · chl 12.4 — Refroidissement brutal (-2.1°) : remontée d'eau profonde riche, une efflorescence peut suivre
-🟢 Centre de la baie : 22.6° · chl 7.0 — Bonnes conditions de croissance : nourriture suffisante, température adaptée
-🟢 Boutalha : 23.7° · chl 8.4 — Bonnes conditions de croissance : nourriture suffisante, température adaptée
-🟡 Tiniguir : 22.7° · chl 8.2 — Eau trouble (~41 FNU) : sédiments, alimentation moins bonne
+🟢 La Sarga : 21.1° · chl 3.5 — Bonnes conditions de croissance : nourriture suffisante, température adaptée
+🟡 Duna Blanca : 21.8° · chl 4.1 — Refroidissement brutal (-2.1°) : remontée d'eau profonde riche, une efflorescence peut suivre
+🟢 Centre de la baie : 22.6° · chl 4.5 — Bonnes conditions de croissance : nourriture suffisante, température adaptée
+🟢 Boutalha : 23.7° · chl 5.2 — Bonnes conditions de croissance : nourriture suffisante, température adaptée
+🟡 Tiniguir : 22.7° · chl 4.4 — Eau trouble (~41 FNU) : sédiments, alimentation moins bonne
 
 💨 Vent 48 h : jusqu'à 13 nœuds
 
