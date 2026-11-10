@@ -46,6 +46,10 @@ canvas{width:100%;aspect-ratio:1/1;background:#06101a;border:1px solid var(--lin
 .detail ul{margin:8px 0 0;padding:0 18px 0 0;font-size:13.5px}
 .detail li{margin:3px 0}
 .note{font-size:13px;color:var(--mute)}
+.lv{display:inline-block;min-width:62px;text-align:center;border-radius:99px;padding:1px 8px;font-size:12px}
+.lv.ok{background:#173a2a;color:#6fcf97}.lv.amber{background:#3d2e12;color:#f2c14e}.lv.red{background:#431c1c;color:#ff8a80}
+.flags{white-space:normal;min-width:260px;font-size:13px}
+.vs{color:var(--mute)}.vs b{color:var(--ink);font-weight:500}
 .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-left:5px}
 footer{margin-top:34px;border-top:1px solid var(--line);padding-top:12px;font-size:12.5px;color:var(--mute)}
 footer li{margin:3px 0}
@@ -106,6 +110,8 @@ function page(){
   </div>
   ${S.compared?'':'<p class="note">مناطق مدار للأيام الماضية لم تُحسب بعد لهذه الفترة، فالمقارنة فارغة.</p>'}
 
+  ${D.cmp?captainBlock():''}
+
   <h2>الرحلات</h2>
   <div class="grid2">
     <div>
@@ -113,6 +119,7 @@ function page(){
       <div class="legend" style="margin-top:8px">
         ${sea.map(s=>`<span><i style="background:${C[s]}"></i>${D.ar[s]}</span>`).join('')}
         <span><i style="background:var(--gold)"></i>منطقة مدار ذلك اليوم</span>
+        <span><i style="background:#ff8a80"></i>انقطاع إشارة أو توقف</span>
         <span><i style="background:linear-gradient(90deg,#0d2a3a,#1f6f7a,#c9e27a)"></i>درجة مدار</span>
       </div>
     </div>
@@ -136,7 +143,31 @@ function page(){
     </ul>
   </footer>`;
   document.querySelectorAll('#tbl tbody tr').forEach(r=>r.onclick=()=>show(+r.dataset.i));
+  document.querySelectorAll('#cap tbody tr[data-n]').forEach(r=>r.onclick=()=>{const i=D.trips.findIndex(t=>t.n===+r.dataset.n);show(i);$('#map').scrollIntoView({behavior:'smooth',block:'center'})});
   show(0);
+}
+
+function captainBlock(){
+  const c=D.cmp, n=l=>c.filter(r=>r.level===l).length;
+  const v=(a,b,u='')=>a==null?`<span class="vs">— / <b>${f1(b)}${u}</b></span>`:`<span class="vs">${f1(a)}${u} / <b>${f1(b)}${u}</b></span>`;
+  return `<h2>مقارنة مع تصريحات الربان</h2>
+  <div class="cmp">
+    <div class="card"><b class="num" style="color:#6fcf97">${n('ok')}</b><p>رحلة تطابق فيها التصريح مع المسار.</p></div>
+    <div class="card"><b class="num" style="color:#f2c14e">${n('amber')}</b><p>فرق صغير يحتاج سؤالاً (عدد الرميات أو ساعات الصيد).</p></div>
+    <div class="card"><b class="num" style="color:#ff8a80">${n('red')}</b><p>فرق كبير: وقت، وقود، رحلة ناقصة أو زائدة، انقطاع إشارة، أو توقف قرب ميناء آخر.</p></div>
+  </div>
+  <div class="scroll" style="margin-top:10px"><table class="tbl" id="cap">
+    <thead><tr><th>الحالة</th><th>خروج مصرّح</th><th>رحلة المسار</th><th>ساعات البحر<br><span class="note">الربان / المسار</span></th><th>ساعات الصيد</th><th>الرميات</th><th>الوقود L</th><th>ما لا يتطابق</th></tr></thead>
+    <tbody>${c.map(r=>{const C2=r.c||{},T=r.t||{};const lvl={ok:'مطابق',amber:'للسؤال',red:'مهم'}[r.level];
+      return `<tr ${r.trip?`data-n="${r.trip}"`:''}><td><span class="lv ${r.level}">${lvl}</span></td>
+      <td class="num">${r.declared?esc(r.declared):'—'}</td><td class="num">${r.trip??'—'}</td>
+      <td class="num">${r.t?v(C2.sea_h,T.sea_h):'—'}</td><td class="num">${r.t?v(C2.fishing_h,T.fishing_h):'—'}</td>
+      <td class="num">${r.t?v(C2.sets,T.sets):'—'}</td><td class="num">${r.t?v(C2.fuel_l,T.fuel_l):'—'}</td>
+      <td class="flags">${r.flags.length?r.flags.map(esc).join('<br>'):'<span class="note">لا شيء</span>'}</td></tr>`}).join('')}</tbody>
+  </table></div>
+  <p class="note">الوقود في عمود «المسار» تقدير من الساعات ومعدل الاستهلاك، فالفرق فيه لا يُعتبر إلا إذا تجاوز ${Math.round(100*(D.fuel_tol||.25))}%.
+  المسار يثبت أين كانت السفينة ومتى، لكنه لا يقيس كمية السمك: الكمية تُقارن مع وصولات البيع في الميناء.
+  انقطاع الإشارة أو التوقف قرب ميناء آخر ليس دليلاً وحده، بل سؤال يُطرح على الربان.</p>`;
 }
 
 function show(i){
@@ -149,6 +180,8 @@ function show(i){
       ${D.states.map(s=>`<li><span class="dot" style="background:${C[s]}"></span>${D.ar[s]}: <span class="num">${f1(t.hours[s])} h · ${f0(t.nm_by[s])} nm</span></li>`).join('')}
       <li>أبعد نقطة عن الميناء: <span class="num">${f0(t.max_nm)} nm</span> · الوقود: <span class="num">${f0(t.litres)} L ≈ ${f0(t.mad)} MAD</span></li>
       ${d?`<li>قبل أول رمية: أبحرت <span class="num">${f1(d.sailed_nm)} nm</span> والخط المستقيم <span class="num">${f1(d.straight_nm)} nm</span>، أي زيادة <span class="num">${f1(d.extra_nm)} nm</span>.</li>`:''}
+      ${(t.gaps||[]).map(g=>`<li style="color:#ff8a80">انقطاع الإشارة <span class="num">${g.h} h</span> من <span class="num">${esc(g.from.slice(5))}</span>، على بعد <span class="num">${f0(g.port_nm)} nm</span> من الميناء، والسفينة ظهرت بعده على بعد <span class="num">${f1(g.jump_nm)} nm</span></li>`).join('')}
+      ${(t.stops||[]).map(s=>`<li style="color:#ff8a80">توقف <span class="num">${s.h} h</span> ${s.port?'قرب '+esc(s.port):'في عرض البحر'} · <span class="num">${esc(s.t.slice(5))}</span></li>`).join('')}
       ${t.kg!=null?`<li>الصيد المسجّل: <span class="num">${f0(t.kg)} kg</span>${t.value?` · <span class="num">${f0(t.value)} MAD</span>`:''}</li>`:''}
     </ul>
     <h3 style="margin-top:14px">الرميات</h3>
@@ -181,6 +214,11 @@ function draw(t){
   // track
   x.lineWidth=3.2;x.lineCap='round';
   for(let i=1;i<pts.length;i++){x.strokeStyle=C[D.states[pts[i-1][2]]];x.beginPath();x.moveTo(X(pts[i-1][1]),Y(pts[i-1][0]));x.lineTo(X(pts[i][1]),Y(pts[i][0]));x.stroke()}
+  // signal holes and stops
+  x.setLineDash([8,8]);x.strokeStyle='#ff8a80';x.lineWidth=2.5;
+  (t.gaps||[]).forEach(g=>{let k=pts.findIndex(p=>Math.abs(p[0]-g.lat)<.002&&Math.abs(p[1]-g.lon)<.002);if(k>=0&&k+1<pts.length){x.beginPath();x.moveTo(X(pts[k][1]),Y(pts[k][0]));x.lineTo(X(pts[k+1][1]),Y(pts[k+1][0]));x.stroke()}});
+  x.setLineDash([]);
+  (t.stops||[]).forEach(s=>{x.strokeStyle='#ff8a80';x.lineWidth=3;x.beginPath();x.arc(X(s.lon),Y(s.lat),14,0,7);x.stroke()});
   // zones
   zs.forEach(z=>{const zx=X(z.lon),zy=Y(z.lat);x.strokeStyle='#f2c14e';x.lineWidth=2.5;x.beginPath();x.arc(zx,zy,16,0,7);x.stroke();
     x.fillStyle='#f2c14e';x.font='bold 18px system-ui';x.textAlign='center';x.fillText(z.id,zx,zy+6)});

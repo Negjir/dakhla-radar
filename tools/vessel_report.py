@@ -13,7 +13,9 @@ and send the HTML report to the owner directly. Nothing here uploads anything.
 Config (JSON, every key optional):
     {"fuel_lph": {"port": 4, "transit": 140, "search": 100, "fishing": 70},  # litres per hour per state
      "diesel_mad_l": 11.0,                                                   # price paid per litre
-     "catch_csv": "private/catch.csv"}                                       # date,kg[,value_mad]
+     "catch_csv": "private/catch.csv",                                       # date,kg[,value_mad]
+     "captain_csv": "private/captain.csv",                                   # the captain's own trip log, to check it
+     "fuel_tolerance": 0.25}                                                 # fuel gap accepted before a flag
 """
 import argparse
 import csv
@@ -34,6 +36,9 @@ GAP_H = 3.0              # a hole longer than this in the log is not interpolate
 TRANSIT_KN = 7.0
 FISH_KN = 2.5
 SET_MIN = 15             # a fishing stretch shorter than this is not counted as a set
+OTHER_PORTS = {"بوجدور": (26.125, -14.485), "العيون (المرسى)": (27.090, -13.420), "طرفاية": (27.940, -12.925),
+               "لكويرة": (20.840, -17.090), "نواذيبو": (20.905, -17.035), "أنزران": (23.89, -15.80)}
+MATCH_H = 12             # a declared trip is paired with a tracked one leaving within this many hours
 DEFAULT = {"fuel_lph": {"port": 4, "transit": 140, "search": 100, "fishing": 70}, "diesel_mad_l": 11.0}
 STATES = ["port", "transit", "search", "fishing"]
 AR = {"port": "في الميناء", "transit": "إبحار مباشر", "search": "بحث", "fishing": "صيد"}
@@ -185,8 +190,8 @@ def label(pts):
 def trips_of(rows):
     trips, cur = [], None
     for k, r in enumerate(rows):
-        gap = k and (r["t"] - rows[k - 1]["t"]).total_seconds() / 3600 > GAP_H
-        if r["state"] == "port" or gap:
+        gap = False
+        if r["state"] == "port":
             if cur and len(cur) > 5:
                 trips.append(cur)
             cur = None
@@ -279,6 +284,31 @@ def analyse(rows, cfg, zdir, catch):
             detour = {"sailed_nm": round(sailed, 1), "straight_nm": round(straight, 1),
                       "extra_nm": round(max(0, sailed - straight), 1),
                       "extra_h": round(max(0, sailed - straight) / 9.0, 1)}
+        gaps, stops = [], []
+        for a, b in zip(tr, tr[1:]):
+            h = (b["t"] - a["t"]).total_seconds() / 3600
+            if h > 1.0:
+                gaps.append({"from": a["t"].strftime("%Y-%m-%d %H:%M"), "h": round(h, 1),
+                             "lat": round(a["lat"], 3), "lon": round(a["lon"], 3),
+                             "jump_nm": round(nm((a["lat"], a["lon"]), (b["lat"], b["lon"])), 1),
+                             "port_nm": round(nm((a["lat"], a["lon"]), (PORT["lat"], PORT["lon"])), 1)})
+        k = 0
+        while k < len(tr):                         # stationary > 1 h (under 1 kn)
+            if tr[k]["sog"] >= 1.0 or tr[k]["state"] == "port":
+                k += 1
+                continue
+            j = k
+            while j + 1 < len(tr) and tr[j + 1]["sog"] < 1.0:
+                j += 1
+            h = (tr[j]["t"] - tr[k]["t"]).total_seconds() / 3600
+            if h >= 1.0:
+                la, lo = tr[k]["lat"], tr[k]["lon"]
+                near = min(OTHER_PORTS.items(), key=lambda q: nm((la, lo), q[1]))
+                d = nm((la, lo), near[1])
+                if d <= 3 or h >= 6:
+                    stops.append({"t": tr[k]["t"].strftime("%Y-%m-%d %H:%M"), "h": round(h, 1), "lat": round(la, 3),
+                                  "lon": round(lo, 3), "port": near[0] if d <= 3 else None, "port_nm": round(d, 1)})
+            k = j + 1
         litres = sum(hours[s] * fuel[s] for s in STATES)
         d0 = tr[0]["t"].date().isoformat()
         d1 = tr[-1]["t"].date().isoformat()
@@ -292,6 +322,7 @@ def analyse(rows, cfg, zdir, catch):
             "nm": round(sum(dist.values()), 1), "nm_by": {s: round(v, 1) for s, v in dist.items()},
             "max_nm": round(max(nm((x["lat"], x["lon"]), (PORT["lat"], PORT["lon"])) for x in tr), 1),
             "litres": round(litres), "mad": round(litres * price), "sets": sets, "detour": detour,
+            "gaps": gaps, "stops": stops, "t0": tr[0]["t"].isoformat(), "t1": tr[-1]["t"].isoformat(),
             "kg": kg, "value": value, "zones": (z0 or {}).get("zones"), "has_zones": bool(z0),
             "path": [[round(x["lat"], 4), round(x["lon"], 4), STATES.index(x["state"])] for x in tr[::max(1, len(tr) // 1500)]],
         })
@@ -331,6 +362,92 @@ def read_catch(path):
     return out
 
 
+def read_captain(path):
+    """Captain's own trip log. Columns (any order, extra columns ignored):
+    depart, return, fishing_h, sets, fuel_l, catch_kg, area   (times as 2026-09-14 06:30)"""
+    if not path or not pathlib.Path(path).exists():
+        return []
+    text = pathlib.Path(path).read_text(encoding="utf-8-sig")
+    out = []
+    for r in csv.DictReader(text.splitlines(), delimiter=";" if text.count(";") > text.count(",") else ","):
+        r = {k.strip().lower(): (v or "").strip() for k, v in r.items() if k}
+        try:
+            c = {"depart": when(r["depart"]), "return": when(r["return"]) if r.get("return") else None}
+        except (KeyError, ValueError):
+            continue
+        for k in ("fishing_h", "sets", "fuel_l", "catch_kg"):
+            try:
+                c[k] = float(r[k]) if r.get(k) else None
+            except ValueError:
+                c[k] = None
+        c["area"] = r.get("area") or ""
+        out.append(c)
+    return out
+
+
+def compare(trips, captain, fuel_tol=0.25):
+    """Pair each declared trip with the trip in the track that left nearest in time, and list what does not agree."""
+    used, rows = set(), []
+    dep = lambda t: dt.datetime.fromisoformat(t["t0"])
+    # pair declared and tracked trips closest-first, so one wrong entry cannot shift all the others
+    pairs = sorted((abs((dep(t) - c["depart"]).total_seconds()), ci, t["n"])
+                   for ci, c in enumerate(captain) for t in trips
+                   if abs((dep(t) - c["depart"]).total_seconds()) <= MATCH_H * 3600)
+    match, taken = {}, set()
+    for _, ci, tn in pairs:
+        if ci not in match and tn not in taken:
+            match[ci] = tn
+            taken.add(tn)
+    by_n = {t["n"]: t for t in trips}
+    for ci, c in sorted(enumerate(captain), key=lambda q: q[1]["depart"]):
+        best = by_n.get(match.get(ci))
+        if best is None:
+            rows.append({"declared": c["depart"].strftime("%Y-%m-%d %H:%M"), "trip": None, "level": "red", "c": None,
+                         "flags": ["رحلة مصرّح بها لا أثر لها في مسار السفينة"]})
+            continue
+        used.add(best["n"])
+        t0, t1 = dt.datetime.fromisoformat(best["t0"]), dt.datetime.fromisoformat(best["t1"])
+        sea = (t1 - t0).total_seconds() / 3600
+        r = {"declared": c["depart"].strftime("%Y-%m-%d %H:%M"), "trip": best["n"], "flags": [], "level": "ok",
+             "c": {k: c[k] for k in ("fishing_h", "sets", "fuel_l", "catch_kg")} | {"area": c["area"],
+                   "sea_h": round((c["return"] - c["depart"]).total_seconds() / 3600, 1) if c["return"] else None},
+             "t": {"fishing_h": round(best["hours"]["fishing"], 1), "sets": len(best["sets"]), "fuel_l": best["litres"],
+                   "sea_h": round(sea, 1), "gap_h": round(sum(g["h"] for g in best["gaps"]), 1)}}
+        dep = (c["depart"] - t0).total_seconds() / 3600
+        if abs(dep) > 2:
+            r["flags"].append(f"وقت الخروج يختلف بـ {abs(dep):.1f} ساعة")
+        if c["return"]:
+            ret = (c["return"] - t1).total_seconds() / 3600
+            if abs(ret) > 2:
+                r["flags"].append(f"وقت العودة يختلف بـ {abs(ret):.1f} ساعة")
+        if c["fishing_h"] is not None and abs(c["fishing_h"] - r["t"]["fishing_h"]) > max(2, 0.3 * r["t"]["fishing_h"]):
+            r["flags"].append(f"ساعات الصيد: صرّح بـ {c['fishing_h']:g} والمسار يُظهر {r['t']['fishing_h']:g}")
+        if c["sets"] is not None and c["sets"] != r["t"]["sets"]:
+            r["flags"].append(f"عدد الرميات: صرّح بـ {c['sets']:g} والمسار يُظهر {r['t']['sets']}")
+        if c["fuel_l"] and best["litres"]:
+            ratio = c["fuel_l"] / best["litres"]
+            r["t"]["fuel_ratio"] = round(ratio, 2)
+            if ratio > 1 + fuel_tol:
+                r["flags"].append(f"الوقود المصرّح به أكثر من المتوقع بـ {round(100 * (ratio - 1))}%")
+            elif ratio < 1 - fuel_tol:
+                r["flags"].append(f"الوقود المصرّح به أقل من المتوقع بـ {round(100 * (1 - ratio))}%")
+        if c["catch_kg"] and not best["sets"]:
+            r["flags"].append("صيد مصرّح به بينما المسار لا يُظهر أي رمية")
+        if r["t"]["gap_h"] >= 2:
+            r["flags"].append(f"انقطاع إشارة في البحر مجموعه {r['t']['gap_h']:g} ساعة")
+        for s in best["stops"]:
+            if s["port"]:
+                r["flags"].append(f"توقف {s['h']:g} ساعة قرب {s['port']} ({s['t']})")
+        heavy = ("وقت الخروج", "وقت العودة", "الوقود المصرّح به أكثر", "توقف", "صيد مصرّح", "انقطاع")
+        r["level"] = ("red" if any(f.startswith(heavy) for f in r["flags"]) else "amber" if r["flags"] else "ok")
+        rows.append(r)
+    for t in trips:
+        if t["n"] not in taken:
+            rows.append({"declared": None, "trip": t["n"], "level": "red", "c": None,
+                         "flags": [f"رحلة في المسار ({t['start']}) غير مصرّح بها"]})
+    return rows
+
+
 def grids_for(trips, zdir):
     """Madar score grid per trip day, small enough to embed (score only)."""
     out = {}
@@ -342,10 +459,10 @@ def grids_for(trips, zdir):
     return out
 
 
-def render(name, meta, trips, sm, fuel, price, grids, demo):
+def render(name, meta, trips, sm, fuel, price, grids, demo, cmp=None, fuel_tol=0.25):
     tpl = (ROOT / "tools" / "vessel_report.html").read_text(encoding="utf-8")
     data = {"name": name, "meta": meta, "trips": trips, "summary": sm, "fuel": fuel, "price": price,
-            "port": PORT, "grids": grids, "demo": demo, "states": STATES, "ar": AR,
+            "port": PORT, "grids": grids, "cmp": cmp, "fuel_tol": fuel_tol, "demo": demo, "states": STATES, "ar": AR,
             "made": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")}
     return (tpl.replace("__TITLE__", html.escape(f"{name} · تقرير الرحلات"))
                .replace("/*__DATA__*/null", json.dumps(data, ensure_ascii=False, separators=(",", ":"))))
@@ -361,7 +478,7 @@ def demo_track(days=60, seed=7):
     zones = json.loads((ROOT / "docs" / "radar.json").read_text())["zones"]
     t = dt.datetime(2026, 9, 10, 4, 0, tzinfo=dt.timezone.utc)
     end = t + dt.timedelta(days=days)
-    pts = []
+    pts, trip_no = [], 0
 
     def sail(a, b, kn, step_min=2, wander=0.0):
         nonlocal t
@@ -387,6 +504,9 @@ def demo_track(days=60, seed=7):
         for w in BAY_EXIT:                            # leave the bay by its southern mouth
             here = sail(here, w, 7.5)
         here = sail(here, aim, rnd.uniform(9, 10.5))
+        trip_no += 1
+        if trip_no in (9, 22):                        # planted: AIS switched off for 4 h at sea
+            t += dt.timedelta(hours=4)
         for _ in range(rnd.randint(1, 3)):            # search, then a set
             for _ in range(rnd.randint(2, 6) if good else rnd.randint(6, 14)):
                 nxt = (here[0] + rnd.uniform(-0.08, 0.08), here[1] + rnd.uniform(-0.08, 0.08))
@@ -395,12 +515,38 @@ def demo_track(days=60, seed=7):
                 t += dt.timedelta(minutes=2)
                 here = (here[0] + rnd.gauss(0, 0.0006), here[1] + rnd.gauss(0, 0.0006))
                 pts.append((t, *here))
+        if trip_no == 16:                             # planted: 3 h stop off Boujdour on the way back
+            here = sail(here, (26.10, -14.53), 10)
+            for _ in range(90):
+                t += dt.timedelta(minutes=2)
+                pts.append((t, here[0] + rnd.gauss(0, 0.0003), here[1] + rnd.gauss(0, 0.0003)))
         here = sail(here, BAY_EXIT[-1], rnd.uniform(9, 10.5))
         for w in BAY_EXIT[-2::-1] + [(PORT["lat"], PORT["lon"])]:
             here = sail(here, w, 7.5)
         if rnd.random() < 0.15:                       # AIS hole
             t += dt.timedelta(hours=5)
     return [p for p in pts if p[0] < end]
+
+
+def demo_captain(trips, seed=3):
+    rnd = random.Random(seed)
+    out = []
+    for k, t in enumerate(trips):
+        t0, t1 = dt.datetime.fromisoformat(t["t0"]), dt.datetime.fromisoformat(t["t1"])
+        c = {"depart": t0 + dt.timedelta(minutes=rnd.randint(-40, 40)), "return": t1 + dt.timedelta(minutes=rnd.randint(-40, 40)),
+             "fishing_h": round(t["hours"]["fishing"] * rnd.uniform(0.85, 1.15), 1), "sets": len(t["sets"]),
+             "fuel_l": round(t["litres"] * rnd.uniform(0.92, 1.12)), "catch_kg": rnd.randint(8, 40) * 1000, "area": ""}
+        if k % 7 == 3:
+            c["fuel_l"] = round(t["litres"] * 1.45)          # planted: fuel over-declared
+        if k % 9 == 5:
+            c["sets"] = len(t["sets"]) + 2                  # planted: more sets declared
+        if k % 11 == 7:
+            c["return"] = t1 + dt.timedelta(hours=5)        # planted: return time off
+        if k != 12:                                         # planted: one trip left out of the log
+            out.append(c)
+    out.append({"depart": dt.datetime.fromisoformat(trips[5]["t0"]) + dt.timedelta(days=1, hours=3), "return": None,
+                "fishing_h": 6, "sets": 2, "fuel_l": 4000, "catch_kg": 20000, "area": ""})   # planted: a trip that never happened
+    return out
 
 
 def demo_zones(zdir, days=60):
@@ -439,11 +585,14 @@ def main():
         sys.exit("no trip found: does the log start and end at Dakhla port?")
     sm = summary(trips)
     sm["search_mad"] = round(sm["hours"]["search"] * fuel["search"] * price)
+    cap = demo_captain(trips) if a.demo else read_captain(cfg.get("captain_csv"))
+    cmp = compare(trips, cap, cfg.get("fuel_tolerance", 0.25)) if cap else None
     meta = {"points": len(pts), "first": pts[0][0].strftime("%Y-%m-%d"), "last": pts[-1][0].strftime("%Y-%m-%d"),
             "source": pathlib.Path(a.track).name if a.track else "synthetic"}
     out = pathlib.Path(a.out or ROOT / "private" / f"vessel_report_{a.name.lower()}.html")
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(render(a.name, meta, trips, sm, fuel, price, grids_for(trips, zdir), a.demo), encoding="utf-8")
+    out.write_text(render(a.name, meta, trips, sm, fuel, price, grids_for(trips, zdir), a.demo, cmp,
+                          cfg.get("fuel_tolerance", 0.25)), encoding="utf-8")
     print(f"{sm['trips']} trips · {sm['sea_h']} h at sea · search {sm['search_share']}% · "
           f"{sm['sets']} sets · {sm['near10']}/{sm['compared']} sets within 10 nm of a Madar zone -> {out}")
 
