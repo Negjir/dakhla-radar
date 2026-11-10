@@ -1,0 +1,50 @@
+name: Madar Offshore - vessels from space (Sentinel-1)
+
+on:
+  schedule:
+    - cron: "17 9 * * *"
+  push:
+    branches: [main]
+    paths: ["ships.py", "ships_console.html", ".github/workflows/ships.yml", "ships_range.txt"]
+  workflow_dispatch:
+    inputs:
+      start: {description: "first day YYYY-MM-DD", required: false}
+      end: {description: "last day YYYY-MM-DD", required: false}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ships
+  cancel-in-progress: false
+
+jobs:
+  ships:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install rasterio numpy scipy pillow
+      - name: Detect vessels
+        run: |
+          mkdir -p docs/ships
+          if [ -n "${{ github.event.inputs.start }}" ]; then
+            S="${{ github.event.inputs.start }}"; E="${{ github.event.inputs.end }}"
+          elif [ "${{ github.event_name }}" = "push" ] && [ -f ships_range.txt ]; then
+            read S E < ships_range.txt
+          else
+            S=$(date -I -d "-4 days"); E=$(date -I)
+          fi
+          python ships.py --start "$S" --end "${E:-$(date -I)}" 2>&1 | tee docs/ships/log.txt
+      - name: Save
+        if: always()
+        run: |
+          git config user.name "radar-bot"
+          git config user.email "radar-bot@users.noreply.github.com"
+          git add docs/ships
+          git commit -m "Vessels from space $(date -u +%F-%H%M)" || echo "nothing to commit"
+          for i in 1 2 3; do git pull --rebase && git push && break; sleep 5; done
