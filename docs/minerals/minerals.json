@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-05",
+ "generated": "2026-11-10",
  "demo": false,
  "hit_km": 2.0,
  "top_percent": 1.0,
@@ -769,6 +769,145 @@
    },
    "gis": "lafhouda/MADAR-lafhouda-GIS.zip",
    "report": "lafhouda/MADAR-lafhouda-rapport.pdf"
+  },
+  {
+   "id": "anzarane",
+   "name": "South Bir Anzarane",
+   "name_ar": "جنوب بئر أنزران",
+   "country": "Morocco (Oued Ed-Dahab)",
+   "metal": "Iron, possibly rare earths (new prospect)",
+   "metal_ar": "الحديد، وربما العناصر النادرة (منطقة جديدة)",
+   "profile": "iron",
+   "bounds": [
+    [
+     23.4,
+     -14.82
+    ],
+    [
+     23.74,
+     -14.5
+    ]
+   ],
+   "area_km2": 1236,
+   "valid_pct": 100.0,
+   "anomaly_km2": 12.36,
+   "reduction": 100,
+   "targets": [
+    {
+     "lat": 23.49002,
+     "lon": -14.72794,
+     "area_ha": 161.3,
+     "peak": 4.5,
+     "rank": 1,
+     "label": "T1",
+     "rel": 100
+    },
+    {
+     "lat": 23.50239,
+     "lon": -14.70904,
+     "area_ha": 67.4,
+     "peak": 4.29,
+     "rank": 2,
+     "label": "T2",
+     "rel": 42
+    },
+    {
+     "lat": 23.69268,
+     "lon": -14.58789,
+     "area_ha": 63.5,
+     "peak": 4.62,
+     "rank": 3,
+     "label": "T3",
+     "rel": 40
+    },
+    {
+     "lat": 23.63283,
+     "lon": -14.61341,
+     "area_ha": 61.5,
+     "peak": 4.49,
+     "rank": 4,
+     "label": "T4",
+     "rel": 39
+    },
+    {
+     "lat": 23.46512,
+     "lon": -14.68905,
+     "area_ha": 53.3,
+     "peak": 4.61,
+     "rank": 5,
+     "label": "T5",
+     "rel": 34
+    },
+    {
+     "lat": 23.51256,
+     "lon": -14.68647,
+     "area_ha": 44.7,
+     "peak": 4.56,
+     "rank": 6,
+     "label": "T6",
+     "rel": 28
+    },
+    {
+     "lat": 23.51292,
+     "lon": -14.7188,
+     "area_ha": 39.8,
+     "peak": 4.14,
+     "rank": 7,
+     "label": "T7",
+     "rel": 25
+    },
+    {
+     "lat": 23.68095,
+     "lon": -14.58931,
+     "area_ha": 39.8,
+     "peak": 4.24,
+     "rank": 8,
+     "label": "T8",
+     "rel": 25
+    },
+    {
+     "lat": 23.49493,
+     "lon": -14.74581,
+     "area_ha": 38.9,
+     "peak": 4.13,
+     "rank": 9,
+     "label": "T9",
+     "rel": 24
+    },
+    {
+     "lat": 23.45118,
+     "lon": -14.68935,
+     "area_ha": 36.2,
+     "peak": 4.46,
+     "rank": 10,
+     "label": "T10",
+     "rel": 23
+    }
+   ],
+   "blind_test": [],
+   "scenes": [
+    {
+     "id": "S2A_28QEM_20260920_0_L2A",
+     "date": "2026-09-20",
+     "cloud": 0.0
+    },
+    {
+     "id": "S2A_28QEL_20260920_1_L2A",
+     "date": "2026-09-20",
+     "cloud": 0.0
+    }
+   ],
+   "images": {
+    "truecolor.jpg": "anzarane/truecolor.jpg",
+    "ratios.jpg": "anzarane/ratios.jpg",
+    "clay.png": "anzarane/clay.png",
+    "iron.png": "anzarane/iron.png",
+    "score.png": "anzarane/score.png",
+    "ree.png": "anzarane/ree.png"
+   },
+   "gis": "anzarane/MADAR-anzarane-GIS.zip",
+   "prospect": true,
+   "report": "anzarane/MADAR-anzarane-rapport.pdf"
   }
  ]
 }
