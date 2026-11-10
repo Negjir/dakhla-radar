@@ -91,6 +91,15 @@ SITES = [
              "src": "GeoNames 'Gleibat Lefhuda' 22.15N 14.85W; ONHYM: SW of Awserd (approximate)"},
         ],
     },
+    # --- New prospect found by the Sahara regional scan (minerals_region.py): no known deposit here ---
+    {
+        "id": "anzarane", "name": "South Bir Anzarane", "name_ar": "جنوب بئر أنزران", "country": "Morocco (Oued Ed-Dahab)",
+        "metal": "Iron, possibly rare earths (new prospect)", "metal_ar": "الحديد، وربما العناصر النادرة (منطقة جديدة)",
+        "box": [23.40, 23.74, -14.82, -14.50],
+        "profile": "iron",
+        "known": [],
+        "prospect": True,
+    },
 ]
 
 PROFILES = {
@@ -207,7 +216,7 @@ def demo_scene(site, seed=1):
         "swir16": 0.36 + 0.08 * base, "swir22": 0.30 + 0.07 * base,
         "rededge1": 0.24 + 0.08 * base, "rededge2": 0.25 + 0.08 * base, "rededge3": 0.26 + 0.08 * base,
     }
-    k = site["known"][0]
+    k = site["known"][0] if site["known"] else {"lat": (lat0 + lat1) / 2, "lon": (lon0 + lon1) / 2}
     centres = [((lat1 - k["lat"]) / RES + 8, (k["lon"] - lon0) / RES - 5)]
     for _ in range(5):
         centres.append((rng.uniform(0.1, 0.9) * h, rng.uniform(0.1, 0.9) * w))
@@ -506,6 +515,7 @@ def run_site(site, demo):
                    ("truecolor.jpg", "ratios.jpg", "clay.png", "iron.png", "score.png", "ree.png")
                    if (folder / k).exists()},
         "gis": f"{site['id']}/{gis}",
+        "prospect": bool(site.get("prospect")),
     }
     for k in bt:
         print("   blind test: %s -> nearest %s at %s km, within %g km: %s, percentile %s" % (

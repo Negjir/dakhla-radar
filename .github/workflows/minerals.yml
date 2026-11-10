@@ -1,6 +1,9 @@
 name: MADAR Minerals (proof on known mines)
 
 on:
+  push:
+    branches: [main]
+    paths: ["minerals_queue.txt", "minerals_dem.py"]
   workflow_dispatch:
     inputs:
       site:
@@ -27,12 +30,18 @@ jobs:
       - run: pip install rasterio pystac-client numpy scipy pillow reportlab
       - name: Sentinel-2 analysis
         run: |
-          if [ "${{ github.event.inputs.site }}" = "list" ]; then python mrds_list.py; exit 0; fi
-          if [ "${{ github.event.inputs.site }}" = "test" ]; then python minerals_test.py; exit 0; fi
-          ARGS=""
-          if [ -n "${{ github.event.inputs.site }}" ]; then ARGS="--site ${{ github.event.inputs.site }}"; fi
-          python minerals.py $ARGS
-          python minerals_report.py
+          SITE="${{ github.event.inputs.site }}"
+          # on a push, the sites to (re)run are listed in minerals_queue.txt ("dem" = terrain only)
+          if [ "${{ github.event_name }}" = "push" ]; then SITE="$(tr -d ' \n' < minerals_queue.txt)"; fi
+          if [ "$SITE" = "list" ]; then python mrds_list.py; exit 0; fi
+          if [ "$SITE" = "test" ]; then python minerals_test.py; exit 0; fi
+          if [ "$SITE" != "dem" ]; then
+            ARGS=""
+            if [ -n "$SITE" ]; then ARGS="--site $SITE"; fi
+            python minerals.py $ARGS
+            python minerals_report.py
+          fi
+          python minerals_dem.py
       - name: Save results
         run: |
           git config user.name "radar-bot"

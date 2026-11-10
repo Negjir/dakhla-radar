@@ -200,7 +200,7 @@ const DATA = /*__DATA__*/null;
 const T = {
   ar:{dir:"rtl",wm:"المعادن",proof:h=>`الاختبار الأعمى: <b class="num">${h}</b>`,
     layers:{score:"نقاط مدار",truecolor:"صورة حقيقية",ratios:"تركيب المؤشرات",clay:"الطين",iron:"أكاسيد الحديد",ree:"العناصر النادرة (تجريبي)"},
-    gis:"ملفات GIS",report:"تقرير الدراسة",reveal:"اكشف المنجم الحقيقي",hide:"أخفِ المنجم",
+    gis:"ملفات GIS",report:"تقرير الدراسة",view3d:"عرض ثلاثي الأبعاد",prospectT:"منطقة جديدة",prospect:"اكتشفها مسح الصحراء. لا يوجد منجم معروف هنا للمقارنة: الأهداف للتحقق الميداني مباشرة.",reveal:"اكشف المنجم الحقيقي",hide:"أخفِ المنجم",
     area:"المساحة المدروسة",anom:"مناطق الأولوية",red:"تقليص مساحة البحث",km2:"كم²",
     targets:"الأهداف المرتبة",ha:"هكتار",rel:"من قوة الهدف الأول",copy:"نسخ",copied:"نُسخ",
     blindT:"الاختبار الأعمى",blindHidden:"لم يُستعمل موقع المنجم الحقيقي في التحليل. اكشفه لترى هل أشار إليه مدار.",
@@ -217,7 +217,7 @@ const T = {
     rgb:["أحمر: طين","أخضر: أكاسيد الحديد","أزرق: حديد ثنائي"],low:"ضعيف",high:"قوي",known:"الموقع المعروف",tc:"Sentinel-2، ألوان حقيقية"},
   fr:{dir:"ltr",wm:"Minerals",proof:h=>`Test à l'aveugle : <b class="num">${h}</b>`,
     layers:{score:"Score Madar",truecolor:"Couleurs réelles",ratios:"Composite d'indices",clay:"Argiles",iron:"Oxydes de fer",ree:"Terres rares (expérimental)"},
-    gis:"Fichiers SIG",report:"Rapport d'étude",reveal:"Révéler la mine réelle",hide:"Masquer la mine",
+    gis:"Fichiers SIG",report:"Rapport d'étude",view3d:"Vue 3D",prospectT:"Nouvelle zone",prospect:"Révélée par le levé du Sahara. Pas de mine connue ici pour comparer : les cibles sont à vérifier directement sur le terrain.",reveal:"Révéler la mine réelle",hide:"Masquer la mine",
     area:"Zone étudiée",anom:"Zones prioritaires",red:"Réduction de la zone de recherche",km2:"km²",
     targets:"Cibles classées",ha:"ha",rel:"de la force de T1",copy:"Copier",copied:"Copié",
     blindT:"Test à l'aveugle",blindHidden:"La position de la mine n'a pas été utilisée par l'analyse. Révélez-la pour voir si Madar la désigne.",
@@ -234,7 +234,7 @@ const T = {
     rgb:["Rouge : argiles","Vert : oxydes de fer","Bleu : fer ferreux"],low:"faible",high:"fort",known:"Site connu",tc:"Sentinel-2, couleurs réelles"},
   en:{dir:"ltr",wm:"Minerals",proof:h=>`Blind test: <b class="num">${h}</b>`,
     layers:{score:"Madar score",truecolor:"True colour",ratios:"Index composite",clay:"Clay",iron:"Iron oxide",ree:"Rare earths (experimental)"},
-    gis:"GIS files",report:"Study report",reveal:"Reveal the real mine",hide:"Hide the mine",
+    gis:"GIS files",report:"Study report",view3d:"3D view",prospectT:"New prospect",prospect:"Found by the Sahara survey. No known mine here to compare with: the targets go straight to field checking.",reveal:"Reveal the real mine",hide:"Hide the mine",
     area:"Area studied",anom:"Priority zones",red:"Search area reduced",km2:"km²",
     targets:"Ranked targets",ha:"ha",rel:"of T1's strength",copy:"Copy",copied:"Copied",
     blindT:"Blind test",blindHidden:"The mine's position was not used by the analysis. Reveal it to see whether Madar points to it.",
@@ -434,7 +434,7 @@ function render(keepView){
     <dl class="ledger"><dt>${t.area}</dt><dd><span class="num">${s.area_km2.toLocaleString("en")}</span><small>${t.km2}</small></dd>
       <dt>${t.anom}</dt><dd><span class="num">${s.anomaly_km2}</span><small>${t.km2}</small></dd>
       <dt>${t.red}</dt><dd class="gold"><span class="num">×${s.reduction.toLocaleString("en")}</span></dd></dl>
-    <div class="dl">${s.report?`<a href="${esc(s.report)}" target="_blank" rel="noopener">${ICON.doc}${t.report}</a>`:""}${s.gis?`<a href="${esc(s.gis)}" download>${ICON.dl}${t.gis}</a>`:""}</div>`;
+    <div class="dl">${s.report?`<a href="${esc(s.report)}" target="_blank" rel="noopener">${ICON.doc}${t.report}</a>`:""}${s.gis?`<a href="${esc(s.gis)}" download>${ICON.dl}${t.gis}</a>`:""}<a href="3d.html?site=${esc(s.id)}">${ICON.doc}${t.view3d}</a></div>`;
   if (lang !== "ar") $("head").querySelector(".sub").textContent = `${s.metal}, ${country(s.country)}`;
   $("tTitle").textContent = t.targets;
   $("targets").innerHTML = s.targets.map((g, i) => `<li class="trow" role="button" tabindex="0" data-r="${g.rank}" aria-current="${g.rank===sel}" style="animation-delay:${i*45}ms">
@@ -455,9 +455,10 @@ function render(keepView){
   renderBlind(); renderReveal(); renderLegend();
   if (!keepView){ born = matchMedia("(prefers-reduced-motion: reduce)").matches ? -1e9 : performance.now(); resize(); fit(s.bounds, 64); } else draw();
 }
-function renderReveal(){ $("reveal").textContent = revealed ? L().hide : L().reveal; $("reveal").setAttribute("aria-pressed", revealed); }
+function renderReveal(){ $("reveal").style.visibility = S().blind_test.length ? "" : "hidden"; $("reveal").textContent = revealed ? L().hide : L().reveal; $("reveal").setAttribute("aria-pressed", revealed); }
 function renderBlind(){
   const t = L(), s = S();
+  if (!s.blind_test.length){ $("blind").innerHTML = `<h2 class="title">${t.prospectT}</h2><p>${t.prospect}</p>`; return; }
   let h = `<h2 class="title">${t.blindT}</h2>`;
   if (!revealed) h += `<p>${t.blindHidden}</p>`;
   else s.blind_test.forEach(b => {

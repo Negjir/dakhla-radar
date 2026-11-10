@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Madar Minerals · 3D</title>
+<meta name="description" content="Madar Minerals — 3D terrain of a study site with Sentinel-2 indicator layers and ranked targets.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<!--
+  3D terrain view. No external library: a small WebGL renderer draws the Copernicus DEM (30 m) as a lit mesh,
+  draped with the site's Sentinel-2 layers; targets are drawn on a 2D canvas above, projected each frame.
+-->
+<style>
+:root{--malachite:#0c1f1b;--panel:#122d27;--rule:#2c5248;--gold:#cba35c;--gold-2:#e4c88e;--ivory:#efe8d8;--sage:#9fb3a8;--sage-2:#6f877c;--azurite:#5b8bd0}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--malachite);color:var(--ivory);font:14px/1.5 "IBM Plex Sans Arabic","IBM Plex Sans",system-ui,sans-serif;overflow:hidden}
+html[lang="fr"] body{font-family:"IBM Plex Sans",system-ui,sans-serif}
+#gl,#ov{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#ov{pointer-events:none}
+.bar{position:fixed;z-index:3;top:0;inset-inline:0;display:flex;align-items:center;gap:14px;padding:12px 16px;background:linear-gradient(180deg,rgba(12,31,27,.95),rgba(12,31,27,.0));flex-wrap:wrap}
+.bar a.back{color:var(--sage);text-decoration:none;border:1px solid var(--rule);border-radius:3px;padding:6px 10px;font-size:13px;white-space:nowrap}
+.bar a.back:hover{color:var(--ivory);border-color:var(--gold)}
+.ttl{min-width:0;flex:1}
+.ttl b{display:block;font:500 22px/1.15 "Spectral",serif;color:var(--gold-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ttl span{color:var(--sage);font-size:12.5px}
+.langs{display:flex;gap:4px}
+.langs button{border:1px solid var(--rule);background:none;color:var(--sage);border-radius:3px;padding:5px 9px;cursor:pointer;font:500 12px "IBM Plex Sans",sans-serif}
+.langs button[aria-pressed="true"]{background:var(--gold-2);color:var(--malachite);border-color:var(--gold-2)}
+.dock{position:fixed;z-index:3;bottom:16px;inset-inline:16px;display:flex;gap:10px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;pointer-events:none}
+.dock>*{pointer-events:auto}
+.seg{display:flex;flex-wrap:wrap;gap:2px;padding:3px;border:1px solid var(--rule);border-radius:3px;background:rgba(10,25,22,.86);backdrop-filter:blur(6px)}
+.seg button{border:0;background:none;color:var(--sage);padding:7px 10px;border-radius:2px;cursor:pointer;font:inherit;font-size:12.5px;min-height:34px}
+.seg button[aria-pressed="true"]{background:var(--gold-2);color:var(--malachite);font-weight:600}
+.box{border:1px solid var(--rule);border-radius:3px;background:rgba(10,25,22,.86);backdrop-filter:blur(6px);padding:8px 12px;font-size:12px;color:var(--sage)}
+.box label{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.box input{accent-color:var(--gold)}
+.box button{border:1px solid var(--gold);background:none;color:var(--gold-2);border-radius:2px;padding:5px 10px;cursor:pointer;font:inherit;font-size:12px;margin-inline-start:8px}
+.hint{position:fixed;z-index:3;top:74px;inset-inline-start:16px;color:var(--sage-2);font-size:12px}
+.msg{position:fixed;inset:0;display:grid;place-items:center;z-index:4;color:var(--sage);text-align:center;padding:24px}
+.tip{position:fixed;z-index:5;pointer-events:none;background:rgba(10,25,22,.92);border:1px solid var(--gold);color:var(--ivory);padding:6px 9px;border-radius:3px;font-size:12px;display:none;direction:ltr}
+@media (max-width:640px){.ttl b{font-size:18px}.hint{display:none}.seg button{padding:6px 8px;font-size:12px}}
+</style>
+</head>
+<body>
+<canvas id="gl"></canvas><canvas id="ov"></canvas>
+<header class="bar">
+  <a class="back" id="back" href="./"></a>
+  <div class="ttl"><b id="name"></b><span id="sub"></span></div>
+  <div class="langs"><button data-l="ar">ع</button><button data-l="fr">FR</button></div>
+</header>
+<div class="hint" id="hint"></div>
+<div class="dock">
+  <div class="seg" id="layers"></div>
+  <div class="box"><label><span id="exT"></span><input type="range" id="ex" min="1" max="8" step="0.5" value="3"><b id="exV">×3</b><button id="reset"></button></label></div>
+</div>
+<div class="msg" id="msg"></div>
+<div class="tip" id="tip"></div>
+<script>
+const T={
+ ar:{dir:"rtl",back:"→ المواقع",hint:"اسحب للتدوير · إصبعان أو العجلة للتكبير · Shift + سحب للتحريك",ex:"المبالغة في الارتفاع",reset:"إعادة",
+   layers:{score:"نقاط مدار",truecolor:"صورة حقيقية",ratios:"تركيب المؤشرات",clay:"الطين",iron:"أكاسيد الحديد",ree:"العناصر النادرة"},
+   sub:(s,d)=>`${s.metal_ar} · ارتفاع ${Math.round(d.min)}–${Math.round(d.max)} م · نموذج الارتفاع Copernicus 30 م`,
+   loading:"تحميل الأرض…",nodem:"نموذج الارتفاع لهذه المنطقة لم يُحسب بعد. يُضاف في التشغيل القادم.",nogl:"المتصفح لا يدعم العرض ثلاثي الأبعاد (WebGL).",
+   tip:z=>`هدف ${z.rank} · ${z.area_ha} ha · ${z.lat.toFixed(4)}, ${z.lon.toFixed(4)}`},
+ fr:{dir:"ltr",back:"← Sites",hint:"Glisser pour tourner · deux doigts ou molette pour zoomer · Maj + glisser pour déplacer",ex:"Exagération du relief",reset:"Réinitialiser",
+   layers:{score:"Score Madar",truecolor:"Couleurs réelles",ratios:"Composé des indices",clay:"Argiles",iron:"Oxydes de fer",ree:"Terres rares"},
+   sub:(s,d)=>`${s.metal} · altitude ${Math.round(d.min)}–${Math.round(d.max)} m · MNT Copernicus 30 m`,
+   loading:"Chargement du relief…",nodem:"Le relief de ce site n'est pas encore calculé. Il sera ajouté au prochain passage.",nogl:"Ce navigateur ne gère pas la 3D (WebGL).",
+   tip:z=>`Cible ${z.rank} · ${z.area_ha} ha · ${z.lat.toFixed(4)}, ${z.lon.toFixed(4)}`}
+};
+let L=(()=>{try{return localStorage.getItem("madar-lang")==="fr"?"fr":"ar"}catch(e){return "ar"}})();
+const $=s=>document.querySelector(s),t=k=>T[L][k];
+const q=new URLSearchParams(location.search),SID=q.get("site")||"bouazzer";
+let SITE,DEM,H,LAYER="score",EX=3,mesh=null,texReady=false;
+const IM={};
+const gl=$("#gl").getContext("webgl",{antialias:true})||$("#gl").getContext("experimental-webgl");
+const ov=$("#ov"),oc=ov.getContext("2d");
+const cam={theta:-0.6,phi:0.95,r:40,tx:0,ty:0,tz:0};
+
+function img(src){return IM[src]||(IM[src]=new Promise(res=>{const i=new Image();i.onload=()=>res(i);i.onerror=()=>res(null);i.src=src}))}
+function ui(){
+  document.documentElement.lang=L;document.documentElement.dir=t("dir");
+  document.querySelectorAll(".langs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===L));
+  $("#back").textContent=t("back");$("#hint").textContent=t("hint");$("#exT").textContent=t("ex");$("#reset").textContent=t("reset");
+  if(SITE){$("#name").textContent=L==="ar"?SITE.name_ar:SITE.name;if(DEM)$("#sub").textContent=t("sub")(SITE,DEM)}
+  const ly=t("layers"),have=SITE?Object.keys(ly).filter(k=>k==="truecolor"?SITE.images["truecolor.jpg"]:k==="ratios"?SITE.images["ratios.jpg"]:SITE.images[k+".png"]):[];
+  $("#layers").innerHTML=have.map(k=>`<button data-k="${k}" aria-pressed="${k===LAYER}">${ly[k]}</button>`).join("");
+  document.querySelectorAll("#layers button").forEach(b=>b.onclick=()=>{LAYER=b.dataset.k;ui();texture()});
+}
+document.querySelectorAll(".langs button").forEach(b=>b.onclick=()=>{L=b.dataset.l;try{localStorage.setItem("madar-lang",L)}catch(e){}ui();frame()});
+
+// ---------- WebGL ----------
+const VS=`attribute vec3 p;attribute vec3 n;attribute vec2 uv;uniform mat4 M;varying vec2 v_uv;varying float v_l;
+void main(){v_uv=uv;vec3 sun=normalize(vec3(-0.55,0.75,-0.45));v_l=0.38+0.72*max(dot(normalize(n),sun),0.0);gl_Position=M*vec4(p,1.0);}`;
+const FS=`precision mediump float;uniform sampler2D tex;varying vec2 v_uv;varying float v_l;
+void main(){vec3 c=texture2D(tex,v_uv).rgb;gl_FragColor=vec4(c*v_l,1.0);}`;
+let prog,buf={},nIdx=0,tex,u32;
+function sh(type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);return s}
+function initGL(){prog=gl.createProgram();gl.attachShader(prog,sh(gl.VERTEX_SHADER,VS));gl.attachShader(prog,sh(gl.FRAGMENT_SHADER,FS));gl.linkProgram(prog);gl.useProgram(prog);
+  u32=gl.getExtension("OES_element_index_uint");gl.enable(gl.DEPTH_TEST);tex=gl.createTexture()}
+function kmX(lon){const [[a0,o0],[a1,o1]]=SITE.bounds;return (lon-(o0+o1)/2)*111.32*Math.cos((a0+a1)/2*Math.PI/180)}
+function kmZ(lat){const [[a0],[a1]]=SITE.bounds;return -(lat-(a0+a1)/2)*111.32}
+function heightAt(lat,lon){const [[a0,o0],[a1,o1]]=SITE.bounds;const i=Math.round((lon-o0)/(o1-o0)*(DEM.w-1)),j=Math.round((a1-lat)/(a1-a0)*(DEM.h-1));
+  if(i<0||j<0||i>=DEM.w||j>=DEM.h)return 0;return H[j*DEM.w+i]/1000*EX}
+function build(){
+  const w=DEM.w,h=DEM.h,[[a0,o0],[a1,o1]]=SITE.bounds,P=new Float32Array(w*h*3),N=new Float32Array(w*h*3),U=new Float32Array(w*h*2);
+  const dx=(o1-o0)*111.32*Math.cos((a0+a1)/2*Math.PI/180)/(w-1),dz=(a1-a0)*111.32/(h-1);
+  for(let j=0;j<h;j++)for(let i=0;i<w;i++){const k=j*w+i,lon=o0+(o1-o0)*i/(w-1),lat=a1-(a1-a0)*j/(h-1);
+    P[k*3]=kmX(lon);P[k*3+1]=H[k]/1000*EX;P[k*3+2]=kmZ(lat);U[k*2]=i/(w-1);U[k*2+1]=j/(h-1);
+    const hl=H[j*w+Math.max(i-1,0)],hr=H[j*w+Math.min(i+1,w-1)],hu=H[Math.max(j-1,0)*w+i],hd=H[Math.min(j+1,h-1)*w+i];
+    const nx=-(hr-hl)/1000*EX/(2*dx),nz=-(hd-hu)/1000*EX/(2*dz),l=Math.hypot(nx,1,nz);N[k*3]=nx/l;N[k*3+1]=1/l;N[k*3+2]=nz/l}
+  const I=new (u32?Uint32Array:Uint16Array)((w-1)*(h-1)*6);let n=0;
+  if(!u32&&w*h>65535){return}
+  for(let j=0;j<h-1;j++)for(let i=0;i<w-1;i++){const a=j*w+i,b=a+1,c=a+w,d=c+1;I[n++]=a;I[n++]=c;I[n++]=b;I[n++]=b;I[n++]=c;I[n++]=d}
+  nIdx=n;
+  for(const [name,data,size] of [["p",P,3],["n",N,3],["uv",U,2]]){buf[name]=buf[name]||gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf[name]);gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW);
+    const loc=gl.getAttribLocation(prog,name);gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,size,gl.FLOAT,false,0,0)}
+  buf.i=buf.i||gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,buf.i);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,I,gl.STATIC_DRAW);
+  let mx=0;for(let k=0;k<H.length;k++)if(H[k]>mx)mx=H[k];cam.ty=mx/1000*EX*0.35;
+}
+async function texture(){
+  const base=await img(SITE.images["truecolor.jpg"]);if(!base)return;
+  const c=document.createElement("canvas");c.width=Math.min(2048,base.width);c.height=Math.round(base.height*c.width/base.width);const x=c.getContext("2d");
+  if(LAYER==="ratios"){const r=await img(SITE.images["ratios.jpg"]);x.drawImage(r||base,0,0,c.width,c.height)}
+  else{x.drawImage(base,0,0,c.width,c.height);if(LAYER!=="truecolor"){x.fillStyle="rgba(12,31,27,.35)";x.fillRect(0,0,c.width,c.height);const o=await img(SITE.images[LAYER+".png"]);if(o)x.drawImage(o,0,0,c.width,c.height)}}
+  // WebGL1 needs power-of-two for mipmaps: copy to a POT canvas
+  const p=document.createElement("canvas");p.width=2048;p.height=2048;p.getContext("2d").drawImage(c,0,0,2048,2048);
+  gl.bindTexture(gl.TEXTURE_2D,tex);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,p);gl.generateMipmap(gl.TEXTURE_2D);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+  const af=gl.getExtension("EXT_texture_filter_anisotropic");if(af)gl.texParameterf(gl.TEXTURE_2D,af.TEXTURE_MAX_ANISOTROPY_EXT,8);
+  texReady=true;frame();
+}
+// ---------- matrices ----------
+function persp(f,a,n,fa){const t=1/Math.tan(f/2);return[t/a,0,0,0,0,t,0,0,0,0,(fa+n)/(n-fa),-1,0,0,2*fa*n/(n-fa),0]}
+function lookAt(e,c,u){let z=[e[0]-c[0],e[1]-c[1],e[2]-c[2]],l=Math.hypot(...z);z=z.map(v=>v/l);let x=[u[1]*z[2]-u[2]*z[1],u[2]*z[0]-u[0]*z[2],u[0]*z[1]-u[1]*z[0]];l=Math.hypot(...x);x=x.map(v=>v/l);
+  const y=[z[1]*x[2]-z[2]*x[1],z[2]*x[0]-z[0]*x[2],z[0]*x[1]-z[1]*x[0]];return[x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-(x[0]*e[0]+x[1]*e[1]+x[2]*e[2]),-(y[0]*e[0]+y[1]*e[1]+y[2]*e[2]),-(z[0]*e[0]+z[1]*e[1]+z[2]*e[2]),1]}
+function mul(a,b){const o=new Array(16);for(let i=0;i<4;i++)for(let j=0;j<4;j++){let s=0;for(let k=0;k<4;k++)s+=a[k*4+j]*b[i*4+k];o[i*4+j]=s}return o}
+let MVP;
+function eye(){return[cam.tx+cam.r*Math.sin(cam.phi)*Math.sin(cam.theta),cam.ty+cam.r*Math.cos(cam.phi),cam.tz+cam.r*Math.sin(cam.phi)*Math.cos(cam.theta)]}
+function project(x,y,z){const m=MVP,cx=m[0]*x+m[4]*y+m[8]*z+m[12],cy=m[1]*x+m[5]*y+m[9]*z+m[13],cw=m[3]*x+m[7]*y+m[11]*z+m[15];if(cw<=0.01)return null;
+  return[(cx/cw*0.5+0.5)*ov.clientWidth,(1-(cy/cw*0.5+0.5))*ov.clientHeight,cw]}
+// ---------- frame ----------
+let pending=false;function frame(){if(pending)return;pending=true;requestAnimationFrame(()=>{pending=false;draw()})}
+function size(){const d=Math.min(devicePixelRatio||1,2);for(const c of [$("#gl"),ov]){c.width=Math.round(innerWidth*d);c.height=Math.round(innerHeight*d)}oc.setTransform(d,0,0,d,0,0);gl.viewport(0,0,$("#gl").width,$("#gl").height)}
+function draw(){
+  gl.clearColor(0.047,0.122,0.106,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+  MVP=mul(persp(0.75,innerWidth/innerHeight,0.05,800),lookAt(eye(),[cam.tx,cam.ty,cam.tz],[0,1,0]));
+  if(nIdx&&texReady){gl.useProgram(prog);gl.uniformMatrix4fv(gl.getUniformLocation(prog,"M"),false,new Float32Array(MVP));gl.drawElements(gl.TRIANGLES,nIdx,u32?gl.UNSIGNED_INT:gl.UNSIGNED_SHORT,0)}
+  overlay();
+}
+function overlay(){
+  oc.clearRect(0,0,ov.clientWidth,ov.clientHeight);if(!SITE||!DEM)return;
+  // north arrow on the terrain plane
+  const [[a0,o0],[a1,o1]]=SITE.bounds,yb=0;
+  // known sites (only after the blind test is shown on the site page they are public anyway)
+  const pts=SITE.targets.map(z=>{const x=kmX(z.lon),zz=kmZ(z.lat),y=heightAt(z.lat,z.lon);const top=project(x,y+1.2,zz),bot=project(x,y,zz);return top&&bot?{z,top,bot}:null}).filter(Boolean).sort((a,b)=>b.top[2]-a.top[2]);
+  pts.forEach(({z,top,bot})=>{oc.strokeStyle="rgba(228,200,142,.85)";oc.lineWidth=1.2;oc.beginPath();oc.moveTo(bot[0],bot[1]);oc.lineTo(top[0],top[1]);oc.stroke();
+    const r=z.rank<=3?12:10;oc.beginPath();oc.arc(top[0],top[1],r,0,7);oc.fillStyle=z.rank<=3?"#e4c88e":"rgba(12,31,27,.9)";oc.fill();oc.strokeStyle="#e4c88e";oc.lineWidth=1.5;oc.stroke();
+    oc.fillStyle=z.rank<=3?"#0c1f1b":"#e4c88e";oc.font=`600 ${r>10?12:11}px 'IBM Plex Sans',sans-serif`;oc.textAlign="center";oc.textBaseline="middle";oc.fillText(z.rank,top[0],top[1]+.5);z._s=top});
+  // compass: north direction on screen
+  const c=project(0,0,0),n=project(0,0,-5);if(c&&n){const ang=Math.atan2(n[1]-c[1],n[0]-c[0]),cx=36,cy=innerWidth<640?150:130;
+    oc.save();oc.translate(cx,cy);oc.rotate(ang+Math.PI/2);oc.fillStyle="#e4c88e";oc.beginPath();oc.moveTo(0,-16);oc.lineTo(7,6);oc.lineTo(0,1);oc.closePath();oc.fill();oc.fillStyle="#6f877c";oc.beginPath();oc.moveTo(0,-16);oc.lineTo(-7,6);oc.lineTo(0,1);oc.closePath();oc.fill();
+    oc.rotate(-(ang+Math.PI/2));oc.fillStyle="#efe8d8";oc.font="600 11px Spectral,serif";oc.textAlign="center";oc.fillText("N",Math.cos(ang)*26,Math.sin(ang)*26+4);oc.restore()}
+}
+// ---------- interaction ----------
+const ptr=new Map();let pin=null;
+$("#gl").addEventListener("pointerdown",e=>{$("#gl").setPointerCapture(e.pointerId);ptr.set(e.pointerId,{x:e.clientX,y:e.clientY,shift:e.shiftKey||e.button===2});if(ptr.size===2){const[a,b]=[...ptr.values()];pin=Math.hypot(a.x-b.x,a.y-b.y)}});
+$("#gl").addEventListener("pointermove",e=>{const p=ptr.get(e.pointerId);if(!p){hover(e);return}
+  if(ptr.size===2){ptr.set(e.pointerId,{...p,x:e.clientX,y:e.clientY});const[a,b]=[...ptr.values()],d=Math.hypot(a.x-b.x,a.y-b.y);if(pin){cam.r=Math.max(3,Math.min(200,cam.r*pin/d))}pin=d;frame();return}
+  const dx=e.clientX-p.x,dy=e.clientY-p.y;ptr.set(e.pointerId,{...p,x:e.clientX,y:e.clientY});
+  if(p.shift){const s=cam.r/innerHeight*1.2,ct=Math.cos(cam.theta),st=Math.sin(cam.theta);cam.tx+=(-dx*ct-dy*st)*s;cam.tz+=(dx*st-dy*ct)*s}
+  else{cam.theta-=dx*0.006;cam.phi=Math.max(0.12,Math.min(1.45,cam.phi-dy*0.005))}frame()});
+const end=e=>{ptr.delete(e.pointerId);if(ptr.size<2)pin=null};$("#gl").addEventListener("pointerup",end);$("#gl").addEventListener("pointercancel",end);
+$("#gl").addEventListener("contextmenu",e=>e.preventDefault());
+$("#gl").addEventListener("wheel",e=>{e.preventDefault();cam.r=Math.max(3,Math.min(200,cam.r*Math.exp(e.deltaY*0.0012)));frame()},{passive:false});
+function hover(e){const tip=$("#tip");if(!SITE)return;let best=null,bd=14;SITE.targets.forEach(z=>{if(!z._s)return;const d=Math.hypot(z._s[0]-e.clientX,z._s[1]-e.clientY);if(d<bd){bd=d;best=z}});
+  if(best){tip.style.display="block";tip.style.left=(e.clientX+14)+"px";tip.style.top=(e.clientY+10)+"px";tip.textContent=t("tip")(best)}else tip.style.display="none"}
+$("#ex").oninput=e=>{EX=+e.target.value;$("#exV").textContent="×"+EX;build();frame()};
+function home(){const [[a0,o0],[a1,o1]]=SITE.bounds,span=Math.max((o1-o0)*111.32*Math.cos(a0*Math.PI/180),(a1-a0)*111.32);cam.r=span*1.15*Math.max(1,Math.min(2.2,1.25/(innerWidth/innerHeight)));cam.theta=-0.55;cam.phi=0.95;cam.tx=0;cam.tz=0;frame()}
+$("#reset").onclick=home;
+addEventListener("resize",()=>{size();frame()});
+
+(async()=>{
+  ui();if(!gl){$("#msg").textContent=t("nogl");return}
+  $("#msg").textContent=t("loading");
+  const data=await fetch("minerals.json").then(r=>r.json());SITE=data.sites.find(s=>s.id===SID)||data.sites[0];
+  $("#back").href="./#"+SITE.id;
+  try{DEM=await fetch(`${SITE.id}/dem.json`).then(r=>{if(!r.ok)throw 0;return r.json()});
+    H=new Uint16Array(await fetch(`${SITE.id}/dem.bin`).then(r=>r.arrayBuffer()))}catch(e){ui();$("#msg").textContent=t("nodem");return}
+  $("#msg").textContent="";initGL();size();build();ui();home();texture();
+})();
+</script>
+</body>
+</html>
