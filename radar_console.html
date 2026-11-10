@@ -164,6 +164,7 @@ button,input{font:inherit;color:inherit}
     <div class="langs" role="group" aria-label="Language">
       <button data-l="ar" aria-pressed="true">ع</button><button data-l="fr" aria-pressed="false">FR</button><button data-l="en" aria-pressed="false">EN</button>
     </div>
+    <a class="xlink" id="slink" href="ships/"></a>
     <a class="xlink" id="xlink" href="coastal/"></a>
   </header>
 
@@ -228,7 +229,7 @@ const T={
   wave:"الموج",up:"صعود المياه",tides:"المد",hi:"عالٍ",lo:"منخفض",species:"السردين · الماكريل · السردينيلا",clouds:"غيوم",nochl:"لا كلوروفيل لهذه المنطقة",
   score:"مؤشر الصيد",sstl:"حرارة الماء °C",chll:"كلوروفيل mg/m³",zone:"المنطقة",strong:"قوي",weak:"ضعيف",mod:"متوسط",now:"الآن",data:"بيانات",radar:"مدار السفن الكبيرة",
   comp:["شمال","شمال شرق","شرق","جنوب شرق","جنوب","جنوب غرب","غرب","شمال غرب"],min:"د",h:"س",confp:"ثقة",today:"اليوم",
-  fcnote:"توقع من نموذج المحيط والرياح. الخريطة الملونة هي أقمار اليوم، والمناطق هي المتوقعة لذلك اليوم.",depth:"العمق",depthl:"عمق القاع m (GEBCO)",xlink:"مدار الساحل ←",src:"المصادر"},
+  fcnote:"توقع من نموذج المحيط والرياح. الخريطة الملونة هي أقمار اليوم، والمناطق هي المتوقعة لذلك اليوم.",depth:"العمق",depthl:"عمق القاع m (GEBCO)",xlink:"مدار الساحل ←",slink:"السفن من الفضاء ◈",src:"المصادر"},
  fr:{nav:"Aller à la zone",copyc:"Copier",copiedc:"OK",openapp:"Ouvrir dans l'app de navigation",gpx:"Télécharger GPX",gpxok:"Téléchargé",navnote:"Entrez le point dans le GPS et vérifiez la route sur la carte marine officielle. Le fichier GPX contient toutes les zones et le port ; il s'ouvre dans les apps de navigation et de nombreux chartplotters via carte mémoire.",zones:"Meilleures zones",why:"Pourquoi cette zone",boat:"Votre navire et le carburant",speed:"Vitesse",cons:"Conso.",copy:"Copier le message capitaine",copied:"Copié",
   note:"Indice satellite (température et chlorophylle) des eaux les plus favorables. Il ne garantit pas le poisson : confirmez au sonar. Respectez zones interdites et quotas.",
   tide:"Niveau de la mer et vent · 30 h",wind:"Vent",front:"Front thermique",chl:"Chlorophylle (nourriture)",cold:"Remontée d'eau froide",sst:"Temp.",chlv:"Chloro.",rt:"aller-retour",
@@ -236,7 +237,7 @@ const T={
   wave:"Houle",up:"Upwelling",tides:"Marée",hi:"PM",lo:"BM",species:"Sardine · Maquereau · Sardinelle",clouds:"nuages",nochl:"Pas de chlorophylle pour cette zone",
   score:"Indice de pêche",sstl:"Température de l'eau °C",chll:"Chlorophylle mg/m³",zone:"Zone",strong:"fort",weak:"faible",mod:"moyen",now:"maint.",data:"données",radar:"Madar Large",
   comp:["N","NE","E","SE","S","SO","O","NO"],min:"min",h:"h",confp:"confiance",today:"Aujourd'hui",
-  fcnote:"Prévision (modèle océan + vent). La carte colorée est le satellite du jour, les zones sont celles prévues pour ce jour.",depth:"Profondeur",depthl:"Profondeur m (GEBCO)",xlink:"Madar Côte →",src:"Sources"},
+  fcnote:"Prévision (modèle océan + vent). La carte colorée est le satellite du jour, les zones sont celles prévues pour ce jour.",depth:"Profondeur",depthl:"Profondeur m (GEBCO)",xlink:"Madar Côte →",slink:"◈ Navires vus de l'espace",src:"Sources"},
  en:{nav:"Go to the zone",copyc:"Copy",copiedc:"Done",openapp:"Open in navigation app",gpx:"Download GPX",gpxok:"Downloaded",navnote:"Enter the point in the GPS and check the route on the official nautical chart. The GPX file holds every zone and the port; it opens in navigation apps and many chartplotters from a memory card.",zones:"Best zones",why:"Why this spot",boat:"Your vessel and fuel",speed:"Speed",cons:"Burn",copy:"Copy captain message",copied:"Copied",
   note:"Satellite index (sea temperature and chlorophyll) of the most favourable water. It does not guarantee fish: confirm on sonar. Respect closed areas and quotas.",
   tide:"Sea level and wind · 30 h",wind:"Wind",front:"Thermal front",chl:"Chlorophyll (food)",cold:"Cold upwelled water",sst:"SST",chlv:"Chl",rt:"round trip",
@@ -244,7 +245,7 @@ const T={
   wave:"Waves",up:"Upwelling",tides:"Tide",hi:"High",lo:"Low",species:"Sardine · Mackerel · Sardinella",clouds:"clouds",nochl:"No chlorophyll for this spot",
   score:"Fishing index",sstl:"Water temperature °C",chll:"Chlorophyll mg/m³",zone:"Zone",strong:"strong",weak:"weak",mod:"moderate",now:"now",data:"data",radar:"Madar Offshore",
   comp:["N","NE","E","SE","S","SW","W","NW"],min:"min",h:"h",confp:"confidence",today:"Today",
-  fcnote:"Forecast (ocean + wind model). The coloured map is today's satellite; the zones are those forecast for that day.",depth:"Depth",depthl:"Sea-floor depth m (GEBCO)",xlink:"Madar Coast →",src:"Sources"}};
+  fcnote:"Forecast (ocean + wind model). The coloured map is today's satellite; the zones are those forecast for that day.",depth:"Depth",depthl:"Sea-floor depth m (GEBCO)",xlink:"Madar Coast →",slink:"◈ Vessels from space",src:"Sources"}};
 const NAME={ar:p=>p.ar,fr:p=>p.fr,en:p=>p.fr};
 const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
 let L="ar",PI=0,ZI=0,layer="score";
@@ -530,7 +531,7 @@ function header(){
   $("#leds").innerHTML=led(!!S.SST,"SST "+(S.SST||"—"))+led(!!S.CHL,"CHL "+(S.CHL||t("clouds")))+led(!!(P.conditions&&P.conditions.series),"WIND·WAVES");
   $("#hpt").textContent=(t("radar")+" · "+tabName(P)).toUpperCase();$("#hday").textContent=`${P.date} · BUILT ${DATA.made||""}`;
   $("#hsrc").textContent="NASA MUR SST · Copernicus Marine · GEBCO · Open-Meteo";
-  $("#species").textContent=t("species");$("#species").classList.toggle("num",false);$("#xlink").textContent=t("xlink");
+  $("#species").textContent=t("species");$("#species").classList.toggle("num",false);$("#xlink").textContent=t("xlink");$("#slink").textContent=t("slink");
 }
 function texts(){
   const con=$("#con");con.dir=L==="ar"?"rtl":"ltr";con.lang=L;document.documentElement.lang=L;
