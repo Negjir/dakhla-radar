@@ -1,2 +1,8 @@
 __pycache__/
 *.pyc
+
+# Vessel tracks and trip reports belong to the owner: never commit them
+private/
+*.gpx
+*.nmea
+vessel_report_*.html

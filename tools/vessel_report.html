@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>__TITLE__</title>
+<style>
+:root{--bg:#0a1520;--panel:#0f1e2c;--line:#1d3346;--ink:#e6edf3;--mute:#8aa0b3;--gold:#f2c14e;
+--port:#7d8b97;--transit:#4fc3f7;--search:#f2994a;--fishing:#6fcf97}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,"Segoe UI",Tahoma,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 16px 48px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding-bottom:14px}
+h1{margin:0;font-size:26px}
+h1 small{display:block;font-size:13px;letter-spacing:.2em;color:var(--mute);font-weight:400;direction:ltr;text-align:right}
+.tag{font-size:12px;border:1px solid var(--line);border-radius:99px;padding:3px 10px;color:var(--mute)}
+.tag.warn{border-color:#8a5a1a;color:var(--search)}
+h2{font-size:17px;margin:30px 0 10px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:18px}
+.k{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.k b{display:block;font-size:24px;direction:ltr;text-align:right;font-variant-numeric:tabular-nums}
+.k span{font-size:13px;color:var(--mute)}
+.k.hi b{color:var(--gold)}
+.bar{display:flex;height:26px;border-radius:6px;overflow:hidden;margin:8px 0 6px}
+.bar div{height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--mute)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-left:6px;vertical-align:-1px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.cmp p{margin:6px 0 0;color:var(--mute);font-size:13.5px}
+.cmp b{font-size:20px;color:var(--ink)}
+.grid2{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:860px){.grid2{grid-template-columns:1fr}}
+canvas{width:100%;aspect-ratio:1/1;background:#06101a;border:1px solid var(--line);border-radius:10px;display:block;touch-action:none}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th,.tbl td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+.tbl th{color:var(--mute);font-weight:500}
+.tbl tbody tr{cursor:pointer}
+.tbl tbody tr:hover{background:#13283a}
+.tbl tbody tr.on{background:#173149}
+.num{direction:ltr;unicode-bidi:isolate;text-align:right;font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}
+.mini{display:flex;height:8px;border-radius:3px;overflow:hidden;min-width:90px}
+.detail h3{margin:0 0 6px;font-size:16px}
+.detail ul{margin:8px 0 0;padding:0 18px 0 0;font-size:13.5px}
+.detail li{margin:3px 0}
+.note{font-size:13px;color:var(--mute)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-left:5px}
+footer{margin-top:34px;border-top:1px solid var(--line);padding-top:12px;font-size:12.5px;color:var(--mute)}
+footer li{margin:3px 0}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+const D=/*__DATA__*/null;
+const C={port:'#7d8b97',transit:'#4fc3f7',search:'#f2994a',fishing:'#6fcf97'};
+const $=s=>document.querySelector(s);
+const f0=n=>n==null?'—':Math.round(n).toLocaleString('en-US');
+const f1=n=>n==null?'—':(+n).toLocaleString('en-US',{maximumFractionDigits:1});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const S=D.summary, sea=['transit','search','fishing'];
+let cur=0;
+
+function stateBar(h,tall){const tot=D.states.reduce((a,s)=>a+h[s],0)||1;
+  return `<div class="${tall?'bar':'mini'}">${D.states.map(s=>`<div title="${D.ar[s]} ${f1(h[s])} h" style="width:${100*h[s]/tot}%;background:${C[s]}"></div>`).join('')}</div>`}
+
+function page(){
+  const near=S.compared?Math.round(100*S.near10/S.compared):null;
+  $('#app').innerHTML=`
+  <header>
+    <h1><small>MADAR · OFFSHORE · TRIP REPORT</small>${esc(D.name)} · تقرير الرحلات</h1>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      ${D.demo?'<span class="tag warn">بيانات تجريبية مصطنعة، ليست مسار السفينة</span>':''}
+      <span class="tag">${esc(D.meta.first)} ← ${esc(D.meta.last)}</span>
+      <span class="tag">سري · للمالك فقط</span>
+    </div>
+  </header>
+
+  <div class="kpis">
+    <div class="k"><b>${S.trips}</b><span>رحلة</span></div>
+    <div class="k"><b>${f0(S.sea_h)} h</b><span>ساعات في البحر</span></div>
+    <div class="k hi"><b>${S.search_share}%</b><span>من وقت البحر في البحث عن السمك</span></div>
+    <div class="k"><b>${f0(S.litres)} L</b><span>وقود مقدّر</span></div>
+    <div class="k"><b>${f0(S.mad)} MAD</b><span>كلفة الوقود المقدّرة</span></div>
+    <div class="k hi"><b>${f0(S.search_mad)} MAD</b><span>منها كلفة ساعات البحث وحدها</span></div>
+  </div>
+
+  <h2>أين يذهب الوقت في البحر</h2>
+  <div class="card">
+    ${stateBar(S.hours,true)}
+    <div class="legend">${D.states.map(s=>`<span><i style="background:${C[s]}"></i>${D.ar[s]}: <span class="num">${f1(S.hours[s])} h</span></span>`).join('')}</div>
+    <p class="note" style="margin:10px 0 0">البحث = السير بين ${'2.5'} و${'7'} عقد أو مع تغيير الاتجاه كثيراً. الصيد = سرعة أقل من 2.5 عقدة لمدة 15 دقيقة فأكثر خارج الميناء.
+    مجموع ما أُبحر قبل أول رمية زيادةً على الخط المستقيم: <b class="num">${f0(S.extra_nm)} nm</b>.</p>
+  </div>
+
+  <h2>مقارنة برمي الشباك مع مناطق مدار في اليوم نفسه</h2>
+  <div class="cmp">
+    <div class="card"><b class="num">${S.compared?`${S.near10} / ${S.compared}`:'—'}</b>
+      <p>رميات وقعت على بعد 10 أميال أو أقل من منطقة اقترحها مدار ذلك اليوم${near!=null?` (${near}%)`:''}. وعلى بعد 20 ميلاً: ${S.compared?S.near20:'—'}.</p></div>
+    <div class="card"><b class="num">${S.score_pct_median!=null?S.score_pct_median+'%':'—'}</b>
+      <p>ترتيب مكان الرمية في خريطة مدار (الوسيط): 90% تعني أن مدار كان يضع المكان ضمن أفضل 10% من البحر ذلك اليوم.</p></div>
+    <div class="card"><b class="num">${S.sets}</b>
+      <p>رمية مكتشفة من المسار. ${S.kg?`الصيد المسجّل: <span class="num">${f0(S.kg)} kg</span>.`:'أضيفوا الكميات لكل رحلة لنقارن الصيد داخل مناطق مدار وخارجها.'}</p></div>
+  </div>
+  ${S.compared?'':'<p class="note">مناطق مدار للأيام الماضية لم تُحسب بعد لهذه الفترة، فالمقارنة فارغة.</p>'}
+
+  <h2>الرحلات</h2>
+  <div class="grid2">
+    <div>
+      <canvas id="map" width="900" height="900" aria-label="خريطة الرحلة المختارة"></canvas>
+      <div class="legend" style="margin-top:8px">
+        ${sea.map(s=>`<span><i style="background:${C[s]}"></i>${D.ar[s]}</span>`).join('')}
+        <span><i style="background:var(--gold)"></i>منطقة مدار ذلك اليوم</span>
+        <span><i style="background:linear-gradient(90deg,#0d2a3a,#1f6f7a,#c9e27a)"></i>درجة مدار</span>
+      </div>
+    </div>
+    <div class="card detail" id="detail"></div>
+  </div>
+  <div class="scroll" style="margin-top:14px"><table class="tbl" id="tbl">
+    <thead><tr><th>#</th><th>الخروج</th><th>المدة</th><th>توزيع الوقت</th><th>المسافة</th><th>الوقود</th><th>الرميات</th><th>أقرب منطقة مدار</th>${S.kg?'<th>الصيد</th>':''}</tr></thead>
+    <tbody>${D.trips.map((t,i)=>{const h=D.states.reduce((a,s)=>a+t.hours[s],0);
+      const zn=t.sets.filter(s=>s.zone_nm!=null).map(s=>s.zone_nm);
+      return `<tr data-i="${i}"><td>${t.n}</td><td class="num">${esc(t.start)}</td><td class="num">${f1(h)} h</td><td>${stateBar(t.hours)}</td>
+      <td class="num">${f0(t.nm)} nm</td><td class="num">${f0(t.mad)} MAD</td><td class="num">${t.sets.length}</td>
+      <td class="num">${zn.length?f1(Math.min(...zn))+' nm':'—'}</td>${S.kg?`<td class="num">${t.kg!=null?f0(t.kg)+' kg':'—'}</td>`:''}</tr>`}).join('')}</tbody>
+  </table></div>
+
+  <footer>
+    <ul>
+      <li>المصدر: ${esc(D.meta.source)} · <span class="num">${f0(D.meta.points)}</span> موقعاً · أُعدّ ${esc(D.made)}.</li>
+      <li>الوقود تقدير من ساعات كل حالة × استهلاك لكل ساعة: ${D.states.map(s=>`${D.ar[s]} <span class="num">${D.fuel[s]} L/h</span>`).join('، ')}، وسعر <span class="num">${D.price} MAD/L</span>. هذه أرقام افتراضية حتى تعطونا أرقام السفينة.</li>
+      <li>مناطق مدار لكل يوم أُعيد حسابها من بيانات الأقمار ذلك اليوم، دون معرفة مسار السفينة.</li>
+      <li>هذا التقرير يحتوي على مسار السفينة وهو سري: لا يُنشر ولا يُرسل إلا للمالك.</li>
+    </ul>
+  </footer>`;
+  document.querySelectorAll('#tbl tbody tr').forEach(r=>r.onclick=()=>show(+r.dataset.i));
+  show(0);
+}
+
+function show(i){
+  cur=i;const t=D.trips[i];
+  document.querySelectorAll('#tbl tbody tr').forEach(r=>r.classList.toggle('on',+r.dataset.i===i));
+  const h=D.states.reduce((a,s)=>a+t.hours[s],0), d=t.detour;
+  $('#detail').innerHTML=`<h3>الرحلة ${t.n} · <span class="num">${esc(t.start)} → ${esc(t.end.slice(5))}</span></h3>
+    ${stateBar(t.hours,true)}
+    <ul>
+      ${D.states.map(s=>`<li><span class="dot" style="background:${C[s]}"></span>${D.ar[s]}: <span class="num">${f1(t.hours[s])} h · ${f0(t.nm_by[s])} nm</span></li>`).join('')}
+      <li>أبعد نقطة عن الميناء: <span class="num">${f0(t.max_nm)} nm</span> · الوقود: <span class="num">${f0(t.litres)} L ≈ ${f0(t.mad)} MAD</span></li>
+      ${d?`<li>قبل أول رمية: أبحرت <span class="num">${f1(d.sailed_nm)} nm</span> والخط المستقيم <span class="num">${f1(d.straight_nm)} nm</span>، أي زيادة <span class="num">${f1(d.extra_nm)} nm</span>.</li>`:''}
+      ${t.kg!=null?`<li>الصيد المسجّل: <span class="num">${f0(t.kg)} kg</span>${t.value?` · <span class="num">${f0(t.value)} MAD</span>`:''}</li>`:''}
+    </ul>
+    <h3 style="margin-top:14px">الرميات</h3>
+    ${t.sets.length?`<ul>${t.sets.map((s,k)=>`<li><span class="num">${k+1}. ${esc(s.t.slice(5))} · ${s.min} min · ${s.lat.toFixed(3)}, ${s.lon.toFixed(3)}</span>
+      ${s.zone_nm!=null?`<br><span class="note">أقرب منطقة مدار: ${esc(s.zone)} على <span class="num">${f1(s.zone_nm)} nm</span>${s.score_pct!=null?` · ترتيب المكان في خريطة مدار <span class="num">${s.score_pct}%</span>`:''}</span>`:'<br><span class="note">لا توجد مناطق مدار محسوبة لهذا اليوم</span>'}</li>`).join('')}</ul>`:'<p class="note">لم تُكتشف رمية في هذه الرحلة.</p>'}`;
+  draw(t);
+}
+
+function draw(t){
+  const cv=$('#map'),x=cv.getContext('2d'),W=cv.width,H=cv.height;
+  const pts=t.path, zs=t.zones||[];
+  let la=[D.port.lat,...pts.map(p=>p[0]),...zs.map(z=>z.lat)], lo=[D.port.lon,...pts.map(p=>p[1]),...zs.map(z=>z.lon)];
+  let a0=Math.min(...la),a1=Math.max(...la),o0=Math.min(...lo),o1=Math.max(...lo);
+  const k=Math.cos((a0+a1)/2*Math.PI/180);
+  let span=Math.max(a1-a0,(o1-o0)*k)*1.15+0.15, ca=(a0+a1)/2, co=(o0+o1)/2;
+  const X=o=>W/2+(o-co)*k/span*W, Y=a=>H/2-(a-ca)/span*H;
+  x.fillStyle='#06101a';x.fillRect(0,0,W,H);
+  const g=D.grids[t.day];
+  if(g){const cs=g.cell, w=Math.ceil(cs*k/span*W)+1, hh=Math.ceil(cs/span*H)+1;
+    for(let i=0;i<g.n;i++)for(let j=0;j<g.m;j++){const v=g.score[i*g.m+j];
+      const yy=Y(g.lat0-i*cs+cs/2), xx=X(g.lon0+j*cs-cs/2);
+      if(xx>W||yy>H||xx+w<0||yy+hh<0)continue;
+      if(v==null){x.fillStyle='#2a2620';}else{const s=v/99;x.fillStyle=`rgb(${13+s*188|0},${42+s*184|0},${58+s*64|0})`}
+      x.fillRect(xx,yy,w,hh)}}
+  else{x.fillStyle='#8aa0b3';x.font='22px system-ui';x.textAlign='center';x.fillText('لا توجد خريطة مدار لهذا اليوم',W/2,40)}
+  // grid lines every 0.5°
+  x.strokeStyle='rgba(255,255,255,.07)';x.lineWidth=1;x.fillStyle='rgba(230,237,243,.45)';x.font='16px system-ui';x.textAlign='left';
+  for(let v=Math.ceil((ca-span)*2)/2;v<ca+span;v+=.5){x.beginPath();x.moveTo(0,Y(v));x.lineTo(W,Y(v));x.stroke();x.fillText(v.toFixed(1)+'°N',6,Y(v)-4)}
+  for(let v=Math.ceil((co-span)*2)/2;v<co+span;v+=.5){x.beginPath();x.moveTo(X(v),0);x.lineTo(X(v),H);x.stroke();x.fillText(Math.abs(v).toFixed(1)+'°W',X(v)+4,H-8)}
+  // track
+  x.lineWidth=3.2;x.lineCap='round';
+  for(let i=1;i<pts.length;i++){x.strokeStyle=C[D.states[pts[i-1][2]]];x.beginPath();x.moveTo(X(pts[i-1][1]),Y(pts[i-1][0]));x.lineTo(X(pts[i][1]),Y(pts[i][0]));x.stroke()}
+  // zones
+  zs.forEach(z=>{const zx=X(z.lon),zy=Y(z.lat);x.strokeStyle='#f2c14e';x.lineWidth=2.5;x.beginPath();x.arc(zx,zy,16,0,7);x.stroke();
+    x.fillStyle='#f2c14e';x.font='bold 18px system-ui';x.textAlign='center';x.fillText(z.id,zx,zy+6)});
+  // sets
+  t.sets.forEach(s=>{x.fillStyle='#6fcf97';x.strokeStyle='#06101a';x.lineWidth=2;x.beginPath();x.arc(X(s.lon),Y(s.lat),8,0,7);x.fill();x.stroke()});
+  // port
+  x.fillStyle='#fff';x.beginPath();x.rect(X(D.port.lon)-7,Y(D.port.lat)-7,14,14);x.fill();
+  x.font='18px system-ui';x.textAlign='right';x.fillText(D.port.name,X(D.port.lon)-12,Y(D.port.lat)+6);
+}
+page();
+</script>
+</body>
+</html>
