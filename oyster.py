@@ -44,7 +44,8 @@ ZONES = CFG.get("zones") or [
 ]
 # Bays watched. Dakhla Bay: the farms today. Cintra Bay (~120 km south): sector M3 of the planned aquaculture
 # zone that runs from the north of Dakhla Bay to the south of Cintra Bay; no farm positions are public yet,
-# so its three sectors are placed on the bay itself (centre 22.952 N, 16.216 W; ~24 km across, open to the west).
+# so its three sectors are placed on the water of the bay, checked on the Sentinel-2 image (the bay curves from
+# its northern point ~23.08 N to its southern point ~22.90 N; ~24 km across, open to the west).
 BAYS = [
     {"id": "dakhla", "ar": "خليج الداخلة", "fr": "Baie de Dakhla", "box": BOX, "zones": ZONES, "out": "",
      "centre": [23.765, -15.833], "planned": False},
@@ -52,8 +53,8 @@ BAYS = [
      "centre": [22.952, -16.216], "planned": True,
      "zones": [
          {"id": "c_nord", "ar": "شمال خليج سينترا", "fr": "Cintra nord", "lat": 23.040, "lon": -16.225, "approx": True},
-         {"id": "c_centre", "ar": "وسط خليج سينترا", "fr": "Cintra centre", "lat": 22.952, "lon": -16.240, "approx": True},
-         {"id": "c_sud", "ar": "جنوب خليج سينترا", "fr": "Cintra sud", "lat": 22.860, "lon": -16.245, "approx": True},
+         {"id": "c_centre", "ar": "وسط خليج سينترا", "fr": "Cintra centre", "lat": 22.965, "lon": -16.215, "approx": True},
+         {"id": "c_sud", "ar": "جنوب خليج سينترا", "fr": "Cintra sud", "lat": 22.925, "lon": -16.250, "approx": True},
      ]},
 ]
 BAY = BAYS[0]
