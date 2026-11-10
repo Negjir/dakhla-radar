@@ -125,26 +125,28 @@ footer{margin-top:28px;color:var(--dim);font-size:12.5px}
 <script>
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-let D,Z=[],sel='all',lenF='all',showFixed=false,pick=null;
+let D,Z=[],P=[],sel='all',lenF='all',showFixed=false,pick=null;
 let view=null,drag=null;
 const landImg=new Image();
 
 Promise.all([fetch('ships.json').then(r=>r.json()),fetch('../radar.json').then(r=>r.ok?r.json():null).catch(()=>null)]).then(([d,r])=>{
-  D=d;Z=(r&&r.zones)||[];$('#demo').hidden=!D.demo;
+  D=d;Z=(r&&r.zones)||[];
+  const g={};D.scenes.forEach(s=>{const k=s.sat+' '+s.t.slice(0,13);(g[k]=g[k]||{key:k,t:s.t,sat:s.sat,ids:new Set(),fps:[]}).ids.add(s.id);g[k].fps.push(s.fp)});
+  P=Object.values(g).sort((a,b)=>a.t<b.t?-1:1);const sp={};P.forEach(p=>p.ids.forEach(i=>sp[i]=p.key));D.detections.forEach(d=>d.pass=sp[d.scene]);$('#demo').hidden=!D.demo;
   landImg.onload=draw;landImg.src='land.png';
   const [la0,la1,lo0,lo1]=D.box;view={ca:(la0+la1)/2,co:(lo0+lo1)/2,span:(la1-la0)*1.02};
   kpis();passes();draw();
   $('#foot').innerHTML=`المصادر: ${esc(D.sources.images)} · ${esc(D.sources.land)} · أُعدّ ${esc(D.made)}.`;
 });
 
-function vis(){return D.detections.filter(d=>(sel==='all'||d.scene===sel)&&(showFixed||!d.fixed)&&
+function vis(){return D.detections.filter(d=>(sel==='all'||d.pass===sel)&&(showFixed||!d.fixed)&&
   (lenF==='all'||(lenF==='s'&&d.len_m<30)||(lenF==='m'&&d.len_m>=30&&d.len_m<=80)||(lenF==='l'&&d.len_m>80)))}
 
 function kpis(){
-  const mv=D.detections.filter(d=>!d.fixed&&!d.port&&!d.bay), last=D.scenes[D.scenes.length-1];
-  const per=D.scenes.map(s=>mv.filter(d=>d.scene===s.id).length);
+  const mv=D.detections.filter(d=>!d.fixed&&!d.port&&!d.bay), last=P[P.length-1];
+  const per=P.map(p=>mv.filter(d=>d.pass===p.key).length);
   $('#kpis').innerHTML=`
-    <div class="glass k"><b>${D.scenes.length}</b><span>مرور للقمر</span></div>
+    <div class="glass k"><b>${P.length}</b><span>مرور للقمر</span></div>
     <div class="glass k c"><b>${mv.length}</b><span>رصد لسفينة في البحر المفتوح</span></div>
     <div class="glass k g"><b>${per.length?Math.max(...per):0}</b><span>أكبر عدد سفن في مرور واحد</span></div>
     <div class="glass k"><b>${D.detections.filter(d=>d.fixed).length}</b><span>جسم ثابت حُذف</span></div>
@@ -152,11 +154,11 @@ function kpis(){
 }
 
 function passes(){
-  const mv=s=>D.detections.filter(d=>d.scene===s&&!d.fixed&&!d.port&&!d.bay).length;
-  const mx=Math.max(1,...D.scenes.map(s=>mv(s.id)));
+  const mv=k=>D.detections.filter(d=>d.pass===k&&!d.fixed&&!d.port&&!d.bay).length;
+  const mx=Math.max(1,...P.map(p=>mv(p.key)));
   $('#passes').innerHTML=`<button class="pass" data-s="all" aria-pressed="${sel==='all'}"><span class="t">ALL</span><span>كل المرورات</span><span class="n">${D.detections.filter(d=>!d.fixed&&!d.port&&!d.bay).length}</span></button>`+
-    [...D.scenes].reverse().map(s=>`<button class="pass" data-s="${esc(s.id)}" aria-pressed="${sel===s.id}"><span class="t">${esc(s.t)}</span>
-      <span><div class="bar" style="width:${100*mv(s.id)/mx}%"></div></span><span class="n">${mv(s.id)}</span></button>`).join('');
+    [...P].reverse().map(p=>`<button class="pass" data-s="${esc(p.key)}" aria-pressed="${sel===p.key}"><span class="t">${esc(p.t.slice(0,16))}</span>
+      <span><div class="bar" style="width:${100*mv(p.key)/mx}%"></div></span><span class="n">${mv(p.key)}</span></button>`).join('');
   document.querySelectorAll('.pass').forEach(b=>b.onclick=()=>{sel=b.dataset.s;pick=null;passes();draw();detail()});
 }
 
@@ -178,9 +180,9 @@ function draw(){
   for(let v=Math.ceil(la0);v<=la1;v++){x.beginPath();x.moveTo(0,Y(v));x.lineTo(W,Y(v));x.stroke();x.textAlign='left';x.fillText(v+'°N',4*dpr,Y(v)-3*dpr)}
   for(let v=Math.ceil(lo0);v<=lo1;v++){x.beginPath();x.moveTo(X(v),0);x.lineTo(X(v),H);x.stroke();x.textAlign='left';x.fillText(Math.abs(v)+'°W',X(v)+3*dpr,H-5*dpr)}
   // footprint
-  const sc=D.scenes.find(s=>s.id===sel);
-  if(sc&&sc.fp.length){x.strokeStyle='rgba(80,220,255,.6)';x.setLineDash([6*dpr,5*dpr]);x.lineWidth=1.4*dpr;x.beginPath();
-    sc.fp.forEach((p,i)=>i?x.lineTo(X(p[1]),Y(p[0])):x.moveTo(X(p[1]),Y(p[0])));x.closePath();x.stroke();x.setLineDash([])}
+  const ps=P.find(p=>p.key===sel);
+  if(ps){x.strokeStyle='rgba(80,220,255,.55)';x.setLineDash([6*dpr,5*dpr]);x.lineWidth=1.4*dpr;
+    ps.fps.forEach(fp=>{if(!fp.length)return;x.beginPath();fp.forEach((p,i)=>i?x.lineTo(X(p[1]),Y(p[0])):x.moveTo(X(p[1]),Y(p[0])));x.closePath();x.stroke()});x.setLineDash([])}
   // Madar zones
   Z.forEach(z=>{x.strokeStyle='rgba(255,209,102,.85)';x.lineWidth=1.6*dpr;x.beginPath();x.arc(X(z.lon),Y(z.lat),11*dpr,0,7);x.stroke();
     x.fillStyle='#ffd166';x.font=`600 ${11*dpr}px Chakra Petch`;x.textAlign='center';x.fillText(z.id,X(z.lon),Y(z.lat)+4*dpr)});
