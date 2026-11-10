@@ -1,0 +1,60 @@
+name: Madar Offshore - zone maps for past days (back-testing)
+
+# Rebuilds the daily fishing-zone result for each day listed in radar_backfill.txt ("start end", YYYY-MM-DD),
+# in a scratch copy of the repository, and keeps only the zones of each day in docs/archive/zones/<day>.json.
+on:
+  push:
+    branches: [main]
+    paths: ["radar_backfill.txt"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: radar-backfill
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Rebuild past days
+        env:
+          COPERNICUSMARINE_SERVICE_USERNAME: ${{ secrets.CMEMS_USER }}
+          COPERNICUSMARINE_SERVICE_PASSWORD: ${{ secrets.CMEMS_PASS }}
+        run: |
+          read START END < radar_backfill.txt
+          mkdir -p docs/archive/zones
+          rm -rf /tmp/w && cp -r . /tmp/w
+          d="$START"
+          while [ "$(date -d "$d" +%s)" -le "$(date -d "$END" +%s)" ]; do
+            if [ ! -f "docs/archive/zones/$d.json" ]; then
+              (cd /tmp/w && timeout 600 python radar.py --date "$d" > /tmp/log_$d.txt 2>&1) || echo "[fail] $d"
+              python - "$d" <<'PY'
+          import json, sys, pathlib
+          d = sys.argv[1]
+          p = pathlib.Path("/tmp/w/docs/radar.json")
+          if p.exists():
+              r = json.loads(p.read_text())
+              out = {"day": d, "data_day": r.get("day"), "zones": r.get("zones"), "grid": r.get("grid"), "port": r.get("port")}
+              pathlib.Path(f"docs/archive/zones/{d}.json").write_text(json.dumps(out, separators=(",", ":")))
+              print("[ok]", d, len(out["zones"] or []), "zones")
+          PY
+            fi
+            d=$(date -I -d "$d + 1 day")
+          done
+      - name: Save
+        run: |
+          git config user.name "radar-bot"
+          git config user.email "radar-bot@users.noreply.github.com"
+          git add docs/archive/zones
+          git commit -m "Zone back-fill $(date -u +%F-%H%M)" || echo "nothing to commit"
+          for i in 1 2 3; do git pull --rebase && git push && break; sleep 5; done
