@@ -190,6 +190,7 @@ details[open] summary::after{content:"−"}
     <section class="head" id="head"></section>
     <section class="blind" id="blind"></section>
     <section class="blind" id="struct"></section>
+    <section class="blind" id="emit"></section>
     <section><h2 class="title" id="tTitle"></h2><ol class="tlist" id="targets"></ol></section>
     <section><details><summary><h2 class="title" id="mTitle"></h2></summary><div class="txt" id="method"></div></details></section>
     <section><details><summary><h2 class="title" id="limTitle"></h2></summary><div class="txt" id="limits"></div></details></section>
@@ -201,7 +202,9 @@ details[open] summary::after{content:"−"}
 const DATA = /*__DATA__*/null;
 const T = {
   ar:{dir:"rtl",wm:"المعادن",proof:h=>`الاختبار الأعمى: <b class="num">${h}</b>`,
-    layers:{score:"نقاط مدار",truecolor:"صورة حقيقية",ratios:"تركيب المؤشرات",clay:"الطين",iron:"أكاسيد الحديد",ree:"العناصر النادرة (تجريبي)",struct:"البنيات: صدوع وحلقات"},
+    layers:{score:"نقاط مدار",truecolor:"صورة حقيقية",ratios:"تركيب المؤشرات",clay:"الطين",iron:"أكاسيد الحديد",ree:"العناصر النادرة (تجريبي)",struct:"البنيات: صدوع وحلقات",emit:"EMIT: المعادن (NASA)"},
+    emT:"المعادن كما يراها EMIT (NASA)",emP:(c,n)=>`مقياس طيفي على محطة الفضاء الدولية يرى أكثر من 280 لوناً للصخر، ويحدد المعدن من شكل طيفه. صُوّر <b class="num">${c}%</b> من المنطقة في <b class="num">${n}</b> مرور. المناطق الرمادية لم يصورها EMIT بعد.`,emOn:"أهداف مدار التي يرى EMIT تحتها معدناً",emNc:"خارج تغطية EMIT",emNone:"لا معدن واضح",
+    fam:{copper:"معادن النحاس (ملاكيت، أزوريت)",ree:"عناصر نادرة (نيوديميوم)",serpentine:"سربنتين وتالك",alunite:"ألونيت",kaolinite:"كاولينيت",pyrophyllite:"بيروفيليت",muscovite:"مسكوفيت وسيريسيت",montmorillonite:"مونتموريلونيت",chlorite:"كلوريت وأكتينوليت",epidote:"إبيدوت",carbonate:"كربونات",gypsum:"جبس وكبريتات",jarosite:"جاروسيت",hematite:"هيماتيت",goethite:"غوثيت",iron_oxide:"أكاسيد حديد",clay:"طين",mafic:"معادن قاعدية (بيروكسين، أوليفين)"},
     stT:"البنيات الجيولوجية",stP:(n,az,l)=>`الصدوع والكسور تحمل المياه الساخنة التي تترك المعادن، والكربوناتيت يصعد على شكل حلقات. من نموذج الارتفاع (30 م): <b>${l} كم</b> من الخطوط البنيوية، اتجاهها الغالب <b class="num">${az}°</b>، و<b>${n}</b> بنية دائرية.`,
     stRose:"اتجاهات الصدوع",stRing:(r)=>`حلقة ${r.id}: قطر ${(2*r.radius_km).toFixed(1)} كم، مغلقة ${Math.round(r.closure*100)}%`,stNone:"لا توجد بنية دائرية واضحة.",
     onFault:"على صدع",onRing:"على حلقة",stLeg:["اتجاه الصدع (اللون)","الخطوط الفاتحة: قمم","الدائرة: بنية حلقية"],
@@ -221,7 +224,9 @@ const T = {
     scenes:"الصور المستعملة",profile:{alteration:"نموذج التغيّر الحراري: طين وأكاسيد حديد",iron:"نموذج خام الحديد: حديد ثلاثي وثنائي",carbonatite:"نموذج الكربوناتيت: حديد وعناصر نادرة (تجريبي)"},
     rgb:["أحمر: طين","أخضر: أكاسيد الحديد","أزرق: حديد ثنائي"],low:"ضعيف",high:"قوي",known:"الموقع المعروف",tc:"Sentinel-2، ألوان حقيقية"},
   fr:{dir:"ltr",wm:"Minerals",proof:h=>`Test à l'aveugle : <b class="num">${h}</b>`,
-    layers:{score:"Score Madar",truecolor:"Couleurs réelles",ratios:"Composite d'indices",clay:"Argiles",iron:"Oxydes de fer",ree:"Terres rares (expérimental)",struct:"Structures : failles et anneaux"},
+    layers:{score:"Score Madar",truecolor:"Couleurs réelles",ratios:"Composite d'indices",clay:"Argiles",iron:"Oxydes de fer",ree:"Terres rares (expérimental)",struct:"Structures : failles et anneaux",emit:"EMIT : minéraux (NASA)"},
+    emT:"Les minéraux vus par EMIT (NASA)",emP:(c,n)=>`Un spectromètre imageur à bord de la Station spatiale lit plus de 280 couleurs de la roche et nomme le minéral d'après la forme de son spectre. <b class="num">${c} %</b> de la zone imagée en <b class="num">${n}</b> passage(s). Les zones grises ne sont pas encore couvertes.`,emOn:"Cibles Madar sous lesquelles EMIT voit un minéral",emNc:"hors couverture EMIT",emNone:"pas de minéral net",
+    fam:{copper:"Minéraux de cuivre (malachite, azurite)",ree:"Terres rares (néodyme)",serpentine:"Serpentine et talc",alunite:"Alunite",kaolinite:"Kaolinite",pyrophyllite:"Pyrophyllite",muscovite:"Muscovite / séricite",montmorillonite:"Montmorillonite",chlorite:"Chlorite / actinote",epidote:"Épidote",carbonate:"Carbonates",gypsum:"Gypse / sulfates",jarosite:"Jarosite",hematite:"Hématite",goethite:"Goethite",iron_oxide:"Oxydes de fer",clay:"Argiles",mafic:"Minéraux mafiques (pyroxène, olivine)"},
     stT:"Structures géologiques",stP:(n,az,l)=>`Les failles et fractures portent les fluides chauds qui déposent les métaux ; les carbonatites montent en anneaux. D'après le MNT (30 m) : <b>${l} km</b> de linéaments, direction dominante <b class="num">${az}°</b>, <b>${n}</b> structure(s) annulaire(s).`,
     stRose:"Directions des failles",stRing:(r)=>`Anneau ${r.id} : ${(2*r.radius_km).toFixed(1)} km de diamètre, fermé à ${Math.round(r.closure*100)} %`,stNone:"Aucune structure annulaire nette.",
     onFault:"sur faille",onRing:"sur anneau",stLeg:["Direction de la faille (couleur)","Traits clairs : crêtes","Cercle : structure annulaire"],
@@ -241,7 +246,9 @@ const T = {
     scenes:"Images utilisées",profile:{alteration:"Modèle altération hydrothermale : argiles et oxydes de fer",iron:"Modèle minerai de fer : fer ferrique et ferreux",carbonatite:"Modèle carbonatite : fer et terres rares (expérimental)"},
     rgb:["Rouge : argiles","Vert : oxydes de fer","Bleu : fer ferreux"],low:"faible",high:"fort",known:"Site connu",tc:"Sentinel-2, couleurs réelles"},
   en:{dir:"ltr",wm:"Minerals",proof:h=>`Blind test: <b class="num">${h}</b>`,
-    layers:{score:"Madar score",truecolor:"True colour",ratios:"Index composite",clay:"Clay",iron:"Iron oxide",ree:"Rare earths (experimental)",struct:"Structure: faults and rings"},
+    layers:{score:"Madar score",truecolor:"True colour",ratios:"Index composite",clay:"Clay",iron:"Iron oxide",ree:"Rare earths (experimental)",struct:"Structure: faults and rings",emit:"EMIT: minerals (NASA)"},
+    emT:"Minerals as EMIT sees them (NASA)",emP:(c,n)=>`An imaging spectrometer on the Space Station reads more than 280 colours of the rock and names the mineral from the shape of its spectrum. <b class="num">${c}%</b> of the area imaged in <b class="num">${n}</b> pass(es). Grey areas are not covered yet.`,emOn:"Madar targets with an EMIT mineral underneath",emNc:"outside EMIT coverage",emNone:"no clear mineral",
+    fam:{copper:"Copper minerals (malachite, azurite)",ree:"Rare earths (neodymium)",serpentine:"Serpentine and talc",alunite:"Alunite",kaolinite:"Kaolinite",pyrophyllite:"Pyrophyllite",muscovite:"Muscovite / sericite",montmorillonite:"Montmorillonite",chlorite:"Chlorite / actinolite",epidote:"Epidote",carbonate:"Carbonates",gypsum:"Gypsum / sulfates",jarosite:"Jarosite",hematite:"Hematite",goethite:"Goethite",iron_oxide:"Iron oxides",clay:"Clays",mafic:"Mafic minerals (pyroxene, olivine)"},
     stT:"Geological structure",stP:(n,az,l)=>`Faults and fractures carry the hot fluids that leave metals; carbonatites rise as rings. From the terrain model (30 m): <b>${l} km</b> of lineaments, dominant direction <b class="num">${az}°</b>, <b>${n}</b> ring structure(s).`,
     stRose:"Fault directions",stRing:(r)=>`Ring ${r.id}: ${(2*r.radius_km).toFixed(1)} km across, ${Math.round(r.closure*100)}% closed`,stNone:"No clear ring structure.",
     onFault:"on fault",onRing:"on ring",stLeg:["Fault direction (colour)","Pale lines: crests","Circle: ring structure"],
@@ -439,7 +446,7 @@ function render(keepView){
   $("sites").innerHTML = DATA.sites.map((s, i) => `<button class="site-t" role="tab" aria-selected="${i===cur}" data-i="${i}"><b>${esc(lang==="ar"?s.name_ar:s.name)}</b><span>${esc(lang==="ar"?s.metal_ar:s.metal)}</span></button>`).join("");
   $("sites").onclick = e => { const b = e.target.closest(".site-t"); if (!b) return; cur = +b.dataset.i; revealed = false; sel = 0; render(false); };
   if (!S().images[layer + ".png"] && !S().images[layer + ".jpg"] && layer !== "truecolor") layer = "score";
-  $("layers").innerHTML = Object.entries(t.layers).filter(([k]) => (k !== "ree" || S().images["ree.png"]) && (k !== "struct" || S().images["struct.jpg"])).map(([k, v]) => `<button data-k="${k}" aria-pressed="${k===layer}">${v}</button>`).join("");
+  $("layers").innerHTML = Object.entries(t.layers).filter(([k]) => (k !== "ree" || S().images["ree.png"]) && (k !== "struct" || S().images["struct.jpg"]) && (k !== "emit" || S().images["emit.png"])).map(([k, v]) => `<button data-k="${k}" aria-pressed="${k===layer}">${v}</button>`).join("");
   $("layers").onclick = e => { const b = e.target.closest("button"); if (!b) return; layer = b.dataset.k; render(true); };
   const s = S();
   $("head").innerHTML = `<h1 class="title">${esc(lang==="ar"?s.name_ar:s.name)}</h1>
@@ -454,8 +461,8 @@ function render(keepView){
       <span class="rk num">${g.rank}</span>
       <span class="co num">${ll(g.lat, g.lon)}</span>
       <span class="st"><span class="bar"><i style="width:${g.rel}%"></i></span><button class="copy" data-c="${g.lat.toFixed(5)}, ${g.lon.toFixed(5)}">${t.copy}</button></span>
-      <span class="mt"><span class="num">${g.area_ha}</span> ${t.ha}، <span class="num">${g.rel}%</span> ${t.rel}${g.struct_km!=null&&g.struct_km<0.5?` · <b style="color:var(--gold-2)">${t.onFault}</b>`:""}${g.ring_km!=null&&g.ring_km<0.5?` · <b style="color:var(--azurite)">${t.onRing}</b>`:""}</span></li>`).join("");
-  if (lang !== "ar") $("targets").querySelectorAll(".mt").forEach((m, i) => { const g = s.targets[i]; m.innerHTML = `<span class="num">${g.area_ha}</span> ${t.ha}, <span class="num">${g.rel}%</span> ${t.rel}${g.struct_km!=null&&g.struct_km<0.5?` · <b style="color:var(--gold-2)">${t.onFault}</b>`:""}${g.ring_km!=null&&g.ring_km<0.5?` · <b style="color:var(--azurite)">${t.onRing}</b>`:""}`; });
+      <span class="mt"><span class="num">${g.area_ha}</span> ${t.ha}، <span class="num">${g.rel}%</span> ${t.rel}${g.struct_km!=null&&g.struct_km<0.5?` · <b style="color:var(--gold-2)">${t.onFault}</b>`:""}${g.ring_km!=null&&g.ring_km<0.5?` · <b style="color:var(--azurite)">${t.onRing}</b>`:""}${g.emit&&g.emit.fam?` · <b style="color:${FAMC[g.emit.fam]}">EMIT: ${t.fam[g.emit.fam]}</b>`:""}</span></li>`).join("");
+  if (lang !== "ar") $("targets").querySelectorAll(".mt").forEach((m, i) => { const g = s.targets[i]; m.innerHTML = `<span class="num">${g.area_ha}</span> ${t.ha}, <span class="num">${g.rel}%</span> ${t.rel}${g.struct_km!=null&&g.struct_km<0.5?` · <b style="color:var(--gold-2)">${t.onFault}</b>`:""}${g.ring_km!=null&&g.ring_km<0.5?` · <b style="color:var(--azurite)">${t.onRing}</b>`:""}${g.emit&&g.emit.fam?` · <b style="color:${FAMC[g.emit.fam]}">EMIT: ${t.fam[g.emit.fam]}</b>`:""}`; });
   $("targets").onclick = e => {
     const c = e.target.closest(".copy");
     if (c){ e.stopPropagation(); navigator.clipboard && navigator.clipboard.writeText(c.dataset.c).then(() => { c.textContent = t.copied; setTimeout(() => c.textContent = t.copy, 1200); }); return; }
@@ -465,10 +472,21 @@ function render(keepView){
   $("mTitle").textContent = t.mTitle; $("method").innerHTML = t.method.replace("${TOP}", DATA.top_percent);
   $("limTitle").textContent = t.limTitle; $("limits").innerHTML = t.limits;
   $("foot").innerHTML = `${esc(DATA.source)}<br>${t.scenes}: <span class="num">${s.scenes.map(x => esc(x.date)).join(", ")}</span><br><span class="num">${s.scenes.map(x => esc(x.id)).join("<br>")}</span>`;
-  renderBlind(); renderStruct(); renderReveal(); renderLegend();
+  renderBlind(); renderStruct(); renderEmit(); renderReveal(); renderLegend();
   if (!keepView){ born = matchMedia("(prefers-reduced-motion: reduce)").matches ? -1e9 : performance.now(); resize(); fit(s.bounds, 64); } else draw();
 }
 function renderReveal(){ $("reveal").style.visibility = S().blind_test.length ? "" : "hidden"; $("reveal").textContent = revealed ? L().hide : L().reveal; $("reveal").setAttribute("aria-pressed", revealed); }
+const FAMC={copper:"#00c8b4",ree:"#9d4edd",serpentine:"#78a078",alunite:"#ff2d55",kaolinite:"#ff6ec7",pyrophyllite:"#c77dff",muscovite:"#ffd60a",montmorillonite:"#f4a261",chlorite:"#52b788",epidote:"#2d6a4f",carbonate:"#4cc9f0",gypsum:"#e6e6e6",jarosite:"#c08a00",hematite:"#d62828",goethite:"#f77f00",iron_oxide:"#e76f51",clay:"#b5838d",mafic:"#5a626e"};
+function renderEmit(){
+  const t = L(), s = S(), e = s.emit, box = $("emit");
+  if (!e){ box.innerHTML = ""; return; }
+  const fams = Object.entries(e.families).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const on = s.targets.filter(g => g.emit && g.emit.fam);
+  box.innerHTML = `<h2 class="title">${t.emT}</h2><p>${t.emP(e.coverage_pct, e.scenes.length)}</p>
+    <div class="meta" style="margin-top:8px">${fams.map(([f,p])=>`<span style="display:inline-flex;align-items:center;gap:6px;margin:2px 10px 2px 0"><i style="width:10px;height:10px;border-radius:2px;background:${FAMC[f]}"></i>${t.fam[f]||f} <b class="num">${p}%</b></span>`).join("")}</div>
+    <p class="meta">${t.emOn}: <b class="num">${on.length}</b>/${s.targets.length}${on.length?"<br>"+on.map(g=>`${g.label}: ${t.fam[g.emit.fam]||g.emit.fam}`).join(" · "):""}</p>
+    <p class="meta">${esc(e.src)}</p>`;
+}
 function renderStruct(){
   const t = L(), s = S(), st = s.structure, box = $("struct");
   if (!st){ box.innerHTML = ""; return; }
@@ -502,6 +520,7 @@ function renderBlind(){
 function renderLegend(){
   const t = L();
   if (layer === "truecolor"){ $("legend").textContent = t.tc; return; }
+  if (layer === "emit"){ const e = S().emit || {families:{}}; $("legend").innerHTML = Object.keys(e.families).sort((a,b)=>e.families[b]-e.families[a]).slice(0,8).map(f=>`<div><i style="display:inline-block;width:10px;height:10px;border-radius:2px;margin-inline-end:6px;background:${FAMC[f]}"></i>${t.fam[f]||f}</div>`).join("") + `<div style="opacity:.75"><i style="display:inline-block;width:10px;height:10px;border-radius:2px;margin-inline-end:6px;background:#333"></i>${t.emNc}</div>`; return; }
   if (layer === "struct"){ $("legend").innerHTML = `<div class="bar" style="background:linear-gradient(90deg,#ff8080,#80ff80,#8080ff,#ff8080)"></div><div>${t.stLeg.join("<br>")}</div>`; return; }
   if (layer === "ratios"){ const c = ["#e05050","#50d070","#5a90f0"]; $("legend").innerHTML = `<div class="rgb">${t.rgb.map((x,i)=>`<span><i style="background:${c[i]}"></i>${x}</span>`).join("")}</div>`; return; }
   $("legend").innerHTML = `${t.layers[layer]}<div class="bar"></div><div class="two"><span>${t.low}</span><span>${t.high}</span></div>`;
