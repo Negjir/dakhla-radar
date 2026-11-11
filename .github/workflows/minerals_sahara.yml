@@ -3,11 +3,15 @@ name: MADAR Minerals - Sahara regional scan
 on:
   push:
     branches: [main]
-    paths: ["minerals_region.py", "minerals_sahara.html", ".github/workflows/minerals_sahara.yml"]
+    paths: ["minerals_region.py", "minerals_region_emit.py", "minerals_sahara.html", ".github/workflows/minerals_sahara.yml"]
   workflow_dispatch:
     inputs:
       page_only:
         description: "Only rebuild the page from the last results (true/false)"
+        required: false
+        default: "false"
+      rescan:
+        description: "Run the Sentinel-2 scan again (true/false)"
         required: false
         default: "false"
 
@@ -21,21 +25,34 @@ concurrency:
 jobs:
   sahara:
     runs-on: ubuntu-latest
-    timeout-minutes: 240
+    timeout-minutes: 340
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: pip
-      - run: pip install rasterio pystac-client numpy scipy pillow matplotlib
+      - run: pip install rasterio pystac-client numpy scipy pillow matplotlib earthaccess netCDF4
       - name: Regional scan (Sentinel-2, ~100 m, then 10 m chips)
         run: |
-          if [ "${{ github.event.inputs.page_only }}" = "true" ]; then python minerals_region.py --page-only; else python -u minerals_region.py; fi
+          # the Sentinel-2 scan only runs when its own code changed (or on request); page and EMIT edits reuse it
+          CHANGED="$(git diff --name-only HEAD~1 HEAD 2>/dev/null || true)"
+          if [ "${{ github.event.inputs.page_only }}" = "true" ]; then python minerals_region.py --page-only
+          elif [ "${{ github.event.inputs.rescan }}" = "true" ] || echo "$CHANGED" | grep -q "^minerals_region.py$" || [ ! -f docs/minerals/sahara/sahara.json ]; then python -u minerals_region.py
+          else echo "Sentinel-2 scan unchanged: kept"; fi
+      - name: NASA EMIT over the Sahara and the gold model
+        env:
+          EARTHDATA_USERNAME: ${{ secrets.EARTHDATA_USER }}
+          EARTHDATA_PASSWORD: ${{ secrets.EARTHDATA_PASS }}
+          EARTHDATA_TOKEN: ${{ secrets.EARTHDATA_TOKEN }}
+        run: python -u minerals_region_emit.py 2>&1 | tee docs/minerals/sahara/emit_log.txt
       - name: Save results
+        if: always()
         run: |
           git config user.name "radar-bot"
           git config user.email "radar-bot@users.noreply.github.com"
-          git add docs/minerals/sahara
+          git add docs/minerals/sahara data
           git commit -m "Sahara scan $(date -u +%F-%H%M)" || echo "nothing to commit"
           for i in 1 2 3; do git pull --rebase && git push && break; sleep 5; done

@@ -244,13 +244,15 @@ details[open] summary::after{content:"−"}
 
 <script>
 const DATA=/*__DATA__*/null;
-const MCOL={iron:"#d0674a",alteration:"#e0b35a",carbonatite:"#7fc2a6"};
+const MCOL={iron:"#d0674a",alteration:"#e0b35a",carbonatite:"#7fc2a6",gold:"#ffd24a"};
+const FAMC={copper:"#00c8b4",ree:"#9d4edd",serpentine:"#78a078",alunite:"#ff2d55",kaolinite:"#ff6ec7",pyrophyllite:"#c77dff",muscovite:"#ffd60a",montmorillonite:"#f4a261",chlorite:"#52b788",epidote:"#2d6a4f",carbonate:"#4cc9f0",gypsum:"#e6e6e6",jarosite:"#c08a00",clay:"#b5838d"};
 const T={
  ar:{dir:"rtl",wm:"المعادن",n1:["المواقع المختبرة","5 مناطق"],n2:["مسح الصحراء","الداخلة إلى العيون"],n3:["الاختبار الأعمى","16 موقعاً"],
   title:"مسح الصحراء",sub:"جهة الداخلة - وادي الذهب وجهة العيون - الساقية الحمراء",
   k:["كم² مُسحت","من الأرض صخور مكشوفة","هدفاً مرتباً","دقة المسح الأولي"],
   all:"الكل",dakhla:"الداخلة - وادي الذهب",laayoune:"العيون - الساقية الحمراء",
-  layers:{model:"نقاط مدار",base:"صورة حقيقية",ratios:"تركيب المؤشرات",clay:"الطين",ferric:"أكاسيد الحديد",ree:"العناصر النادرة (تجريبي)",none:"بدون"},reveal:"المواقع المعروفة",
+  layers:{model:"نقاط مدار",base:"صورة حقيقية",ratios:"تركيب المؤشرات",clay:"الطين",ferric:"أكاسيد الحديد",ree:"العناصر النادرة (تجريبي)",emit:"EMIT: المعادن (NASA)",none:"بدون"},
+  fam:{copper:"معادن النحاس",ree:"عناصر نادرة",serpentine:"سربنتين",alunite:"ألونيت",kaolinite:"كاولينيت",pyrophyllite:"بيروفيليت",muscovite:"سيريسيت ومسكوفيت",montmorillonite:"مونتموريلونيت",chlorite:"كلوريت",epidote:"إبيدوت",carbonate:"كربونات",gypsum:"جبس",jarosite:"جاروسيت",clay:"طين"},emNc:"لم يصوّره EMIT بعد",reveal:"المواقع المعروفة",
   tTitle:"الأهداف مرتبة",empty:"لا أهداف في هذه الجهة لهذا النموذج.",
   sel:"اختر هدفاً من الخريطة أو القائمة",rank:"الهدف",area:"هكتار",rel:"القوة",tc:"صورة حقيقية 10 م",geo:"تركيب جيولوجي (SWIR)",
   gm:"Google Maps",copy:"نسخ الإحداثيات",copied:"✓ نُسخت",chipd:d=>`صورة ${d}`,
@@ -277,7 +279,8 @@ const T={
   title:"Levé du Sahara",sub:"Régions Dakhla-Oued Ed-Dahab et Laâyoune-Sakia El Hamra",
   k:["km² couverts","du terrain en roche affleurante","cibles classées","résolution du levé"],
   all:"Tout",dakhla:"Dakhla - Oued Ed-Dahab",laayoune:"Laâyoune - Sakia El Hamra",
-  layers:{model:"Score Madar",base:"Couleurs réelles",ratios:"Composé des indices",clay:"Argiles",ferric:"Oxydes de fer",ree:"Terres rares (expérimental)",none:"Aucune"},reveal:"Sites connus",
+  layers:{model:"Score Madar",base:"Couleurs réelles",ratios:"Composé des indices",clay:"Argiles",ferric:"Oxydes de fer",ree:"Terres rares (expérimental)",emit:"EMIT : minéraux (NASA)",none:"Aucune"},
+  fam:{copper:"Minéraux de cuivre",ree:"Terres rares",serpentine:"Serpentine",alunite:"Alunite",kaolinite:"Kaolinite",pyrophyllite:"Pyrophyllite",muscovite:"Séricite / muscovite",montmorillonite:"Montmorillonite",chlorite:"Chlorite",epidote:"Épidote",carbonate:"Carbonates",gypsum:"Gypse",jarosite:"Jarosite",clay:"Argiles"},emNc:"pas encore imagé par EMIT",reveal:"Sites connus",
   tTitle:"Cibles classées",empty:"Aucune cible dans cette région pour ce modèle.",
   sel:"Choisissez une cible sur la carte ou dans la liste",rank:"Cible",area:"ha",rel:"Force",tc:"Couleurs réelles 10 m",geo:"Composé géologique (SWIR)",
   gm:"Google Maps",copy:"Copier les coordonnées",copied:"✓ Copié",chipd:d=>`Image du ${d}`,
@@ -302,7 +305,7 @@ const T={
   towns:"fr"}
 };
 let L=(()=>{try{return localStorage.getItem("madar-lang")==="fr"?"fr":"ar"}catch(e){return"ar"}})();
-const IDX=["ratios","clay","ferric","ree"];
+const IDX=["ratios","clay","ferric","ree","emit"];
 let MODEL="carbonatite",REGION="dakhla",LAYER="model",SEL=null,REVEAL=false;
 const $=s=>document.querySelector(s),t=k=>T[L][k];
 const cv=$("#map"),ctx=cv.getContext("2d");
@@ -420,6 +423,7 @@ function check(){const c=DATA.models.carbonatite,box=$("#check");
 function legend(){const g=$("#legend");
   const LG=t("legend");
   if(LAYER==="ratios"){g.innerHTML=`<div>${LG.rgbt}</div><div class="rgb" style="margin-top:6px"><span><i style="background:#e04a3a"></i>${LG.rgb[0]}</span><span><i style="background:#4fbf6a"></i>${LG.rgb[1]}</span><span><i style="background:#4a7fe0"></i>${LG.rgb[2]}</span></div>`;return}
+  if(LAYER==="emit"){const e=DATA.emit||{families:{}},ly=t("fam");g.innerHTML=Object.keys(e.families).filter(f=>FAMC[f]).sort((a,b)=>e.families[b]-e.families[a]).slice(0,9).map(f=>`<div><i style="display:inline-block;width:9px;height:9px;border-radius:2px;margin-inline-end:6px;background:${FAMC[f]}"></i>${ly[f]||f} <span class="num">${e.families[f]}%</span></div>`).join("")+`<div style="opacity:.7"><i style="display:inline-block;width:9px;height:9px;border-radius:2px;margin-inline-end:6px;background:#333"></i>${t("emNc")}</div>${e.coverage_pct!=null?`<div class="num" style="opacity:.7;margin-top:4px">EMIT ${e.coverage_pct}% · ${e.scenes}</div>`:""}`;return}
   if(["clay","ferric","ree"].includes(LAYER)){g.innerHTML=`<div>${LG.one[LAYER]}</div><div class="bar" style="background:linear-gradient(90deg,rgba(150,40,30,.6),#d76428,#f5af3c,#fff0aa)"></div><div class="two"><span>${LG.lo}</span><span>${LG.hi}</span></div>`;return}
   if(LAYER==="model")g.innerHTML=`<div>${t("legend").model(DATA.models[MODEL][L])}</div><div class="bar" style="background:linear-gradient(90deg,rgba(150,40,30,.6),#d76428,#f5af3c,#fff0aa)"></div><div class="two"><span>${t("legend").lo}</span><span>${t("legend").hi}</span></div>`;
   else g.innerHTML=`<div>${t("legend").base}</div>`}
@@ -436,7 +440,7 @@ function render(){
   $("#regions").innerHTML=["dakhla","laayoune","all"].map(r=>`<button data-r="${r}" aria-pressed="${r===REGION}">${t(r)}</button>`).join("");
   document.querySelectorAll("#models button").forEach(b=>b.onclick=()=>{MODEL=b.dataset.m;SEL=null;render()});
   document.querySelectorAll("#regions button").forEach(b=>b.onclick=()=>{REGION=b.dataset.r;SEL=null;render();home()});
-  const ly=t("layers");$("#layers").innerHTML=["model","base","ratios","clay","ferric","ree","none"].filter(k=>k==="model"||k==="base"||k==="none"||(DATA.tiles.ov.have!==undefined&&(DATA.tiles.dt.have[k]||[]).length)).map(k=>`<button data-k="${k}" aria-pressed="${k===LAYER}">${ly[k]}</button>`).join("");
+  const ly=t("layers");$("#layers").innerHTML=["model","base","ratios","clay","ferric","ree","emit","none"].filter(k=>k==="model"||k==="base"||k==="none"||(DATA.tiles.ov.have!==undefined&&(DATA.tiles.dt.have[k]||[]).length)).map(k=>`<button data-k="${k}" aria-pressed="${k===LAYER}">${ly[k]}</button>`).join("");
   document.querySelectorAll("#layers button").forEach(b=>b.onclick=()=>{LAYER=b.dataset.k;render()});
   $("#reveal").textContent=t("reveal");$("#reveal").setAttribute("aria-pressed",REVEAL);
   $("#tTitle").textContent=t("tTitle");
