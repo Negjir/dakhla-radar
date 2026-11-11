@@ -13,6 +13,7 @@ Needs a free NASA Earthdata login in EARTHDATA_USERNAME / EARTHDATA_PASSWORD (Gi
 Reference table: emit-sds/emit-sds-l2b data/mineral_grouping_matrix_20230503.csv (Apache-2.0), copied in data/.
 """
 import argparse
+import re
 import csv
 import json
 import math
@@ -40,6 +41,9 @@ FAMILIES = [
     ("iron_oxide", (231, 111, 81)), ("clay", (181, 131, 141)), ("mafic", (90, 98, 110)),
 ]
 FAM_ID = {f: k + 1 for k, (f, _) in enumerate(FAMILIES)}
+# iron oxides coat almost every desert surface; they are read apart, so they do not hide the clays and carbonates
+IRON = {FAM_ID[f] for f in ("hematite", "goethite", "iron_oxide", "mafic")}
+MIN_LOCAL, MIN_ENRICH = 0.05, 1.5     # a target "has" a mineral if it covers 5 % around it and 1.5x its share of the site
 NAME_RULES = [("azurite", "copper"), ("malachite", "copper"), ("chrysocolla", "copper"), ("cuprite", "copper"),
               ("chalcopyrite", "copper"), ("neodymium", "ree"), ("samarium", "ree"), ("praseodym", "ree"),
               ("chrysotile", "serpentine"), ("serpentin", "serpentine"), ("antigorite", "serpentine"), ("talc", "serpentine"),
@@ -138,7 +142,7 @@ def granules(bounds):
     return res
 
 
-def mosaic(paths, s, table):
+def mosaic(paths, s, table, kind="sw"):
     """Per site cell: family of the strongest absorption seen in any scene, its depth, and whether EMIT saw it."""
     import netCDF4
     a0, o0, a1, o1, w, h = site_grid(s)
@@ -189,6 +193,8 @@ def mosaic(paths, s, table):
                     if k_ >= 0:
                         lut[k_] = v_
                 f = lut[np.clip(mid, 0, len(lut) - 1)]
+                is_fe = np.isin(f, list(IRON))
+                f = np.where(is_fe if kind == "fe" else ~is_fe, f, 0).astype(np.uint8)
                 good = (mid > 0) & (bd > 0) & np.isfinite(bd) & (f > 0)
                 if not good.any():
                     continue
@@ -215,30 +221,44 @@ def picture(fam, depth, seen, path):
     Image.fromarray(rgba, "RGBA").save(path, optimize=True)
 
 
-def summarise(s, fam, depth, seen):
+def shares(fam, mask):
+    n = max(int(mask.sum()), 1)
+    out = {}
+    for k, (f, _) in enumerate(FAMILIES, 1):
+        c = int(((fam == k) & mask).sum())
+        if c:
+            out[f] = c / n
+    return out
+
+
+def summarise(s, fam, depth, seen, fam_fe):
     a0, o0, a1, o1, w, h = site_grid(s)
     n_seen = int(seen.sum())
-    fams = {}
-    for k, (f, _) in enumerate(FAMILIES, 1):
-        c = int((fam == k).sum())
-        if c:
-            fams[f] = round(100 * c / max(n_seen, 1), 2)
+    site = shares(fam, seen)
+    site_fe = shares(fam_fe, seen)
     for t in s["targets"]:
         ci, cj = int((a1 - t["lat"]) / RES), int((t["lon"] - o0) / RES)
         r = max(1, int(TARGET_R_M / (RES * 111320)))
-        sl = (slice(max(0, ci - r), ci + r + 1), slice(max(0, cj - r), cj + r + 1))
-        sv, sf = seen[sl], fam[sl]
-        if not sv.any():
+        yy, xx = np.ogrid[-r:r + 1, -r:r + 1]
+        disk = (yy * yy + xx * xx) <= r * r
+        sl = (slice(ci - r, ci + r + 1), slice(cj - r, cj + r + 1))
+        if ci - r < 0 or cj - r < 0 or ci + r >= h or cj + r >= w:
             t["emit"] = {"cov": False}
             continue
-        vals, cnt = np.unique(sf[sf > 0], return_counts=True)
-        if not len(vals):
-            t["emit"] = {"cov": True, "fam": None}
+        sv = seen[sl] & disk
+        if sv.sum() < 5:
+            t["emit"] = {"cov": False}
             continue
-        k = int(vals[np.argmax(cnt)])
-        t["emit"] = {"cov": True, "fam": FAMILIES[k - 1][0], "pct": round(100 * cnt.max() / sv.sum()),
-                     "depth": round(float(depth[sl][sf == k].mean()), 3)}
-    return {"coverage_pct": round(100 * n_seen / (w * h), 1), "families": fams}
+        loc = shares(fam[sl], sv)
+        best = None
+        for f, v in loc.items():                   # the mineral that is concentrated here, not just present
+            x = v / max(site.get(f, 0), 1e-3)
+            if v >= MIN_LOCAL and x >= MIN_ENRICH and (best is None or x > best[2]):
+                best = (f, v, x)
+        t["emit"] = {"cov": True, "fam": best[0], "pct": round(100 * best[1]), "x": round(best[2], 1)} if best else \
+            {"cov": True, "fam": None}
+    rnd = lambda d: {k: round(100 * v, 2) for k, v in sorted(d.items(), key=lambda kv: -kv[1])}
+    return {"coverage_pct": round(100 * n_seen / (w * h), 1), "families": rnd(site), "iron": rnd(site_fe)}
 
 
 def main():
@@ -273,9 +293,10 @@ def main():
     for s in data["sites"]:
         d = OUT / s["id"]
         npz = d / "emit.npz"
-        if npz.exists() and not a.refresh:
-            z = np.load(npz)
+        z = np.load(npz) if npz.exists() and not a.refresh else None
+        if z is not None and "fam_fe" in z.files:
             fam, depth, seen, used = z["fam"], z["depth"], z["seen"], list(z["used"])
+            fam_fe = z["fam_fe"]
         elif have_login:
             res = granules(s["bounds"])
             if not res:
@@ -286,25 +307,35 @@ def main():
             try:
                 import earthaccess
                 paths = earthaccess.download(res, str(tmp))
-                fam, depth, seen, used = mosaic(paths, s, table)
+                paths = [q for q in paths if "MINUNCERT" not in Path(q).name]
+                best = {}                                  # one file per acquisition, newest product version
+                for q in paths:
+                    m_ = re.search(r"_(\d{3})_(\d{8}T\d{6})", Path(q).name)
+                    key = m_.group(2) if m_ else Path(q).name
+                    if key not in best or (m_ and m_.group(1) > best[key][0]):
+                        best[key] = (m_.group(1) if m_ else "", q)
+                paths = [v[1] for v in best.values()]
+                fam, depth, seen, used = mosaic(paths, s, table, "sw")
+                fam_fe, _, _, _ = mosaic(paths, s, table, "fe")
             finally:
                 shutil.rmtree(tmp, ignore_errors=True)
             if not used:
                 print(f"[emit] {s['id']}: scenes found but none covers the site")
                 continue
-            np.savez_compressed(npz, fam=fam, depth=depth.astype(np.float16), seen=seen, used=np.array(used))
+            np.savez_compressed(npz, fam=fam, depth=depth.astype(np.float16), seen=seen, used=np.array(used),
+                                fam_fe=fam_fe)
         else:
             continue
         picture(fam, depth.astype(np.float32), seen, d / "emit.png")
-        info = summarise(s, fam, depth.astype(np.float32), seen)
-        info["scenes"] = [u.replace("EMIT_L2B_MIN_001_", "")[:15] for u in used]
+        info = summarise(s, fam, depth.astype(np.float32), seen, fam_fe)
+        info["scenes"] = sorted({(re.search(r"\d{8}T\d{6}", str(u)) or re.search(r".*", str(u))).group(0) for u in used})
         info["src"] = "NASA EMIT L2B Mineral Identification (EMITL2BMIN v001), LP DAAC"
         s["emit"] = info
         s["images"]["emit.png"] = f"{s['id']}/emit.png"
         top = sorted(info["families"].items(), key=lambda x: -x[1])[:4]
-        on = [t["label"] for t in s["targets"] if (t.get("emit") or {}).get("fam")]
+        on = [f'{t["label"]}:{t["emit"]["fam"]}x{t["emit"]["x"]}' for t in s["targets"] if (t.get("emit") or {}).get("fam")]
         print(f"[emit] {s['id']}: {info['coverage_pct']}% imaged · {len(used)} scenes · top {top} · "
-              f"targets with an EMIT mineral: {len(on)}/{len(s['targets'])}")
+              f"targets with a concentrated EMIT mineral: {len(on)}/{len(s['targets'])} {on}")
     (OUT / "minerals.json").write_text(json.dumps(data, ensure_ascii=False, indent=1))
     page = (ROOT / "minerals_console.html").read_text(encoding="utf-8")
     (OUT / "index.html").write_text(page.replace("/*__DATA__*/null", json.dumps(data, ensure_ascii=False)), encoding="utf-8")
