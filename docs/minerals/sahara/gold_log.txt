@@ -1,23 +1,18 @@
 [gold] EMIT alteration ready
 [gold] Sentinel-2 alteration ready
-/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/earthaccess/results.py:343: FutureWarning: As of version 1.0, `DataGranule.size` will be accessed as an attribute; e.g. use `DataCollection.size` **not** `DataCollection.size()`
-  self["size"] = self.size()
-[gold] ASTER emissivity tiles: 69
-/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/earthaccess/store.py:832: FutureWarning: As of version 1.0, `DataGranule.size` will be accessed as an attribute; e.g. use `DataCollection.size` **not** `DataCollection.size()`
-  total_size = round(sum(granule.size() for granule in granules) / 1024, 2)
-[gold] silica layer: 88.7% of the box
 [gold] silica anomaly ready
-[gold] terrain model assembled
 [gold] faults ready
-[gold] threshold 4.84 · 16651 cells above it where 2+ sources agree
-[gold] sources: ['EMIT', 'Sentinel-2', 'ASTER', 'Copernicus DEM'] · 60 targets · 335 s
-[gold] dakhla #1 23.9564,-15.73577 ['EMIT', 'Sentinel-2', 'ASTER', 'faults'] {'emit': 17.6, 's2': 9.6, 'silica': 2.1, 'fault_km': 0.0} {'argillic': 15, 'carbonate': 74} · 35 km NE de Dakhla · carbonates, argilique avancée
-[gold] dakhla #2 24.27904,-13.01626 ['EMIT', 'Sentinel-2', 'ASTER', 'faults'] {'emit': 10.1, 's2': 2.8, 'silica': 3.6, 'fault_km': 0.0} {'sericite': 11, 'argillic': 89} · 116 km SO de Guelta Zemmur · argilique avancée, séricite
-[gold] dakhla #3 22.21135,-16.75905 ['EMIT', 'Sentinel-2', 'faults'] {'emit': 22.7, 's2': 11.8, 'silica': 1.1, 'fault_km': 0.0} {'argillic': 7, 'carbonate': 86} · 74 km NO de Bir Gandouz · carbonates, argilique avancée
-[gold] dakhla #4 23.92773,-15.76201 ['EMIT', 'Sentinel-2', 'ASTER', 'faults'] {'emit': 25.1, 's2': 4.5, 'silica': 2.0, 'fault_km': 0.0} {'argillic': 37, 'carbonate': 62} · 30 km NE de Dakhla · carbonates, argilique avancée
-[gold] dakhla #5 23.75355,-15.6358 ['EMIT', 'Sentinel-2', 'ASTER', 'faults'] {'emit': 16.7, 's2': 4.7, 'silica': 4.6, 'fault_km': 0.0} {'sericite': 34, 'argillic': 4, 'carbonate': 53} · 31 km E de Dakhla · carbonates, séricite, argilique avancée
-[gold] dakhla #6 23.94363,-15.74804 ['EMIT', 'Sentinel-2', 'faults'] {'emit': 27.0, 's2': 5.3, 'silica': 0.8, 'fault_km': 0.0} {'argillic': 11, 'carbonate': 89} · 33 km NE de Dakhla · carbonates, argilique avancée
-[gold] laayoune #1 26.82127,-12.88456 ['EMIT', 'Sentinel-2', 'ASTER', 'faults'] {'emit': 19.8, 's2': 6.5, 'silica': 4.6, 'fault_km': 0.18} {'sericite': 4, 'carbonate': 42, 'sulphide_weathering': 43} · 49 km SE de Laâyoune · jarosite (sulfures oxydés), carbonates, séricite
-[gold] laayoune #2 26.74074,-12.57058 ['EMIT', 'Sentinel-2', 'ASTER', 'faults'] {'emit': 10.6, 's2': 5.1, 'silica': 5.8, 'fault_km': 0.0} {'sericite': 8, 'argillic': 15, 'carbonate': 46, 'sulphide_weathering': 19} · 78 km SE de Laâyoune · carbonates, jarosite (sulfures oxydés), argilique avancée, séricite
-[gold] laayoune #3 26.77954,-12.58647 ['EMIT', 'Sentinel-2', 'ASTER', 'faults'] {'emit': 8.0, 's2': 4.5, 'silica': 6.7, 'fault_km': 0.0} {'carbonate': 62, 'sulphide_weathering': 22} · 74 km SE de Laâyoune · carbonates, jarosite (sulfures oxydés)
-[gold] laayoune #4 26.71401,-13.08271 ['EMIT', 'Sentinel-2', 'ASTER', 'faults'] {'emit': 11.1, 's2': 4.1, 'silica': 6.4, 'fault_km': 0.2} {'carbonate': 50, 'sulphide_weathering': 33} · 50 km S de Laâyoune · carbonates, jarosite (sulfures oxydés)
+[gold] geology fields: {'HGEnv': [' ', 'Basement', 'Consolidated Sedimentary - F', 'Consolidated Sedimentary - IF', 'Unconsolidated']}
+[gold] basement (+5 km): 37.2% of the box
+[gold] threshold 4.65 · 6918 cells above it where 2+ sources agree
+[gold] sources: ['EMIT', 'Sentinel-2', 'ASTER', 'Copernicus DEM', 'USGS geology (basement)'] · 60 targets · 54 s
+[gold] dakhla #1 24.27884,-13.01612 ['EMIT', 'Sentinel-2', 'ASTER', 'faults'] {'emit': 10.1, 's2': 2.8, 'silica': 3.6, 'fault_km': 0.0} {'sericite': 11, 'argillic': 89} · 116 km SO de Guelta Zemmur · argilique avancée, séricite
+[gold] dakhla #2 21.70608,-14.11295 ['EMIT', 'ASTER', 'faults'] {'emit': 13.3, 's2': 1.4, 'silica': 2.6, 'fault_km': 0.0} {'sericite': 74, 'argillic': 8, 'carbonate': 6} · 90 km E de Tichla · séricite, argilique avancée, carbonates
+[gold] dakhla #3 21.67098,-14.11098 ['EMIT', 'ASTER', 'faults'] {'emit': 13.3, 's2': 1.2, 'silica': 2.2, 'fault_km': 0.0} {'sericite': 99} · 89 km E de Tichla · séricite
+[gold] dakhla #4 23.27467,-14.68049 ['EMIT', 'ASTER', 'faults'] {'emit': 9.2, 's2': 1.8, 'silica': 3.0, 'fault_km': 0.0} {'sericite': 96, 'argillic': 4} · 70 km S de Bir Anzarane · séricite, argilique avancée
+[gold] dakhla #5 21.97544,-15.18268 ['EMIT', 'Sentinel-2', 'faults'] {'emit': 21.7, 's2': 2.6, 'silica': 1.6, 'fault_km': 0.0} {'sericite': 47, 'argillic': 28, 'carbonate': 24} · 48 km NO de Tichla · séricite, argilique avancée, carbonates
+[gold] dakhla #6 21.62333,-14.12537 ['EMIT', 'faults'] {'emit': 12.7, 's2': 1.7, 'silica': 1.4, 'fault_km': 0.0} {'sericite': 81, 'argillic': 10} · 87 km E de Tichla · séricite, argilique avancée
+[gold] laayoune #1 26.30258,-10.74626 ['EMIT', 'Sentinel-2', 'faults'] {'emit': 19.4, 's2': 5.2, 'silica': 0.7, 'fault_km': 0.0} {'sericite': 80, 'argillic': 15, 'carbonate': 5} · 104 km SE de Smara · séricite, argilique avancée, carbonates
+[gold] laayoune #2 26.29756,-10.84492 ['EMIT', 'Sentinel-2', 'faults'] {'emit': 16.4, 's2': 5.4, 'silica': 0.3, 'fault_km': 0.0} {'sericite': 97} · 96 km SE de Smara · séricite
+[gold] laayoune #3 26.30595,-10.77154 ['EMIT', 'Sentinel-2', 'faults'] {'emit': 13.1, 's2': 7.3, 'silica': 1.4, 'fault_km': 0.0} {'sericite': 68, 'argillic': 32} · 102 km SE de Smara · séricite, argilique avancée
+[gold] laayoune #4 26.33251,-10.64075 ['EMIT', 'Sentinel-2', 'faults'] {'emit': 15.7, 's2': 6.4, 'silica': 1.0, 'fault_km': 0.0} {'sericite': 73, 'argillic': 27} · 112 km SE de Smara · séricite, argilique avancée

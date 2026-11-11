@@ -1,4 +1,3 @@
-[sahara-emit] removed 5.47% old copper answers (lazurite/chrysocolla mix-up)
 /opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/earthaccess/results.py:343: FutureWarning: As of version 1.0, `DataGranule.size` will be accessed as an attribute; e.g. use `DataCollection.size` **not** `DataCollection.size()`
   self["size"] = self.size()
 [sahara-emit] 2123 EMIT records over the area
