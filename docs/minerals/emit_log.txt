@@ -1,6 +1,18 @@
-Authentication with Earthdata Login failed with:
-Invalid credentials
-[emit] login check: username 12 chars, password set, token not set
-[emit] NASA refused the login: Authentication with Earthdata Login failed with:
-Invalid credentials
-[emit] no Earthdata login: re-attaching saved layers only
+/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/earthaccess/results.py:343: FutureWarning: As of version 1.0, `DataGranule.size` will be accessed as an attribute; e.g. use `DataCollection.size` **not** `DataCollection.size()`
+  self["size"] = self.size()
+/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/earthaccess/store.py:832: FutureWarning: As of version 1.0, `DataGranule.size` will be accessed as an attribute; e.g. use `DataCollection.size` **not** `DataCollection.size()`
+  total_size = round(sum(granule.size() for granule in granules) / 1024, 2)
+[emit] login check: username 12 chars, password set, token set
+[emit] 8 scenes kept (clearest first)
+[emit] file layout: EMIT_L2B_MIN_002_20230202T114950.nc vars ['group_1_band_depth', 'group_1_mineral_id', 'group_2_band_depth', 'group_2_mineral_id'] groups {'location': ['lon', 'lat', 'elev', 'glt_x', 'glt_y'], 'mineral_metadata': ['index', 'record', 'name', 'sample_name', 'group', 'library']} attrs ['ncei_template_version', 'summary', 'keywords', 'sensor', 'instrument', 'platform', 'Conventions', 'institution', 'license', 'naming_authority', 'date_created', 'keywords_vocabulary', 'stdname_vocabulary', 'creator_name', 'creator_url', 'project', 'project_url', 'publisher_name', 'publisher_url', 'publisher_email']
+Traceback (most recent call last):
+  File "/home/runner/work/dakhla-radar/dakhla-radar/minerals_emit.py", line 271, in <module>
+    main()
+  File "/home/runner/work/dakhla-radar/dakhla-radar/minerals_emit.py", line 246, in main
+    fam, depth, seen, used = mosaic(paths, s, table)
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/dakhla-radar/dakhla-radar/minerals_emit.py", line 145, in mosaic
+    mid = np.asarray(ds[f"group_{g}_mineral_id"][:])[ry, rx].astype(np.int64)
+                     ~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "src/netCDF4/_netCDF4.pyx", line 2576, in netCDF4._netCDF4.Dataset.__getitem__
+IndexError: group_1_mineral_id not found in /
