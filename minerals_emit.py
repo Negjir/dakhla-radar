@@ -60,6 +60,36 @@ COL_RULES = [("Kaolinite", "kaolinite"), ("Illite+Muscovite", "muscovite"), ("Mo
 SKIP_COLS = ("Vegetation", "Artifical Materials", "Coating")
 
 
+NAME_EXTRA = [("hematite", "hematite"), ("goethite", "goethite"), ("lepidocrocite", "iron_oxide"), ("calcite", "carbonate"),
+              ("dolomite", "carbonate"), ("ankerite", "carbonate"), ("gypsum", "gypsum"), ("anhydrite", "gypsum"),
+              ("muscovite", "muscovite"), ("illite", "muscovite"), ("sericite", "muscovite"), ("vermiculite", "clay"),
+              ("halloysite", "kaolinite"), ("smect", "montmorillonite"), ("iron oxide", "iron_oxide"), ("fe3+", "iron_oxide"),
+              ("fe2+", "mafic")]
+CSV_FAM = {}
+
+
+def family_of_name(name):
+    n = name.lower()
+    if any(k in n for k in ("plastic", "cyanide", "acid", "wtc", "varnish", "pitch", "tarp", "grass", "plywood",
+                            "fiberglass", "polystyrene", "painted", "vegetation", "lichen")):
+        return 0
+    for key, f in NAME_RULES + NAME_EXTRA:
+        if key in n:
+            return FAM_ID[f]
+    return CSV_FAM.get(n, 0)
+
+
+def file_table(ds, fallback):
+    """v002 files carry their own index -> name table; use it so the ids are read with the right names."""
+    g = ds.groups.get("mineral_metadata")
+    if g is None or "index" not in g.variables or "name" not in g.variables:
+        return fallback
+    idx = np.asarray(g["index"][:]).astype(int).ravel()
+    names = g["name"][:]
+    names = [n if isinstance(n, str) else bytes(n).decode("utf-8", "ignore") for n in np.asarray(names).ravel()]
+    return {int(i): family_of_name(str(n)) for i, n in zip(idx, names)}
+
+
 def lookup():
     """EMIT mineral index -> family number (0 = not a mineral we map: vegetation, plastics, coatings)."""
     out = {}
@@ -83,6 +113,7 @@ def lookup():
                 if v > best:
                     best, fam = v, f
         out[int(r["Index"])] = FAM_ID.get(fam, 0)
+        CSV_FAM[r["Name"].lower()] = FAM_ID.get(fam, 0)
     return out
 
 
@@ -141,11 +172,23 @@ def mosaic(paths, s, table):
             ci = np.clip(((a1 - lat) / RES).astype(int), 0, h - 1)
             cj = np.clip(((lon - o0) / RES).astype(int), 0, w - 1)
             seen[ci, cj] = True
+            ftab = file_table(ds, table)
+            if not used:
+                print(f"[emit] mineral table: {len(ftab)} entries, "
+                      f"{sum(1 for v in ftab.values() if v)} mapped to a family")
             for g in (1, 2):
-                mid = np.asarray(ds[f"group_{g}_mineral_id"][:])[ry, rx].astype(np.int64)
-                bd = np.asarray(ds[f"group_{g}_band_depth"][:], dtype=np.float32)[ry, rx]
-                f = np.array([table.get(int(m), 0) for m in mid], np.uint8) if mid.size < 2_000_000 else \
-                    np.vectorize(lambda m: table.get(int(m), 0), otypes=[np.uint8])(mid)
+                vm, vb = ds.variables.get(f"group_{g}_mineral_id"), ds.variables.get(f"group_{g}_band_depth")
+                if vm is None or vb is None:
+                    print("[emit] missing group", g, "in", Path(p).name)
+                    continue
+                mid = np.asarray(vm[:])[ry, rx].astype(np.int64)
+                bd = np.asarray(vb[:], dtype=np.float32)[ry, rx]
+                table_ = ftab
+                lut = np.zeros(max(max(table_.keys(), default=0), int(mid.max(initial=0))) + 2, np.uint8)
+                for k_, v_ in table_.items():
+                    if k_ >= 0:
+                        lut[k_] = v_
+                f = lut[np.clip(mid, 0, len(lut) - 1)]
                 good = (mid > 0) & (bd > 0) & np.isfinite(bd) & (f > 0)
                 if not good.any():
                     continue
