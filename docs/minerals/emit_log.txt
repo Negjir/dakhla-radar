@@ -1,0 +1,18 @@
+Authentication with Earthdata Login failed with:
+Invalid credentials
+Traceback (most recent call last):
+  File "/home/runner/work/dakhla-radar/dakhla-radar/minerals_emit.py", line 254, in <module>
+    main()
+  File "/home/runner/work/dakhla-radar/dakhla-radar/minerals_emit.py", line 210, in main
+    earthaccess.login(strategy="environment")
+  File "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/earthaccess/api.py", line 373, in login
+    earthaccess.__auth__.login(
+  File "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/earthaccess/auth.py", line 148, in login
+    self._environment()
+  File "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/earthaccess/auth.py", line 297, in _environment
+    return self._get_credentials(username, password, token)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/earthaccess/auth.py", line 316, in _get_credentials
+    raise LoginAttemptFailure(msg)
+earthaccess.exceptions.LoginAttemptFailure: Authentication with Earthdata Login failed with:
+Invalid credentials
