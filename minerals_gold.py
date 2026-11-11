@@ -154,6 +154,64 @@ def silica(h, w):
     return qi
 
 
+# ---------------------------------------------------------------- geology: where gold can be
+GEO_URL = ("https://map.bgs.ac.uk/arcgis/rest/services/Africa_Groundwater/Africa_Groundwater_v2/MapServer/12/query"
+           "?where=1%3D1&geometry={g}&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects"
+           "&outFields=*&outSR=4326&f=geojson&resultOffset={o}&resultRecordCount=500")
+BASEMENT_KM = 5           # gold also sits along the edge of the basement
+
+
+def basement(h, w):
+    """Precambrian basement (the Reguibat shield) from the USGS geology of Africa (geo7_2ag, 1:5M), served by the
+    British Geological Survey. Orogenic gold lives in basement rocks; the coastal and Tarfaya-Laayoune basins are
+    young sediments (limestone, marl, phosphate) where the same minerals mean something else."""
+    import urllib.request
+    from rasterio.features import rasterize
+    from rasterio.transform import from_bounds
+    f = CACHE / "sahara_basement.npy"
+    if f.exists():
+        return np.load(f)
+    lat0, lat1, lon0, lon1 = mr.BOX
+    feats, off = [], 0
+    try:
+        while True:
+            url = GEO_URL.format(g=f"{lon0},{lat0},{lon1},{lat1}", o=off)
+            with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "madar"}), timeout=120) as r:
+                js = json.loads(r.read())
+            fs = js.get("features", [])
+            feats += fs
+            if len(fs) < 500:
+                break
+            off += 500
+    except Exception as e:  # noqa: BLE001
+        log("geology map not reachable:", e)
+        return None
+    if not feats:
+        log("geology map: no polygons")
+        return None
+    vals = {}
+    for ft in feats:
+        for k, v in (ft.get("properties") or {}).items():
+            if isinstance(v, str):
+                vals.setdefault(k, set()).add(v)
+    log("geology fields:", {k: sorted(v)[:12] for k, v in vals.items()})
+    def is_base(props):
+        txt = " ".join(str(v) for v in (props or {}).values()).lower()
+        return ("basement" in txt or "precambrian" in txt) and "sediment" not in txt
+    shapes = [(ft["geometry"], 1) for ft in feats if ft.get("geometry") and is_base(ft.get("properties"))]
+    if not shapes:
+        log("geology map: no basement class recognised")
+        return None
+    tr = from_bounds(lon0, lat0, lon1, lat1, w, h)
+    m = rasterize(shapes, out_shape=(h, w), transform=tr, fill=0, dtype="uint8").astype(bool)
+    r = int(BASEMENT_KM / (RES * 111.32))
+    m = ndimage.binary_dilation(m[::4, ::4], iterations=max(1, r // 4))
+    m = np.repeat(np.repeat(m, 4, 0), 4, 1)[:h, :w]
+    np.save(f, m)
+    log(f"basement (+{BASEMENT_KM} km): {100 * m.mean():.1f}% of the box")
+    return m
+
+
 # ---------------------------------------------------------------- fusion
 def main():
     t0 = time.time()
@@ -211,6 +269,17 @@ def main():
     used.append("Copernicus DEM")
     log("faults ready")
 
+    base = basement(h, w)
+    if base is not None:
+        keep = keep & base
+        used.append("USGS geology (basement)")
+    elif kinds_src is not None:                       # fallback: carbonate platforms are sediments, not basement
+        fam = kinds_src["fam"]
+        sv = kinds_src["seen"].astype(np.float32)
+        carb = ndimage.uniform_filter((fam == mre.F["carbonate"]).astype(np.float32) * sv, 21) / np.maximum(
+            ndimage.uniform_filter(sv, 21), 1e-3)
+        keep = keep & (carb < 0.6)
+        log("no geology map: carbonate-dominated ground left out instead")
     tot = sum(W[k] for k in layers)
     score = np.zeros((h, w), np.float32)
     agree = np.zeros((h, w), np.uint8)
