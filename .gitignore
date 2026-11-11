@@ -6,3 +6,6 @@ private/
 *.gpx
 *.nmea
 vessel_report_*.html
+
+# large intermediate grids: kept in the GitHub Actions cache, not in git
+data/cache/

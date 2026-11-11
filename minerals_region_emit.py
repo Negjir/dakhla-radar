@@ -29,7 +29,8 @@ import minerals_region as mr
 
 ROOT = Path(__file__).resolve().parent
 OUT = mr.OUT
-CACHE = ROOT / "data" / "sahara_emit.npz"
+CACHE = ROOT / "data" / "cache" / "sahara_emit.npz"     # kept between runs by the workflow cache, not in git
+OLD_CACHE = ROOT / "data" / "sahara_emit.npz"
 RES = mr.RES
 F = me.FAM_ID
 # how much each mineral family says "hot fluids passed here" for gold (0 = says nothing)
@@ -287,6 +288,9 @@ def main():
     a = ap.parse_args()
     data = json.loads((OUT / "sahara.json").read_text())
     h, w = grid()
+    if not CACHE.exists() and OLD_CACHE.exists():
+        CACHE.parent.mkdir(parents=True, exist_ok=True)
+        shutil.move(str(OLD_CACHE), str(CACHE))
     if CACHE.exists():
         z = np.load(CACHE, allow_pickle=False)
         A = {"fam": z["fam"].copy(), "depth": z["depth"].astype(np.float32), "seen": z["seen"].copy(),
@@ -305,7 +309,7 @@ def main():
         earthaccess.login(strategy="environment")
         n = collect(A, a.max, table)
         print(f"[sahara-emit] read {n} new scenes")
-        CACHE.parent.mkdir(exist_ok=True)
+        CACHE.parent.mkdir(parents=True, exist_ok=True)
         np.savez_compressed(CACHE, fam=A["fam"], depth=A["depth"].astype(np.float16), seen=A["seen"],
                             done=np.array(A["done"]))
     inside = mr.outline_mask(h, w, RES)

@@ -670,6 +670,22 @@ def index_layers(G, keep, inside, meta, h, w):
     save(Image.fromarray(comp), "ratios", "jpg")
 
 
+def save_s2_cache(G, keep):
+    """Sentinel-2 alteration anomalies kept for the gold model (minerals_gold.py): z of clay and of iron oxide
+    against the rocks around them, stored as bytes (z = value / 25 - 2), 0 where there is no bare rock."""
+    d = ROOT / "data" / "cache"
+    d.mkdir(parents=True, exist_ok=True)
+    out = {"keep": keep}
+    for k in ("clay", "ferric"):
+        z = index_z(G, keep, k)
+        q = np.clip((np.nan_to_num(z, nan=-2) + 2) * 25, 1, 255).astype("uint8")
+        q[~keep] = 0
+        out[k] = q
+        del z
+    np.savez_compressed(d / "sahara_s2.npz", **out)
+    print("[cache] Sentinel-2 anomalies saved for the gold model")
+
+
 def colour(x):
     stops = np.array([[150, 40, 30, 150], [215, 100, 40, 200], [245, 175, 60, 235], [255, 240, 170, 255]], "float32")
     out = np.zeros(x.shape + (4,), "uint8")
@@ -730,6 +746,7 @@ def main():
     meta = pyramid(rgb, scores, inside, keep)
     del scores
     index_layers(G, keep, inside, meta, *keep.shape)
+    save_s2_cache(G, keep)
     geojson(all_t)
     area_km2 = float(land.sum()) * (RES * 111.32) ** 2 * math.cos(math.radians(24))
     data = {

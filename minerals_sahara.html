@@ -252,7 +252,7 @@ const T={
   k:["كم² مُسحت","من الأرض صخور مكشوفة","هدفاً مرتباً","دقة المسح الأولي"],
   all:"الكل",dakhla:"الداخلة - وادي الذهب",laayoune:"العيون - الساقية الحمراء",
   layers:{model:"نقاط مدار",base:"صورة حقيقية",ratios:"تركيب المؤشرات",clay:"الطين",ferric:"أكاسيد الحديد",ree:"العناصر النادرة (تجريبي)",emit:"EMIT: المعادن (NASA)",none:"بدون"},
-  fam:{copper:"معادن النحاس",ree:"عناصر نادرة",serpentine:"سربنتين",alunite:"ألونيت",kaolinite:"كاولينيت",pyrophyllite:"بيروفيليت",muscovite:"سيريسيت ومسكوفيت",montmorillonite:"مونتموريلونيت",chlorite:"كلوريت",epidote:"إبيدوت",carbonate:"كربونات",gypsum:"جبس",jarosite:"جاروسيت",clay:"طين"},emNc:"لم يصوّره EMIT بعد",reveal:"المواقع المعروفة",
+  fam:{copper:"معادن النحاس",ree:"عناصر نادرة",serpentine:"سربنتين",alunite:"ألونيت",kaolinite:"كاولينيت",pyrophyllite:"بيروفيليت",muscovite:"سيريسيت ومسكوفيت",montmorillonite:"مونتموريلونيت",chlorite:"كلوريت",epidote:"إبيدوت",carbonate:"كربونات",gypsum:"جبس",jarosite:"جاروسيت",clay:"طين"},emNc:"لم يصوّره EMIT بعد",agreeL:{t:n=>`مصادر متفقة: ${n} من 4`,si:"سيليكا (ASTER)",f:"صدع على بعد"},reveal:"المواقع المعروفة",
   tTitle:"الأهداف مرتبة",empty:"لا أهداف في هذه الجهة لهذا النموذج.",
   sel:"اختر هدفاً من الخريطة أو القائمة",rank:"الهدف",area:"هكتار",rel:"القوة",tc:"صورة حقيقية 10 م",geo:"تركيب جيولوجي (SWIR)",
   gm:"Google Maps",copy:"نسخ الإحداثيات",copied:"✓ نُسخت",chipd:d=>`صورة ${d}`,
@@ -280,7 +280,7 @@ const T={
   k:["km² couverts","du terrain en roche affleurante","cibles classées","résolution du levé"],
   all:"Tout",dakhla:"Dakhla - Oued Ed-Dahab",laayoune:"Laâyoune - Sakia El Hamra",
   layers:{model:"Score Madar",base:"Couleurs réelles",ratios:"Composé des indices",clay:"Argiles",ferric:"Oxydes de fer",ree:"Terres rares (expérimental)",emit:"EMIT : minéraux (NASA)",none:"Aucune"},
-  fam:{copper:"Minéraux de cuivre",ree:"Terres rares",serpentine:"Serpentine",alunite:"Alunite",kaolinite:"Kaolinite",pyrophyllite:"Pyrophyllite",muscovite:"Séricite / muscovite",montmorillonite:"Montmorillonite",chlorite:"Chlorite",epidote:"Épidote",carbonate:"Carbonates",gypsum:"Gypse",jarosite:"Jarosite",clay:"Argiles"},emNc:"pas encore imagé par EMIT",reveal:"Sites connus",
+  fam:{copper:"Minéraux de cuivre",ree:"Terres rares",serpentine:"Serpentine",alunite:"Alunite",kaolinite:"Kaolinite",pyrophyllite:"Pyrophyllite",muscovite:"Séricite / muscovite",montmorillonite:"Montmorillonite",chlorite:"Chlorite",epidote:"Épidote",carbonate:"Carbonates",gypsum:"Gypse",jarosite:"Jarosite",clay:"Argiles"},emNc:"pas encore imagé par EMIT",agreeL:{t:n=>`Sources concordantes : ${n} sur 4`,si:"Silice (ASTER)",f:"Faille à"},reveal:"Sites connus",
   tTitle:"Cibles classées",empty:"Aucune cible dans cette région pour ce modèle.",
   sel:"Choisissez une cible sur la carte ou dans la liste",rank:"Cible",area:"ha",rel:"Force",tc:"Couleurs réelles 10 m",geo:"Composé géologique (SWIR)",
   gm:"Google Maps",copy:"Copier les coordonnées",copied:"✓ Copié",chipd:d=>`Image du ${d}`,
@@ -409,9 +409,12 @@ function card(z){const s=$("#sel");if(!z){s.innerHTML=`<p class="empty">${t("sel
   const chips=z.chip_tc?`<div class="chips"><figure><img src="${z.chip_tc}" alt="" loading="lazy"><figcaption>${t("tc")}</figcaption></figure><figure><img src="${z.chip_geo}" alt="" loading="lazy"><figcaption>${t("geo")}</figcaption></figure></div>${z.chip_date?`<div class="cov">${t("chipd")(z.chip_date)}</div>`:""}`:"";
   s.innerHTML=`<div class="card"><div class="top"><b class="num">${t("rank")} ${z.rank}</b><span><i class="dot" style="background:${MCOL[z.model]};display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:6px"></i>${DATA.models[z.model][L]}</span></div>
    <div class="where">${z.where[L]}</div><div class="coord num">${z.lat.toFixed(5)}, ${z.lon.toFixed(5)} · ${dms(z.lat,"N","S")} ${dms(z.lon,"E","W")}</div>
-   <div class="coord">${z.area_ha} ${t("area")} · ${t("rel")} ${z.rel}%</div>${chips}
+   <div class="coord">${z.area_ha} ${t("area")} · ${t("rel")} ${z.rel}%</div>${z.agree?evid(z):""}${chips}
    <div class="acts"><a href="https://www.google.com/maps?q=${z.lat},${z.lon}&t=k" target="_blank" rel="noopener">${t("gm")}</a><button id="cp">${t("copy")}</button></div></div>`;
   $("#cp").onclick=async()=>{try{await navigator.clipboard.writeText(`${z.lat.toFixed(5)}, ${z.lon.toFixed(5)}`);$("#cp").textContent=t("copied")}catch(e){}}}
+function evid(z){const e=z.evidence||{},A=t("agreeL"),on=s=>z.agree.includes(s);
+  const it=(s,lab,val)=>`<span style="display:inline-flex;gap:5px;align-items:center;margin:2px 10px 2px 0;opacity:${on(s)?1:.45}"><b style="color:${on(s)?"#ffd24a":"inherit"}">${on(s)?"✓":"·"}</b>${lab}${val!=null?` <span class="num">${val}</span>`:""}</span>`;
+  return `<div class="coord" style="margin-top:8px">${A.t(z.agree.length)}</div><div class="coord">${it("EMIT","EMIT",e.emit!=null?"z "+e.emit:null)}${it("Sentinel-2","Sentinel-2",e.s2!=null?"z "+e.s2:null)}${it("ASTER",A.si,e.silica!=null?"z "+e.silica:null)}${it("faults",A.f,e.fault_km+" km")}</div>`}
 function rows(){const ol=$("#targets"),M=list();ol.innerHTML=M.length?"":`<li class="empty">${t("empty")}</li>`;
   M.forEach((z,i)=>{const li=document.createElement("li");li.className="trow";li.style.animationDelay=Math.min(i,12)*35+"ms";
     if(SEL&&SEL.model===z.model&&SEL.rank===z.rank&&SEL.region===z.region)li.setAttribute("aria-current","true");
