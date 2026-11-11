@@ -329,7 +329,7 @@ def main():
         picture(fam, depth.astype(np.float32), seen, d / "emit.png")
         info = summarise(s, fam, depth.astype(np.float32), seen, fam_fe)
         info["scenes"] = sorted({(re.search(r"\d{8}T\d{6}", str(u)) or re.search(r".*", str(u))).group(0) for u in used})
-        info["src"] = "NASA EMIT L2B Mineral Identification (EMITL2BMIN v001), LP DAAC"
+        info["src"] = "NASA EMIT L2B Mineral Identification (EMITL2BMIN), LP DAAC"
         s["emit"] = info
         s["images"]["emit.png"] = f"{s['id']}/emit.png"
         top = sorted(info["families"].items(), key=lambda x: -x[1])[:4]
