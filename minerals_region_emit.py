@@ -192,6 +192,11 @@ def gold_score(A, inside):
         share = ndimage.uniform_filter((np.isin(fam, ids) & s).astype(np.float32), WIN + 4) / np.maximum(
             ndimage.uniform_filter(sf, WIN + 4), 1e-3)
         div += share >= 0.03
+    # salt flats: jarosite and clays also form in coastal sabkhas with gypsum, with no gold. Where gypsum covers
+    # more than a few percent around, the alteration is discounted.
+    gyp = ndimage.uniform_filter((fam == F["gypsum"]).astype(np.float32) * sf, WIN + 10) / np.maximum(
+        ndimage.uniform_filter(sf, WIN + 10), 1e-3)
+    dens = dens * (1 - np.clip(gyp * 8, 0, 0.9))
     keep = s & (n > 0.2)
     anom = dens - mr.local_background(dens, keep)
     med, mad = mr.robust_stats(anom, keep)
@@ -295,6 +300,10 @@ def main():
         z = np.load(CACHE, allow_pickle=False)
         A = {"fam": z["fam"].copy(), "depth": z["depth"].astype(np.float32), "seen": z["seen"].copy(),
              "done": [str(x) for x in z["done"]]}
+        if "ver" not in z.files:                     # grids read before the copper fix: drop those answers
+            bad = A["fam"] == me.FAM_ID["copper"]
+            A["fam"][bad], A["depth"][bad] = 0, 0
+            print(f"[sahara-emit] removed {100 * bad.mean():.2f}% old copper answers (lazurite/chrysocolla mix-up)")
     else:
         A = {"fam": np.zeros((h, w), np.uint8), "depth": np.zeros((h, w), np.float32),
              "seen": np.zeros((h, w), bool), "done": []}
@@ -311,7 +320,7 @@ def main():
         print(f"[sahara-emit] read {n} new scenes")
         CACHE.parent.mkdir(parents=True, exist_ok=True)
         np.savez_compressed(CACHE, fam=A["fam"], depth=A["depth"].astype(np.float16), seen=A["seen"],
-                            done=np.array(A["done"]))
+                            done=np.array(A["done"]), ver=np.array(2))
     inside = mr.outline_mask(h, w, RES)
     cov = float((A["seen"] & inside).sum()) / max(int(inside.sum()), 1)
     print(f"[sahara-emit] EMIT coverage of the Sahara area: {100 * cov:.1f}%")

@@ -44,8 +44,10 @@ FAM_ID = {f: k + 1 for k, (f, _) in enumerate(FAMILIES)}
 # iron oxides coat almost every desert surface; they are read apart, so they do not hide the clays and carbonates
 IRON = {FAM_ID[f] for f in ("hematite", "goethite", "iron_oxide", "mafic")}
 MIN_LOCAL, MIN_ENRICH = 0.05, 1.5     # a target "has" a mineral if it covers 5 % around it and 1.5x its share of the site
-NAME_RULES = [("azurite", "copper"), ("malachite", "copper"), ("chrysocolla", "copper"), ("cuprite", "copper"),
-              ("chalcopyrite", "copper"), ("neodymium", "ree"), ("samarium", "ree"), ("praseodym", "ree"),
+# copper: only malachite and azurite have clear SWIR features. Chrysocolla is confused with desert opal crusts,
+# cuprite and chalcopyrite have no SWIR signature, and "lazurite" (a blue silicate) must not match "azurite".
+NO_MATCH = ("lazurite", "chrysocolla", "cuprite", "chalcopyrite")
+NAME_RULES = [("neodymium", "ree"), ("samarium", "ree"), ("praseodym", "ree"),
               ("chrysotile", "serpentine"), ("serpentin", "serpentine"), ("antigorite", "serpentine"), ("talc", "serpentine"),
               ("montmor", "montmorillonite"), ("beidellite", "montmorillonite"), ("nontronite", "montmorillonite"),
               ("actinolite", "chlorite"), ("tremolite", "chlorite"), ("clinochlore", "chlorite"), ("thuringite", "chlorite"),
@@ -74,6 +76,10 @@ CSV_FAM = {}
 
 def family_of_name(name):
     n = name.lower()
+    if n.startswith(("azurite", "malachite")):
+        return FAM_ID["copper"]
+    if n.startswith(NO_MATCH):
+        return 0
     if any(k in n for k in ("plastic", "cyanide", "acid", "wtc", "varnish", "pitch", "tarp", "grass", "plywood",
                             "fiberglass", "polystyrene", "painted", "vegetation", "lichen")):
         return 0
@@ -103,7 +109,12 @@ def lookup():
                 k in name for k in ("plastic", "cyanide", "acid", "wtc", "varnish", "pitch", "tarp")):
             out[int(r["Index"])] = 0
             continue
-        for key, f in NAME_RULES:
+        if name.startswith(("azurite", "malachite")):
+            fam = "copper"
+        elif name.startswith(NO_MATCH):
+            out[int(r["Index"])] = 0
+            continue
+        for key, f in ([] if fam else NAME_RULES):
             if key in name:
                 fam = f
                 break
