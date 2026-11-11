@@ -204,11 +204,28 @@ def main():
     a = ap.parse_args()
     data = json.loads((OUT / "minerals.json").read_text())
     table = lookup()
-    have_login = bool(os.environ.get("EARTHDATA_USERNAME") and os.environ.get("EARTHDATA_PASSWORD"))
+    # trim stray spaces or line breaks pasted into the secrets; say what is wrong without printing them
+    for k in ("EARTHDATA_USERNAME", "EARTHDATA_PASSWORD", "EARTHDATA_TOKEN"):
+        v = os.environ.get(k)
+        if v is not None:
+            if v != v.strip():
+                print(f"[emit] {k} had spaces or a line break at its ends: trimmed")
+            os.environ[k] = v.strip()
+            if not os.environ[k]:
+                del os.environ[k]
+    u = os.environ.get("EARTHDATA_USERNAME", "")
+    print(f"[emit] login check: username {len(u)} chars{' (looks like an email: use the username)' if '@' in u else ''}, "
+          f"password {'set' if os.environ.get('EARTHDATA_PASSWORD') else 'missing'}, "
+          f"token {'set' if os.environ.get('EARTHDATA_TOKEN') else 'not set'}")
+    have_login = bool(os.environ.get("EARTHDATA_TOKEN") or (u and os.environ.get("EARTHDATA_PASSWORD")))
     if have_login:
         import earthaccess
-        earthaccess.login(strategy="environment")
-    else:
+        try:
+            earthaccess.login(strategy="environment")
+        except Exception as e:  # noqa: BLE001
+            print("[emit] NASA refused the login:", e)
+            have_login = False
+    if not have_login:
         print("[emit] no Earthdata login: re-attaching saved layers only")
     for s in data["sites"]:
         d = OUT / s["id"]
