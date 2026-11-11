@@ -1,0 +1,43 @@
+/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/earthaccess/results.py:343: FutureWarning: As of version 1.0, `DataGranule.size` will be accessed as an attribute; e.g. use `DataCollection.size` **not** `DataCollection.size()`
+  self["size"] = self.size()
+[sahara-emit] 2123 EMIT records over the area
+[sahara-emit] 1146 acquisitions, 0 already read
+[sahara-emit] 10 scenes read · 9.9% of the box seen · 30 s
+[sahara-emit] 20 scenes read · 17.0% of the box seen · 58 s
+[sahara-emit] 30 scenes read · 25.6% of the box seen · 85 s
+[sahara-emit] 40 scenes read · 30.0% of the box seen · 110 s
+[sahara-emit] 50 scenes read · 35.5% of the box seen · 135 s
+[sahara-emit] 60 scenes read · 39.7% of the box seen · 161 s
+[sahara-emit] 70 scenes read · 45.3% of the box seen · 187 s
+[sahara-emit] 80 scenes read · 50.1% of the box seen · 220 s
+[sahara-emit] 90 scenes read · 52.1% of the box seen · 257 s
+[sahara-emit] 100 scenes read · 55.6% of the box seen · 284 s
+[sahara-emit] 110 scenes read · 60.8% of the box seen · 313 s
+[sahara-emit] 120 scenes read · 63.2% of the box seen · 337 s
+[sahara-emit] 130 scenes read · 66.9% of the box seen · 362 s
+[sahara-emit] 140 scenes read · 69.7% of the box seen · 387 s
+[sahara-emit] 150 scenes read · 71.6% of the box seen · 412 s
+[sahara-emit] 160 scenes read · 75.0% of the box seen · 437 s
+[sahara-emit] 170 scenes read · 77.2% of the box seen · 464 s
+[sahara-emit] 180 scenes read · 82.0% of the box seen · 490 s
+[sahara-emit] 190 scenes read · 84.1% of the box seen · 517 s
+[sahara-emit] 200 scenes read · 85.8% of the box seen · 543 s
+[sahara-emit] 210 scenes read · 87.4% of the box seen · 569 s
+[sahara-emit] 220 scenes read · 88.7% of the box seen · 594 s
+[sahara-emit] 230 scenes read · 90.9% of the box seen · 634 s
+[sahara-emit] 240 scenes read · 91.9% of the box seen · 662 s
+[sahara-emit] 250 scenes read · 93.0% of the box seen · 689 s
+[sahara-emit] 260 scenes read · 94.9% of the box seen · 714 s
+[sahara-emit] 270 scenes read · 95.1% of the box seen · 741 s
+[sahara-emit] 280 scenes read · 95.4% of the box seen · 765 s
+[sahara-emit] read 280 new scenes
+[sahara-emit] EMIT coverage of the Sahara area: 99.4%
+[gold] dakhla #1 23.13636,-16.18305 peak 53.8 kinds {'carbonate': 7, 'sulphide_weathering': 22} · 68 km S de Dakhla · jarosite (sulfures oxydés), carbonates
+[gold] dakhla #2 23.07187,-16.19194 peak 45.4 kinds {'sulphide_weathering': 91} · 75 km S de Dakhla · jarosite (sulfures oxydés)
+[gold] dakhla #3 22.89171,-16.29732 peak 44.8 kinds {'sulphide_weathering': 87} · 98 km S de Dakhla · jarosite (sulfures oxydés)
+[gold] dakhla #4 21.08513,-17.07847 peak 41.6 kinds {'sulphide_weathering': 57} · 27 km N de Lagouira · jarosite (sulfures oxydés)
+[gold] dakhla #5 23.67831,-16.95717 peak 40.4 kinds {'argillic': 5, 'propylitic': 9, 'sulphide_weathering': 4} · 104 km O de Dakhla · chlorite-épidote, argilique avancée, jarosite (sulfures oxydés)
+[gold] laayoune #1 26.95099,-11.34396 peak 45.5 kinds {'sericite': 87, 'argillic': 11} · 40 km NE de Smara · séricite, argilique avancée
+[gold] laayoune #2 26.38774,-15.43218 peak 44.9 kinds {'carbonate': 4, 'sulphide_weathering': 6} · 99 km O de Boujdour · jarosite (sulfures oxydés), carbonates
+[gold] laayoune #3 26.96457,-11.29521 peak 44.6 kinds {'sericite': 73, 'propylitic': 3, 'sulphide_weathering': 22} · 45 km NE de Smara · séricite, jarosite (sulfures oxydés), chlorite-épidote
+[sahara-emit] gold targets: 60 · families [('carbonate', 29.4), ('muscovite', 22.57), ('kaolinite', 20.13), ('copper', 9.71), ('montmorillonite', 2.06), ('jarosite', 1.75)]
