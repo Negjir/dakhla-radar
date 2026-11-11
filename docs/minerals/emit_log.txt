@@ -6,120 +6,36 @@
 [emit] 8 scenes kept (clearest first)
 [emit] file layout: EMIT_L2B_MIN_002_20230202T114950.nc vars ['group_1_band_depth', 'group_1_mineral_id', 'group_2_band_depth', 'group_2_mineral_id'] groups {'location': ['lon', 'lat', 'elev', 'glt_x', 'glt_y'], 'mineral_metadata': ['index', 'record', 'name', 'sample_name', 'group', 'library']} attrs ['ncei_template_version', 'summary', 'keywords', 'sensor', 'instrument', 'platform', 'Conventions', 'institution', 'license', 'naming_authority', 'date_created', 'keywords_vocabulary', 'stdname_vocabulary', 'creator_name', 'creator_url', 'project', 'project_url', 'publisher_name', 'publisher_url', 'publisher_email']
 [emit] mineral table: 312 entries, 199 mapped to a family
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230202T114950.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230202T114950.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230206T101358.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230206T101358.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_001_20230401T125213_2309109_022.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_001_20230401T125213_2309109_022.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230401T125213.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230401T125213.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_001_20230401T125225_2309109_023.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_001_20230401T125225_2309109_023.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230401T125225.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230401T125225.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_001_20230405T111745_2309508_023.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_001_20230405T111745_2309508_023.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_001_20230624T114804_2317508_003.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_001_20230624T114804_2317508_003.nc
-[emit] imiter: 99.8% imaged · 16 scenes · top [('hematite', 59.41), ('carbonate', 13.85), ('goethite', 9.88), ('kaolinite', 8.73)] · targets with an EMIT mineral: 10/10
+[emit] file layout: EMIT_L2B_MIN_002_20230202T114950.nc vars ['group_1_band_depth', 'group_1_mineral_id', 'group_2_band_depth', 'group_2_mineral_id'] groups {'location': ['lon', 'lat', 'elev', 'glt_x', 'glt_y'], 'mineral_metadata': ['index', 'record', 'name', 'sample_name', 'group', 'library']} attrs ['ncei_template_version', 'summary', 'keywords', 'sensor', 'instrument', 'platform', 'Conventions', 'institution', 'license', 'naming_authority', 'date_created', 'keywords_vocabulary', 'stdname_vocabulary', 'creator_name', 'creator_url', 'project', 'project_url', 'publisher_name', 'publisher_url', 'publisher_email']
+[emit] mineral table: 312 entries, 199 mapped to a family
+[emit] imiter: 99.8% imaged · 6 scenes · top [('carbonate', 54.48), ('kaolinite', 30.3), ('muscovite', 14.81), ('montmorillonite', 0.23)] · targets with a concentrated EMIT mineral: 10/10 ['T1:muscovitex6.6', 'T2:carbonatex1.6', 'T3:carbonatex1.8', 'T4:muscovitex2.8', 'T5:kaolinitex3.1', 'T6:kaolinitex2.9', 'T7:muscovitex6.8', 'T8:carbonatex1.8', 'T9:kaolinitex2.3', 'T10:muscovitex6.2']
 [emit] 8 scenes kept (clearest first)
-[emit] file layout: EMIT_L2B_MIN_001_20230129T132724_2302909_020.nc vars ['group_1_band_depth', 'group_1_mineral_id', 'group_2_band_depth', 'group_2_mineral_id'] groups {'location': ['lon', 'lat', 'elev', 'glt_x', 'glt_y'], 'mineral_metadata': ['index', 'record', 'name', 'url', 'group', 'library']} attrs ['ncei_template_version', 'summary', 'keywords', 'Conventions', 'sensor', 'instrument', 'platform', 'institution', 'license', 'naming_authority', 'date_created', 'keywords_vocabulary', 'stdname_vocabulary', 'creator_name', 'creator_url', 'project', 'project_url', 'publisher_name', 'publisher_url', 'publisher_email']
-[emit] mineral table: 294 entries, 195 mapped to a family
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_001_20230129T132724_2302909_020.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_001_20230129T132724_2302909_020.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230129T132724.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230129T132724.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230206T101334.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230206T101334.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_001_20230401T125201_2309109_021.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_001_20230401T125201_2309109_021.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230401T125201.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230401T125201.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230405T111721.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230405T111721.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230616T150315.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230616T150315.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230923T153507.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230923T153507.nc
-[emit] bouazzer: 99.6% imaged · 16 scenes · top [('hematite', 73.62), ('muscovite', 9.6), ('goethite', 6.21), ('carbonate', 3.83)] · targets with an EMIT mineral: 10/10
+[emit] file layout: EMIT_L2B_MIN_002_20230129T132724.nc vars ['group_1_band_depth', 'group_1_mineral_id', 'group_2_band_depth', 'group_2_mineral_id'] groups {'location': ['lon', 'lat', 'elev', 'glt_x', 'glt_y'], 'mineral_metadata': ['index', 'record', 'name', 'sample_name', 'group', 'library']} attrs ['ncei_template_version', 'summary', 'keywords', 'sensor', 'instrument', 'platform', 'Conventions', 'institution', 'license', 'naming_authority', 'date_created', 'keywords_vocabulary', 'stdname_vocabulary', 'creator_name', 'creator_url', 'project', 'project_url', 'publisher_name', 'publisher_url', 'publisher_email']
+[emit] mineral table: 312 entries, 199 mapped to a family
+[emit] file layout: EMIT_L2B_MIN_002_20230129T132724.nc vars ['group_1_band_depth', 'group_1_mineral_id', 'group_2_band_depth', 'group_2_mineral_id'] groups {'location': ['lon', 'lat', 'elev', 'glt_x', 'glt_y'], 'mineral_metadata': ['index', 'record', 'name', 'sample_name', 'group', 'library']} attrs ['ncei_template_version', 'summary', 'keywords', 'sensor', 'instrument', 'platform', 'Conventions', 'institution', 'license', 'naming_authority', 'date_created', 'keywords_vocabulary', 'stdname_vocabulary', 'creator_name', 'creator_url', 'project', 'project_url', 'publisher_name', 'publisher_url', 'publisher_email']
+[emit] mineral table: 312 entries, 199 mapped to a family
+[emit] bouazzer: 99.6% imaged · 6 scenes · top [('muscovite', 50.79), ('carbonate', 20.63), ('kaolinite', 20.02), ('chlorite', 3.54)] · targets with a concentrated EMIT mineral: 10/10 ['T1:carbonatex4.8', 'T2:serpentinex73.9', 'T3:chloritex7.5', 'T4:carbonatex4.7', 'T5:carbonatex4.8', 'T6:serpentinex26.1', 'T7:kaolinitex5.0', 'T8:muscovitex1.9', 'T9:carbonatex4.0', 'T10:carbonatex4.6']
 [emit] 8 scenes kept (clearest first)
 [emit] file layout: EMIT_L2B_MIN_002_20230223T124832.nc vars ['group_1_band_depth', 'group_1_mineral_id', 'group_2_band_depth', 'group_2_mineral_id'] groups {'location': ['lon', 'lat', 'elev', 'glt_x', 'glt_y'], 'mineral_metadata': ['index', 'record', 'name', 'sample_name', 'group', 'library']} attrs ['ncei_template_version', 'summary', 'keywords', 'sensor', 'instrument', 'platform', 'Conventions', 'institution', 'license', 'naming_authority', 'date_created', 'keywords_vocabulary', 'stdname_vocabulary', 'creator_name', 'creator_url', 'project', 'project_url', 'publisher_name', 'publisher_url', 'publisher_email']
 [emit] mineral table: 312 entries, 199 mapped to a family
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230223T124832.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230223T124832.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230227T111418.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230227T111418.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230227T111430.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230227T111430.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230303T093931.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230303T093931.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230426T121458.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230426T121458.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230605T105949.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230605T105949.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20231018T145535.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20231018T145535.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20231026T114453.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20231026T114453.nc
-[emit] kediet: 99.6% imaged · 16 scenes · top [('hematite', 98.74), ('goethite', 0.89), ('kaolinite', 0.26), ('carbonate', 0.06)] · targets with an EMIT mineral: 10/10
+[emit] file layout: EMIT_L2B_MIN_002_20230223T124832.nc vars ['group_1_band_depth', 'group_1_mineral_id', 'group_2_band_depth', 'group_2_mineral_id'] groups {'location': ['lon', 'lat', 'elev', 'glt_x', 'glt_y'], 'mineral_metadata': ['index', 'record', 'name', 'sample_name', 'group', 'library']} attrs ['ncei_template_version', 'summary', 'keywords', 'sensor', 'instrument', 'platform', 'Conventions', 'institution', 'license', 'naming_authority', 'date_created', 'keywords_vocabulary', 'stdname_vocabulary', 'creator_name', 'creator_url', 'project', 'project_url', 'publisher_name', 'publisher_url', 'publisher_email']
+[emit] mineral table: 312 entries, 199 mapped to a family
+[emit] kediet: 99.6% imaged · 8 scenes · top [('kaolinite', 61.0), ('muscovite', 21.68), ('montmorillonite', 9.07), ('carbonate', 6.1)] · targets with a concentrated EMIT mineral: 10/10 ['T1:montmorillonitex2.7', 'T2:kaolinitex1.6', 'T3:kaolinitex1.5', 'T4:montmorillonitex5.6', 'T5:montmorillonitex6.1', 'T6:kaolinitex1.6', 'T7:jarositex3.4', 'T8:kaolinitex1.6', 'T9:kaolinitex1.6', 'T10:jarositex11.2']
 [emit] 8 scenes kept (clearest first)
 [emit] file layout: EMIT_L2B_MIN_002_20230125T150158.nc vars ['group_1_band_depth', 'group_1_mineral_id', 'group_2_band_depth', 'group_2_mineral_id'] groups {'location': ['lon', 'lat', 'elev', 'glt_x', 'glt_y'], 'mineral_metadata': ['index', 'record', 'name', 'sample_name', 'group', 'library']} attrs ['ncei_template_version', 'summary', 'keywords', 'sensor', 'instrument', 'platform', 'Conventions', 'institution', 'license', 'naming_authority', 'date_created', 'keywords_vocabulary', 'stdname_vocabulary', 'creator_name', 'creator_url', 'project', 'project_url', 'publisher_name', 'publisher_url', 'publisher_email']
 [emit] mineral table: 312 entries, 199 mapped to a family
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230125T150158.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230125T150158.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230503T094824.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230503T094824.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230503T094836.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230503T094836.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230923T153210.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230923T153210.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20231201T122115.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20231201T122115.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20240520T162828.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20240520T162828.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230129T132427.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230129T132427.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230817T154128.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230817T154128.nc
-[emit] twihinate: 99.6% imaged · 16 scenes · top [('hematite', 67.77), ('goethite', 30.16), ('kaolinite', 1.07), ('carbonate', 0.54)] · targets with an EMIT mineral: 10/10
+[emit] file layout: EMIT_L2B_MIN_002_20230125T150158.nc vars ['group_1_band_depth', 'group_1_mineral_id', 'group_2_band_depth', 'group_2_mineral_id'] groups {'location': ['lon', 'lat', 'elev', 'glt_x', 'glt_y'], 'mineral_metadata': ['index', 'record', 'name', 'sample_name', 'group', 'library']} attrs ['ncei_template_version', 'summary', 'keywords', 'sensor', 'instrument', 'platform', 'Conventions', 'institution', 'license', 'naming_authority', 'date_created', 'keywords_vocabulary', 'stdname_vocabulary', 'creator_name', 'creator_url', 'project', 'project_url', 'publisher_name', 'publisher_url', 'publisher_email']
+[emit] mineral table: 312 entries, 199 mapped to a family
+[emit] twihinate: 99.6% imaged · 8 scenes · top [('muscovite', 46.6), ('kaolinite', 34.41), ('carbonate', 18.93), ('serpentine', 0.04)] · targets with a concentrated EMIT mineral: 10/10 ['T1:kaolinitex2.9', 'T2:kaolinitex2.9', 'T3:kaolinitex2.9', 'T4:kaolinitex1.9', 'T5:kaolinitex2.6', 'T6:kaolinitex2.8', 'T7:kaolinitex2.9', 'T8:kaolinitex2.9', 'T9:kaolinitex2.1', 'T10:kaolinitex2.9']
 [emit] 8 scenes kept (clearest first)
 [emit] file layout: EMIT_L2B_MIN_002_20230328T142400.nc vars ['group_1_band_depth', 'group_1_mineral_id', 'group_2_band_depth', 'group_2_mineral_id'] groups {'location': ['lon', 'lat', 'elev', 'glt_x', 'glt_y'], 'mineral_metadata': ['index', 'record', 'name', 'sample_name', 'group', 'library']} attrs ['ncei_template_version', 'summary', 'keywords', 'sensor', 'instrument', 'platform', 'Conventions', 'institution', 'license', 'naming_authority', 'date_created', 'keywords_vocabulary', 'stdname_vocabulary', 'creator_name', 'creator_url', 'project', 'project_url', 'publisher_name', 'publisher_url', 'publisher_email']
 [emit] mineral table: 312 entries, 199 mapped to a family
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230328T142400.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230328T142400.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230328T142412.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230328T142412.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230401T124903.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230401T124903.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230405T111424.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230405T111424.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230528T141539.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230528T141539.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20261001T103106.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20261001T103106.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20261001T103055.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20261001T103055.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230202T114641.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230202T114641.nc
-[emit] lafhouda: 99.6% imaged · 16 scenes · top [('hematite', 81.7), ('muscovite', 11.62), ('carbonate', 2.96), ('kaolinite', 2.14)] · targets with an EMIT mineral: 10/10
+[emit] file layout: EMIT_L2B_MIN_002_20230328T142400.nc vars ['group_1_band_depth', 'group_1_mineral_id', 'group_2_band_depth', 'group_2_mineral_id'] groups {'location': ['lon', 'lat', 'elev', 'glt_x', 'glt_y'], 'mineral_metadata': ['index', 'record', 'name', 'sample_name', 'group', 'library']} attrs ['ncei_template_version', 'summary', 'keywords', 'sensor', 'instrument', 'platform', 'Conventions', 'institution', 'license', 'naming_authority', 'date_created', 'keywords_vocabulary', 'stdname_vocabulary', 'creator_name', 'creator_url', 'project', 'project_url', 'publisher_name', 'publisher_url', 'publisher_email']
+[emit] mineral table: 312 entries, 199 mapped to a family
+[emit] lafhouda: 99.6% imaged · 8 scenes · top [('muscovite', 75.68), ('carbonate', 14.75), ('kaolinite', 8.2), ('chlorite', 1.04)] · targets with a concentrated EMIT mineral: 9/10 ['T1:chloritex15.8', 'T2:chloritex29.6', 'T4:kaolinitex5.5', 'T5:montmorillonitex155.1', 'T6:kaolinitex9.5', 'T7:kaolinitex4.7', 'T8:kaolinitex8.5', 'T9:carbonatex1.8', 'T10:carbonatex6.2']
 [emit] 8 scenes kept (clearest first)
 [emit] file layout: EMIT_L2B_MIN_002_20230219T142216.nc vars ['group_1_band_depth', 'group_1_mineral_id', 'group_2_band_depth', 'group_2_mineral_id'] groups {'location': ['lon', 'lat', 'elev', 'glt_x', 'glt_y'], 'mineral_metadata': ['index', 'record', 'name', 'sample_name', 'group', 'library']} attrs ['ncei_template_version', 'summary', 'keywords', 'sensor', 'instrument', 'platform', 'Conventions', 'institution', 'license', 'naming_authority', 'date_created', 'keywords_vocabulary', 'stdname_vocabulary', 'creator_name', 'creator_url', 'project', 'project_url', 'publisher_name', 'publisher_url', 'publisher_email']
 [emit] mineral table: 312 entries, 199 mapped to a family
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230219T142216.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230219T142216.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230328T142424.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230328T142424.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230328T142435.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230328T142435.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230418T152905.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230418T152905.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230528T141602.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230528T141602.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230923T153234.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230923T153234.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_002_20230923T153245.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_002_20230923T153245.nc
-[emit] missing group 1 in EMIT_L2B_MINUNCERT_001_20230902T091728_2324506_005.nc
-[emit] missing group 2 in EMIT_L2B_MINUNCERT_001_20230902T091728_2324506_005.nc
-[emit] anzarane: 99.6% imaged · 16 scenes · top [('hematite', 86.27), ('kaolinite', 7.66), ('goethite', 5.03), ('carbonate', 0.89)] · targets with an EMIT mineral: 10/10
+[emit] file layout: EMIT_L2B_MIN_002_20230219T142216.nc vars ['group_1_band_depth', 'group_1_mineral_id', 'group_2_band_depth', 'group_2_mineral_id'] groups {'location': ['lon', 'lat', 'elev', 'glt_x', 'glt_y'], 'mineral_metadata': ['index', 'record', 'name', 'sample_name', 'group', 'library']} attrs ['ncei_template_version', 'summary', 'keywords', 'sensor', 'instrument', 'platform', 'Conventions', 'institution', 'license', 'naming_authority', 'date_created', 'keywords_vocabulary', 'stdname_vocabulary', 'creator_name', 'creator_url', 'project', 'project_url', 'publisher_name', 'publisher_url', 'publisher_email']
+[emit] mineral table: 312 entries, 199 mapped to a family
+[emit] anzarane: 99.6% imaged · 8 scenes · top [('kaolinite', 84.89), ('muscovite', 12.6), ('carbonate', 1.29), ('montmorillonite', 0.79)] · targets with a concentrated EMIT mineral: 1/10 ['T10:jarositex166.7']

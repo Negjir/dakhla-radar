@@ -41,8 +41,8 @@
      "emit": {
       "cov": true,
       "fam": "muscovite",
-      "pct": 96,
-      "depth": 0.248
+      "pct": 98,
+      "x": 6.6
      }
     },
     {
@@ -57,9 +57,9 @@
      "ring_km": null,
      "emit": {
       "cov": true,
-      "fam": "hematite",
-      "pct": 56,
-      "depth": 0.075
+      "fam": "carbonate",
+      "pct": 88,
+      "x": 1.6
      }
     },
     {
@@ -74,9 +74,9 @@
      "ring_km": null,
      "emit": {
       "cov": true,
-      "fam": "hematite",
-      "pct": 96,
-      "depth": 0.103
+      "fam": "carbonate",
+      "pct": 100,
+      "x": 1.8
      }
     },
     {
@@ -91,9 +91,9 @@
      "ring_km": null,
      "emit": {
       "cov": true,
-      "fam": "kaolinite",
-      "pct": 56,
-      "depth": 0.258
+      "fam": "muscovite",
+      "pct": 41,
+      "x": 2.8
      }
     },
     {
@@ -109,8 +109,8 @@
      "emit": {
       "cov": true,
       "fam": "kaolinite",
-      "pct": 89,
-      "depth": 0.245
+      "pct": 94,
+      "x": 3.1
      }
     },
     {
@@ -126,8 +126,8 @@
      "emit": {
       "cov": true,
       "fam": "kaolinite",
-      "pct": 86,
-      "depth": 0.252
+      "pct": 88,
+      "x": 2.9
      }
     },
     {
@@ -144,7 +144,7 @@
       "cov": true,
       "fam": "muscovite",
       "pct": 100,
-      "depth": 0.226
+      "x": 6.8
      }
     },
     {
@@ -159,9 +159,9 @@
      "ring_km": null,
      "emit": {
       "cov": true,
-      "fam": "hematite",
-      "pct": 86,
-      "depth": 0.229
+      "fam": "carbonate",
+      "pct": 100,
+      "x": 1.8
      }
     },
     {
@@ -176,9 +176,9 @@
      "ring_km": null,
      "emit": {
       "cov": true,
-      "fam": "hematite",
-      "pct": 100,
-      "depth": 0.295
+      "fam": "kaolinite",
+      "pct": 69,
+      "x": 2.3
      }
     },
     {
@@ -194,8 +194,8 @@
      "emit": {
       "cov": true,
       "fam": "muscovite",
-      "pct": 95,
-      "depth": 0.204
+      "pct": 92,
+      "x": 6.2
      }
     }
    ],
@@ -276,38 +276,31 @@
    "emit": {
     "coverage_pct": 99.8,
     "families": {
-     "copper": 0.0,
-     "serpentine": 0.0,
-     "kaolinite": 8.73,
-     "pyrophyllite": 0.0,
-     "muscovite": 7.62,
-     "montmorillonite": 0.01,
-     "chlorite": 0.09,
+     "carbonate": 54.48,
+     "kaolinite": 30.3,
+     "muscovite": 14.81,
+     "montmorillonite": 0.23,
+     "chlorite": 0.12,
+     "jarosite": 0.02,
      "epidote": 0.0,
-     "carbonate": 13.85,
-     "jarosite": 0.01,
-     "hematite": 59.41,
-     "goethite": 9.88,
-     "iron_oxide": 0.33,
-     "mafic": 0.06
+     "copper": 0.0,
+     "alunite": 0.0,
+     "serpentine": 0.0,
+     "pyrophyllite": 0.0
+    },
+    "iron": {
+     "hematite": 81.84,
+     "goethite": 16.65,
+     "mafic": 0.65,
+     "iron_oxide": 0.63
     },
     "scenes": [
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
+     "20230202T114950",
+     "20230206T101358",
      "20230401T125213",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
      "20230401T125225",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
      "20230405T111745",
-     "EMIT_L2B_MINUNC",
-     "20230624T114804",
-     "EMIT_L2B_MINUNC"
+     "20230624T114804"
     ],
     "src": "NASA EMIT L2B Mineral Identification (EMITL2BMIN v001), LP DAAC"
    }
@@ -347,9 +340,9 @@
      "ring_km": 20.09,
      "emit": {
       "cov": true,
-      "fam": "serpentine",
-      "pct": 53,
-      "depth": 0.287
+      "fam": "carbonate",
+      "pct": 100,
+      "x": 4.8
      }
     },
     {
@@ -365,8 +358,8 @@
      "emit": {
       "cov": true,
       "fam": "serpentine",
-      "pct": 100,
-      "depth": 0.208
+      "pct": 35,
+      "x": 73.9
      }
     },
     {
@@ -381,9 +374,9 @@
      "ring_km": 11.14,
      "emit": {
       "cov": true,
-      "fam": "serpentine",
-      "pct": 43,
-      "depth": 0.232
+      "fam": "chlorite",
+      "pct": 27,
+      "x": 7.5
      }
     },
     {
@@ -398,9 +391,9 @@
      "ring_km": 14.6,
      "emit": {
       "cov": true,
-      "fam": "serpentine",
-      "pct": 95,
-      "depth": 0.287
+      "fam": "carbonate",
+      "pct": 98,
+      "x": 4.7
      }
     },
     {
@@ -415,9 +408,9 @@
      "ring_km": 28.19,
      "emit": {
       "cov": true,
-      "fam": "serpentine",
-      "pct": 74,
-      "depth": 0.377
+      "fam": "carbonate",
+      "pct": 100,
+      "x": 4.8
      }
     },
     {
@@ -433,8 +426,8 @@
      "emit": {
       "cov": true,
       "fam": "serpentine",
-      "pct": 80,
-      "depth": 0.207
+      "pct": 12,
+      "x": 26.1
      }
     },
     {
@@ -449,9 +442,9 @@
      "ring_km": 15.7,
      "emit": {
       "cov": true,
-      "fam": "hematite",
+      "fam": "kaolinite",
       "pct": 100,
-      "depth": 0.22
+      "x": 5.0
      }
     },
     {
@@ -467,8 +460,8 @@
      "emit": {
       "cov": true,
       "fam": "muscovite",
-      "pct": 64,
-      "depth": 0.152
+      "pct": 96,
+      "x": 1.9
      }
     },
     {
@@ -483,9 +476,9 @@
      "ring_km": 11.33,
      "emit": {
       "cov": true,
-      "fam": "serpentine",
-      "pct": 48,
-      "depth": 0.234
+      "fam": "carbonate",
+      "pct": 82,
+      "x": 4.0
      }
     },
     {
@@ -501,8 +494,8 @@
      "emit": {
       "cov": true,
       "fam": "carbonate",
-      "pct": 62,
-      "depth": 0.269
+      "pct": 96,
+      "x": 4.6
      }
     }
    ],
@@ -602,37 +595,30 @@
    "emit": {
     "coverage_pct": 99.6,
     "families": {
-     "serpentine": 1.15,
-     "kaolinite": 1.92,
-     "pyrophyllite": 0.0,
-     "muscovite": 9.6,
-     "montmorillonite": 0.17,
-     "chlorite": 3.12,
-     "epidote": 0.27,
-     "carbonate": 3.83,
-     "jarosite": 0.0,
-     "hematite": 73.62,
-     "goethite": 6.21,
-     "iron_oxide": 0.04,
-     "mafic": 0.03
+     "muscovite": 50.79,
+     "carbonate": 20.63,
+     "kaolinite": 20.02,
+     "chlorite": 3.54,
+     "montmorillonite": 2.85,
+     "serpentine": 0.47,
+     "jarosite": 0.14,
+     "copper": 0.0,
+     "gypsum": 0.0,
+     "clay": 0.0
+    },
+    "iron": {
+     "hematite": 87.29,
+     "goethite": 10.36,
+     "iron_oxide": 0.51,
+     "mafic": 0.36
     },
     "scenes": [
      "20230129T132724",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
+     "20230206T101334",
      "20230401T125201",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC"
+     "20230405T111721",
+     "20230616T150315",
+     "20230923T153507"
     ],
     "src": "NASA EMIT L2B Mineral Identification (EMITL2BMIN v001), LP DAAC"
    }
@@ -672,9 +658,9 @@
      "ring_km": 5.07,
      "emit": {
       "cov": true,
-      "fam": "hematite",
-      "pct": 62,
-      "depth": 0.225
+      "fam": "montmorillonite",
+      "pct": 24,
+      "x": 2.7
      }
     },
     {
@@ -689,9 +675,9 @@
      "ring_km": 4.19,
      "emit": {
       "cov": true,
-      "fam": "hematite",
-      "pct": 58,
-      "depth": 0.243
+      "fam": "kaolinite",
+      "pct": 96,
+      "x": 1.6
      }
     },
     {
@@ -706,9 +692,9 @@
      "ring_km": 0.51,
      "emit": {
       "cov": true,
-      "fam": "hematite",
-      "pct": 100,
-      "depth": 0.202
+      "fam": "kaolinite",
+      "pct": 94,
+      "x": 1.5
      }
     },
     {
@@ -723,9 +709,9 @@
      "ring_km": 3.35,
      "emit": {
       "cov": true,
-      "fam": "hematite",
-      "pct": 100,
-      "depth": 0.227
+      "fam": "montmorillonite",
+      "pct": 51,
+      "x": 5.6
      }
     },
     {
@@ -740,9 +726,9 @@
      "ring_km": 7.0,
      "emit": {
       "cov": true,
-      "fam": "goethite",
-      "pct": 63,
-      "depth": 0.255
+      "fam": "montmorillonite",
+      "pct": 55,
+      "x": 6.1
      }
     },
     {
@@ -757,9 +743,9 @@
      "ring_km": 5.82,
      "emit": {
       "cov": true,
-      "fam": "hematite",
-      "pct": 62,
-      "depth": 0.225
+      "fam": "kaolinite",
+      "pct": 96,
+      "x": 1.6
      }
     },
     {
@@ -774,9 +760,9 @@
      "ring_km": 1.52,
      "emit": {
       "cov": true,
-      "fam": "hematite",
-      "pct": 100,
-      "depth": 0.231
+      "fam": "jarosite",
+      "pct": 6,
+      "x": 3.4
      }
     },
     {
@@ -791,9 +777,9 @@
      "ring_km": 3.99,
      "emit": {
       "cov": true,
-      "fam": "goethite",
-      "pct": 51,
-      "depth": 0.263
+      "fam": "kaolinite",
+      "pct": 100,
+      "x": 1.6
      }
     },
     {
@@ -808,9 +794,9 @@
      "ring_km": 7.54,
      "emit": {
       "cov": true,
-      "fam": "hematite",
+      "fam": "kaolinite",
       "pct": 100,
-      "depth": 0.197
+      "x": 1.6
      }
     },
     {
@@ -825,9 +811,9 @@
      "ring_km": 4.47,
      "emit": {
       "cov": true,
-      "fam": "hematite",
-      "pct": 100,
-      "depth": 0.207
+      "fam": "jarosite",
+      "pct": 20,
+      "x": 11.2
      }
     }
    ],
@@ -930,35 +916,31 @@
    "emit": {
     "coverage_pct": 99.6,
     "families": {
-     "serpentine": 0.01,
-     "kaolinite": 0.26,
-     "muscovite": 0.01,
-     "montmorillonite": 0.0,
-     "chlorite": 0.02,
-     "carbonate": 0.06,
-     "jarosite": 0.0,
-     "hematite": 98.74,
-     "goethite": 0.89,
+     "kaolinite": 61.0,
+     "muscovite": 21.68,
+     "montmorillonite": 9.07,
+     "carbonate": 6.1,
+     "jarosite": 1.82,
+     "chlorite": 0.29,
+     "serpentine": 0.02,
+     "pyrophyllite": 0.0,
+     "clay": 0.0
+    },
+    "iron": {
+     "hematite": 99.09,
+     "goethite": 0.9,
      "iron_oxide": 0.01,
      "mafic": 0.0
     },
     "scenes": [
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC"
+     "20230223T124832",
+     "20230227T111418",
+     "20230227T111430",
+     "20230303T093931",
+     "20230426T121458",
+     "20230605T105949",
+     "20231018T145535",
+     "20231026T114453"
     ],
     "src": "NASA EMIT L2B Mineral Identification (EMITL2BMIN v001), LP DAAC"
    }
@@ -998,9 +980,9 @@
      "ring_km": 1.25,
      "emit": {
       "cov": true,
-      "fam": "goethite",
-      "pct": 78,
-      "depth": 0.135
+      "fam": "kaolinite",
+      "pct": 100,
+      "x": 2.9
      }
     },
     {
@@ -1015,9 +997,9 @@
      "ring_km": 0.75,
      "emit": {
       "cov": true,
-      "fam": "goethite",
-      "pct": 90,
-      "depth": 0.135
+      "fam": "kaolinite",
+      "pct": 100,
+      "x": 2.9
      }
     },
     {
@@ -1032,9 +1014,9 @@
      "ring_km": 1.53,
      "emit": {
       "cov": true,
-      "fam": "goethite",
-      "pct": 79,
-      "depth": 0.134
+      "fam": "kaolinite",
+      "pct": 100,
+      "x": 2.9
      }
     },
     {
@@ -1049,9 +1031,9 @@
      "ring_km": 7.09,
      "emit": {
       "cov": true,
-      "fam": "goethite",
-      "pct": 83,
-      "depth": 0.124
+      "fam": "kaolinite",
+      "pct": 65,
+      "x": 1.9
      }
     },
     {
@@ -1066,9 +1048,9 @@
      "ring_km": 10.01,
      "emit": {
       "cov": true,
-      "fam": "goethite",
-      "pct": 63,
-      "depth": 0.125
+      "fam": "kaolinite",
+      "pct": 88,
+      "x": 2.6
      }
     },
     {
@@ -1083,9 +1065,9 @@
      "ring_km": 5.48,
      "emit": {
       "cov": true,
-      "fam": "goethite",
-      "pct": 91,
-      "depth": 0.125
+      "fam": "kaolinite",
+      "pct": 98,
+      "x": 2.8
      }
     },
     {
@@ -1100,9 +1082,9 @@
      "ring_km": 0.49,
      "emit": {
       "cov": true,
-      "fam": "goethite",
-      "pct": 74,
-      "depth": 0.126
+      "fam": "kaolinite",
+      "pct": 100,
+      "x": 2.9
      }
     },
     {
@@ -1117,9 +1099,9 @@
      "ring_km": 1.83,
      "emit": {
       "cov": true,
-      "fam": "hematite",
-      "pct": 54,
-      "depth": 0.122
+      "fam": "kaolinite",
+      "pct": 100,
+      "x": 2.9
      }
     },
     {
@@ -1134,9 +1116,9 @@
      "ring_km": 11.02,
      "emit": {
       "cov": true,
-      "fam": "hematite",
-      "pct": 68,
-      "depth": 0.12
+      "fam": "kaolinite",
+      "pct": 73,
+      "x": 2.1
      }
     },
     {
@@ -1151,9 +1133,9 @@
      "ring_km": 1.04,
      "emit": {
       "cov": true,
-      "fam": "goethite",
-      "pct": 74,
-      "depth": 0.126
+      "fam": "kaolinite",
+      "pct": 100,
+      "x": 2.9
      }
     }
    ],
@@ -1252,31 +1234,28 @@
    "emit": {
     "coverage_pct": 99.6,
     "families": {
-     "kaolinite": 1.07,
-     "muscovite": 0.45,
-     "carbonate": 0.54,
-     "hematite": 67.77,
-     "goethite": 30.16,
-     "iron_oxide": 0.0,
-     "mafic": 0.0
+     "muscovite": 46.6,
+     "kaolinite": 34.41,
+     "carbonate": 18.93,
+     "serpentine": 0.04,
+     "montmorillonite": 0.01,
+     "chlorite": 0.0
+    },
+    "iron": {
+     "hematite": 69.16,
+     "goethite": 30.84,
+     "mafic": 0.0,
+     "iron_oxide": 0.0
     },
     "scenes": [
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC"
+     "20230125T150158",
+     "20230129T132427",
+     "20230503T094824",
+     "20230503T094836",
+     "20230817T154128",
+     "20230923T153210",
+     "20231201T122115",
+     "20240520T162828"
     ],
     "src": "NASA EMIT L2B Mineral Identification (EMITL2BMIN v001), LP DAAC"
    }
@@ -1316,9 +1295,9 @@
      "ring_km": 15.91,
      "emit": {
       "cov": true,
-      "fam": "carbonate",
-      "pct": 86,
-      "depth": 0.132
+      "fam": "chlorite",
+      "pct": 16,
+      "x": 15.8
      }
     },
     {
@@ -1333,9 +1312,9 @@
      "ring_km": 19.01,
      "emit": {
       "cov": true,
-      "fam": "carbonate",
-      "pct": 43,
-      "depth": 0.109
+      "fam": "chlorite",
+      "pct": 31,
+      "x": 29.6
      }
     },
     {
@@ -1350,9 +1329,7 @@
      "ring_km": 13.14,
      "emit": {
       "cov": true,
-      "fam": "hematite",
-      "pct": 73,
-      "depth": 0.076
+      "fam": null
      }
     },
     {
@@ -1367,9 +1344,9 @@
      "ring_km": 0.32,
      "emit": {
       "cov": true,
-      "fam": "muscovite",
-      "pct": 44,
-      "depth": 0.101
+      "fam": "kaolinite",
+      "pct": 45,
+      "x": 5.5
      }
     },
     {
@@ -1384,9 +1361,9 @@
      "ring_km": 15.28,
      "emit": {
       "cov": true,
-      "fam": "kaolinite",
-      "pct": 49,
-      "depth": 0.069
+      "fam": "montmorillonite",
+      "pct": 18,
+      "x": 155.1
      }
     },
     {
@@ -1401,9 +1378,9 @@
      "ring_km": 8.84,
      "emit": {
       "cov": true,
-      "fam": "hematite",
-      "pct": 62,
-      "depth": 0.071
+      "fam": "kaolinite",
+      "pct": 78,
+      "x": 9.5
      }
     },
     {
@@ -1418,9 +1395,9 @@
      "ring_km": 0.35,
      "emit": {
       "cov": true,
-      "fam": "muscovite",
-      "pct": 35,
-      "depth": 0.105
+      "fam": "kaolinite",
+      "pct": 39,
+      "x": 4.7
      }
     },
     {
@@ -1435,9 +1412,9 @@
      "ring_km": 9.59,
      "emit": {
       "cov": true,
-      "fam": "hematite",
-      "pct": 40,
-      "depth": 0.081
+      "fam": "kaolinite",
+      "pct": 69,
+      "x": 8.5
      }
     },
     {
@@ -1452,9 +1429,9 @@
      "ring_km": 10.61,
      "emit": {
       "cov": true,
-      "fam": "hematite",
-      "pct": 64,
-      "depth": 0.101
+      "fam": "carbonate",
+      "pct": 27,
+      "x": 1.8
      }
     },
     {
@@ -1469,9 +1446,9 @@
      "ring_km": 8.31,
      "emit": {
       "cov": true,
-      "fam": "hematite",
-      "pct": 100,
-      "depth": 0.073
+      "fam": "carbonate",
+      "pct": 92,
+      "x": 6.2
      }
     }
    ],
@@ -1547,34 +1524,28 @@
    "emit": {
     "coverage_pct": 99.6,
     "families": {
-     "serpentine": 0.03,
-     "kaolinite": 2.14,
-     "muscovite": 11.62,
-     "montmorillonite": 0.02,
-     "chlorite": 0.98,
-     "carbonate": 2.96,
-     "hematite": 81.7,
-     "goethite": 0.49,
-     "iron_oxide": 0.05,
-     "mafic": 0.01
+     "muscovite": 75.68,
+     "carbonate": 14.75,
+     "kaolinite": 8.2,
+     "chlorite": 1.04,
+     "serpentine": 0.22,
+     "montmorillonite": 0.12
+    },
+    "iron": {
+     "hematite": 99.09,
+     "goethite": 0.82,
+     "iron_oxide": 0.07,
+     "mafic": 0.02
     },
     "scenes": [
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC"
+     "20230202T114641",
+     "20230328T142400",
+     "20230328T142412",
+     "20230401T124903",
+     "20230405T111424",
+     "20230528T141539",
+     "20261001T103055",
+     "20261001T103106"
     ],
     "src": "NASA EMIT L2B Mineral Identification (EMITL2BMIN v001), LP DAAC"
    }
@@ -1614,9 +1585,7 @@
      "ring_km": 0.38,
      "emit": {
       "cov": true,
-      "fam": "goethite",
-      "pct": 81,
-      "depth": 0.215
+      "fam": null
      }
     },
     {
@@ -1631,9 +1600,7 @@
      "ring_km": 0.43,
      "emit": {
       "cov": true,
-      "fam": "goethite",
-      "pct": 77,
-      "depth": 0.216
+      "fam": null
      }
     },
     {
@@ -1648,9 +1615,7 @@
      "ring_km": 5.94,
      "emit": {
       "cov": true,
-      "fam": "goethite",
-      "pct": 95,
-      "depth": 0.189
+      "fam": null
      }
     },
     {
@@ -1665,9 +1630,7 @@
      "ring_km": 11.63,
      "emit": {
       "cov": true,
-      "fam": "goethite",
-      "pct": 95,
-      "depth": 0.241
+      "fam": null
      }
     },
     {
@@ -1682,9 +1645,7 @@
      "ring_km": 2.12,
      "emit": {
       "cov": true,
-      "fam": "goethite",
-      "pct": 94,
-      "depth": 0.223
+      "fam": null
      }
     },
     {
@@ -1699,9 +1660,7 @@
      "ring_km": 1.6,
      "emit": {
       "cov": true,
-      "fam": "kaolinite",
-      "pct": 52,
-      "depth": 0.199
+      "fam": null
      }
     },
     {
@@ -1716,9 +1675,7 @@
      "ring_km": 1.87,
      "emit": {
       "cov": true,
-      "fam": "goethite",
-      "pct": 100,
-      "depth": 0.227
+      "fam": null
      }
     },
     {
@@ -1733,9 +1690,7 @@
      "ring_km": 6.54,
      "emit": {
       "cov": true,
-      "fam": "goethite",
-      "pct": 100,
-      "depth": 0.234
+      "fam": null
      }
     },
     {
@@ -1750,9 +1705,7 @@
      "ring_km": 2.2,
      "emit": {
       "cov": true,
-      "fam": "goethite",
-      "pct": 96,
-      "depth": 0.228
+      "fam": null
      }
     },
     {
@@ -1767,9 +1720,9 @@
      "ring_km": 0.97,
      "emit": {
       "cov": true,
-      "fam": "hematite",
-      "pct": 52,
-      "depth": 0.2
+      "fam": "jarosite",
+      "pct": 55,
+      "x": 166.7
      }
     }
    ],
@@ -1847,34 +1800,29 @@
    "emit": {
     "coverage_pct": 99.6,
     "families": {
-     "kaolinite": 7.66,
-     "muscovite": 0.04,
-     "montmorillonite": 0.0,
+     "kaolinite": 84.89,
+     "muscovite": 12.6,
+     "carbonate": 1.29,
+     "montmorillonite": 0.79,
+     "jarosite": 0.33,
      "chlorite": 0.09,
-     "carbonate": 0.89,
-     "jarosite": 0.01,
-     "hematite": 86.27,
-     "goethite": 5.03,
-     "iron_oxide": 0.0,
-     "mafic": 0.0
+     "serpentine": 0.0
+    },
+    "iron": {
+     "hematite": 94.81,
+     "goethite": 5.19,
+     "mafic": 0.0,
+     "iron_oxide": 0.0
     },
     "scenes": [
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
-     "EMIT_L2B_MIN_00",
-     "EMIT_L2B_MINUNC",
+     "20230219T142216",
+     "20230328T142424",
+     "20230328T142435",
+     "20230418T152905",
+     "20230528T141602",
      "20230902T091728",
-     "EMIT_L2B_MINUNC"
+     "20230923T153234",
+     "20230923T153245"
     ],
     "src": "NASA EMIT L2B Mineral Identification (EMITL2BMIN v001), LP DAAC"
    }
