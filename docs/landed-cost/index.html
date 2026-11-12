@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Free landed-cost calculator for seafood importers: frozen sardine, mackerel, sardinella and live oysters into the EU, from Dakhla and other origins.">
+<meta name="description" content="Free landed-cost calculator for seafood importers: frozen sardine, mackerel, sardinella and live oysters into the EU, from Dakhla and other origins. English, French, Spanish, Arabic.">
 <title>Madar Landed Cost</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
 <style>
 /* Layout: a buyer's cost sheet — shipment inputs left, three origin columns compared right; auto (sourced) cells are tinted, quote cells are white; documents and routes below */
 :root{
@@ -43,7 +43,7 @@ h1 em{font-style:normal;color:var(--sea)}
 .lang button{border:1px solid var(--line);background:var(--bg);padding:5px 10px;border-radius:2px;font-family:var(--f-mono);font-size:12px;cursor:pointer}
 .lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .key{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;color:var(--muted)}
-.key i{display:inline-block;width:14px;height:14px;border:1px solid var(--line);vertical-align:-2px;margin-right:6px}
+.key i{display:inline-block;width:14px;height:14px;border:1px solid var(--line);vertical-align:-2px;margin-inline-end:6px}
 .key .a{background:var(--sea-soft)} .key .q{background:var(--quote)}
 main .wrap{padding-block:22px 40px;display:grid;gap:22px}
 .grid{display:grid;gap:22px}
@@ -61,11 +61,11 @@ select{background:var(--bg)}
 .hs{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
 .origins{overflow-x:auto}
 table{border-collapse:collapse;width:100%;min-width:600px;font-variant-numeric:tabular-nums}
-th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right;font-size:14px;vertical-align:top}
-th:first-child,td:first-child{text-align:left;color:var(--muted);font-weight:500;font-size:13px}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:end;font-size:14px;vertical-align:top}
+th:first-child,td:first-child{text-align:start;color:var(--muted);font-weight:500;font-size:13px}
 thead th{border-bottom:2px solid var(--ink)}
-thead select{font-family:var(--f-display);font-stretch:80%;font-weight:750;font-size:14px;padding:5px 6px;text-align:right}
-td input{text-align:right;padding:5px 6px;font-size:14px;max-width:130px;margin-left:auto;display:block}
+thead select{font-family:var(--f-display);font-stretch:80%;font-weight:750;font-size:14px;padding:5px 6px;text-align:end}
+td input{text-align:end;padding:5px 6px;font-size:14px;max-width:130px;margin-inline-start:auto;display:block}
 td.auto{background:var(--sea-soft)}
 td.auto small{display:block;font-size:11px;color:var(--muted);line-height:1.3;margin-top:2px}
 td.chk label{display:flex;justify-content:flex-end;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--ink)}
@@ -74,8 +74,8 @@ tr.sec td{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-tran
 tr.total td{font-weight:700;border-top:2px solid var(--ink);font-size:15px}
 tr.big td{font-family:var(--f-display);font-stretch:80%;font-size:24px;font-weight:800;color:var(--ink)}
 tr.big td:first-child{font-family:var(--f-body);font-size:13px;font-weight:600}
-.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
-.best{display:inline-block;font-family:var(--f-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:var(--good);color:var(--surface);padding:2px 6px;border-radius:999px;margin-left:6px;vertical-align:3px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:6px}
+.best{display:inline-block;font-family:var(--f-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:var(--good);color:var(--surface);padding:2px 6px;border-radius:999px;margin-inline-start:6px;vertical-align:3px}
 .pos{color:var(--good)} .neg{color:var(--bad)}
 .bars{display:grid;gap:12px}
 .bar{display:grid;gap:4px}
@@ -83,10 +83,10 @@ tr.big td:first-child{font-family:var(--f-body);font-size:13px;font-weight:600}
 .track{display:flex;height:22px;border-radius:2px;overflow:hidden;background:var(--bg)}
 .track span{display:block;height:100%}
 .legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--muted)}
-.legend i{display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:-1px}
+.legend i{display:inline-block;width:10px;height:10px;margin-inline-end:5px;vertical-align:-1px}
 .two{display:grid;gap:22px}
 @media(min-width:900px){.two{grid-template-columns:1fr 1fr}}
-.docs ol{margin:0;padding-left:20px;display:grid;gap:8px}
+.docs ol{margin:0;padding-inline-start:20px;display:grid;gap:8px}
 .docs li{font-size:14px}
 .docs li b{display:block}
 .docs li span{color:var(--muted);font-size:13px}
@@ -94,7 +94,7 @@ tr.big td:first-child{font-family:var(--f-body);font-size:13px;font-weight:600}
 .route:first-of-type{border-top:0}
 .route b{font-size:14px}
 .route span{font-size:13px;color:var(--muted)}
-.warn{font-size:13px;background:var(--quote);border-left:3px solid var(--buoy);padding:10px 12px}
+.warn{font-size:13px;background:var(--quote);border-inline-start:3px solid var(--buoy);padding:10px 12px}
 .be{display:grid;gap:8px;border-top:2px solid var(--ink);padding-top:14px}
 .be p{font-size:14px;max-width:72ch}
 .be .verdict{font-family:var(--f-display);font-stretch:80%;font-size:22px;font-weight:800;line-height:1.1}
@@ -112,8 +112,13 @@ tr.big td:first-child{font-family:var(--f-body);font-size:13px;font-weight:600}
 pre{margin:0;white-space:pre-wrap;word-break:break-word;font-family:var(--f-mono);font-size:12.5px;line-height:1.55;background:rgba(255,255,255,.06);padding:12px;max-height:220px;overflow:auto}
 .toast{font-size:13px;color:var(--buoy);min-height:1.2em}
 footer{padding-block:18px 30px;font-size:12.5px;color:var(--muted);display:grid;gap:8px}
-footer ul{margin:0;padding-left:18px;display:grid;gap:3px}
+footer ul{margin:0;padding-inline-start:18px;display:grid;gap:3px}
 footer a{color:var(--sea)}
+/* Arabic */
+:root[lang="ar"]{--f-display:"IBM Plex Sans Arabic","Noto Kufi Arabic",Tahoma,sans-serif;--f-body:"IBM Plex Sans Arabic",Tahoma,system-ui,sans-serif}
+:root[lang="ar"] .eyebrow,:root[lang="ar"] tr.sec td,:root[lang="ar"] .best{letter-spacing:0;font-family:var(--f-body);font-weight:600}
+:root[lang="ar"] h1{line-height:1.25}
+:root[lang="ar"] .lede,:root[lang="ar"] .be p,:root[lang="ar"] .docs li{line-height:1.8}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
 body{margin:0}img{max-width:100%}[hidden]{display:none!important}
@@ -128,6 +133,7 @@ body{margin:0}img{max-width:100%}[hidden]{display:none!important}
         <button type="button" data-l="en" aria-pressed="true">EN</button>
         <button type="button" data-l="fr" aria-pressed="false">FR</button>
         <button type="button" data-l="es" aria-pressed="false">ES</button>
+        <button type="button" data-l="ar" aria-pressed="false" lang="ar">عربي</button>
       </div>
     </div>
     <h1 data-t="title" data-html="1">Seafood <em>landed cost</em> calculator</h1>
@@ -205,7 +211,7 @@ body{margin:0}img{max-width:100%}[hidden]{display:none!important}
       <label for="qContact" class="full"><span data-t="contact">Email or WhatsApp</span><input id="qContact" placeholder="name@company.com"></label>
       <label for="qIndex" class="full chkline"><input type="checkbox" id="qIndex" checked><span data-t="idx">Also send me the weekly Dakhla Index (landings, sizes, FOB ranges)</span></label>
     </div>
-    <pre id="sum"></pre>
+    <pre id="sum" dir="auto"></pre>
     <div class="row">
       <button class="btn primary" id="copy" type="button" data-t="copy">Copy scenario</button>
       <a class="btn" id="wa" href="#" target="_blank" rel="noopener" data-t="wa">Send on WhatsApp</a>
@@ -300,7 +306,8 @@ const T={
   d_eu:"Sin trámites fronterizos|Mercado único: solo documentos comerciales y trazabilidad.",
   r_1:"Por mar desde el puerto de Dakhla|CMA CGM ha operado una lanzadera Dakhla, Tanger Med, Algeciras (anunciada en 2019). La ruta marítima más corta a España cuando hay salida.",
   r_2:"Camión frigorífico a Agadir y luego mar|Agadir tiene el servicio Atlas de DP World a London Gateway y Amberes (lanzado en 2025) y el servicio frigorífico de Samskip al Reino Unido y Países Bajos.",
-  r_3:"Camión frigorífico a Tanger Med|Por carretera hacia el norte de Marruecos, luego ferry o ro-ro a Algeciras y carretera. Lo más flexible, el transporte por carretera más caro."}
+  r_3:"Camión frigorífico a Tanger Med|Por carretera hacia el norte de Marruecos, luego ferry o ro-ro a Algeciras y carretera. Lo más flexible, el transporte por carretera más caro."},
+ ar:{"eyebrow": "معرض مدار للمأكولات البحرية · أداة مجانية للمشترين · الاستيراد إلى الاتحاد الأوروبي", "title": "حاسبة <em>التكلفة الواصلة</em> للمأكولات البحرية", "lede": "كم تكلّفك حاوية مبرّدة واحدة فعلاً عند وصولها إلى مخزنك في الاتحاد الأوروبي. الرسوم الجمركية ورسوم الحدود تُحسب تلقائياً حسب المنتج والمنشأ وقواعد الاتحاد الأوروبي، وأنت تُدخل فقط الأسعار التي عُرضت عليك.", "keyAuto": "محسوب حسب قواعد الاتحاد الأوروبي (المصادر في الأسفل)", "keyQuote": "عرضك أنت: استبدل المثال", "shipment": "الشحنة", "p_sardine": "سردين مجمّد", "p_mackerel": "ماكريل مجمّد", "p_sardinella": "سردينيلا مجمّدة", "p_oyster": "محار حي", "tonnes": "الحمولة الصافية (طن)", "carton": "الكرتونة (كغ)", "currency": "العملة", "sell": "سعر بيعك للكيلو", "tgt": "الهامش المستهدف (%)", "ins": "التأمين (% من البضاعة + الشحن)", "rate": "تكلفة التمويل (% سنوياً)", "pay": "أيام الدفع قبل البيع", "stor": "التخزين المبرّد (للطن أسبوعياً)", "weeks": "أسابيع التخزين", "canners": "للمعلّبين", "yield": "نسبة السمك الصالح (%)", "cang": "وزن السمك في العلبة (غ)", "oysters": "للمحار", "cal": "المقاس", "compare": "قارن بين المنشآت", "docsTitle": "وثائق هذه الشحنة", "routesTitle": "طرق الشحن من الداخلة", "routesWarn": "المواعيد تتغيّر. اطلب من وكيل الشحن موعد الإبحار الحالي وعرض سعر للحاوية المبرّدة، ثم أدخلهما في خانتي الشحن ومدة العبور.", "ctaTitle": "اطلب عرض سعر FOB الداخلة حقيقياً", "ctaText": "أرسل هذا السيناريو إلى Madar Market. يردّ عليك منتج من الداخلة بسعر FOB ثابت لكميتك، وموعد أقرب حاوية مبرّدة، والوثائق التي يطلبها مركز الحدود في بلدك.", "company": "الشركة", "country": "ميناء / بلد الوصول", "contact": "البريد الإلكتروني أو واتساب", "idx": "أرسلوا لي أيضاً مؤشر الداخلة الأسبوعي (الإنزالات، المقاسات، نطاقات FOB)", "copy": "انسخ السيناريو", "wa": "أرسل عبر واتساب", "foot": "Madar Landed Cost · أداة مجانية من معرض مدار للمأكولات البحرية، الداخلة. الحساب يجري في متصفّحك، ولا يُرسل أي شيء إلا إذا ضغطت «أرسل». القواعد كما نُشرت حتى نوفمبر 2026: تأكّد من نسبة الرسم لرمزك الجمركي في TARIC مع وكيلك الجمركي قبل الشراء.", "sources": "المصادر", "o_dakhla": "الداخلة", "o_morocco": "المغرب، ميناء آخر", "o_mauritania": "موريتانيا", "o_senegal": "السنغال", "o_eu": "منتج أوروبي (إسبانيا، البرتغال، فرنسا)", "o_other": "منشأ آخر بدون امتياز", "r_origin": "المنشأ", "r_proof": "إثبات المنشأ جاهز", "r_fob": "سعر FOB للكيلو", "r_freight": "الشحن المبرّد للحاوية", "r_transit": "مدة العبور (أيام)", "r_duty": "الرسم الجمركي", "r_bcp": "رسوم الفحص على حدود الاتحاد الأوروبي", "r_clear": "الوكيل الجمركي والميناء", "r_inland": "النقل إلى مخزنك", "why_ma": "اتفاق الاتحاد الأوروبي والمغرب", "why_ws": "اتفاق الاتحاد الأوروبي والمغرب، مؤقتاً منذ 3 أكتوبر 2025", "why_eba": "نظام «كل شيء ما عدا السلاح» للدول الأقل نمواً", "why_eu": "داخل الاتحاد الأوروبي", "why_mfn": "نسبة الدول الأخرى", "why_noproof": "بدون إثبات: نسبة الدول الأخرى", "why_fee": "الحد الأدنى الأوروبي، اللائحة 2017/625", "why_nofee": "لا فحص حدودي داخل الاتحاد الأوروبي", "s_inputs": "لكل منشأ", "s_costs": "تكلفة حاوية واحدة", "c_goods": "البضاعة", "c_freight": "الشحن", "c_ins": "التأمين", "c_duty": "الرسوم", "c_fees": "الميناء والفحص والنقل", "c_storage": "التخزين المبرّد", "c_finance": "التمويل", "c_total": "المجموع الواصل", "s_unit": "للوحدة", "u_kg": "التكلفة الواصلة للكيلو", "u_carton": "للكرتونة", "u_can": "تكلفة السمك في العلبة", "u_piece": "للمحارة الواحدة", "u_margin": "الهامش الإجمالي", "u_profit": "الهامش للحاوية", "u_maxfob": "أعلى سعر FOB لهامشك المستهدف", "best": "الأرخص", "legendTitle": "أين يذهب المال، للكيلو", "copied": "تم النسخ. الصقه في بريدك أو محادثتك.", "selected": "تم تحديد النص. انسخه بلوحة المفاتيح أو بضغطة مطوّلة.", "sumHead": "سيناريو · Madar Landed Cost", "docsFor": "لشحنة من {o} إلى الاتحاد الأوروبي", "be_title": "نقطة التعادل", "be_beat": "لتصل أرخص من {b} ({bp} للكيلو)، يجب ألا يتجاوز سعر FOB في {a} مبلغ {x} للكيلو. السعر اليوم {now} للكيلو.", "be_win": "{a} هو المنشأ الأرخص عند الوصول.", "be_lose": "سعر FOB في {a} أغلى بـ{d} للكيلو.", "be_room": "لدى {a} هامش {d} للكيلو قبل أن يفقد الصدارة.", "be_slope": "كل تغيير بـ0.01 في سعر FOB يغيّر التكلفة الواصلة في {a} بـ{s} للكيلو.", "d_list": "مصنع المصدّر مدرج في قائمة المؤسسات المعتمدة لدى الاتحاد الأوروبي|يجب أن يظهر المصنع في القائمة الأوروبية لبلده ونوع منتجه، وإلا يرفض مركز الحدود الشحنة.", "d_health": "الشهادة الصحية الرسمية|يوقّعها جهاز سلامة الغذاء في بلد التصدير (في المغرب: ONSSA).", "d_ched": "إشعار CHED-P مسبق في نظام TRACES|يقدّمه وكيلك الجمركي قبل وصول الشحنة إلى مركز الفحص الحدودي.", "d_iuu": "شهادة الصيد (IUU)|إلزامية للسمك البري حسب اللائحة الأوروبية 1005/2008.", "d_orig_ma": "إثبات المنشأ المغربي|شهادة EUR.1 أو تصريح بالمنشأ وفق اتفاق الاتحاد الأوروبي والمغرب. بدونه تُطبَّق نسبة الدول الأخرى.", "d_orig_ws": "منشأ يذكر الداخلة|منذ التعديل المؤقت في 3 أكتوبر 2025، تذكر شهادة المنشأ والملصق المنطقة باسم الداخلة أو العيون. المصادقة عليه ما زالت جارية ومتنازع عليها سياسياً: تأكّد من الوضع الحالي مع وكيلك الجمركي.", "d_orig_eba": "تصريح بالمنشأ عبر نظام REX|يجب أن يكون المصدّر مسجّلاً في REX، وأن يستوفي السمك قواعد المنشأ الخاصة بالسفن.", "d_bivalve": "منطقة إنتاج مصنّفة وعلامة تعريف|يجب أن يأتي المحار الحي من منطقة مصنّفة في بلد التصدير، وأن تحمل كل عبوة علامة تعريف، وأن يصل حياً.", "d_eu": "لا إجراءات حدودية|داخل السوق الأوروبية الموحّدة: وثائق تجارية وتتبّع فقط.", "r_1": "بحراً من ميناء الداخلة|شغّلت CMA CGM خطاً يمرّ بالداخلة وطنجة المتوسط والجزيرة الخضراء (أُعلن عنه في 2019). أقصر طريق بحري إلى إسبانيا عند توفّر رحلة.", "r_2": "شاحنة مبرّدة إلى أكادير، ثم بحراً|من أكادير ينطلق خط Atlas التابع لـDP World نحو لندن غيتواي وأنتويرب (أُطلق في 2025)، وخط Samskip المبرّد نحو بريطانيا وهولندا.", "r_3": "شاحنة مبرّدة إلى طنجة المتوسط|طريق بري شمالاً عبر المغرب، ثم عبّارة إلى الجزيرة الخضراء ومتابعة برّاً. الأكثر مرونة، وأعلى تكلفة نقل برّي."}
 };
 let lang="en";const t=k=>(T[lang]&&T[lang][k])||EN[k]||k;
 
@@ -315,7 +322,7 @@ const QROWS=[["fob",0.01],["freight",50],["transit",1],["clear",50],["inland",50
 const CAL={1:[121,150],2:[86,120],3:[66,85],4:[46,65],5:[30,45]};
 const $=id=>document.getElementById(id);
 const num=id=>{const v=parseFloat($(id).value);return isFinite(v)?v:0};
-const fmt=(v,d=0)=>isFinite(v)?v.toLocaleString(lang==="en"?"en-GB":lang,{minimumFractionDigits:d,maximumFractionDigits:d}):"—";
+const fmt=(v,d=0)=>isFinite(v)?v.toLocaleString((lang==="en"||lang==="ar")?"en-GB":lang,{minimumFractionDigits:d,maximumFractionDigits:d}):"—";
 const money=(v,d=0)=>$("cur").value+fmt(v,d);
 const oname=o=>t("o_"+o.origin);
 
@@ -404,7 +411,7 @@ $("prod").addEventListener("click",e=>{const b=e.target.closest("[data-p]");if(!
   render();});
 document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>{lang=b.dataset.l;document.documentElement.lang=lang;
   document.querySelectorAll(".lang button").forEach(x=>x.setAttribute("aria-pressed",x===b));applyLang();render();});
-function applyLang(){document.querySelectorAll("[data-t]").forEach(el=>{const k=el.dataset.t;if(!el.dataset.en)el.dataset.en=el.dataset.html?el.innerHTML:el.textContent;
+function applyLang(){document.documentElement.dir=lang==="ar"?"rtl":"ltr";document.querySelectorAll("[data-t]").forEach(el=>{const k=el.dataset.t;if(!el.dataset.en)el.dataset.en=el.dataset.html?el.innerHTML:el.textContent;
   const v=lang==="en"?el.dataset.en:((T[lang]||{})[k]||el.dataset.en);if(el.dataset.html)el.innerHTML=v;else el.textContent=v;});}
 $("copy").addEventListener("click",()=>{const s=$("sum").textContent;navigator.clipboard.writeText(s).then(()=>$("toast").textContent=t("copied")).catch(()=>{const r=document.createRange();r.selectNodeContents($("sum"));const g=getSelection();g.removeAllRanges();g.addRange(r);$("toast").textContent=t("selected");});});
 const SAVE_IDS=["tonnes","carton","cur","sell","tgt","ins","rate","pay","stor","weeks","yield","cang","cal","qCo","qCountry","qContact"];
