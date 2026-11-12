@@ -255,6 +255,8 @@ const ORIG={
 };
 function borderFee(t){return t<=6?55:t<=46?9*t:420;}
 const MADAR_WA=""; // Madar sales WhatsApp, international format without + or spaces, e.g. 2126XXXXXXXX
+const QS=(()=>{try{return new URLSearchParams(location.search)}catch(_){return new URLSearchParams()}})();
+const SRC=[QS.get("utm_source"),QS.get("utm_campaign")].filter(Boolean).map(s=>s.replace(/[^\w\-.]/g,"").slice(0,40)).join(" / ");
 
 /* ---------- i18n ---------- */
 const EN={o_dakhla:"Dakhla",o_morocco:"Morocco, other port",o_mauritania:"Mauritania",o_senegal:"Senegal",o_eu:"EU producer (ES, PT, FR)",o_other:"Other, no preference",
@@ -379,7 +381,7 @@ function render(){
   renderBE(R);renderDocs();renderRoutes();
   const sum=[t("sumHead"),`${$("prod").querySelector('[aria-pressed="true"]').textContent} · CN ${P.hs} · ${fmt(num("tonnes"),1)} t`+(oy?` · ${$("cal").selectedOptions[0].textContent}`:""),
     ...O.map((o,i)=>`${oname(o)}: FOB ${money(o.fob,2)}/kg · duty ${fmt(R[i].d.rate)}% → ${money(R[i].perKg,3)}/kg landed, ${money(R[i].total)} per container`),
-    `Company: ${$("qCo").value.trim()||"—"}`,`Destination: ${$("qCountry").value.trim()||"—"}`,`Contact: ${$("qContact").value.trim()||"—"}`,`Target margin: ${fmt(num("tgt"))}% · selling ${money(num("sell"),2)}/kg`,"Dakhla Index: "+($("qIndex").checked?"yes":"no"),"Request: firm FOB Dakhla quote for this volume"].join("\n");
+    `Company: ${$("qCo").value.trim()||"—"}`,`Destination: ${$("qCountry").value.trim()||"—"}`,`Contact: ${$("qContact").value.trim()||"—"}`,`Target margin: ${fmt(num("tgt"))}% · selling ${money(num("sell"),2)}/kg`,"Dakhla Index: "+($("qIndex").checked?"yes":"no"),...(SRC?["Source: "+SRC]:[]),"Request: firm FOB Dakhla quote for this volume"].join("\n");
   $("sum").textContent=sum;$("wa").href="https://wa.me/"+MADAR_WA+"?text="+encodeURIComponent(sum);save();
   $("canBox").style.display=oy?"none":"grid";$("oyBox").style.display=oy?"grid":"none";
 }
@@ -421,7 +423,9 @@ function load(){try{const s=JSON.parse(localStorage.getItem("madar-lc-v1")||"nul
   if(s.lang&&(s.lang==="en"||T[s.lang])){lang=s.lang;document.documentElement.lang=lang;document.querySelectorAll(".lang button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.l===lang));}
   (s.O||[]).forEach((o,i)=>{if(O[i]&&ORIG[o.origin])Object.assign(O[i],o);});
   Object.entries(s.v||{}).forEach(([id,v])=>{const el=$(id);if(el&&v!=null)el.value=v;});}catch(_){}}
-load();applyLang();render();
+load();
+{const ql=QS.get("lang");if(ql&&(ql==="en"||T[ql])){lang=ql;document.documentElement.lang=lang;document.querySelectorAll(".lang button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.l===lang));}}
+applyLang();render();
 </script>
 </body>
 </html>
