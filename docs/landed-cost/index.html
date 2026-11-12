@@ -95,6 +95,11 @@ tr.big td:first-child{font-family:var(--f-body);font-size:13px;font-weight:600}
 .route b{font-size:14px}
 .route span{font-size:13px;color:var(--muted)}
 .warn{font-size:13px;background:var(--quote);border-left:3px solid var(--buoy);padding:10px 12px}
+.be{display:grid;gap:8px;border-top:2px solid var(--ink);padding-top:14px}
+.be p{font-size:14px;max-width:72ch}
+.be .verdict{font-family:var(--f-display);font-stretch:80%;font-size:22px;font-weight:800;line-height:1.1}
+.chkline{display:flex!important;align-items:center;gap:8px;font-weight:500}
+.chkline input{width:auto}
 .cta{display:grid;gap:14px;background:var(--ink);color:var(--bg);padding:22px}
 .cta h2{font-size:clamp(22px,4vw,30px);font-stretch:78%;text-transform:uppercase;font-weight:800}
 .cta p{color:var(--line);max-width:62ch}
@@ -148,6 +153,7 @@ body{margin:0}img{max-width:100%}[hidden]{display:none!important}
         <label for="carton"><span data-t="carton">Carton (kg)</span><input id="carton" type="number" step="0.5" min="0.5" value="20"></label>
         <label for="cur"><span data-t="currency">Currency</span><select id="cur"><option>€</option><option>$</option><option>£</option></select></label>
         <label for="sell"><span data-t="sell">Your selling price / kg</span><input id="sell" type="number" step="0.01" min="0" value="1.80"></label>
+        <label for="tgt"><span data-t="tgt">Target margin (%)</span><input id="tgt" type="number" step="1" min="0" max="95" value="25"></label>
         <label for="ins"><span data-t="ins">Insurance (% of goods + freight)</span><input id="ins" type="number" step="0.05" min="0" value="0.3"></label>
         <label for="rate"><span data-t="rate">Cost of money (% per year)</span><input id="rate" type="number" step="0.5" min="0" value="6"></label>
         <label for="pay"><span data-t="pay">Paid before you sell (days)</span><input id="pay" type="number" step="1" min="0" value="30"></label>
@@ -173,6 +179,7 @@ body{margin:0}img{max-width:100%}[hidden]{display:none!important}
       <div class="origins"><table id="tbl"></table></div>
       <div class="bars" id="bars"></div>
       <div class="legend" id="legend"></div>
+      <div class="be" id="be" aria-live="polite"></div>
     </section>
   </div>
 
@@ -196,6 +203,7 @@ body{margin:0}img{max-width:100%}[hidden]{display:none!important}
       <label for="qCo"><span data-t="company">Company</span><input id="qCo" placeholder="Atlantic Imports Ltd"></label>
       <label for="qCountry"><span data-t="country">Destination port / country</span><input id="qCountry" placeholder="Algeciras, Spain"></label>
       <label for="qContact" class="full"><span data-t="contact">Email or WhatsApp</span><input id="qContact" placeholder="name@company.com"></label>
+      <label for="qIndex" class="full chkline"><input type="checkbox" id="qIndex" checked><span data-t="idx">Also send me the weekly Dakhla Index (landings, sizes, FOB ranges)</span></label>
     </div>
     <pre id="sum"></pre>
     <div class="row">
@@ -240,6 +248,7 @@ const ORIG={
  other:{pref:"mfn",third:true}
 };
 function borderFee(t){return t<=6?55:t<=46?9*t:420;}
+const MADAR_WA=""; // Madar sales WhatsApp, international format without + or spaces, e.g. 2126XXXXXXXX
 
 /* ---------- i18n ---------- */
 const EN={o_dakhla:"Dakhla",o_morocco:"Morocco, other port",o_mauritania:"Mauritania",o_senegal:"Senegal",o_eu:"EU producer (ES, PT, FR)",o_other:"Other, no preference",
@@ -259,12 +268,39 @@ const EN={o_dakhla:"Dakhla",o_morocco:"Morocco, other port",o_mauritania:"Maurit
  d_eu:"No border formalities|Inside the EU single market: commercial documents and traceability only.",
  r_1:"Sea from Dakhla port|CMA CGM has run a shuttle calling at Dakhla, Tanger Med and Algeciras (reported 2019). Shortest sea route to Spain when a sailing is available.",
  r_2:"Reefer truck to Agadir, then sea|Agadir is served by DP World's Atlas service to London Gateway and Antwerp (launched 2025) and by Samskip's reefer service to the UK and the Netherlands.",
- r_3:"Reefer truck to Tanger Med|Road north through Morocco, then ferry or ro-ro to Algeciras and on by road. Most flexible, highest trucking cost."};
+ r_3:"Reefer truck to Tanger Med|Road north through Morocco, then ferry or ro-ro to Algeciras and on by road. Most flexible, highest trucking cost.",
+ u_maxfob:"Max FOB for your target margin",be_title:"Break-even",be_beat:"To land cheaper than {b} ({bp}/kg), {a} FOB must be at most {x}/kg. Today it is {now}/kg.",be_win:"{a} is already the cheapest landed origin.",be_lose:"{a} is {d}/kg too expensive at FOB.",be_room:"{a} has {d}/kg of room before it loses the lead.",be_slope:"Each 0.01 change in FOB moves {a}'s landed cost by {s}/kg."};
 const T={
  fr:{eyebrow:"Madar Seafood Expo · outil gratuit · importations UE",title:"Calculateur du <em>coût rendu</em> des produits de la mer",lede:"Ce que coûte vraiment un conteneur frigorifique dans votre entrepôt de l'UE. Les droits et frais frontaliers se calculent seuls selon le produit, l'origine et les règles de l'UE ; vous saisissez seulement les prix qu'on vous a proposés.",keyAuto:"Fixé par les règles de l'UE (sources en bas)",keyQuote:"Votre offre : remplacez l'exemple",shipment:"Expédition",p_sardine:"Sardine congelée",p_mackerel:"Maquereau congelé",p_sardinella:"Sardinelle congelée",p_oyster:"Huîtres vivantes",tonnes:"Charge nette (tonnes)",carton:"Carton (kg)",currency:"Devise",sell:"Votre prix de vente / kg",ins:"Assurance (% marchandise + fret)",rate:"Coût de l'argent (% par an)",pay:"Payé avant la vente (jours)",stor:"Stockage froid (par t et semaine)",weeks:"Semaines en stockage",canners:"Pour les conserveurs",yield:"Rendement en poisson utile (%)",cang:"Poisson par boîte (g)",oysters:"Pour les huîtres",cal:"Calibre",compare:"Comparer les origines",docsTitle:"Documents pour cette expédition",routesTitle:"Expédier depuis Dakhla",routesWarn:"Les horaires changent. Demandez à votre transitaire le départ actuel et une offre frigorifique, puis saisissez-les comme fret et transit.",ctaTitle:"Obtenir une vraie offre FOB Dakhla",ctaText:"Envoyez ce scénario à Madar Market. Un producteur de Dakhla répond avec un prix FOB ferme pour votre volume, le prochain départ frigorifique et les documents exigés par votre poste frontalier.",company:"Société",country:"Port / pays de destination",contact:"E-mail ou WhatsApp",copy:"Copier le scénario",wa:"Envoyer sur WhatsApp",foot:"Madar Landed Cost · outil gratuit de Madar Seafood Expo, Dakhla. Le calcul se fait dans votre navigateur ; rien n'est envoyé sauf si vous appuyez sur Envoyer. Règles publiées à novembre 2026 : confirmez le taux de votre code exact dans TARIC avec votre commissionnaire.",sources:"Sources",
-  o_dakhla:"Dakhla",o_morocco:"Maroc, autre port",o_mauritania:"Mauritanie",o_senegal:"Sénégal",o_eu:"Producteur UE (ES, PT, FR)",o_other:"Autre, sans préférence",r_origin:"Origine",r_proof:"Preuve d'origine prête",r_fob:"Prix FOB / kg",r_freight:"Fret frigorifique / conteneur",r_transit:"Transit (jours)",r_duty:"Droit de douane",r_bcp:"Redevance contrôle frontalier UE",r_clear:"Commissionnaire et port",r_inland:"Camion jusqu'à l'entrepôt",why_ma:"Accord UE–Maroc",why_ws:"UE–Maroc, provisoire depuis le 3 oct. 2025",why_eba:"Tout sauf les armes (PMA)",why_eu:"À l'intérieur de l'UE",why_mfn:"Taux pays tiers",why_noproof:"Sans preuve : taux pays tiers",why_fee:"Minimum UE, règl. 2017/625",why_nofee:"Pas de contrôle frontalier dans l'UE",s_inputs:"Par origine",s_costs:"Coût d'un conteneur",c_goods:"Marchandise",c_freight:"Fret",c_ins:"Assurance",c_duty:"Droits",c_fees:"Port, contrôle, camion",c_storage:"Stockage froid",c_finance:"Financement",c_total:"Total rendu",s_unit:"Par unité",u_kg:"Coût rendu / kg",u_carton:"Par carton",u_can:"Coût poisson / boîte",u_piece:"Par huître",u_margin:"Marge brute",u_profit:"Marge / conteneur",best:"le moins cher",legendTitle:"Où va l'argent, par kilo",copied:"Copié. Collez-le dans votre e-mail ou votre conversation.",selected:"Texte sélectionné. Copiez-le au clavier ou par appui long.",sumHead:"SCÉNARIO · Madar Landed Cost",docsFor:"Pour une expédition de {o} vers l'UE"},
+  o_dakhla:"Dakhla",o_morocco:"Maroc, autre port",o_mauritania:"Mauritanie",o_senegal:"Sénégal",o_eu:"Producteur UE (ES, PT, FR)",o_other:"Autre, sans préférence",r_origin:"Origine",r_proof:"Preuve d'origine prête",r_fob:"Prix FOB / kg",r_freight:"Fret frigorifique / conteneur",r_transit:"Transit (jours)",r_duty:"Droit de douane",r_bcp:"Redevance contrôle frontalier UE",r_clear:"Commissionnaire et port",r_inland:"Camion jusqu'à l'entrepôt",why_ma:"Accord UE–Maroc",why_ws:"UE–Maroc, provisoire depuis le 3 oct. 2025",why_eba:"Tout sauf les armes (PMA)",why_eu:"À l'intérieur de l'UE",why_mfn:"Taux pays tiers",why_noproof:"Sans preuve : taux pays tiers",why_fee:"Minimum UE, règl. 2017/625",why_nofee:"Pas de contrôle frontalier dans l'UE",s_inputs:"Par origine",s_costs:"Coût d'un conteneur",c_goods:"Marchandise",c_freight:"Fret",c_ins:"Assurance",c_duty:"Droits",c_fees:"Port, contrôle, camion",c_storage:"Stockage froid",c_finance:"Financement",c_total:"Total rendu",s_unit:"Par unité",u_kg:"Coût rendu / kg",u_carton:"Par carton",u_can:"Coût poisson / boîte",u_piece:"Par huître",u_margin:"Marge brute",u_profit:"Marge / conteneur",best:"le moins cher",legendTitle:"Où va l'argent, par kilo",copied:"Copié. Collez-le dans votre e-mail ou votre conversation.",selected:"Texte sélectionné. Copiez-le au clavier ou par appui long.",sumHead:"SCÉNARIO · Madar Landed Cost",docsFor:"Pour une expédition de {o} vers l'UE",
+  tgt:"Marge visée (%)",idx:"Envoyez-moi aussi l'Indice Dakhla hebdomadaire (débarquements, calibres, fourchettes FOB)",u_maxfob:"FOB max pour votre marge visée",be_title:"Seuil de rentabilité",be_beat:"Pour arriver moins cher que {b} ({bp}/kg), le FOB {a} doit être au plus {x}/kg. Aujourd'hui : {now}/kg.",be_win:"{a} est déjà l'origine la moins chère rendue.",be_lose:"{a} est trop cher de {d}/kg au FOB.",be_room:"{a} garde {d}/kg d'avance avant de perdre la première place.",be_slope:"Chaque variation de 0,01 du FOB change le coût rendu de {a} de {s}/kg.",
+  d_list:"Usine de l'exportateur sur la liste UE des établissements agréés|L'usine doit figurer sur la liste UE de son pays et de sa catégorie de produit, sinon le poste frontalier refuse le lot.",
+  d_health:"Certificat sanitaire officiel|Signé par l'autorité sanitaire du pays exportateur (au Maroc : ONSSA).",
+  d_ched:"DSCE-P (CHED-P) prénotifié dans TRACES|Votre commissionnaire le dépose avant l'arrivée au poste de contrôle frontalier.",
+  d_iuu:"Certificat de capture INN|Obligatoire pour le poisson sauvage selon le règlement (CE) 1005/2008.",
+  d_orig_ma:"Preuve d'origine marocaine|EUR.1 ou déclaration d'origine selon l'accord UE–Maroc. Sans elle, le taux pays tiers s'applique.",
+  d_orig_ws:"Origine indiquant Dakhla|Depuis l'amendement provisoire du 3 octobre 2025, le certificat d'origine et l'étiquette nomment la zone Dakhla ou Laâyoune. Son approbation est en cours et politiquement contestée : vérifiez le statut actuel avec votre commissionnaire.",
+  d_orig_eba:"Attestation d'origine REX|L'exportateur doit être enregistré dans REX, et le poisson respecter les règles d'origine TSA relatives aux navires.",
+  d_bivalve:"Zone de production classée et marque d'identification|Les huîtres vivantes doivent venir d'une zone classée du pays exportateur, porter une marque d'identification sur chaque colis et arriver vivantes.",
+  d_eu:"Pas de formalités frontalières|Marché unique : documents commerciaux et traçabilité seulement.",
+  r_1:"Par mer depuis le port de Dakhla|CMA CGM a exploité une navette Dakhla, Tanger Med, Algésiras (annoncée en 2019). Route maritime la plus courte vers l'Espagne quand un départ existe.",
+  r_2:"Camion frigorifique jusqu'à Agadir, puis mer|Agadir est desservi par le service Atlas de DP World vers London Gateway et Anvers (lancé en 2025) et par le service frigorifique de Samskip vers le Royaume-Uni et les Pays-Bas.",
+  r_3:"Camion frigorifique jusqu'à Tanger Med|Route vers le nord à travers le Maroc, puis ferry ou ro-ro vers Algésiras et la route. Le plus flexible, le transport routier le plus cher."},
  es:{eyebrow:"Madar Seafood Expo · herramienta gratuita · importación UE",title:"Calculadora del <em>coste puesto en destino</em>",lede:"Lo que cuesta de verdad un contenedor frigorífico en su almacén de la UE. Aranceles y tasas fronterizas se calculan solos según producto, origen y normas de la UE; usted solo introduce los precios que le han ofertado.",keyAuto:"Fijado por normas de la UE (fuentes abajo)",keyQuote:"Su oferta: sustituya el ejemplo",shipment:"Envío",p_sardine:"Sardina congelada",p_mackerel:"Caballa congelada",p_sardinella:"Alacha congelada",p_oyster:"Ostras vivas",tonnes:"Carga neta (toneladas)",carton:"Caja (kg)",currency:"Moneda",sell:"Su precio de venta / kg",ins:"Seguro (% mercancía + flete)",rate:"Coste del dinero (% anual)",pay:"Pagado antes de vender (días)",stor:"Frío (por t y semana)",weeks:"Semanas en frío",canners:"Para conserveras",yield:"Rendimiento de pescado útil (%)",cang:"Pescado por lata (g)",oysters:"Para ostras",cal:"Calibre",compare:"Comparar orígenes",docsTitle:"Documentos para este envío",routesTitle:"Cómo enviar desde Dakhla",routesWarn:"Los horarios cambian. Pida a su transitario la salida actual y una oferta frigorífica, e introdúzcalas como flete y tránsito.",ctaTitle:"Pida una oferta FOB Dakhla real",ctaText:"Envíe este escenario a Madar Market. Un productor de Dakhla responde con un precio FOB firme para su volumen, la próxima salida frigorífica y los documentos que pide su puesto fronterizo.",company:"Empresa",country:"Puerto / país de destino",contact:"Email o WhatsApp",copy:"Copiar escenario",wa:"Enviar por WhatsApp",foot:"Madar Landed Cost · herramienta gratuita de Madar Seafood Expo, Dakhla. El cálculo se hace en su navegador; no se envía nada salvo que pulse Enviar. Normas publicadas a noviembre de 2026: confirme el arancel de su código exacto en TARIC con su agente de aduanas.",sources:"Fuentes",
-  o_dakhla:"Dakhla",o_morocco:"Marruecos, otro puerto",o_mauritania:"Mauritania",o_senegal:"Senegal",o_eu:"Productor UE (ES, PT, FR)",o_other:"Otro, sin preferencia",r_origin:"Origen",r_proof:"Prueba de origen lista",r_fob:"Precio FOB / kg",r_freight:"Flete frigorífico / contenedor",r_transit:"Tránsito (días)",r_duty:"Arancel",r_bcp:"Tasa control fronterizo UE",r_clear:"Agente de aduanas y puerto",r_inland:"Camión a su almacén",why_ma:"Acuerdo UE–Marruecos",why_ws:"UE–Marruecos, provisional desde 3 oct. 2025",why_eba:"Todo Menos Armas (PMA)",why_eu:"Dentro de la UE",why_mfn:"Tipo terceros países",why_noproof:"Sin prueba: tipo terceros países",why_fee:"Mínimo UE, Regl. 2017/625",why_nofee:"Sin control fronterizo dentro de la UE",s_inputs:"Por origen",s_costs:"Coste de un contenedor",c_goods:"Mercancía",c_freight:"Flete",c_ins:"Seguro",c_duty:"Arancel",c_fees:"Puerto, control, camión",c_storage:"Frío",c_finance:"Financiación",c_total:"Total en destino",s_unit:"Por unidad",u_kg:"Coste en destino / kg",u_carton:"Por caja",u_can:"Coste de pescado / lata",u_piece:"Por ostra",u_margin:"Margen bruto",u_profit:"Margen / contenedor",best:"más barato",legendTitle:"Adónde va el dinero, por kilo",copied:"Copiado. Péguelo en su email o chat.",selected:"Texto seleccionado. Cópielo con el teclado o una pulsación larga.",sumHead:"ESCENARIO · Madar Landed Cost",docsFor:"Para un envío de {o} a la UE"}
+  o_dakhla:"Dakhla",o_morocco:"Marruecos, otro puerto",o_mauritania:"Mauritania",o_senegal:"Senegal",o_eu:"Productor UE (ES, PT, FR)",o_other:"Otro, sin preferencia",r_origin:"Origen",r_proof:"Prueba de origen lista",r_fob:"Precio FOB / kg",r_freight:"Flete frigorífico / contenedor",r_transit:"Tránsito (días)",r_duty:"Arancel",r_bcp:"Tasa control fronterizo UE",r_clear:"Agente de aduanas y puerto",r_inland:"Camión a su almacén",why_ma:"Acuerdo UE–Marruecos",why_ws:"UE–Marruecos, provisional desde 3 oct. 2025",why_eba:"Todo Menos Armas (PMA)",why_eu:"Dentro de la UE",why_mfn:"Tipo terceros países",why_noproof:"Sin prueba: tipo terceros países",why_fee:"Mínimo UE, Regl. 2017/625",why_nofee:"Sin control fronterizo dentro de la UE",s_inputs:"Por origen",s_costs:"Coste de un contenedor",c_goods:"Mercancía",c_freight:"Flete",c_ins:"Seguro",c_duty:"Arancel",c_fees:"Puerto, control, camión",c_storage:"Frío",c_finance:"Financiación",c_total:"Total en destino",s_unit:"Por unidad",u_kg:"Coste en destino / kg",u_carton:"Por caja",u_can:"Coste de pescado / lata",u_piece:"Por ostra",u_margin:"Margen bruto",u_profit:"Margen / contenedor",best:"más barato",legendTitle:"Adónde va el dinero, por kilo",copied:"Copiado. Péguelo en su email o chat.",selected:"Texto seleccionado. Cópielo con el teclado o una pulsación larga.",sumHead:"ESCENARIO · Madar Landed Cost",docsFor:"Para un envío de {o} a la UE",
+  tgt:"Margen objetivo (%)",idx:"Envíenme también el Índice Dakhla semanal (desembarques, tallas, rangos FOB)",u_maxfob:"FOB máximo para su margen objetivo",be_title:"Punto de equilibrio",be_beat:"Para llegar más barato que {b} ({bp}/kg), el FOB de {a} debe ser como máximo {x}/kg. Hoy: {now}/kg.",be_win:"{a} ya es el origen más barato puesto en destino.",be_lose:"{a} está {d}/kg caro en FOB.",be_room:"{a} tiene {d}/kg de ventaja antes de perder el primer puesto.",be_slope:"Cada 0,01 de FOB cambia el coste en destino de {a} en {s}/kg.",
+  d_list:"Planta del exportador en la lista UE de establecimientos autorizados|La planta debe figurar en la lista UE de su país y tipo de producto, o el puesto fronterizo rechaza la partida.",
+  d_health:"Certificado sanitario oficial|Firmado por la autoridad sanitaria del país exportador (en Marruecos: ONSSA).",
+  d_ched:"DSCE-P (CHED-P) prenotificado en TRACES|Su agente de aduanas lo presenta antes de la llegada al puesto de control fronterizo.",
+  d_iuu:"Certificado de captura INDNR|Obligatorio para pescado salvaje según el Reglamento (CE) 1005/2008.",
+  d_orig_ma:"Prueba de origen marroquí|EUR.1 o declaración de origen según el acuerdo UE–Marruecos. Sin ella se aplica el tipo de terceros países.",
+  d_orig_ws:"Origen indicando Dakhla|Desde la modificación provisional del 3 de octubre de 2025, el certificado de origen y la etiqueta nombran la zona como Dakhla o El Aaiún. Su aprobación sigue en curso y es políticamente controvertida: confirme el estado actual con su agente de aduanas.",
+  d_orig_eba:"Declaración de origen REX|El exportador debe estar registrado en REX y el pescado cumplir las normas de origen TMA sobre buques.",
+  d_bivalve:"Zona de producción clasificada y marca de identificación|Las ostras vivas deben proceder de una zona clasificada del país exportador, llevar marca de identificación en cada bulto y llegar vivas.",
+  d_eu:"Sin trámites fronterizos|Mercado único: solo documentos comerciales y trazabilidad.",
+  r_1:"Por mar desde el puerto de Dakhla|CMA CGM ha operado una lanzadera Dakhla, Tanger Med, Algeciras (anunciada en 2019). La ruta marítima más corta a España cuando hay salida.",
+  r_2:"Camión frigorífico a Agadir y luego mar|Agadir tiene el servicio Atlas de DP World a London Gateway y Amberes (lanzado en 2025) y el servicio frigorífico de Samskip al Reino Unido y Países Bajos.",
+  r_3:"Camión frigorífico a Tanger Med|Por carretera hacia el norte de Marruecos, luego ferry o ro-ro a Algeciras y carretera. Lo más flexible, el transporte por carretera más caro."}
 };
 let lang="en";const t=k=>(T[lang]&&T[lang][k])||EN[k]||k;
 
@@ -299,6 +335,17 @@ function calc(o){
   return{goods,freight,ins,duty:dutyAmt,d,bcp,fees,storage,finance,total,perKg,perCarton:perKg*num("carton"),
     perCan:total/((kg*y*1000)/g),perPiece:perKg*((c[0]+c[1])/2)/1000,margin:sell>0?(sell-perKg)/sell:NaN,profit:(sell-perKg)*kg};}
 
+function lin(o){const b=calc({...o,fob:0}).perKg,a=calc({...o,fob:1}).perKg-b;return{a,b};}
+function maxFobFor(o){const {a,b}=lin(o),target=num("sell")*(1-num("tgt")/100);return a>0?(target-b)/a:NaN;}
+const fill=(s,m)=>s.replace(/\{(\w+)\}/g,(_,k)=>m[k]);
+function renderBE(R){
+  const o=O[0],me=R[0],best=[1,2].map(i=>({i,kg:R[i].perKg})).sort((x,y)=>x.kg-y.kg)[0];
+  const {a,b}=lin(o),x=(best.kg-b)/a,an=oname(o),bn=oname(O[best.i]),win=me.perKg<best.kg;
+  $("be").innerHTML=`<span class="eyebrow">${t("be_title")}</span>
+   <span class="verdict ${win?"pos":"neg"}">${win?fill(t("be_win"),{a:an}):fill(t("be_lose"),{a:an,d:money(o.fob-x,3)})}</span>
+   <p>${fill(t("be_beat"),{a:an,b:bn,bp:money(best.kg,3),x:money(x,3),now:money(o.fob,2)})}${win?" "+fill(t("be_room"),{a:an,d:money(x-o.fob,3)}):""}</p>
+   <p>${fill(t("be_slope"),{a:an,s:money(a*0.01,4)})}</p>`;
+}
 function render(){
   const P=PROD[product],R=O.map(calc),minKg=Math.min(...R.map(r=>r.perKg)),oy=product==="oyster";
   $("hs").textContent=`CN ${P.hs} · ${P.sp}`;
@@ -316,16 +363,17 @@ function render(){
    <tr class="big"><td>${t("u_kg")}</td>${R.map(r=>`<td>${money(r.perKg,3)}${r.perKg===minKg?`<span class="best">${t("best")}</span>`:""}</td>`).join("")}</tr>
    ${line("u_carton","perCarton",2)}${oy?line("u_piece","perPiece",3):line("u_can","perCan",3)}
    <tr><td>${t("u_margin")}</td>${R.map(r=>`<td class="${r.margin>=0?"pos":"neg"}">${isFinite(r.margin)?fmt(r.margin*100,1)+"%":"—"}</td>`).join("")}</tr>
-   <tr><td>${t("u_profit")}</td>${R.map(r=>`<td class="${r.profit>=0?"pos":"neg"}">${money(r.profit)}</td>`).join("")}</tr></tbody>`;
+   <tr><td>${t("u_profit")}</td>${R.map(r=>`<td class="${r.profit>=0?"pos":"neg"}">${money(r.profit)}</td>`).join("")}</tr>
+   <tr><td>${t("u_maxfob")}</td>${O.map(o=>{const m=maxFobFor(o);return `<td class="${m>=o.fob?"pos":"neg"}">${m>0?money(m,3):"—"}</td>`}).join("")}</tr></tbody>`;
   const parts=[["goods","--c1"],["freight","--c2"],["duty","--bad"],["fees","--c3"],["storage","--muted"],["finance","--buoy"],["ins","--line"]];
   const maxKg=Math.max(...R.map(r=>r.perKg));
   $("bars").innerHTML=`<span class="eyebrow">${t("legendTitle")}</span>`+R.map((r,i)=>`<div class="bar"><div class="lbl"><span><span class="dot" style="background:var(${O[i].color})"></span>${oname(O[i])}</span><b>${money(r.perKg,3)}</b></div><div class="track" style="width:${(r.perKg/maxKg*100).toFixed(1)}%">${parts.map(([k,c])=>`<span title="${t("c_"+k)}" style="width:${(r[k]/r.total*100).toFixed(2)}%;background:var(${c})"></span>`).join("")}</div></div>`).join("");
   $("legend").innerHTML=parts.map(([k,c])=>`<span><i style="background:var(${c})"></i>${t("c_"+k)}</span>`).join("");
-  renderDocs();renderRoutes();
+  renderBE(R);renderDocs();renderRoutes();
   const sum=[t("sumHead"),`${$("prod").querySelector('[aria-pressed="true"]').textContent} · CN ${P.hs} · ${fmt(num("tonnes"),1)} t`+(oy?` · ${$("cal").selectedOptions[0].textContent}`:""),
     ...O.map((o,i)=>`${oname(o)}: FOB ${money(o.fob,2)}/kg · duty ${fmt(R[i].d.rate)}% → ${money(R[i].perKg,3)}/kg landed, ${money(R[i].total)} per container`),
-    `Company: ${$("qCo").value.trim()||"—"}`,`Destination: ${$("qCountry").value.trim()||"—"}`,`Contact: ${$("qContact").value.trim()||"—"}`,"Request: firm FOB Dakhla quote for this volume"].join("\n");
-  $("sum").textContent=sum;$("wa").href="https://wa.me/?text="+encodeURIComponent(sum);
+    `Company: ${$("qCo").value.trim()||"—"}`,`Destination: ${$("qCountry").value.trim()||"—"}`,`Contact: ${$("qContact").value.trim()||"—"}`,`Target margin: ${fmt(num("tgt"))}% · selling ${money(num("sell"),2)}/kg`,"Dakhla Index: "+($("qIndex").checked?"yes":"no"),"Request: firm FOB Dakhla quote for this volume"].join("\n");
+  $("sum").textContent=sum;$("wa").href="https://wa.me/"+MADAR_WA+"?text="+encodeURIComponent(sum);save();
   $("canBox").style.display=oy?"none":"grid";$("oyBox").style.display=oy?"grid":"none";
 }
 function item(k){const [b,s]=t(k).split("|");return `<li><b>${b}</b><span>${s}</span></li>`;}
@@ -348,7 +396,7 @@ document.addEventListener("change",e=>{const el=e.target;
     if(el.dataset.f==="origin"){o.origin=el.value;o.proof=true;}
     if(el.dataset.f==="proof")o.proof=el.checked;
     const s=`[data-o="${el.dataset.o}"][data-f="${el.dataset.f}"]`;render();const a=document.querySelector(s);if(a)a.focus();return;}
-  if(el.tagName==="SELECT")render();});
+  render();});
 $("prod").addEventListener("click",e=>{const b=e.target.closest("[data-p]");if(!b)return;product=b.dataset.p;
   $("prod").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));
   const P=PROD[product],k=[1,.95,1.2];O.forEach((o,i)=>o.fob=+(P.fob*k[i]).toFixed(2));$("sell").value=P.sell.toFixed(2);
@@ -359,7 +407,14 @@ document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>{lang=b.datas
 function applyLang(){document.querySelectorAll("[data-t]").forEach(el=>{const k=el.dataset.t;if(!el.dataset.en)el.dataset.en=el.dataset.html?el.innerHTML:el.textContent;
   const v=lang==="en"?el.dataset.en:((T[lang]||{})[k]||el.dataset.en);if(el.dataset.html)el.innerHTML=v;else el.textContent=v;});}
 $("copy").addEventListener("click",()=>{const s=$("sum").textContent;navigator.clipboard.writeText(s).then(()=>$("toast").textContent=t("copied")).catch(()=>{const r=document.createRange();r.selectNodeContents($("sum"));const g=getSelection();g.removeAllRanges();g.addRange(r);$("toast").textContent=t("selected");});});
-applyLang();render();
+const SAVE_IDS=["tonnes","carton","cur","sell","tgt","ins","rate","pay","stor","weeks","yield","cang","cal","qCo","qCountry","qContact"];
+function save(){try{localStorage.setItem("madar-lc-v1",JSON.stringify({product,lang,O:O.map(({origin,proof,fob,freight,transit,clear,inland})=>({origin,proof,fob,freight,transit,clear,inland})),v:Object.fromEntries(SAVE_IDS.map(id=>[id,$(id).value]))}));}catch(_){}}
+function load(){try{const s=JSON.parse(localStorage.getItem("madar-lc-v1")||"null");if(!s)return;
+  if(PROD[s.product]){product=s.product;$("prod").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.p===product));}
+  if(s.lang&&(s.lang==="en"||T[s.lang])){lang=s.lang;document.documentElement.lang=lang;document.querySelectorAll(".lang button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.l===lang));}
+  (s.O||[]).forEach((o,i)=>{if(O[i]&&ORIG[o.origin])Object.assign(O[i],o);});
+  Object.entries(s.v||{}).forEach(([id,v])=>{const el=$(id);if(el&&v!=null)el.value=v;});}catch(_){}}
+load();applyLang();render();
 </script>
 </body>
 </html>
