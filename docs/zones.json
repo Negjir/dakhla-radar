@@ -1,57 +1,57 @@
 {
-  "data_day": "2026-11-09",
+  "data_day": "2026-11-10",
   "demo": false,
   "reports_used": 0,
   "zones": [
     {
       "id": "A",
-      "lat": 24.0,
-      "lon": -16.98,
-      "confidence": 90,
-      "distance_nm": 61,
-      "bearing_deg": 287,
-      "fuel_l": 1816,
-      "depth_m": 1014
+      "lat": 23.07,
+      "lon": -17.31,
+      "confidence": 83,
+      "distance_nm": 85,
+      "bearing_deg": 244,
+      "fuel_l": 2558,
+      "depth_m": 1023
     },
     {
       "id": "B",
-      "lat": 22.92,
-      "lon": -17.13,
-      "confidence": 74,
-      "distance_nm": 81,
-      "bearing_deg": 235,
-      "fuel_l": 2442,
-      "depth_m": 183
+      "lat": 22.62,
+      "lon": -17.25,
+      "confidence": 87,
+      "distance_nm": 98,
+      "bearing_deg": 228,
+      "fuel_l": 2936,
+      "depth_m": 487
     },
     {
       "id": "C",
-      "lat": 23.52,
-      "lon": -16.77,
-      "confidence": 77,
-      "distance_nm": 48,
-      "bearing_deg": 257,
-      "fuel_l": 1433,
-      "depth_m": 67
+      "lat": 22.11,
+      "lon": -17.34,
+      "confidence": 86,
+      "distance_nm": 124,
+      "bearing_deg": 219,
+      "fuel_l": 3708,
+      "depth_m": 86
     },
     {
       "id": "D",
-      "lat": 23.73,
-      "lon": -16.14,
-      "confidence": 71,
-      "distance_nm": 12,
-      "bearing_deg": 277,
-      "fuel_l": 357,
-      "depth_m": 34
+      "lat": 24.12,
+      "lon": -16.89,
+      "confidence": 84,
+      "distance_nm": 58,
+      "bearing_deg": 295,
+      "fuel_l": 1755,
+      "depth_m": 931
     },
     {
       "id": "E",
-      "lat": 24.6,
-      "lon": -16.89,
-      "confidence": 72,
-      "distance_nm": 75,
-      "bearing_deg": 316,
-      "fuel_l": 2260,
-      "depth_m": 1784
+      "lat": 23.7,
+      "lon": -16.17,
+      "confidence": 77,
+      "distance_nm": 13,
+      "bearing_deg": 269,
+      "fuel_l": 404,
+      "depth_m": 34
     }
   ]
 }
