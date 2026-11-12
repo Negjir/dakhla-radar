@@ -1,4 +1,4 @@
-[stac] 10 Sentinel-1 IW scenes 2026-11-07 → 2026-11-11
+[stac] 9 Sentinel-1 IW scenes 2026-11-08 → 2026-11-12
 [land] Copernicus_DSM_COG_10_N20_00_W018_00_DEM
 [land] Copernicus_DSM_COG_10_N20_00_W017_00_DEM
 [land] Copernicus_DSM_COG_10_N20_00_W016_00_DEM
