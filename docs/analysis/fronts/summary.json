@@ -1,0 +1,274 @@
+{
+  "made": "2026-11-17 18:10 UTC",
+  "period": [
+    "2002-06-02",
+    "2026-11-13"
+  ],
+  "sst": "NASA JPL MUR SST v4.1 (ERDDAP), every 2nd day, ~5 km sampling, 22-25N 19.5-14.6W",
+  "wind": "ERA5 10 m wind via Open-Meteo archive -> Coastal Upwelling Index (Ekman), mean of the 7 days before",
+  "cold_band": "distance offshore where SST first exceeds nearshore (5-15 km) SST + 1 degC",
+  "dT": "SST 150-200 km offshore minus SST 5-15 km offshore (upwelling strength)",
+  "relationship": {
+    "south": {
+      "corr_cui_dT": 0.02,
+      "corr_cui_width": 0.13,
+      "classes": {
+        "weak": {
+          "cui_range": [
+            -89.0,
+            151.0
+          ],
+          "days": 1476,
+          "dT_median": 1.99,
+          "cold_band_km_median": 92.4,
+          "cold_band_km_iqr": [
+            71.9,
+            113.3
+          ]
+        },
+        "moderate": {
+          "cui_range": [
+            151.0,
+            218.0
+          ],
+          "days": 1521,
+          "dT_median": 2.14,
+          "cold_band_km_median": 95.1,
+          "cold_band_km_iqr": [
+            74.6,
+            118.2
+          ]
+        },
+        "strong": {
+          "cui_range": [
+            218.0,
+            375.0
+          ],
+          "days": 1476,
+          "dT_median": 2.03,
+          "cold_band_km_median": 102.9,
+          "cold_band_km_iqr": [
+            89.9,
+            125.7
+          ]
+        }
+      }
+    },
+    "dakhla": {
+      "corr_cui_dT": 0.1,
+      "corr_cui_width": 0.08,
+      "classes": {
+        "weak": {
+          "cui_range": [
+            -117.0,
+            126.0
+          ],
+          "days": 1476,
+          "dT_median": 2.11,
+          "cold_band_km_median": 102.2,
+          "cold_band_km_iqr": [
+            79.2,
+            120.2
+          ]
+        },
+        "moderate": {
+          "cui_range": [
+            126.0,
+            189.0
+          ],
+          "days": 1521,
+          "dT_median": 2.29,
+          "cold_band_km_median": 102.1,
+          "cold_band_km_iqr": [
+            79.1,
+            120.1
+          ]
+        },
+        "strong": {
+          "cui_range": [
+            189.0,
+            350.0
+          ],
+          "days": 1476,
+          "dT_median": 2.31,
+          "cold_band_km_median": 107.5,
+          "cold_band_km_iqr": [
+            92.0,
+            124.9
+          ]
+        }
+      }
+    },
+    "north": {
+      "corr_cui_dT": 0.2,
+      "corr_cui_width": 0.06,
+      "classes": {
+        "weak": {
+          "cui_range": [
+            -133.0,
+            109.0
+          ],
+          "days": 1476,
+          "dT_median": 2.37,
+          "cold_band_km_median": 85.8,
+          "cold_band_km_iqr": [
+            66.0,
+            111.6
+          ]
+        },
+        "moderate": {
+          "cui_range": [
+            109.0,
+            167.0
+          ],
+          "days": 1521,
+          "dT_median": 2.77,
+          "cold_band_km_median": 86.1,
+          "cold_band_km_iqr": [
+            70.8,
+            106.1
+          ]
+        },
+        "strong": {
+          "cui_range": [
+            167.0,
+            329.0
+          ],
+          "days": 1476,
+          "dT_median": 2.86,
+          "cold_band_km_median": 91.5,
+          "cold_band_km_iqr": [
+            80.8,
+            111.5
+          ]
+        }
+      }
+    }
+  },
+  "analog_test": {
+    "days_tested": 1500,
+    "pca_components": 12,
+    "variance_explained": 0.7,
+    "best_analog_calendar_offset_days_median": 40,
+    "share_best_analog_within_15_days_of_date": 0.26,
+    "share_best_analog_more_than_30_days_from_date": 0.58,
+    "share_best_analog_more_than_60_days_from_date": 0.38,
+    "best_analog_distance_vs_same_date_median": 0.39
+  },
+  "families": [
+    {
+      "family": 1,
+      "days": 999,
+      "months": [
+        141,
+        94,
+        108,
+        94,
+        162,
+        161,
+        77,
+        28,
+        24,
+        29,
+        34,
+        47
+      ],
+      "years": 25
+    },
+    {
+      "family": 2,
+      "days": 584,
+      "months": [
+        76,
+        6,
+        3,
+        0,
+        4,
+        25,
+        72,
+        37,
+        23,
+        69,
+        83,
+        186
+      ],
+      "years": 24
+    },
+    {
+      "family": 3,
+      "days": 579,
+      "months": [
+        2,
+        2,
+        6,
+        2,
+        19,
+        26,
+        38,
+        133,
+        168,
+        110,
+        56,
+        17
+      ],
+      "years": 25
+    },
+    {
+      "family": 4,
+      "days": 835,
+      "months": [
+        0,
+        18,
+        7,
+        12,
+        59,
+        90,
+        137,
+        69,
+        111,
+        136,
+        160,
+        36
+      ],
+      "years": 25
+    },
+    {
+      "family": 5,
+      "days": 880,
+      "months": [
+        138,
+        190,
+        189,
+        168,
+        60,
+        40,
+        23,
+        14,
+        4,
+        9,
+        13,
+        32
+      ],
+      "years": 25
+    },
+    {
+      "family": 6,
+      "days": 597,
+      "months": [
+        27,
+        25,
+        53,
+        84,
+        74,
+        33,
+        34,
+        113,
+        45,
+        28,
+        21,
+        60
+      ],
+      "years": 25
+    }
+  ]
+}
