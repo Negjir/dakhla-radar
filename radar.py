@@ -493,7 +493,7 @@ button{{background:#4fe3d6;border:0;border-radius:999px;padding:12px 18px;font-w
 
 
 # ----------------------------------------------------------------- console (docs/index.html)
-def write_console_data(lats, lons, sst, chl, score, zones, data_day, demo):
+def write_console_data(lats, lons, sst, chl, score, zones, data_day, demo, species=None):
     """Everything the web console needs, in docs/radar.json (grids packed as small integers)."""
     ocean = np.isfinite(sst)
 
@@ -519,7 +519,7 @@ def write_console_data(lats, lons, sst, chl, score, zones, data_day, demo):
     data = {"day": data_day, "made": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "demo": demo,
             "port": {**CFG["port"], "ar": CFG["port"].get("ar", "ميناء الداخلة"), "fr": CFG["port"].get("fr", "Port de Dakhla")},
             "range_nm": CFG.get("max_range_nm", 150), "fuel_l_per_nm": CFG.get("fuel_l_per_nm", 15),
-            "sources": {**SOURCES, **SOURCES_EXTRA}, "zones": zones, "conditions": cond,
+            "sources": {**SOURCES, **SOURCES_EXTRA}, "zones": zones, "conditions": cond, "species": species,
             "grid": {"n": int(len(lats)), "m": int(len(lons)), "lat0": round(float(lats[0]), 4), "lon0": round(float(lons[0]), 4),
                      "cell": round(float(abs(lats[1] - lats[0])), 5), "score": pack(score, 99), "sst": pack(sst, 10), "chl": pack(chl_log, 100),
                      "depth": pack(DEPTH, 1) if DEPTH is not None else None}}
@@ -572,6 +572,12 @@ def main():
             j, i = int(np.argmin(abs(lats - z["lat"]))), int(np.argmin(abs(lons - z["lon"])))
             z["depth_m"] = int(round(float(DEPTH[j, i]))) if np.isfinite(DEPTH[j, i]) else None
     msg = message(zones, data_day)
+    sp = None
+    try:   # one model per species (sardine, sardinella, mackerel, horse mackerel), night and day
+        import species
+        sp = species.build(lats, lons, sst, chl, DEPTH, data_day, box, a.demo, reports)
+    except Exception as e:  # noqa: BLE001 - the general radar still publishes
+        print("[warn] species layer:", e)
 
     OUT.mkdir(exist_ok=True)
     (OUT / "archive").mkdir(exist_ok=True)
@@ -585,7 +591,7 @@ def main():
         for z in zones:
             f.write(f"{data_day},{z['id']},{z['lat']},{z['lon']},{z['confidence']},{z['distance_nm']}\n")
     write_page(zones, msg, data_day, a.demo)
-    write_console_data(lats, lons, sst, chl, score, zones, data_day, a.demo)
+    write_console_data(lats, lons, sst, chl, score, zones, data_day, a.demo, sp)
     build_console()
     print(msg)
 

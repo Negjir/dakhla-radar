@@ -105,6 +105,12 @@ button,input{font:inherit;color:inherit}
 .nbtn{display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--edge2);background:rgba(79,230,255,.1);color:var(--cyan);border-radius:9px;padding:10px;font-weight:600;font-size:13px;cursor:pointer;text-decoration:none;min-height:42px;text-align:center}
 .nbtn.ok{border-color:var(--green);color:var(--green)}
 .note{font-size:11.5px;line-height:1.6;color:var(--mute);margin:0}
+.spb{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
+.spb button,.per button{border:1px solid var(--edge);background:rgba(6,24,40,.5);border-radius:8px;padding:7px 4px;cursor:pointer;min-height:40px;font-size:12.5px;font-weight:600;line-height:1.25}
+.spb button[aria-pressed="true"],.per button[aria-pressed="true"]{border-color:var(--edge2);background:rgba(79,230,255,.14);box-shadow:0 0 14px rgba(79,230,255,.18) inset}
+.spb button small{display:block;font:500 10px var(--mono);color:var(--mute);margin-top:2px}
+.per{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+@media (max-width:420px){.spb{grid-template-columns:repeat(3,minmax(0,1fr))}}
 
 /* conditions */
 .cond{grid-column:1;display:grid;grid-template-columns:minmax(0,1fr) 150px 190px;gap:8px}
@@ -180,6 +186,12 @@ button,input{font:inherit;color:inherit}
   </section>
 
   <aside class="side">
+    <section class="glass sec" id="spsec" hidden>
+      <h2><span class="lbl" id="t-target"></span><span class="lbl num" id="splag"></span></h2>
+      <div class="spb" id="spb" role="group"></div>
+      <div class="per" id="per" role="group"><button type="button" data-p="night"></button><button type="button" data-p="day"></button></div>
+      <p class="note" id="spnote"></p>
+    </section>
     <section class="glass sec">
       <h2><span class="lbl" id="t-zones"></span><span class="lbl num" id="species"></span></h2>
       <div id="zones" style="display:grid;gap:6px"></div>
@@ -229,7 +241,12 @@ const T={
   wave:"الموج",up:"صعود المياه",tides:"المد",hi:"عالٍ",lo:"منخفض",species:"السردين · الماكريل · السردينيلا",clouds:"غيوم",nochl:"لا كلوروفيل لهذه المنطقة",
   score:"مؤشر الصيد",sstl:"حرارة الماء °C",chll:"كلوروفيل mg/m³",zone:"المنطقة",strong:"قوي",weak:"ضعيف",mod:"متوسط",now:"الآن",data:"بيانات",radar:"مدار السفن الكبيرة",
   comp:["شمال","شمال شرق","شرق","جنوب شرق","جنوب","جنوب غرب","غرب","شمال غرب"],min:"د",h:"س",confp:"ثقة",today:"اليوم",
-  fcnote:"توقع من نموذج المحيط والرياح. الخريطة الملونة هي أقمار اليوم، والمناطق هي المتوقعة لذلك اليوم.",depth:"العمق",depthl:"عمق القاع m (GEBCO)",xlink:"مدار الساحل ←",slink:"السفن من الفضاء ◈",src:"المصادر"},
+  fcnote:"توقع من نموذج المحيط والرياح. الخريطة الملونة هي أقمار اليوم، والمناطق هي المتوقعة لذلك اليوم.",depth:"العمق",depthl:"عمق القاع m (GEBCO)",xlink:"مدار الساحل ←",slink:"السفن من الفضاء ◈",src:"المصادر",
+  target:"النوع المستهدف",all:"الكل",allsub:"مؤشر عام",night:"🌙 توصية الليل",day:"☀ توصية النهار",suit:"ملاءمة",suitl:"ملاءمة الموطن",layer:"عمق السرب المتوقع",bt:"حرارة القاع",
+  shigh:"ملاءمة مرتفعة",smedium:"ملاءمة متوسطة",slow:"ملاءمة ضعيفة",snone:"لا توجد مياه مناسبة لهذا النوع في المدى اليوم.",
+  spnote:"لكل نوع موطنه: حرارة وعمق ومؤشرات بأوزان خاصة، تختلف بين الليل والنهار. الغذاء محسوب من كلوروفيل قبل حوالي 8 أيام (وقت نمو العوالق)، والصعود من رياح 4 إلى 10 أيام. الأوزان أولية وغير معايرة بعد، وتتحسن مع تقارير الصيد.",
+  miss:"غير متوفر اليوم:",lagchl:"غذاء متأخر من",
+  i:{front:"جبهة حرارية",front_cold:"الجهة الباردة من الجبهة",front_warm:"الجهة الدافئة من الجبهة",food_now:"كلوروفيل اليوم",food_lag:"غذاء (كلوروفيل قبل 8 أيام)",upwell_bio:"صعود الأيام 4-10",weak_upwell:"صعود ضعيف (ماء دافئ)",shelf_edge:"حافة الجرف",prey:"فرائس (سمك صغير)",bottom_ok:"حرارة القاع مناسبة"}},
  fr:{nav:"Aller à la zone",copyc:"Copier",copiedc:"OK",openapp:"Ouvrir dans l'app de navigation",gpx:"Télécharger GPX",gpxok:"Téléchargé",navnote:"Entrez le point dans le GPS et vérifiez la route sur la carte marine officielle. Le fichier GPX contient toutes les zones et le port ; il s'ouvre dans les apps de navigation et de nombreux chartplotters via carte mémoire.",zones:"Meilleures zones",why:"Pourquoi cette zone",boat:"Votre navire et le carburant",speed:"Vitesse",cons:"Conso.",copy:"Copier le message capitaine",copied:"Copié",
   note:"Indice satellite (température et chlorophylle) des eaux les plus favorables. Il ne garantit pas le poisson : confirmez au sonar. Respectez zones interdites et quotas.",
   tide:"Niveau de la mer et vent · 30 h",wind:"Vent",front:"Front thermique",chl:"Chlorophylle (nourriture)",cold:"Remontée d'eau froide",sst:"Temp.",chlv:"Chloro.",rt:"aller-retour",
@@ -237,7 +254,12 @@ const T={
   wave:"Houle",up:"Upwelling",tides:"Marée",hi:"PM",lo:"BM",species:"Sardine · Maquereau · Sardinelle",clouds:"nuages",nochl:"Pas de chlorophylle pour cette zone",
   score:"Indice de pêche",sstl:"Température de l'eau °C",chll:"Chlorophylle mg/m³",zone:"Zone",strong:"fort",weak:"faible",mod:"moyen",now:"maint.",data:"données",radar:"Madar Large",
   comp:["N","NE","E","SE","S","SO","O","NO"],min:"min",h:"h",confp:"confiance",today:"Aujourd'hui",
-  fcnote:"Prévision (modèle océan + vent). La carte colorée est le satellite du jour, les zones sont celles prévues pour ce jour.",depth:"Profondeur",depthl:"Profondeur m (GEBCO)",xlink:"Madar Côte →",slink:"◈ Navires vus de l'espace",src:"Sources"},
+  fcnote:"Prévision (modèle océan + vent). La carte colorée est le satellite du jour, les zones sont celles prévues pour ce jour.",depth:"Profondeur",depthl:"Profondeur m (GEBCO)",xlink:"Madar Côte →",slink:"◈ Navires vus de l'espace",src:"Sources",
+  target:"Espèce ciblée",all:"Toutes",allsub:"indice général",night:"🌙 Conseil de nuit",day:"☀ Conseil de jour",suit:"habitat",suitl:"Qualité de l'habitat",layer:"Profondeur probable du banc",bt:"Temp. du fond",
+  shigh:"habitat favorable",smedium:"habitat moyen",slow:"habitat faible",snone:"Pas d'eau favorable à cette espèce à portée aujourd'hui.",
+  spnote:"Chaque espèce a son habitat : température, profondeur et indicateurs avec leurs propres poids, différents la nuit et le jour. La nourriture vient de la chlorophylle d'il y a ~8 jours (temps de croissance du zooplancton), l'upwelling des vents de J-4 à J-10. Poids initiaux non calibrés : ils s'améliorent avec les rapports de pêche.",
+  miss:"Indisponible aujourd'hui :",lagchl:"nourriture décalée du",
+  i:{front:"Front thermique",front_cold:"Côté froid du front",front_warm:"Côté chaud du front",food_now:"Chlorophylle du jour",food_lag:"Nourriture (chloro. J-8)",upwell_bio:"Upwelling J-4 à J-10",weak_upwell:"Upwelling faible (eau chaude)",shelf_edge:"Bord du plateau",prey:"Proies (petits pélagiques)",bottom_ok:"Temp. du fond favorable"}},
  en:{nav:"Go to the zone",copyc:"Copy",copiedc:"Done",openapp:"Open in navigation app",gpx:"Download GPX",gpxok:"Downloaded",navnote:"Enter the point in the GPS and check the route on the official nautical chart. The GPX file holds every zone and the port; it opens in navigation apps and many chartplotters from a memory card.",zones:"Best zones",why:"Why this spot",boat:"Your vessel and fuel",speed:"Speed",cons:"Burn",copy:"Copy captain message",copied:"Copied",
   note:"Satellite index (sea temperature and chlorophyll) of the most favourable water. It does not guarantee fish: confirm on sonar. Respect closed areas and quotas.",
   tide:"Sea level and wind · 30 h",wind:"Wind",front:"Thermal front",chl:"Chlorophyll (food)",cold:"Cold upwelled water",sst:"SST",chlv:"Chl",rt:"round trip",
@@ -245,10 +267,16 @@ const T={
   wave:"Waves",up:"Upwelling",tides:"Tide",hi:"High",lo:"Low",species:"Sardine · Mackerel · Sardinella",clouds:"clouds",nochl:"No chlorophyll for this spot",
   score:"Fishing index",sstl:"Water temperature °C",chll:"Chlorophyll mg/m³",zone:"Zone",strong:"strong",weak:"weak",mod:"moderate",now:"now",data:"data",radar:"Madar Offshore",
   comp:["N","NE","E","SE","S","SW","W","NW"],min:"min",h:"h",confp:"confidence",today:"Today",
-  fcnote:"Forecast (ocean + wind model). The coloured map is today's satellite; the zones are those forecast for that day.",depth:"Depth",depthl:"Sea-floor depth m (GEBCO)",xlink:"Madar Coast →",slink:"◈ Vessels from space",src:"Sources"}};
+  fcnote:"Forecast (ocean + wind model). The coloured map is today's satellite; the zones are those forecast for that day.",depth:"Depth",depthl:"Sea-floor depth m (GEBCO)",xlink:"Madar Coast →",slink:"◈ Vessels from space",src:"Sources",
+  target:"Target species",all:"All",allsub:"general index",night:"🌙 Night advice",day:"☀ Day advice",suit:"habitat",suitl:"Habitat suitability",layer:"Likely school depth",bt:"Bottom temp.",
+  shigh:"good habitat",smedium:"fair habitat",slow:"poor habitat",snone:"No suitable water for this species within range today.",
+  spnote:"Each species has its own habitat: temperature, depth and indicator weights, different by night and by day. Food comes from chlorophyll ~8 days earlier (time for zooplankton to grow), upwelling from winds 4-10 days ago. Starting weights, not calibrated yet: they improve with catch reports.",
+  miss:"Missing today:",lagchl:"lagged food from",
+  i:{front:"Thermal front",front_cold:"Cold side of the front",front_warm:"Warm side of the front",food_now:"Chlorophyll today",food_lag:"Food (chlorophyll 8 days ago)",upwell_bio:"Upwelling days 4-10",weak_upwell:"Weak upwelling (warm water)",shelf_edge:"Shelf edge",prey:"Prey (small pelagics)",bottom_ok:"Bottom temp. suitable"}}};
 const NAME={ar:p=>p.ar,fr:p=>p.fr,en:p=>p.fr};
 const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
-let L="ar",PI=0,ZI=0,layer="score";
+let L="ar",PI=0,ZI=0,layer="score",SP="all",PER=(h=>h>=19||h<7?"night":"day")(new Date().getHours());
+try{SP=localStorage.getItem("rr_sp")||SP}catch(e){}
 try{L=localStorage.getItem("rr_l")||L}catch(e){}
 const t=k=>T[L][k];
 
@@ -269,6 +297,34 @@ function decode(p){
     cos:Math.cos(p.point.lat*Math.PI/180)};
 }
 const gx=(g,lon)=>(lon-g.lon0)/g.cell, gy=(g,lat)=>(g.lat0-lat)/g.cell;
+
+/* ---------- species layer (one model per species, night / day) ---------- */
+const SPD=()=>DATA.species&&DATA.species.list&&DATA.species.list.length?DATA.species:null;
+const spOf=id=>SPD()&&SPD().list.find(x=>x.id===id);
+const spName=e=>e[L]||e.fr;
+const slvl=p=>p>=60?"high":p>=40?"medium":"low";
+const spOn=()=>P&&P.tab==="today"&&SP!=="all"&&!!spOf(SP);
+function spGrid(arr,st){const o=new Float32Array(G.n*G.m),ms=Math.ceil(G.m/st);
+  for(let r=0;r<G.n;r++)for(let c=0;c<G.m;c++){const v=arr[((r/st)|0)*ms+((c/st)|0)];o[r*G.m+c]=v==null?0:v/99}return o}
+function applySp(){
+  if(!P.base)P.base=P.zones;if(!G.score0)G.score0=G.score;
+  if(spOn()){const e=spOf(SP),pp=e.periods[PER]||e.periods.night;G.score=spGrid(pp.grid,SPD().stride||2);
+    P.zones=pp.zones.map(z=>({...z,km:z.distance_nm,brg:z.bearing_deg,pct:z.suit,conf:slvl(z.suit),sp:e,per:PER,miss:pp.missing}))}
+  else{G.score=G.score0;P.zones=P.base}
+}
+function spPanel(){
+  const D=SPD(),sec=$("#spsec");sec.hidden=!(D&&P.tab==="today");if(sec.hidden)return;
+  $("#t-target").textContent=t("target");
+  const best=e=>{const z=(e.periods[PER]||{}).zones||[];return z.length?z[0].suit+"%":"—"};
+  $("#spb").innerHTML=`<button type="button" data-s="all" aria-pressed="${SP==="all"}">${t("all")}<small>${t("allsub")}</small></button>`+
+    D.list.map(e=>`<button type="button" data-s="${e.id}" aria-pressed="${SP===e.id}">${spName(e)}<small>${best(e)}</small></button>`).join("");
+  $("#spb").querySelectorAll("button").forEach(b=>b.onclick=()=>{SP=b.dataset.s;try{localStorage.setItem("rr_sp",SP)}catch(e){}spRefresh()});
+  $("#per").querySelectorAll("button").forEach(b=>{b.textContent=t(b.dataset.p);b.setAttribute("aria-pressed",b.dataset.p===PER);b.onclick=()=>{PER=b.dataset.p;spRefresh()}});
+  const lg=D.lags||{};$("#splag").textContent=lg.chl_lag_day?`${t("lagchl")} ${lg.chl_lag_day}`:"";
+  let note=t("spnote");if(spOn()){const pp=spOf(SP).periods[PER]||{};if((pp.missing||[]).length)note+=` ${t("miss")} ${pp.missing.map(k=>t("i")[k]||k).join("، ")}.`}
+  $("#spnote").textContent=note;
+}
+function spRefresh(){ZI=0;applySp();raster();header();side();spPanel()}
 
 /* ---------- color ramps ---------- */
 function ramp(stops){return v=>{v=Math.max(0,Math.min(1,v));for(let i=1;i<stops.length;i++){const[a,ca]=stops[i-1],[b,cb]=stops[i];if(v<=b){const k=(v-a)/(b-a||1);return ca.map((c,j)=>c+(cb[j]-c)*k)}}return stops[stops.length-1][1]}}
@@ -297,7 +353,7 @@ function raster(){
   x.putImageData(d,0,0);img=c;
   // legend
   const lg=$("#lg").getContext("2d");for(let i=0;i<150;i++){const c3=rp(i/149);lg.fillStyle=`rgb(${c3.map(Math.round)})`;lg.fillRect(i,0,1,8)}
-  $("#lgt").textContent=layer==="score"?t("score"):layer==="sst"?t("sstl"):layer==="depth"?t("depthl"):t("chll");
+  $("#lgt").textContent=layer==="score"?(spOn()?t("suitl")+" · "+spName(spOf(SP))+" · "+t(PER).replace(/^\S+\s/,""):t("score")):layer==="sst"?t("sstl"):layer==="depth"?t("depthl"):t("chll");
   if(layer==="score"){$("#lg0").textContent=t("weak");$("#lg1").textContent=t("strong")}
   else if(layer==="depth"){$("#lg0").textContent="0 m";$("#lg1").textContent=Math.round(hi)+" m"}
   else if(layer==="sst"){$("#lg0").textContent=lo.toFixed(1)+"°";$("#lg1").textContent=hi.toFixed(1)+"°"}
@@ -431,16 +487,19 @@ function readout(X,Y){const[c,r]=fromS(X,Y),ci=Math.round(c-.5),ri=Math.round(r-
 /* ---------- side panel ---------- */
 function side(){
   const Z=P.zones,box=$("#zones");box.innerHTML="";
-  if(!Z.length){box.innerHTML=`<p class="note">${t("none")}</p>`}
+  if(!Z.length){box.innerHTML=`<p class="note">${spOn()?t("snone"):t("none")}</p>`}
   Z.forEach((z,i)=>{const tr=trip(z),b=document.createElement("button");b.className="zone";b.type="button";b.setAttribute("aria-pressed",i===ZI);
     b.innerHTML=`<span class="zid c-${z.conf}">${z.id}</span><span class="zpos">${pos(z)}</span><span class="pill c-${z.conf}"><span class="num">${z.pct}%</span></span>
     <span class="zsub"><span><b class="num">${z.km}</b> ${t("km")} ${comp(z.brg)} <span class="num">(${z.brg}°)</span></span>${z.depth_m?`<span>${t("depth")} <b class="num">${z.depth_m} m</b></span>`:""}<span>${t("eta")} <b class="num">${hm(tr.min)}</b></span><span>${t("fuel")} <b class="num">${tr.fuel.toLocaleString("en-US")} L</b></span></span>`;
     b.onclick=()=>{ZI=i;side()};box.appendChild(b)});
   const z=Z[ZI];$("#whyz").textContent=z?`${t("zone")} ${z.id}`:"";
   const f=z?z.f||{}:{},row=(k,v)=>`<div class="bar"><span>${t(k)}</span><span class="t"><i style="width:${v==null?0:Math.round(v*100)}%"></i></span><span class="v">${v==null?"—":Math.round(v*100)}</span></div>`;
-  $("#why").innerHTML=P.tab==="fc"?`<p class="note">${t("fcnote")}</p>`:z?row("front",f.front)+row("chl",f.chl)+(f.chl==null?`<p class="note">${t("nochl")}</p>`:""):"";
+  const rowI=(k,v)=>`<div class="bar"><span>${t("i")[k]||k}</span><span class="t"><i style="width:${Math.round(v*100)}%"></i></span><span class="v">${Math.round(v*100)}</span></div>`;
+  $("#why").innerHTML=P.tab==="fc"?`<p class="note">${t("fcnote")}</p>`:z&&z.sp?Object.entries(z.f||{}).sort((a,b)=>z.top.indexOf(a[0])-z.top.indexOf(b[0])).map(([k,v])=>rowI(k,v)).join(""):z?row("front",f.front)+row("chl",f.chl)+(f.chl==null?`<p class="note">${t("nochl")}</p>`:""):"";
   const tr=z?trip(z):null;
-  $("#facts").innerHTML=z?`<div class="fact"><span class="lbl">${t("sst")}</span><b>${z.sst??"—"}<small>°C</small></b></div>
+  $("#facts").innerHTML=z&&z.sp?`<div class="fact"><span class="lbl">${t("sst")}</span><b>${z.sst??"—"}<small>°C</small></b>${z.bottom_t!=null?`<span class="lbl" style="letter-spacing:0;text-transform:none">${t("bt")} <span class="num">${z.bottom_t}°</span></span>`:""}</div>
+   <div class="fact"><span class="lbl">${t("depth")}</span><b>${z.depth_m??"—"}<small> m</small></b></div>
+   <div class="fact"><span class="lbl">${t("layer")}</span><b>${(z.sp.layer||{})[z.per]||"—"}<small> m</small></b><span class="lbl" style="letter-spacing:0;text-transform:none">${t(z.per)}</span></div>`:z?`<div class="fact"><span class="lbl">${t("sst")}</span><b>${z.sst??"—"}<small>°C</small></b></div>
    <div class="fact"><span class="lbl">${t("chlv")}</span><b>${z.chl_mg??"—"}<small> mg</small></b></div>
    <div class="fact"><span class="lbl">${t("fuel")}</span><b>${tr.fuel.toLocaleString("en-US")}<small> L</small></b><span class="lbl" style="letter-spacing:0;text-transform:none">${t("rt")}</span></div>`:"";
   $("#copy").textContent=t("copy");
@@ -506,9 +565,9 @@ function conditions(){
 
 /* ---------- message ---------- */
 function message(){
-  const Z=P.zones,I=x=>"\u2066"+x+"\u2069",lines=[`🐟 ${t("radar")} · ${tabName(P)} · ${I(P.date)}`,t("species"),""];
+  const Z=P.zones,I=x=>"\u2066"+x+"\u2069",S0=spOn()?spOf(SP):null,lines=[`🐟 ${t("radar")} · ${tabName(P)} · ${I(P.date)}`,S0?`${spName(S0)} · ${t(PER)} · ${t("layer")} ${I((S0.layer||{})[PER]+" m")}`:t("species"),""];
   if(!Z.length)lines.push(t("none"));
-  Z.forEach(z=>{const tr=trip(z);lines.push(`${t("zone")} ${z.id}: ${I(pos(z))}`,`   ${I(z.km+" nm · "+z.brg+"°")} ${comp(z.brg)} · ${t("confp")} ${z.pct}% · ${t("fuel")} ~${I(tr.fuel.toLocaleString("en-US")+" L")}`)});
+  Z.forEach(z=>{const tr=trip(z);lines.push(`${t("zone")} ${z.id}: ${I(pos(z))}`,`   ${I(z.km+" nm · "+z.brg+"°")} ${comp(z.brg)} · ${z.sp?t("suit"):t("confp")} ${z.pct}% · ${t("fuel")} ~${I(tr.fuel.toLocaleString("en-US")+" L")}`)});
   const c=P.conditions||{};lines.push("");
   if(P.tab==="fc"&&DATA.forecast&&DATA.forecast.headline)lines.push(DATA.forecast.headline);
   if(P.tab==="today"&&c.wind_kn!=null)lines.push(`${t("wind")} ${I(c.wind_kn+" kn")} · ${t("wave")} ${I((c.wave_max??"—")+" m")}`);
@@ -531,16 +590,16 @@ function header(){
   $("#leds").innerHTML=led(!!S.SST,"SST "+(S.SST||"—"))+led(!!S.CHL,"CHL "+(S.CHL||t("clouds")))+led(!!(P.conditions&&P.conditions.series),"WIND·WAVES");
   $("#hpt").textContent=(t("radar")+" · "+tabName(P)).toUpperCase();$("#hday").textContent=`${P.date} · BUILT ${DATA.made||""}`;
   $("#hsrc").textContent="NASA MUR SST · Copernicus Marine · GEBCO · Open-Meteo";
-  $("#species").textContent=t("species");$("#species").classList.toggle("num",false);$("#xlink").textContent=t("xlink");$("#slink").textContent=t("slink");
+  $("#species").textContent=spOn()?`${spName(spOf(SP))} · ${t(PER).replace(/^\S+\s/,"")}`:t("species");$("#species").classList.toggle("num",false);$("#xlink").textContent=t("xlink");$("#slink").textContent=t("slink");
 }
 function texts(){
   const con=$("#con");con.dir=L==="ar"?"rtl":"ltr";con.lang=L;document.documentElement.lang=L;
   [["#t-nav","nav"],["#t-zones","zones"],["#t-why","why"],["#t-boat","boat"],["#t-speed","speed"],["#t-cons","cons"],["#t-note","note"],["#t-tide","tide"],["#t-wind","wind"]].forEach(([s,k])=>$(s).textContent=t(k));
   document.querySelectorAll(".langs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===L));
 }
-document.querySelectorAll(".langs button").forEach(b=>b.onclick=()=>{L=b.dataset.l;try{localStorage.setItem("rr_l",L)}catch(e){}texts();header();side();conditions();raster()});
+document.querySelectorAll(".langs button").forEach(b=>b.onclick=()=>{L=b.dataset.l;try{localStorage.setItem("rr_l",L)}catch(e){}texts();header();side();conditions();raster();spPanel()});
 document.querySelectorAll("#layers button").forEach(b=>b.onclick=()=>{layer=b.dataset.v;document.querySelectorAll("#layers button").forEach(q=>q.setAttribute("aria-pressed",q===b));raster()});
-function select(i){PI=i;ZI=0;try{localStorage.setItem("rr_p",i)}catch(e){}P=DATA.points[i];G=decode(P);
+function select(i){PI=i;ZI=0;try{localStorage.setItem("rr_p",i)}catch(e){}P=DATA.points[i];G=decode(P);applySp();spPanel();
   $("#layers button[data-v=chl]").disabled=!G.chl;if(!G.chl&&layer==="chl")layer="score";
   $("#layers button[data-v=depth]").disabled=!G.depth;if(!G.depth&&layer==="depth")layer="score";
   raster();contours();fit();header();side();conditions()}
