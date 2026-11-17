@@ -29,7 +29,7 @@ CFG = radar.CFG
 DEFAULT_SPECIES = [
     {"id": "sardine", "ar": "السردين", "fr": "Sardine", "en": "Sardine", "sci": "Sardina pilchardus",
      "aliases": ["sardine", "sardina", "سردين", "السردين"],
-     "temp": [13, 15, 19, 21], "depth": [15, 25, 90, 130],
+     "temp": [13, 15, 21.5, 24], "depth": [15, 25, 90, 130],
      "night": {"front_cold": 0.30, "food_lag": 0.25, "upwell_bio": 0.25, "food_now": 0.20},
      "day": {"front_cold": 0.20, "food_lag": 0.30, "upwell_bio": 0.25, "food_now": 0.10, "bottom_ok": 0.15},
      "layer": {"night": "0-30", "day": "30-80"}},
@@ -47,7 +47,7 @@ DEFAULT_SPECIES = [
      "layer": {"night": "0-40", "day": "50-150"}},
     {"id": "horse_mackerel", "ar": "الشرن", "fr": "Chinchard", "en": "Horse mackerel", "sci": "Trachurus trachurus / T. trecae",
      "aliases": ["horse_mackerel", "horse mackerel", "chinchard", "شرن", "الشرن"],
-     "temp": [13, 15, 20, 22], "depth": [50, 80, 250, 400], "day_temp_on": "bottom",
+     "temp": [12, 14, 20, 22.5], "depth": [50, 80, 250, 400], "day_temp_on": "bottom", "night_temp_on": "bottom",
      "night": {"shelf_edge": 0.30, "food_lag": 0.30, "front": 0.20, "prey": 0.20},
      "day": {"shelf_edge": 0.40, "bottom_ok": 0.30, "food_lag": 0.20, "prey": 0.10},
      "layer": {"night": "20-80", "day": "80-250"}},
@@ -188,7 +188,7 @@ def indicators(lats, lons, sst, chl, chl_lag, depth, bottom_t, up_bio, up_phys):
 
 
 def habitat(sp, period, ind, ctx):
-    t_src = ctx["bottom_t"] if (period == "day" and sp.get("day_temp_on") == "bottom" and ctx["bottom_t"] is not None) else ctx["sst"]
+    t_src = ctx["bottom_t"] if (sp.get(period + "_temp_on") == "bottom" and ctx["bottom_t"] is not None) else ctx["sst"]
     gate = np.nan_to_num(trap(t_src, *sp["temp"]))
     if ctx["depth"] is not None:
         gate = gate * np.nan_to_num(trap(ctx["depth"], *sp["depth"]))
