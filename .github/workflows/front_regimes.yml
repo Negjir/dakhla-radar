@@ -1,0 +1,37 @@
+name: Sea memory test (fronts, winds, analog days)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fronts
+  cancel-in-progress: false
+
+jobs:
+  fronts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install xarray numpy scipy matplotlib netCDF4
+      - uses: actions/cache@v4
+        with:
+          path: data/cache/mur_fronts
+          key: mur-fronts-v1-${{ github.run_id }}
+          restore-keys: mur-fronts-v1-
+      - name: Analysis
+        run: python tools/front_regimes.py
+      - name: Save results
+        run: |
+          git config user.name "radar-bot"
+          git config user.email "radar-bot@users.noreply.github.com"
+          git add docs/analysis/fronts
+          git commit -m "Sea memory test $(date -u +%F-%H%M)" || echo "nothing to commit"
+          git pull --rebase
+          git push
