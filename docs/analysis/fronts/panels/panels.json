@@ -1,0 +1,73 @@
+{
+ "patterns": [
+  {
+   "id": 1,
+   "days": 999,
+   "peak_months": [
+    5,
+    6,
+    1
+   ],
+   "years": 25
+  },
+  {
+   "id": 2,
+   "days": 584,
+   "peak_months": [
+    12,
+    11,
+    1
+   ],
+   "years": 24
+  },
+  {
+   "id": 3,
+   "days": 579,
+   "peak_months": [
+    9,
+    8,
+    10
+   ],
+   "years": 25
+  },
+  {
+   "id": 4,
+   "days": 835,
+   "peak_months": [
+    11,
+    7,
+    10
+   ],
+   "years": 25
+  },
+  {
+   "id": 5,
+   "days": 880,
+   "peak_months": [
+    2,
+    3,
+    4
+   ],
+   "years": 25
+  },
+  {
+   "id": 6,
+   "days": 597,
+   "peak_months": [
+    8,
+    4,
+    5
+   ],
+   "years": 25
+  }
+ ],
+ "example": {
+  "today": "2021-12-31",
+  "analog": "2012-01-11",
+  "pool_days": 850
+ },
+ "years_with_all_three": [
+  2002,
+  2021
+ ]
+}
