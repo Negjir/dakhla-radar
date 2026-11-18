@@ -1,0 +1,100 @@
+{
+  "made": "2026-11-18 00:46 UTC",
+  "period": [
+    "2002-06-02",
+    "2026-11-13"
+  ],
+  "years_with_chlorophyll": [
+    2002,
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "years_with_currents": [
+    2002,
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "days_with_all_three": 3582,
+  "days_tested": 1500,
+  "variance_explained": {
+    "sst": 0.63,
+    "chl": 0.63,
+    "u": 0.63,
+    "v": 0.65
+  },
+  "lead_days": 6,
+  "analogs_per_day": 10,
+  "forecast_error_median": {
+    "climatology": 1.365,
+    "same_date": 1.157,
+    "sst_only": 1.149,
+    "sst_food_currents": 1.043,
+    "persistence": 0.992
+  },
+  "skill_vs_climatology": {
+    "climatology": 0.0,
+    "same_date": 0.152,
+    "sst_only": 0.158,
+    "sst_food_currents": 0.236,
+    "persistence": 0.273
+  },
+  "share_same_10_closest_days_sst_vs_all": 0.11,
+  "best_analog_more_than_30_days_from_date": {
+    "sst_only": 0.6,
+    "sst_food_currents": 0.42
+  },
+  "best_analog_calendar_offset_median": {
+    "sst_only": 43,
+    "sst_food_currents": 24
+  },
+  "notes": [
+    "Errors are measured on the temperature + chlorophyll pattern 6 days later (PCA space).",
+    "Skill = 1 - error / error of the long-term average state. Higher is better.",
+    "Persistence = 'the sea in 6 days will look like today'.",
+    "No catch data is used: this tests whether the matching finds days that evolve alike, not where fish were."
+  ]
+}
