@@ -73,7 +73,16 @@ def main():
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
+    from matplotlib import font_manager
     from scipy.cluster.vq import kmeans2
+
+    for f in font_manager.findSystemFonts():
+        if "NotoSansArabic" in f or "NotoNaskhArabic" in f:
+            font_manager.fontManager.addfont(f)
+    names = {f.name for f in font_manager.fontManager.ttflist}
+    fam = next((n for n in ("Noto Sans Arabic", "Noto Naskh Arabic") if n in names), "DejaVu Sans")
+    print("font", fam)
+    plt.rcParams["font.family"] = [fam, "DejaVu Sans"]
 
     days, lats, lons, sst, chl, u, v = load()
     land = np.isfinite(sst).mean(0) < 0.05
@@ -107,7 +116,7 @@ def main():
     _, lab = kmeans2(Z[:, :6], 6, minit="++", seed=0)
     gdays = [d for d, g in zip(days, good) if g]
     sst_g = sst[good]
-    fig, axs = plt.subplots(2, 3, figsize=(13, 8.4))
+    fig, axs = plt.subplots(2, 3, figsize=(13, 7.6), constrained_layout=True)
     vmin, vmax = np.nanpercentile(sst[:, oc], [3, 97])
     for c in range(6):
         ax = axs.flat[c]
@@ -117,10 +126,10 @@ def main():
         peak = [MONTHS[i] for i in np.argsort(months)[::-1][:3]]
         pc = ax.pcolormesh(lons, lats, np.where(oc, mm, np.nan), cmap="RdYlBu_r", vmin=vmin, vmax=vmax, shading="auto")
         base_ax(ax, lats, lons, land)
-        ax.set_title(ar(f"الشكل {c + 1} · {int(sel.sum())} يوماً · غالباً في: {'، '.join(peak)}"), fontsize=10)
+        ax.set_title(ar(f"الشكل {c + 1}: غالباً في {'، '.join(peak)}"), fontsize=10.5)
     fig.colorbar(pc, ax=axs, shrink=0.7, label=ar("حرارة سطح البحر °C"))
     fig.suptitle(ar("أشكال البحر الستة أمام الداخلة: متوسط حرارة الماء في أيام كل شكل"), fontsize=13)
-    fig.savefig(OUT / "maps_patterns.png", dpi=140, bbox_inches="tight")
+    fig.savefig(OUT / "maps_patterns.png", dpi=140)
     plt.close(fig)
 
     # ---- 3. latest day vs its most similar past day (temperature + food + currents)
@@ -132,18 +141,25 @@ def main():
     Zu, _ = sm.block(u, ok3, demean=False)
     Zv, _ = sm.block(v, ok3, demean=False)
     Zall = np.hstack([Zs, Zc, Zu * np.sqrt(0.5), Zv * np.sqrt(0.5)])
+    for y in sorted({d.year for d in days}):
+        m = np.array([d.year == y for d in days])
+        print(y, "sst", round(float((frac(sst)[m] > 0.98).mean()), 2), "chl", round(float(frac(chl)[m].mean()), 2),
+              "cur", round(float(frac(u)[m].mean()), 2), "all3", int(ok3[m].sum()))
     idx = np.nonzero(ok3)[0]
     t = idx[-1]
     yrs = np.array([d.year for d in days])
-    pool = idx[yrs[idx] != yrs[t]]
+    doy = np.array([d.timetuple().tm_yday for d in days])
+    cal = np.abs(((doy[idx] - doy[t] + 182) % 365) - 182)
+    pool = idx[(yrs[idx] != yrs[t]) & (cal <= 45)]
     dist = np.sqrt(((Zall[pool] - Zall[t]) ** 2).sum(1))
     a = pool[int(np.argmin(dist))]
     fig, axs = plt.subplots(2, 3, figsize=(13, 8.6))
     for row, (i, name) in enumerate(((t, "اليوم المختار"), (a, "أشبه يوم في الماضي"))):
         ax = axs[row, 0]
-        ax.pcolormesh(lons, lats, np.where(oc, sst[i], np.nan), cmap="RdYlBu_r", vmin=vmin, vmax=vmax, shading="auto")
+        an = sst[i] - np.nanmean(sst[i][oc])
+        ax.pcolormesh(lons, lats, np.where(oc, an, np.nan), cmap="RdBu_r", vmin=-2.5, vmax=2.5, shading="auto")
         base_ax(ax, lats, lons, land)
-        ax.set_title(ar(f"{name} ({days[i]}): الحرارة"), fontsize=10)
+        ax.set_title(ar(f"{name} ({days[i]}): شكل الحرارة (أبرد/أدفأ من المتوسط)"), fontsize=10)
         ax = axs[row, 1]
         ax.pcolormesh(lons, lats, np.where(oc, np.log10(np.clip(chl[i], 0.05, 30)), np.nan), cmap="viridis", vmin=-1, vmax=1.2, shading="auto")
         base_ax(ax, lats, lons, land)

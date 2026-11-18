@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install "copernicusmarine>=2.0" xarray numpy scipy matplotlib netCDF4 arabic-reshaper python-bidi
+      - run: sudo apt-get install -y -q fonts-noto-core && pip install "copernicusmarine>=2.0" xarray numpy scipy matplotlib netCDF4 arabic-reshaper python-bidi
       - uses: actions/cache@v4
         with:
           path: data/cache/mur_fronts
