@@ -34,7 +34,7 @@ jobs:
         env:
           COPERNICUSMARINE_SERVICE_USERNAME: ${{ secrets.CMEMS_USER }}
           COPERNICUSMARINE_SERVICE_PASSWORD: ${{ secrets.CMEMS_PASS }}
-        run: python tools/sea_memory_maps.py
+        run: python tools/sea_memory_panels.py
       - name: Save results
         if: always()
         run: |
