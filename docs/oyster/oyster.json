@@ -1,6 +1,6 @@
 {
- "day": "2026-11-19",
- "made": "2026-11-19 08:00 UTC",
+ "day": "2026-11-20",
+ "made": "2026-11-20 07:57 UTC",
  "demo": false,
  "box": [
   23.56,
@@ -51,7 +51,6 @@
   }
  ],
  "sst_days": [
-  "2026-10-19",
   "2026-10-20",
   "2026-10-21",
   "2026-10-22",
@@ -80,7 +79,8 @@
   "2026-11-14",
   "2026-11-15",
   "2026-11-16",
-  "2026-11-17"
+  "2026-11-17",
+  "2026-11-18"
  ],
  "chl_days": [
   "2026-11-08",
@@ -92,16 +92,17 @@
   "2026-11-14",
   "2026-11-15",
   "2026-11-16",
-  "2026-11-17"
+  "2026-11-17",
+  "2026-11-18"
  ],
- "sst_day": "2026-11-17",
- "chl_day": "2026-11-17",
+ "sst_day": "2026-11-18",
+ "chl_day": "2026-11-18",
  "s2": {
-  "day": "2026-11-07",
-  "age": 12,
+  "day": "2026-11-19",
+  "age": 1,
   "ids": [
-   "S2C_28QCM_20261107_0_L2A",
-   "S2C_28QDM_20261107_0_L2A"
+   "S2A_28QCM_20261119_0_L2A",
+   "S2A_28QDM_20261119_0_L2A"
   ],
   "size": [
    1400,
@@ -109,110 +110,110 @@
   ]
  },
  "wind": {
-  "t0": "2026-11-19T08:00",
+  "t0": "2026-11-20T07:00",
   "speed": [
-   11,
    9,
-   10,
+   9,
    8,
-   8,
-   9,
-   10,
-   13,
-   15,
-   13,
-   11,
-   13,
-   12,
-   12,
-   12,
-   12,
-   13,
-   10,
-   11,
-   10,
-   9,
-   9,
-   9,
-   9,
-   10,
-   10,
-   8,
+   7,
+   6,
    5,
    3,
-   2,
-   6,
+   3,
    9,
    11,
-   10,
+   9,
+   8,
+   8,
+   7,
+   7,
+   9,
+   11,
+   8,
+   6,
+   7,
+   5,
+   7,
+   7,
    8,
    9,
    10,
    10,
-   9,
    8,
+   7,
+   5,
+   2,
    8,
+   12,
+   11,
    10,
-   8,
-   7,
-   6,
-   6,
-   7,
-   7
+   10,
+   10,
+   10,
+   11,
+   13,
+   12,
+   12,
+   11,
+   10,
+   10,
+   10,
+   11,
+   11
   ],
   "dir": [
-   67,
-   65,
-   64,
-   58,
-   44,
-   23,
-   10,
-   2,
-   4,
-   10,
-   12,
-   21,
-   29,
-   35,
-   43,
-   46,
-   50,
-   69,
-   55,
-   71,
-   80,
-   90,
-   93,
-   95,
-   96,
-   103,
+   102,
    104,
-   88,
-   73,
-   5,
-   329,
-   333,
-   342,
-   355,
-   10,
-   16,
-   18,
-   26,
-   37,
-   56,
-   72,
-   68,
-   95,
    97,
-   79,
-   60,
-   58,
-   73
+   86,
+   80,
+   82,
+   87,
+   337,
+   329,
+   336,
+   347,
+   351,
+   348,
+   2,
+   26,
+   42,
+   44,
+   76,
+   92,
+   76,
+   124,
+   71,
+   100,
+   111,
+   116,
+   124,
+   120,
+   118,
+   119,
+   115,
+   59,
+   339,
+   349,
+   357,
+   7,
+   17,
+   24,
+   30,
+   35,
+   30,
+   30,
+   38,
+   43,
+   40,
+   41,
+   41,
+   44,
+   45
   ],
-  "now_kn": 11,
-  "max_kn": 15,
-  "dir_now": 67
+  "now_kn": 9,
+  "max_kn": 13,
+  "dir_now": 102
  },
  "sources": {
   "s2": "Sentinel-2 L2A (ESA Copernicus, Earth Search)",
@@ -229,27 +230,26 @@
    "lat": 23.64,
    "lon": -15.915,
    "approx": true,
-   "level": 0,
+   "level": 1,
    "reasons": [
     {
-     "level": 0,
-     "key": "good",
-     "ar": "ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة",
-     "fr": "Bonnes conditions de croissance : nourriture suffisante, température adaptée"
+     "level": 1,
+     "key": "cold",
+     "ar": "برودة مفاجئة (-2.0° في أيام): مياه عميقة غنية دخلت الخليج، وقد يتبعها ازدهار طحالب",
+     "fr": "Refroidissement brutal (-2.0°) : remontée d'eau profonde riche, une efflorescence peut suivre"
     }
    ],
-   "sst": 20.9,
-   "chl": 5.09,
-   "chl_normal": 5.5,
-   "chl_ratio": 0.93,
+   "sst": 20.7,
+   "chl": 5.26,
+   "chl_normal": 5.27,
+   "chl_ratio": 1.0,
    "s2": {
-    "ndci": -0.081,
-    "ndci_p90": -0.035,
-    "turb": 3.2,
+    "ndci": -0.067,
+    "ndci_p90": -0.042,
+    "turb": 7.9,
     "px": 43492
    },
    "sst_series": [
-    20.76,
     20.18,
     19.72,
     19.91,
@@ -276,9 +276,10 @@
     21.94,
     22.38,
     22.67,
-    22.73,
-    22.03,
-    20.9
+    22.74,
+    20.72,
+    20.85,
+    20.7
    ],
    "chl_series": [
     9.18,
@@ -290,7 +291,8 @@
     9.08,
     7.65,
     7.89,
-    5.09
+    5.09,
+    5.26
    ]
   },
   {
@@ -300,27 +302,26 @@
    "lat": 23.65,
    "lon": -15.85,
    "approx": true,
-   "level": 0,
+   "level": 1,
    "reasons": [
     {
-     "level": 0,
-     "key": "good",
-     "ar": "ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة",
-     "fr": "Bonnes conditions de croissance : nourriture suffisante, température adaptée"
+     "level": 1,
+     "key": "cold",
+     "ar": "برودة مفاجئة (-2.0° في أيام): مياه عميقة غنية دخلت الخليج، وقد يتبعها ازدهار طحالب",
+     "fr": "Refroidissement brutal (-2.0°) : remontée d'eau profonde riche, une efflorescence peut suivre"
     }
    ],
-   "sst": 20.95,
-   "chl": 5.06,
+   "sst": 20.7,
+   "chl": 9.49,
    "chl_normal": 6.85,
-   "chl_ratio": 0.74,
+   "chl_ratio": 1.39,
    "s2": {
-    "ndci": -0.104,
-    "ndci_p90": -0.078,
-    "turb": 4.1,
-    "px": 24026
+    "ndci": -0.042,
+    "ndci_p90": -0.023,
+    "turb": 9.9,
+    "px": 23714
    },
    "sst_series": [
-    20.83,
     20.11,
     19.7,
     19.88,
@@ -347,9 +348,10 @@
     21.95,
     22.41,
     22.73,
-    22.68,
-    22.42,
-    20.95
+    22.69,
+    20.78,
+    20.87,
+    20.7
    ],
    "chl_series": [
     12.43,
@@ -361,7 +363,8 @@
     5.81,
     6.57,
     10.1,
-    5.06
+    5.06,
+    9.49
    ]
   },
   {
@@ -371,27 +374,26 @@
    "lat": 23.735,
    "lon": -15.86,
    "approx": true,
-   "level": 0,
+   "level": 1,
    "reasons": [
     {
-     "level": 0,
-     "key": "good",
-     "ar": "ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة",
-     "fr": "Bonnes conditions de croissance : nourriture suffisante, température adaptée"
+     "level": 1,
+     "key": "rise",
+     "ar": "الكلوروفيل أعلى ×1.6 عن المعتاد في هذا الموسم (9.8 mg/m³)",
+     "fr": "Chlorophylle ×1.6 par rapport à la normale de saison (9.8 mg/m³)"
     }
    ],
-   "sst": 20.96,
-   "chl": 7.8,
+   "sst": 20.7,
+   "chl": 9.78,
    "chl_normal": 6.0,
-   "chl_ratio": 1.3,
+   "chl_ratio": 1.63,
    "s2": {
-    "ndci": -0.103,
-    "ndci_p90": -0.076,
-    "turb": 3.4,
+    "ndci": -0.05,
+    "ndci_p90": -0.033,
+    "turb": 10.7,
     "px": 43528
    },
    "sst_series": [
-    20.9,
     20.2,
     19.89,
     20.08,
@@ -419,8 +421,9 @@
     22.07,
     22.38,
     22.53,
-    22.49,
-    20.96
+    20.84,
+    20.89,
+    20.7
    ],
    "chl_series": [
     6.95,
@@ -432,7 +435,8 @@
     11.0,
     8.07,
     10.48,
-    7.8
+    7.8,
+    9.78
    ]
   },
   {
@@ -442,27 +446,26 @@
    "lat": 23.84,
    "lon": -15.795,
    "approx": true,
-   "level": 0,
+   "level": 1,
    "reasons": [
     {
-     "level": 0,
-     "key": "good",
-     "ar": "ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة",
-     "fr": "Bonnes conditions de croissance : nourriture suffisante, température adaptée"
+     "level": 1,
+     "key": "rise",
+     "ar": "الكلوروفيل أعلى ×1.7 عن المعتاد في هذا الموسم (13.2 mg/m³)",
+     "fr": "Chlorophylle ×1.7 par rapport à la normale de saison (13.2 mg/m³)"
     }
    ],
-   "sst": 20.84,
-   "chl": 6.32,
-   "chl_normal": 7.85,
-   "chl_ratio": 0.81,
+   "sst": 20.67,
+   "chl": 13.15,
+   "chl_normal": 7.83,
+   "chl_ratio": 1.68,
    "s2": {
-    "ndci": -0.083,
-    "ndci_p90": -0.057,
-    "turb": 3.1,
+    "ndci": -0.032,
+    "ndci_p90": -0.015,
+    "turb": 9.7,
     "px": 43568
    },
    "sst_series": [
-    20.37,
     20.23,
     20.05,
     20.21,
@@ -489,9 +492,10 @@
     21.88,
     21.88,
     22.07,
-    22.22,
-    21.85,
-    20.84
+    22.19,
+    20.95,
+    20.69,
+    20.67
    ],
    "chl_series": [
     8.45,
@@ -503,7 +507,8 @@
     11.59,
     6.8,
     13.57,
-    6.32
+    6.32,
+    13.15
    ]
   },
   {
@@ -513,27 +518,26 @@
    "lat": 23.905,
    "lon": -15.745,
    "approx": true,
-   "level": 0,
+   "level": 1,
    "reasons": [
     {
-     "level": 0,
-     "key": "good",
-     "ar": "ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة",
-     "fr": "Bonnes conditions de croissance : nourriture suffisante, température adaptée"
+     "level": 1,
+     "key": "turb",
+     "ar": "ماء عكر (~398 FNU): غذاء أقل جودة ورواسب",
+     "fr": "Eau trouble (~398 FNU) : sédiments, alimentation moins bonne"
     }
    ],
-   "sst": 20.72,
-   "chl": 4.68,
-   "chl_normal": 7.18,
-   "chl_ratio": 0.65,
+   "sst": 20.62,
+   "chl": 8.31,
+   "chl_normal": 7.36,
+   "chl_ratio": 1.13,
    "s2": {
-    "ndci": 0.045,
-    "ndci_p90": 0.143,
-    "turb": 41.0,
-    "px": 16880
+    "ndci": 0.113,
+    "ndci_p90": 0.151,
+    "turb": 398.2,
+    "px": 3636
    },
    "sst_series": [
-    20.34,
     20.27,
     20.05,
     20.17,
@@ -560,9 +564,10 @@
     21.85,
     21.82,
     21.98,
-    22.12,
-    21.54,
-    20.72
+    22.1,
+    20.98,
+    20.55,
+    20.62
    ],
    "chl_series": [
     8.19,
@@ -574,11 +579,12 @@
     4.76,
     4.73,
     6.76,
-    4.68
+    4.68,
+    8.31
    ]
   }
  ],
- "level": 0,
- "msg_ar": "🦪 مدار المحار · خليج الداخلة · 2026-11-19\n\n🟢 لاسارگا: 20.9° · كلوروفيل 5.1 — ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة\n🟢 دونا بلانكا: 20.9° · كلوروفيل 5.1 — ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة\n🟢 وسط الخليج: 21.0° · كلوروفيل 7.8 — ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة\n🟢 بوطلحة: 20.8° · كلوروفيل 6.3 — ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة\n🟢 تنيكير: 20.7° · كلوروفيل 4.7 — ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة\n\n💨 الرياح 48 ساعة: حتى 15 عقدة\n\n⚠️ الأقمار لا تقيس السموم. القرار الرسمي للجني والبيع: نشرات INRH وكتابة الدولة المكلفة بالصيد البحري.",
- "msg_fr": "🦪 Madar Huîtres · Baie de Dakhla · 2026-11-19\n\n🟢 La Sarga : 20.9° · chl 5.1 — Bonnes conditions de croissance : nourriture suffisante, température adaptée\n🟢 Duna Blanca : 20.9° · chl 5.1 — Bonnes conditions de croissance : nourriture suffisante, température adaptée\n🟢 Centre de la baie : 21.0° · chl 7.8 — Bonnes conditions de croissance : nourriture suffisante, température adaptée\n🟢 Boutalha : 20.8° · chl 6.3 — Bonnes conditions de croissance : nourriture suffisante, température adaptée\n🟢 Tiniguir : 20.7° · chl 4.7 — Bonnes conditions de croissance : nourriture suffisante, température adaptée\n\n💨 Vent 48 h : jusqu'à 15 nœuds\n\n⚠️ Les satellites ne mesurent pas les toxines. Décision officielle de récolte et de vente : bulletins INRH / Pêche maritime."
+ "level": 1,
+ "msg_ar": "🦪 مدار المحار · خليج الداخلة · 2026-11-20\n\n🟡 لاسارگا: 20.7° · كلوروفيل 5.3 — برودة مفاجئة (-2.0° في أيام): مياه عميقة غنية دخلت الخليج، وقد يتبعها ازدهار طحالب\n🟡 دونا بلانكا: 20.7° · كلوروفيل 9.5 — برودة مفاجئة (-2.0° في أيام): مياه عميقة غنية دخلت الخليج، وقد يتبعها ازدهار طحالب\n🟡 وسط الخليج: 20.7° · كلوروفيل 9.8 — الكلوروفيل أعلى ×1.6 عن المعتاد في هذا الموسم (9.8 mg/m³)\n🟡 بوطلحة: 20.7° · كلوروفيل 13.2 — الكلوروفيل أعلى ×1.7 عن المعتاد في هذا الموسم (13.2 mg/m³)\n🟡 تنيكير: 20.6° · كلوروفيل 8.3 — ماء عكر (~398 FNU): غذاء أقل جودة ورواسب\n\n💨 الرياح 48 ساعة: حتى 13 عقدة\n\n⚠️ الأقمار لا تقيس السموم. القرار الرسمي للجني والبيع: نشرات INRH وكتابة الدولة المكلفة بالصيد البحري.",
+ "msg_fr": "🦪 Madar Huîtres · Baie de Dakhla · 2026-11-20\n\n🟡 La Sarga : 20.7° · chl 5.3 — Refroidissement brutal (-2.0°) : remontée d'eau profonde riche, une efflorescence peut suivre\n🟡 Duna Blanca : 20.7° · chl 9.5 — Refroidissement brutal (-2.0°) : remontée d'eau profonde riche, une efflorescence peut suivre\n🟡 Centre de la baie : 20.7° · chl 9.8 — Chlorophylle ×1.6 par rapport à la normale de saison (9.8 mg/m³)\n🟡 Boutalha : 20.7° · chl 13.2 — Chlorophylle ×1.7 par rapport à la normale de saison (13.2 mg/m³)\n🟡 Tiniguir : 20.6° · chl 8.3 — Eau trouble (~398 FNU) : sédiments, alimentation moins bonne\n\n💨 Vent 48 h : jusqu'à 13 nœuds\n\n⚠️ Les satellites ne mesurent pas les toxines. Décision officielle de récolte et de vente : bulletins INRH / Pêche maritime."
 }
