@@ -1837,27 +1837,112 @@
    "profile": "alteration",
    "bounds": [
     [
-     22.67,
-     -15.21
+     22.7,
+     -15.1
     ],
     [
-     22.97,
-     -14.91
+     23.0,
+     -14.8
     ]
    ],
    "area_km2": 1028,
-   "valid_pct": 99.6,
-   "anomaly_km2": 10.24,
-   "reduction": 100,
+   "valid_pct": 56.6,
+   "anomaly_km2": 5.82,
+   "reduction": 177,
    "targets": [
     {
-     "lat": 22.83331,
-     "lon": -15.09177,
-     "area_ha": 814.5,
+     "lat": 22.70494,
+     "lon": -14.93752,
+     "area_ha": 73.3,
      "peak": 4.0,
      "rank": 1,
      "label": "T1",
      "rel": 100,
+     "struct_km": 2.23,
+     "ring_km": null,
+     "emit": {
+      "cov": true,
+      "fam": "carbonate",
+      "pct": 92,
+      "x": 2.6
+     }
+    },
+    {
+     "lat": 22.73091,
+     "lon": -14.93917,
+     "area_ha": 54.5,
+     "peak": 4.01,
+     "rank": 2,
+     "label": "T2",
+     "rel": 72,
+     "struct_km": 1.21,
+     "ring_km": null,
+     "emit": {
+      "cov": true,
+      "fam": "kaolinite",
+      "pct": 63,
+      "x": 4.7
+     }
+    },
+    {
+     "lat": 22.75777,
+     "lon": -15.05408,
+     "area_ha": 38.7,
+     "peak": 6.77,
+     "rank": 3,
+     "label": "T3",
+     "rel": 64,
+     "struct_km": 0.26,
+     "ring_km": null,
+     "emit": {
+      "cov": true,
+      "fam": "serpentine",
+      "pct": 22,
+      "x": 109.4
+     }
+    },
+    {
+     "lat": 22.85205,
+     "lon": -15.00772,
+     "area_ha": 45.3,
+     "peak": 3.87,
+     "rank": 4,
+     "label": "T4",
+     "rel": 53,
+     "struct_km": 1.13,
+     "ring_km": null,
+     "emit": {
+      "cov": true,
+      "fam": "muscovite",
+      "pct": 92,
+      "x": 2.0
+     }
+    },
+    {
+     "lat": 22.71156,
+     "lon": -14.92377,
+     "area_ha": 39.7,
+     "peak": 4.0,
+     "rank": 5,
+     "label": "T5",
+     "rel": 52,
+     "struct_km": 1.01,
+     "ring_km": null,
+     "emit": {
+      "cov": true,
+      "fam": "carbonate",
+      "pct": 82,
+      "x": 2.3
+     }
+    },
+    {
+     "lat": 22.75469,
+     "lon": -14.82249,
+     "area_ha": 42.2,
+     "peak": 3.95,
+     "rank": 6,
+     "label": "T6",
+     "rel": 51,
      "struct_km": 1.38,
      "ring_km": null,
      "emit": {
@@ -1866,116 +1951,31 @@
      }
     },
     {
-     "lat": 22.75882,
-     "lon": -15.07503,
-     "area_ha": 44.5,
-     "peak": 4.86,
-     "rank": 2,
-     "label": "T2",
-     "rel": 6,
-     "struct_km": 0.42,
-     "ring_km": null,
-     "emit": {
-      "cov": true,
-      "fam": "montmorillonite",
-      "pct": 35,
-      "x": 65.2
-     }
-    },
-    {
-     "lat": 22.7931,
-     "lon": -15.09415,
-     "area_ha": 33.6,
-     "peak": 4.0,
-     "rank": 3,
-     "label": "T3",
-     "rel": 4,
-     "struct_km": 1.18,
-     "ring_km": null,
-     "emit": {
-      "cov": true,
-      "fam": "montmorillonite",
-      "pct": 61,
-      "x": 115.0
-     }
-    },
-    {
-     "lat": 22.70586,
-     "lon": -14.94378,
-     "area_ha": 16.0,
-     "peak": 4.0,
-     "rank": 4,
-     "label": "T4",
-     "rel": 2,
-     "struct_km": 1.54,
-     "ring_km": null,
-     "emit": {
-      "cov": true,
-      "fam": "gypsum",
-      "pct": 16,
-      "x": 163.3
-     }
-    },
-    {
-     "lat": 22.7844,
-     "lon": -15.0943,
-     "area_ha": 15.5,
-     "peak": 4.0,
-     "rank": 5,
-     "label": "T5",
-     "rel": 2,
-     "struct_km": 0.84,
-     "ring_km": null,
-     "emit": {
-      "cov": true,
-      "fam": "montmorillonite",
-      "pct": 8,
-      "x": 15.3
-     }
-    },
-    {
-     "lat": 22.7578,
-     "lon": -15.05911,
-     "area_ha": 12.3,
-     "peak": 5.45,
-     "rank": 6,
-     "label": "T6",
-     "rel": 2,
+     "lat": 22.74312,
+     "lon": -14.96185,
+     "area_ha": 36.9,
+     "peak": 4.02,
+     "rank": 7,
+     "label": "T7",
+     "rel": 50,
      "struct_km": 0.09,
      "ring_km": null,
      "emit": {
       "cov": true,
-      "fam": "montmorillonite",
-      "pct": 18,
-      "x": 34.5
+      "fam": "kaolinite",
+      "pct": 55,
+      "x": 4.1
      }
     },
     {
-     "lat": 22.7638,
-     "lon": -15.0837,
-     "area_ha": 11.3,
-     "peak": 4.83,
-     "rank": 7,
-     "label": "T7",
-     "rel": 1,
-     "struct_km": 0.66,
-     "ring_km": null,
-     "emit": {
-      "cov": true,
-      "fam": "serpentine",
-      "pct": 10,
-      "x": 49.7
-     }
-    },
-    {
-     "lat": 22.82593,
-     "lon": -15.07795,
-     "area_ha": 8.6,
+     "lat": 22.86776,
+     "lon": -14.98175,
+     "area_ha": 27.6,
      "peak": 4.0,
      "rank": 8,
      "label": "T8",
-     "rel": 1,
-     "struct_km": 1.78,
+     "rel": 34,
+     "struct_km": 0.84,
      "ring_km": null,
      "emit": {
       "cov": true,
@@ -1983,37 +1983,37 @@
      }
     },
     {
-     "lat": 22.69362,
-     "lon": -14.94649,
-     "area_ha": 7.6,
-     "peak": 4.0,
+     "lat": 22.76319,
+     "lon": -15.07422,
+     "area_ha": 18.5,
+     "peak": 4.79,
      "rank": 9,
      "label": "T9",
-     "rel": 1,
-     "struct_km": 0.84,
+     "rel": 26,
+     "struct_km": 0.13,
      "ring_km": null,
      "emit": {
       "cov": true,
-      "fam": "gypsum",
-      "pct": 41,
-      "x": 408.2
+      "fam": "muscovite",
+      "pct": 88,
+      "x": 1.9
      }
     },
     {
-     "lat": 22.75724,
-     "lon": -15.04955,
-     "area_ha": 4.8,
-     "peak": 6.71,
+     "lat": 22.76818,
+     "lon": -14.86754,
+     "area_ha": 18.7,
+     "peak": 3.94,
      "rank": 10,
      "label": "T10",
-     "rel": 1,
-     "struct_km": 0.47,
+     "rel": 23,
+     "struct_km": 0.62,
      "ring_km": null,
      "emit": {
       "cov": true,
-      "fam": "kaolinite",
-      "pct": 20,
-      "x": 1.5
+      "fam": "carbonate",
+      "pct": 80,
+      "x": 2.2
      }
     }
    ],
@@ -2024,14 +2024,19 @@
      "lon": -15.0,
      "kind": "prospect",
      "src": "reported ~135 km SE of Dakhla (2024); position from distance only, +/- 10 km",
-     "nearest_km": 8.14,
-     "nearest_target": "T8",
-     "best_rank_within": null,
-     "percentile": 83.2,
-     "hit": false
+     "nearest_km": 1.56,
+     "nearest_target": "T4",
+     "best_rank_within": 4,
+     "percentile": 95.5,
+     "hit": true
     }
    ],
    "scenes": [
+    {
+     "id": "S2B_28QEL_20241212_0_L2A",
+     "date": "2024-12-12",
+     "cloud": 0.0
+    },
     {
      "id": "S2B_28QDL_20241212_0_L2A",
      "date": "2024-12-12",
@@ -2058,28 +2063,28 @@
    "report": "tigba/MADAR-tigba-rapport.pdf",
    "structure": {
     "rose": [
-     0.342,
-     0.566,
-     0.954,
+     0.677,
+     0.816,
+     0.826,
      1.0,
-     0.842,
-     0.501,
-     0.328,
-     0.248,
-     0.222,
-     0.099,
+     0.963,
+     0.758,
+     0.606,
+     0.451,
+     0.473,
+     0.241,
+     0.145,
      0.102,
-     0.069,
-     0.127,
-     0.133,
-     0.113,
-     0.236,
-     0.206,
-     0.232
+     0.138,
+     0.159,
+     0.205,
+     0.36,
+     0.452,
+     0.609
     ],
     "dominant_az": 35.0,
     "rings": [],
-    "lineament_km": 324.0,
+    "lineament_km": 290.7,
     "src": "Copernicus DEM GLO-30, curvature + structure tensor + circular vote"
    },
    "emit": {
@@ -2123,174 +2128,183 @@
    "profile": "alteration",
    "bounds": [
     [
-     22.77,
-     -16.22
+     22.75,
+     -16.0
     ],
     [
-     23.07,
-     -15.92
+     23.05,
+     -15.7
     ]
    ],
    "area_km2": 1027,
-   "valid_pct": 89.3,
-   "anomaly_km2": 9.18,
-   "reduction": 112,
+   "valid_pct": 58.1,
+   "anomaly_km2": 5.97,
+   "reduction": 172,
    "targets": [
     {
-     "lat": 23.04046,
-     "lon": -16.12129,
-     "area_ha": 807.0,
-     "peak": 5.01,
+     "lat": 22.97821,
+     "lon": -15.80358,
+     "area_ha": 66.6,
+     "peak": 2.46,
      "rank": 1,
      "label": "T1",
      "rel": 100,
-     "struct_km": 1.31,
-     "ring_km": 13.25,
+     "struct_km": 1.99,
+     "ring_km": 12.37,
+     "emit": {
+      "cov": true,
+      "fam": "kaolinite",
+      "pct": 6,
+      "x": 2.5
+     }
+    },
+    {
+     "lat": 22.983,
+     "lon": -15.88386,
+     "area_ha": 52.1,
+     "peak": 3.44,
+     "rank": 2,
+     "label": "T2",
+     "rel": 87,
+     "struct_km": 0.59,
+     "ring_km": 6.26,
      "emit": {
       "cov": true,
       "fam": null
      }
     },
     {
-     "lat": 23.06652,
-     "lon": -16.1104,
-     "area_ha": 16.7,
-     "peak": 4.2,
-     "rank": 2,
-     "label": "T2",
-     "rel": 2,
-     "struct_km": 1.09,
-     "ring_km": 15.73,
+     "lat": 22.94347,
+     "lon": -15.97743,
+     "area_ha": 35.3,
+     "peak": 2.4,
+     "rank": 3,
+     "label": "T3",
+     "rel": 53,
+     "struct_km": 0.46,
+     "ring_km": 0.31,
      "emit": {
       "cov": true,
-      "fam": "kaolinite",
-      "pct": 8,
-      "x": 3.4
+      "fam": "jarosite",
+      "pct": 39,
+      "x": 10.4
      }
     },
     {
-     "lat": 22.90712,
-     "lon": -16.06143,
-     "area_ha": 11.5,
-     "peak": 6.24,
-     "rank": 3,
-     "label": "T3",
-     "rel": 2,
-     "struct_km": 0.0,
-     "ring_km": 1.47,
+     "lat": 22.90514,
+     "lon": -15.984,
+     "area_ha": 22.3,
+     "peak": 2.58,
+     "rank": 4,
+     "label": "T4",
+     "rel": 33,
+     "struct_km": 0.83,
+     "ring_km": 3.08,
+     "emit": {
+      "cov": true,
+      "fam": "montmorillonite",
+      "pct": 20,
+      "x": 27.5
+     }
+    },
+    {
+     "lat": 22.76128,
+     "lon": -15.91506,
+     "area_ha": 20.0,
+     "peak": 2.53,
+     "rank": 5,
+     "label": "T5",
+     "rel": 32,
+     "struct_km": 0.57,
+     "ring_km": 15.32,
      "emit": {
       "cov": true,
       "fam": "muscovite",
-      "pct": 69,
-      "x": 11.8
+      "pct": 16,
+      "x": 2.8
      }
     },
     {
-     "lat": 22.92451,
-     "lon": -16.05915,
-     "area_ha": 9.2,
-     "peak": 7.8,
-     "rank": 4,
-     "label": "T4",
-     "rel": 2,
-     "struct_km": 0.13,
-     "ring_km": 0.22,
-     "emit": {
-      "cov": true,
-      "fam": "kaolinite",
-      "pct": 10,
-      "x": 4.2
-     }
-    },
-    {
-     "lat": 22.86172,
-     "lon": -16.11826,
-     "area_ha": 11.9,
-     "peak": 5.93,
-     "rank": 5,
-     "label": "T5",
-     "rel": 2,
-     "struct_km": 0.71,
-     "ring_km": 2.6,
-     "emit": {
-      "cov": true,
-      "fam": null
-     }
-    },
-    {
-     "lat": 23.03506,
-     "lon": -16.10902,
-     "area_ha": 11.3,
-     "peak": 4.48,
+     "lat": 22.90249,
+     "lon": -15.9777,
+     "area_ha": 17.5,
+     "peak": 2.21,
      "rank": 6,
      "label": "T6",
-     "rel": 1,
-     "struct_km": 0.09,
-     "ring_km": 12.3,
+     "rel": 26,
+     "struct_km": 1.51,
+     "ring_km": 2.57,
      "emit": {
       "cov": true,
-      "fam": "gypsum",
-      "pct": 8,
-      "x": 81.6
+      "fam": null
      }
     },
     {
-     "lat": 23.06848,
-     "lon": -16.11924,
-     "area_ha": 7.6,
-     "peak": 4.33,
+     "lat": 22.75407,
+     "lon": -15.91459,
+     "area_ha": 15.2,
+     "peak": 3.47,
      "rank": 7,
      "label": "T7",
-     "rel": 1,
-     "struct_km": 2.03,
-     "ring_km": 16.16,
+     "rel": 25,
+     "struct_km": 0.53,
+     "ring_km": 16.13,
      "emit": {
-      "cov": false
+      "cov": true,
+      "fam": "muscovite",
+      "pct": 31,
+      "x": 5.2
      }
     },
     {
-     "lat": 23.04499,
-     "lon": -16.12023,
-     "area_ha": 7.5,
-     "peak": 4.15,
+     "lat": 22.94929,
+     "lon": -15.97006,
+     "area_ha": 16.1,
+     "peak": 2.28,
      "rank": 8,
      "label": "T8",
-     "rel": 1,
-     "struct_km": 1.37,
-     "ring_km": 13.69,
+     "rel": 25,
+     "struct_km": 0.34,
+     "ring_km": 0.33,
      "emit": {
       "cov": true,
-      "fam": null
+      "fam": "jarosite",
+      "pct": 45,
+      "x": 12.1
      }
     },
     {
-     "lat": 23.04793,
-     "lon": -16.12093,
-     "area_ha": 7.4,
-     "peak": 4.23,
+     "lat": 22.94277,
+     "lon": -15.97274,
+     "area_ha": 14.4,
+     "peak": 2.26,
      "rank": 9,
      "label": "T9",
-     "rel": 1,
-     "struct_km": 1.59,
-     "ring_km": 14.03,
+     "rel": 22,
+     "struct_km": 0.57,
+     "ring_km": 0.09,
      "emit": {
       "cov": true,
-      "fam": null
+      "fam": "jarosite",
+      "pct": 78,
+      "x": 20.9
      }
     },
     {
-     "lat": 22.95408,
-     "lon": -16.05538,
-     "area_ha": 3.6,
-     "peak": 5.62,
+     "lat": 22.91082,
+     "lon": -15.97818,
+     "area_ha": 13.8,
+     "peak": 2.15,
      "rank": 10,
      "label": "T10",
-     "rel": 1,
-     "struct_km": 0.09,
-     "ring_km": 2.97,
+     "rel": 20,
+     "struct_km": 0.83,
+     "ring_km": 2.34,
      "emit": {
       "cov": true,
-      "fam": null
+      "fam": "montmorillonite",
+      "pct": 18,
+      "x": 24.8
      }
     }
    ],
@@ -2301,43 +2315,28 @@
      "lon": -15.94,
      "kind": "prospect",
      "src": "ONHYM summary as reported: ~90 km S of Dakhla; position from distance only, +/- 15 km",
-     "nearest_km": 12.46,
-     "nearest_target": "T3",
+     "nearest_km": 3.87,
+     "nearest_target": "T6",
      "best_rank_within": null,
-     "percentile": 79.7,
+     "percentile": 38.8,
      "hit": false
     }
    ],
    "scenes": [
+    {
+     "id": "S2C_28QDL_20260101_0_L2A",
+     "date": "2026-01-01",
+     "cloud": 0.0
+    },
     {
      "id": "S2C_28QCL_20260101_0_L2A",
      "date": "2026-01-01",
      "cloud": 0.01
     },
     {
-     "id": "S2B_28QCL_20251227_0_L2A",
-     "date": "2025-12-27",
-     "cloud": 0.02
-    },
-    {
-     "id": "S2B_28QCL_20251127_0_L2A",
+     "id": "S2B_28QDL_20251127_0_L2A",
      "date": "2025-11-27",
-     "cloud": 0.01
-    },
-    {
-     "id": "S2A_28QCL_20251127_1_L2A",
-     "date": "2025-11-27",
-     "cloud": 0.02
-    },
-    {
-     "id": "S2B_28QCL_20251207_0_L2A",
-     "date": "2025-12-07",
-     "cloud": 0.05
-    },
-    {
-     "id": "S2C_28QCL_20251013_0_L2A",
-     "date": "2025-10-13",
-     "cloud": 0.05
+     "cloud": 0.0
     }
    ],
    "images": {
@@ -2355,51 +2354,60 @@
    "report": "chenna/MADAR-chenna-rapport.pdf",
    "structure": {
     "rose": [
-     0.329,
-     0.898,
+     0.723,
+     0.9,
+     0.693,
+     0.55,
+     0.369,
+     0.303,
+     0.391,
+     0.549,
+     0.284,
+     0.465,
+     0.43,
+     0.311,
+     0.501,
      1.0,
-     0.611,
-     0.15,
-     0.044,
-     0.011,
-     0.016,
-     0.007,
-     0.014,
-     0.015,
-     0.004,
-     0.005,
-     0.024,
-     0.027,
-     0.032,
-     0.046,
-     0.096
+     0.766,
+     0.448,
+     0.654,
+     0.77
     ],
-    "dominant_az": 25.0,
+    "dominant_az": 135.0,
     "rings": [
      {
       "id": "R1",
-      "lat": 22.90788,
-      "lon": -16.07045,
+      "lat": 22.91964,
+      "lon": -15.93293,
       "radius_km": 2.4,
       "closure": 0.67,
-      "tangential": 0.56,
-      "score": 0.72
+      "tangential": 0.62,
+      "score": 1.65
      },
      {
       "id": "R2",
-      "lat": 22.82933,
-      "lon": -16.10671,
+      "lat": 22.95139,
+      "lon": -15.97825,
       "radius_km": 1.2,
-      "closure": 0.62,
-      "tangential": 0.53,
-      "score": 0.61
+      "closure": 0.67,
+      "tangential": 0.88,
+      "score": 1.13
+     },
+     {
+      "id": "R3",
+      "lat": 22.98398,
+      "lon": -15.9574,
+      "radius_km": 1.2,
+      "closure": 0.67,
+      "tangential": 0.62,
+      "score": 0.76
      }
     ],
-    "lineament_km": 502.5,
+    "lineament_km": 445.8,
     "src": "Copernicus DEM GLO-30, curvature + structure tensor + circular vote"
    },
    "emit": {
-    "coverage_pct": 99.8,
+    "coverage_pct": 99.6,
     "families": {
      "carbonate": 80.5,
      "muscovite": 5.89,
