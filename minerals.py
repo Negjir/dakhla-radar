@@ -104,8 +104,8 @@ SITES = [
     {
         "id": "tigba", "name": "Tigba (SE Dakhla)", "name_ar": "تكبة (جنوب شرق الداخلة)", "country": "Morocco (Oued Ed-Dahab)",
         "metal": "Gold (surface gold reported), iron", "metal_ar": "الذهب (ذهب سطحي مذكور) والحديد",
-        "box": [22.67, 22.97, -15.21, -14.91],
-        "profile": "alteration",
+        "box": [22.70, 23.00, -15.10, -14.80],   # shifted east of the salt flat, onto the rock ridges
+        "profile": "alteration", "rock_mask": True,
         "known": [
             {"name": "Tigba artisanal gold area (approx., ~135 km SE of Dakhla)", "lat": 22.84, "lon": -15.00,
              "kind": "prospect", "src": "reported ~135 km SE of Dakhla (2024); position from distance only, +/- 10 km"},
@@ -114,8 +114,8 @@ SITES = [
     {
         "id": "chenna", "name": "Chenna (S Dakhla)", "name_ar": "شنّة (جنوب الداخلة)", "country": "Morocco (Oued Ed-Dahab)",
         "metal": "Gold, copper (quartz veins, Adrar Souttouf)", "metal_ar": "الذهب والنحاس (عروق كوارتز، أدرار سوتوف)",
-        "box": [22.77, 23.07, -16.22, -15.92],
-        "profile": "alteration",
+        "box": [22.75, 23.05, -16.00, -15.70],   # shifted east, off the coastal plain and dunes, onto the basement
+        "profile": "alteration", "rock_mask": True,
         "known": [
             {"name": "Chenna Au-Cu showings (approx., ~90 km S of Dakhla)", "lat": 22.90, "lon": -15.94,
              "kind": "prospect", "src": "ONHYM summary as reported: ~90 km S of Dakhla; position from distance only, +/- 15 km"},
@@ -273,7 +273,7 @@ def robust_z(a, mask):
     return z
 
 
-def analyse(b, profile):
+def analyse(b, profile, rock=False):
     eps = 1e-4
     ndvi = (b["nir"] - b["red"]) / (b["nir"] + b["red"] + eps)
     bright = (b["blue"] + b["green"] + b["red"]) / 3
@@ -281,6 +281,18 @@ def analyse(b, profile):
     valid &= ndvi < 0.25                      # vegetation hides the rock
     valid &= b["swir22"] > 0.03               # water / deep shadow
     valid &= bright < 0.45                    # saturated / cloud remnants
+    if rock:
+        # Sahara sites: keep bare rock only. Sabkhas (salt flats) and wet flats are damp (high NDMI) and mimic
+        # clay / iron anomalies; dunes and sand sheets are smooth; white salt crusts are very bright.
+        ndmi = (b["nir08"] - b["swir16"]) / (b["nir08"] + b["swir16"] + eps)
+        damp = ndimage.binary_dilation(np.nan_to_num(ndmi, nan=-1) > -0.06, iterations=20)   # + ~400 m margin
+        s = np.nan_to_num(b["swir22"])
+        m = ndimage.uniform_filter(s, 15)
+        tex = np.sqrt(np.clip(ndimage.uniform_filter(s * s, 15) - m * m, 0, None))
+        thr = float(np.percentile(tex[valid], 40)) if valid.any() else 0.0
+        before = valid.sum()
+        valid &= ~damp & (bright < 0.38) & (tex >= thr)
+        print(f"[rock mask] kept {valid.sum() / max(before, 1) * 100:.1f}% of valid pixels (sabkha, salt, dunes removed)")
     idx = {
         "clay": b["swir16"] / (b["swir22"] + eps),
         "ferric": b["red"] / (b["blue"] + eps),
@@ -524,7 +536,7 @@ def run_site(site, demo):
         b, used = demo_scene(site)
     else:
         b, used = fetch(site)
-    idx, z, score, valid = analyse(b, site["profile"])
+    idx, z, score, valid = analyse(b, site["profile"], site.get("rock_mask", False))
     tg, anom_km2, thr = targets(score, valid, site["box"])
     bt = blind_test(site, tg, score, valid)
     lat0, lat1, lon0, lon1 = site["box"]
