@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-10",
+ "generated": "2026-11-21",
  "demo": false,
  "hit_km": 2.0,
  "top_percent": 1.0,
@@ -1823,6 +1823,887 @@
      "20230902T091728",
      "20230923T153234",
      "20230923T153245"
+    ],
+    "src": "NASA EMIT L2B Mineral Identification (EMITL2BMIN), LP DAAC"
+   }
+  },
+  {
+   "id": "tigba",
+   "name": "Tigba (SE Dakhla)",
+   "name_ar": "تكبة (جنوب شرق الداخلة)",
+   "country": "Morocco (Oued Ed-Dahab)",
+   "metal": "Gold (surface gold reported), iron",
+   "metal_ar": "الذهب (ذهب سطحي مذكور) والحديد",
+   "profile": "alteration",
+   "bounds": [
+    [
+     22.67,
+     -15.21
+    ],
+    [
+     22.97,
+     -14.91
+    ]
+   ],
+   "area_km2": 1028,
+   "valid_pct": 99.6,
+   "anomaly_km2": 10.24,
+   "reduction": 100,
+   "targets": [
+    {
+     "lat": 22.83331,
+     "lon": -15.09177,
+     "area_ha": 814.5,
+     "peak": 4.0,
+     "rank": 1,
+     "label": "T1",
+     "rel": 100,
+     "struct_km": 1.38,
+     "ring_km": null,
+     "emit": {
+      "cov": true,
+      "fam": null
+     }
+    },
+    {
+     "lat": 22.75882,
+     "lon": -15.07503,
+     "area_ha": 44.5,
+     "peak": 4.86,
+     "rank": 2,
+     "label": "T2",
+     "rel": 6,
+     "struct_km": 0.42,
+     "ring_km": null,
+     "emit": {
+      "cov": true,
+      "fam": "montmorillonite",
+      "pct": 35,
+      "x": 65.2
+     }
+    },
+    {
+     "lat": 22.7931,
+     "lon": -15.09415,
+     "area_ha": 33.6,
+     "peak": 4.0,
+     "rank": 3,
+     "label": "T3",
+     "rel": 4,
+     "struct_km": 1.18,
+     "ring_km": null,
+     "emit": {
+      "cov": true,
+      "fam": "montmorillonite",
+      "pct": 61,
+      "x": 115.0
+     }
+    },
+    {
+     "lat": 22.70586,
+     "lon": -14.94378,
+     "area_ha": 16.0,
+     "peak": 4.0,
+     "rank": 4,
+     "label": "T4",
+     "rel": 2,
+     "struct_km": 1.54,
+     "ring_km": null,
+     "emit": {
+      "cov": true,
+      "fam": "gypsum",
+      "pct": 16,
+      "x": 163.3
+     }
+    },
+    {
+     "lat": 22.7844,
+     "lon": -15.0943,
+     "area_ha": 15.5,
+     "peak": 4.0,
+     "rank": 5,
+     "label": "T5",
+     "rel": 2,
+     "struct_km": 0.84,
+     "ring_km": null,
+     "emit": {
+      "cov": true,
+      "fam": "montmorillonite",
+      "pct": 8,
+      "x": 15.3
+     }
+    },
+    {
+     "lat": 22.7578,
+     "lon": -15.05911,
+     "area_ha": 12.3,
+     "peak": 5.45,
+     "rank": 6,
+     "label": "T6",
+     "rel": 2,
+     "struct_km": 0.09,
+     "ring_km": null,
+     "emit": {
+      "cov": true,
+      "fam": "montmorillonite",
+      "pct": 18,
+      "x": 34.5
+     }
+    },
+    {
+     "lat": 22.7638,
+     "lon": -15.0837,
+     "area_ha": 11.3,
+     "peak": 4.83,
+     "rank": 7,
+     "label": "T7",
+     "rel": 1,
+     "struct_km": 0.66,
+     "ring_km": null,
+     "emit": {
+      "cov": true,
+      "fam": "serpentine",
+      "pct": 10,
+      "x": 49.7
+     }
+    },
+    {
+     "lat": 22.82593,
+     "lon": -15.07795,
+     "area_ha": 8.6,
+     "peak": 4.0,
+     "rank": 8,
+     "label": "T8",
+     "rel": 1,
+     "struct_km": 1.78,
+     "ring_km": null,
+     "emit": {
+      "cov": true,
+      "fam": null
+     }
+    },
+    {
+     "lat": 22.69362,
+     "lon": -14.94649,
+     "area_ha": 7.6,
+     "peak": 4.0,
+     "rank": 9,
+     "label": "T9",
+     "rel": 1,
+     "struct_km": 0.84,
+     "ring_km": null,
+     "emit": {
+      "cov": true,
+      "fam": "gypsum",
+      "pct": 41,
+      "x": 408.2
+     }
+    },
+    {
+     "lat": 22.75724,
+     "lon": -15.04955,
+     "area_ha": 4.8,
+     "peak": 6.71,
+     "rank": 10,
+     "label": "T10",
+     "rel": 1,
+     "struct_km": 0.47,
+     "ring_km": null,
+     "emit": {
+      "cov": true,
+      "fam": "kaolinite",
+      "pct": 20,
+      "x": 1.5
+     }
+    }
+   ],
+   "blind_test": [
+    {
+     "name": "Tigba artisanal gold area (approx., ~135 km SE of Dakhla)",
+     "lat": 22.84,
+     "lon": -15.0,
+     "kind": "prospect",
+     "src": "reported ~135 km SE of Dakhla (2024); position from distance only, +/- 10 km",
+     "nearest_km": 8.14,
+     "nearest_target": "T8",
+     "best_rank_within": null,
+     "percentile": 83.2,
+     "hit": false
+    }
+   ],
+   "scenes": [
+    {
+     "id": "S2B_28QDL_20241212_0_L2A",
+     "date": "2024-12-12",
+     "cloud": 0.0
+    },
+    {
+     "id": "S2B_28QDL_20250210_0_L2A",
+     "date": "2025-02-10",
+     "cloud": 0.0
+    }
+   ],
+   "images": {
+    "truecolor.jpg": "tigba/truecolor.jpg",
+    "ratios.jpg": "tigba/ratios.jpg",
+    "clay.png": "tigba/clay.png",
+    "iron.png": "tigba/iron.png",
+    "score.png": "tigba/score.png",
+    "ree.png": "tigba/ree.png",
+    "struct.jpg": "tigba/struct.jpg",
+    "emit.png": "tigba/emit.png"
+   },
+   "gis": "tigba/MADAR-tigba-GIS.zip",
+   "prospect": false,
+   "report": "tigba/MADAR-tigba-rapport.pdf",
+   "structure": {
+    "rose": [
+     0.342,
+     0.566,
+     0.954,
+     1.0,
+     0.842,
+     0.501,
+     0.328,
+     0.248,
+     0.222,
+     0.099,
+     0.102,
+     0.069,
+     0.127,
+     0.133,
+     0.113,
+     0.236,
+     0.206,
+     0.232
+    ],
+    "dominant_az": 35.0,
+    "rings": [],
+    "lineament_km": 324.0,
+    "src": "Copernicus DEM GLO-30, curvature + structure tensor + circular vote"
+   },
+   "emit": {
+    "coverage_pct": 99.8,
+    "families": {
+     "muscovite": 46.0,
+     "carbonate": 35.9,
+     "kaolinite": 13.54,
+     "chlorite": 2.32,
+     "montmorillonite": 0.53,
+     "serpentine": 0.21,
+     "gypsum": 0.04,
+     "jarosite": 0.02
+    },
+    "iron": {
+     "hematite": 98.4,
+     "goethite": 1.18,
+     "mafic": 0.09,
+     "iron_oxide": 0.0
+    },
+    "scenes": [
+     "20230328T142412",
+     "20230328T142424",
+     "20230401T124903",
+     "20230401T124915",
+     "20230418T152905",
+     "20230528T141539",
+     "20230528T141550",
+     "20230923T153222"
+    ],
+    "src": "NASA EMIT L2B Mineral Identification (EMITL2BMIN), LP DAAC"
+   }
+  },
+  {
+   "id": "chenna",
+   "name": "Chenna (S Dakhla)",
+   "name_ar": "شنّة (جنوب الداخلة)",
+   "country": "Morocco (Oued Ed-Dahab)",
+   "metal": "Gold, copper (quartz veins, Adrar Souttouf)",
+   "metal_ar": "الذهب والنحاس (عروق كوارتز، أدرار سوتوف)",
+   "profile": "alteration",
+   "bounds": [
+    [
+     22.77,
+     -16.22
+    ],
+    [
+     23.07,
+     -15.92
+    ]
+   ],
+   "area_km2": 1027,
+   "valid_pct": 89.3,
+   "anomaly_km2": 9.18,
+   "reduction": 112,
+   "targets": [
+    {
+     "lat": 23.04046,
+     "lon": -16.12129,
+     "area_ha": 807.0,
+     "peak": 5.01,
+     "rank": 1,
+     "label": "T1",
+     "rel": 100,
+     "struct_km": 1.31,
+     "ring_km": 13.25,
+     "emit": {
+      "cov": true,
+      "fam": null
+     }
+    },
+    {
+     "lat": 23.06652,
+     "lon": -16.1104,
+     "area_ha": 16.7,
+     "peak": 4.2,
+     "rank": 2,
+     "label": "T2",
+     "rel": 2,
+     "struct_km": 1.09,
+     "ring_km": 15.73,
+     "emit": {
+      "cov": true,
+      "fam": "kaolinite",
+      "pct": 8,
+      "x": 3.4
+     }
+    },
+    {
+     "lat": 22.90712,
+     "lon": -16.06143,
+     "area_ha": 11.5,
+     "peak": 6.24,
+     "rank": 3,
+     "label": "T3",
+     "rel": 2,
+     "struct_km": 0.0,
+     "ring_km": 1.47,
+     "emit": {
+      "cov": true,
+      "fam": "muscovite",
+      "pct": 69,
+      "x": 11.8
+     }
+    },
+    {
+     "lat": 22.92451,
+     "lon": -16.05915,
+     "area_ha": 9.2,
+     "peak": 7.8,
+     "rank": 4,
+     "label": "T4",
+     "rel": 2,
+     "struct_km": 0.13,
+     "ring_km": 0.22,
+     "emit": {
+      "cov": true,
+      "fam": "kaolinite",
+      "pct": 10,
+      "x": 4.2
+     }
+    },
+    {
+     "lat": 22.86172,
+     "lon": -16.11826,
+     "area_ha": 11.9,
+     "peak": 5.93,
+     "rank": 5,
+     "label": "T5",
+     "rel": 2,
+     "struct_km": 0.71,
+     "ring_km": 2.6,
+     "emit": {
+      "cov": true,
+      "fam": null
+     }
+    },
+    {
+     "lat": 23.03506,
+     "lon": -16.10902,
+     "area_ha": 11.3,
+     "peak": 4.48,
+     "rank": 6,
+     "label": "T6",
+     "rel": 1,
+     "struct_km": 0.09,
+     "ring_km": 12.3,
+     "emit": {
+      "cov": true,
+      "fam": "gypsum",
+      "pct": 8,
+      "x": 81.6
+     }
+    },
+    {
+     "lat": 23.06848,
+     "lon": -16.11924,
+     "area_ha": 7.6,
+     "peak": 4.33,
+     "rank": 7,
+     "label": "T7",
+     "rel": 1,
+     "struct_km": 2.03,
+     "ring_km": 16.16,
+     "emit": {
+      "cov": false
+     }
+    },
+    {
+     "lat": 23.04499,
+     "lon": -16.12023,
+     "area_ha": 7.5,
+     "peak": 4.15,
+     "rank": 8,
+     "label": "T8",
+     "rel": 1,
+     "struct_km": 1.37,
+     "ring_km": 13.69,
+     "emit": {
+      "cov": true,
+      "fam": null
+     }
+    },
+    {
+     "lat": 23.04793,
+     "lon": -16.12093,
+     "area_ha": 7.4,
+     "peak": 4.23,
+     "rank": 9,
+     "label": "T9",
+     "rel": 1,
+     "struct_km": 1.59,
+     "ring_km": 14.03,
+     "emit": {
+      "cov": true,
+      "fam": null
+     }
+    },
+    {
+     "lat": 22.95408,
+     "lon": -16.05538,
+     "area_ha": 3.6,
+     "peak": 5.62,
+     "rank": 10,
+     "label": "T10",
+     "rel": 1,
+     "struct_km": 0.09,
+     "ring_km": 2.97,
+     "emit": {
+      "cov": true,
+      "fam": null
+     }
+    }
+   ],
+   "blind_test": [
+    {
+     "name": "Chenna Au-Cu showings (approx., ~90 km S of Dakhla)",
+     "lat": 22.9,
+     "lon": -15.94,
+     "kind": "prospect",
+     "src": "ONHYM summary as reported: ~90 km S of Dakhla; position from distance only, +/- 15 km",
+     "nearest_km": 12.46,
+     "nearest_target": "T3",
+     "best_rank_within": null,
+     "percentile": 79.7,
+     "hit": false
+    }
+   ],
+   "scenes": [
+    {
+     "id": "S2C_28QCL_20260101_0_L2A",
+     "date": "2026-01-01",
+     "cloud": 0.01
+    },
+    {
+     "id": "S2B_28QCL_20251227_0_L2A",
+     "date": "2025-12-27",
+     "cloud": 0.02
+    },
+    {
+     "id": "S2B_28QCL_20251127_0_L2A",
+     "date": "2025-11-27",
+     "cloud": 0.01
+    },
+    {
+     "id": "S2A_28QCL_20251127_1_L2A",
+     "date": "2025-11-27",
+     "cloud": 0.02
+    },
+    {
+     "id": "S2B_28QCL_20251207_0_L2A",
+     "date": "2025-12-07",
+     "cloud": 0.05
+    },
+    {
+     "id": "S2C_28QCL_20251013_0_L2A",
+     "date": "2025-10-13",
+     "cloud": 0.05
+    }
+   ],
+   "images": {
+    "truecolor.jpg": "chenna/truecolor.jpg",
+    "ratios.jpg": "chenna/ratios.jpg",
+    "clay.png": "chenna/clay.png",
+    "iron.png": "chenna/iron.png",
+    "score.png": "chenna/score.png",
+    "ree.png": "chenna/ree.png",
+    "struct.jpg": "chenna/struct.jpg",
+    "emit.png": "chenna/emit.png"
+   },
+   "gis": "chenna/MADAR-chenna-GIS.zip",
+   "prospect": false,
+   "report": "chenna/MADAR-chenna-rapport.pdf",
+   "structure": {
+    "rose": [
+     0.329,
+     0.898,
+     1.0,
+     0.611,
+     0.15,
+     0.044,
+     0.011,
+     0.016,
+     0.007,
+     0.014,
+     0.015,
+     0.004,
+     0.005,
+     0.024,
+     0.027,
+     0.032,
+     0.046,
+     0.096
+    ],
+    "dominant_az": 25.0,
+    "rings": [
+     {
+      "id": "R1",
+      "lat": 22.90788,
+      "lon": -16.07045,
+      "radius_km": 2.4,
+      "closure": 0.67,
+      "tangential": 0.56,
+      "score": 0.72
+     },
+     {
+      "id": "R2",
+      "lat": 22.82933,
+      "lon": -16.10671,
+      "radius_km": 1.2,
+      "closure": 0.62,
+      "tangential": 0.53,
+      "score": 0.61
+     }
+    ],
+    "lineament_km": 502.5,
+    "src": "Copernicus DEM GLO-30, curvature + structure tensor + circular vote"
+   },
+   "emit": {
+    "coverage_pct": 99.8,
+    "families": {
+     "carbonate": 80.5,
+     "muscovite": 5.89,
+     "jarosite": 3.72,
+     "chlorite": 3.25,
+     "kaolinite": 2.41,
+     "montmorillonite": 0.74,
+     "gypsum": 0.09,
+     "copper": 0.06,
+     "serpentine": 0.04
+    },
+    "iron": {
+     "goethite": 62.21,
+     "hematite": 27.22,
+     "iron_oxide": 0.95,
+     "mafic": 0.34
+    },
+    "scenes": [
+     "20230125T150158",
+     "20230125T150210",
+     "20230731T130358",
+     "20230817T154116",
+     "20231201T122115",
+     "20241204T101141",
+     "20250129T115955",
+     "20250129T120007"
+    ],
+    "src": "NASA EMIT L2B Mineral Identification (EMITL2BMIN), LP DAAC"
+   }
+  },
+  {
+   "id": "tichla_nw",
+   "name": "NW Tichla gold cluster",
+   "name_ar": "تجمّع الذهب شمال غرب تيشلا",
+   "country": "Morocco (Awserd)",
+   "metal": "Gold (new prospect: 5 Madar gold targets together)",
+   "metal_ar": "الذهب (منطقة جديدة: 5 أهداف ذهب متجمعة)",
+   "profile": "alteration",
+   "bounds": [
+    [
+     21.79,
+     -15.39
+    ],
+    [
+     22.09,
+     -15.09
+    ]
+   ],
+   "area_km2": 1035,
+   "valid_pct": 100.0,
+   "anomaly_km2": 10.35,
+   "reduction": 100,
+   "targets": [
+    {
+     "lat": 21.87674,
+     "lon": -15.37531,
+     "area_ha": 249.1,
+     "peak": 5.25,
+     "rank": 1,
+     "label": "T1",
+     "rel": 100,
+     "struct_km": 0.0,
+     "ring_km": 19.19,
+     "emit": {
+      "cov": true,
+      "fam": "kaolinite",
+      "pct": 33,
+      "x": 10.6
+     }
+    },
+    {
+     "lat": 21.96452,
+     "lon": -15.19497,
+     "area_ha": 239.2,
+     "peak": 3.74,
+     "rank": 2,
+     "label": "T2",
+     "rel": 82,
+     "struct_km": 0.39,
+     "ring_km": 0.68,
+     "emit": {
+      "cov": true,
+      "fam": "kaolinite",
+      "pct": 96,
+      "x": 31.1
+     }
+    },
+    {
+     "lat": 21.89299,
+     "lon": -15.36169,
+     "area_ha": 150.1,
+     "peak": 4.58,
+     "rank": 3,
+     "label": "T3",
+     "rel": 60,
+     "struct_km": 0.19,
+     "ring_km": 17.03,
+     "emit": {
+      "cov": true,
+      "fam": "kaolinite",
+      "pct": 100,
+      "x": 32.4
+     }
+    },
+    {
+     "lat": 21.87194,
+     "lon": -15.3881,
+     "area_ha": 75.1,
+     "peak": 5.08,
+     "rank": 4,
+     "label": "T4",
+     "rel": 31,
+     "struct_km": 0.09,
+     "ring_km": 20.59,
+     "emit": {
+      "cov": false
+     }
+    },
+    {
+     "lat": 22.0091,
+     "lon": -15.18004,
+     "area_ha": 38.0,
+     "peak": 5.67,
+     "rank": 5,
+     "label": "T5",
+     "rel": 15,
+     "struct_km": 0.26,
+     "ring_km": 0.57,
+     "emit": {
+      "cov": true,
+      "fam": "kaolinite",
+      "pct": 18,
+      "x": 6.0
+     }
+    },
+    {
+     "lat": 21.98172,
+     "lon": -15.19479,
+     "area_ha": 34.9,
+     "peak": 4.22,
+     "rank": 6,
+     "label": "T6",
+     "rel": 14,
+     "struct_km": 0.28,
+     "ring_km": 2.58,
+     "emit": {
+      "cov": true,
+      "fam": "kaolinite",
+      "pct": 73,
+      "x": 23.8
+     }
+    },
+    {
+     "lat": 22.00548,
+     "lon": -15.16228,
+     "area_ha": 29.5,
+     "peak": 4.29,
+     "rank": 7,
+     "label": "T7",
+     "rel": 11,
+     "struct_km": 0.21,
+     "ring_km": 0.47,
+     "emit": {
+      "cov": true,
+      "fam": "kaolinite",
+      "pct": 53,
+      "x": 17.2
+     }
+    },
+    {
+     "lat": 21.90436,
+     "lon": -15.34712,
+     "area_ha": 23.4,
+     "peak": 4.71,
+     "rank": 8,
+     "label": "T8",
+     "rel": 9,
+     "struct_km": 0.38,
+     "ring_km": 15.09,
+     "emit": {
+      "cov": true,
+      "fam": "kaolinite",
+      "pct": 24,
+      "x": 7.9
+     }
+    },
+    {
+     "lat": 21.94607,
+     "lon": -15.21275,
+     "area_ha": 23.9,
+     "peak": 3.77,
+     "rank": 9,
+     "label": "T9",
+     "rel": 8,
+     "struct_km": 0.26,
+     "ring_km": 1.77,
+     "emit": {
+      "cov": true,
+      "fam": "kaolinite",
+      "pct": 98,
+      "x": 31.8
+     }
+    },
+    {
+     "lat": 21.9948,
+     "lon": -15.16871,
+     "area_ha": 12.3,
+     "peak": 4.2,
+     "rank": 10,
+     "label": "T10",
+     "rel": 5,
+     "struct_km": 0.38,
+     "ring_km": 0.62,
+     "emit": {
+      "cov": true,
+      "fam": "kaolinite",
+      "pct": 61,
+      "x": 19.9
+     }
+    }
+   ],
+   "blind_test": [],
+   "scenes": [
+    {
+     "id": "S2A_28QDK_20260920_0_L2A",
+     "date": "2026-09-20",
+     "cloud": 0.0
+    }
+   ],
+   "images": {
+    "truecolor.jpg": "tichla_nw/truecolor.jpg",
+    "ratios.jpg": "tichla_nw/ratios.jpg",
+    "clay.png": "tichla_nw/clay.png",
+    "iron.png": "tichla_nw/iron.png",
+    "score.png": "tichla_nw/score.png",
+    "ree.png": "tichla_nw/ree.png",
+    "struct.jpg": "tichla_nw/struct.jpg",
+    "emit.png": "tichla_nw/emit.png"
+   },
+   "gis": "tichla_nw/MADAR-tichla_nw-GIS.zip",
+   "prospect": true,
+   "report": "tichla_nw/MADAR-tichla_nw-rapport.pdf",
+   "structure": {
+    "rose": [
+     0.541,
+     0.577,
+     0.65,
+     1.0,
+     0.882,
+     0.714,
+     0.79,
+     0.977,
+     0.966,
+     0.403,
+     0.197,
+     0.226,
+     0.136,
+     0.165,
+     0.226,
+     0.284,
+     0.2,
+     0.389
+    ],
+    "dominant_az": 35.0,
+    "rings": [
+     {
+      "id": "R1",
+      "lat": 21.98805,
+      "lon": -15.1936,
+      "radius_km": 3.3,
+      "closure": 0.75,
+      "tangential": 0.56,
+      "score": 0.83
+     }
+    ],
+    "lineament_km": 346.6,
+    "src": "Copernicus DEM GLO-30, curvature + structure tensor + circular vote"
+   },
+   "emit": {
+    "coverage_pct": 99.6,
+    "families": {
+     "carbonate": 70.09,
+     "muscovite": 22.71,
+     "chlorite": 3.92,
+     "kaolinite": 3.08,
+     "serpentine": 0.14,
+     "montmorillonite": 0.05,
+     "clay": 0.0
+    },
+    "iron": {
+     "hematite": 76.56,
+     "goethite": 23.41,
+     "iron_oxide": 0.03,
+     "mafic": 0.0
+    },
+    "scenes": [
+     "20230328T142400",
+     "20230328T142412",
+     "20230401T124852",
+     "20230401T124903",
+     "20230405T111424",
+     "20230528T141527",
+     "20230528T141539",
+     "20230923T153210"
     ],
     "src": "NASA EMIT L2B Mineral Identification (EMITL2BMIN), LP DAAC"
    }
