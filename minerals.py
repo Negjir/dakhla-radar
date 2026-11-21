@@ -100,6 +100,35 @@ SITES = [
         "known": [],
         "prospect": True,
     },
+    # --- Gold areas reported near Dakhla (positions approximate, from distances only) ---
+    {
+        "id": "tigba", "name": "Tigba (SE Dakhla)", "name_ar": "تكبة (جنوب شرق الداخلة)", "country": "Morocco (Oued Ed-Dahab)",
+        "metal": "Gold (surface gold reported), iron", "metal_ar": "الذهب (ذهب سطحي مذكور) والحديد",
+        "box": [22.67, 22.97, -15.21, -14.91],
+        "profile": "alteration",
+        "known": [
+            {"name": "Tigba artisanal gold area (approx., ~135 km SE of Dakhla)", "lat": 22.84, "lon": -15.00,
+             "kind": "prospect", "src": "reported ~135 km SE of Dakhla (2024); position from distance only, +/- 10 km"},
+        ],
+    },
+    {
+        "id": "chenna", "name": "Chenna (S Dakhla)", "name_ar": "شنّة (جنوب الداخلة)", "country": "Morocco (Oued Ed-Dahab)",
+        "metal": "Gold, copper (quartz veins, Adrar Souttouf)", "metal_ar": "الذهب والنحاس (عروق كوارتز، أدرار سوتوف)",
+        "box": [22.77, 23.07, -16.22, -15.92],
+        "profile": "alteration",
+        "known": [
+            {"name": "Chenna Au-Cu showings (approx., ~90 km S of Dakhla)", "lat": 22.90, "lon": -15.94,
+             "kind": "prospect", "src": "ONHYM summary as reported: ~90 km S of Dakhla; position from distance only, +/- 15 km"},
+        ],
+    },
+    {
+        "id": "tichla_nw", "name": "NW Tichla gold cluster", "name_ar": "تجمّع الذهب شمال غرب تيشلا", "country": "Morocco (Awserd)",
+        "metal": "Gold (new prospect: 5 Madar gold targets together)", "metal_ar": "الذهب (منطقة جديدة: 5 أهداف ذهب متجمعة)",
+        "box": [21.79, 22.09, -15.39, -15.09],
+        "profile": "alteration",
+        "known": [],
+        "prospect": True,
+    },
 ]
 
 PROFILES = {
