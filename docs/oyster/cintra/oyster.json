@@ -1,6 +1,6 @@
 {
- "day": "2026-11-22",
- "made": "2026-11-22 07:55 UTC",
+ "day": "2026-11-23",
+ "made": "2026-11-23 08:15 UTC",
  "demo": false,
  "box": [
   22.78,
@@ -51,7 +51,6 @@
   }
  ],
  "sst_days": [
-  "2026-10-22",
   "2026-10-23",
   "2026-10-24",
   "2026-10-25",
@@ -80,7 +79,8 @@
   "2026-11-17",
   "2026-11-18",
   "2026-11-19",
-  "2026-11-20"
+  "2026-11-20",
+  "2026-11-21"
  ],
  "chl_days": [
   "2026-11-13",
@@ -90,133 +90,28 @@
   "2026-11-17",
   "2026-11-18",
   "2026-11-19",
-  "2026-11-20"
+  "2026-11-20",
+  "2026-11-21"
  ],
- "sst_day": "2026-11-20",
- "chl_day": "2026-11-20",
+ "sst_day": "2026-11-21",
+ "chl_day": "2026-11-21",
  "s2": {
-  "day": "2026-11-20",
-  "age": 2,
+  "day": "2026-11-22",
+  "age": 1,
   "ids": [
-   "S2C_28QCL_20261120_0_L2A"
+   "S2B_28QCL_20261122_0_L2A"
   ],
   "size": [
    1400,
    1114
   ]
  },
- "wind": {
-  "t0": "2026-11-22T07:00",
-  "speed": [
-   7,
-   8,
-   7,
-   7,
-   7,
-   8,
-   9,
-   11,
-   13,
-   13,
-   12,
-   11,
-   11,
-   10,
-   12,
-   12,
-   11,
-   10,
-   9,
-   8,
-   8,
-   7,
-   7,
-   7,
-   7,
-   6,
-   6,
-   6,
-   6,
-   6,
-   7,
-   10,
-   13,
-   13,
-   12,
-   10,
-   11,
-   12,
-   12,
-   11,
-   10,
-   9,
-   9,
-   8,
-   7,
-   7,
-   8,
-   7
-  ],
-  "dir": [
-   37,
-   43,
-   50,
-   48,
-   34,
-   18,
-   4,
-   355,
-   352,
-   354,
-   1,
-   1,
-   2,
-   10,
-   24,
-   32,
-   41,
-   43,
-   49,
-   47,
-   54,
-   50,
-   47,
-   40,
-   50,
-   54,
-   53,
-   27,
-   21,
-   16,
-   4,
-   348,
-   343,
-   348,
-   354,
-   3,
-   14,
-   22,
-   31,
-   37,
-   37,
-   37,
-   38,
-   41,
-   45,
-   48,
-   39,
-   50
-  ],
-  "now_kn": 7,
-  "max_kn": 13,
-  "dir_now": 37
- },
+ "wind": null,
  "sources": {
   "s2": "Sentinel-2 L2A (ESA Copernicus, Earth Search)",
   "sst": "NASA MUR 1 km",
   "chl": "Copernicus Marine ocean colour (L4, 1 km)",
-  "clim": "cmems_obs-oc_atl_bgc-plankton_my_l4-gapfree-multi-1km_P1D (5 ans / سنوات)",
-  "wind": "Open-Meteo"
+  "clim": "cmems_obs-oc_atl_bgc-plankton_my_l4-gapfree-multi-1km_P1D (5 ans / سنوات)"
  },
  "zones": [
   {
@@ -226,27 +121,26 @@
    "lat": 23.04,
    "lon": -16.225,
    "approx": true,
-   "level": 2,
+   "level": 1,
    "reasons": [
     {
-     "level": 2,
-     "key": "bloom",
-     "ar": "الكلوروفيل ×4.6 عن المعتاد في هذا الموسم (14.6 mg/m³): ازدهار طحالب قوي محتمل. زيدوا أخذ العينات وتابعوا نشرات INRH",
-     "fr": "Chlorophylle ×4.6 par rapport à la normale de saison (14.6 mg/m³) : forte efflorescence possible. Renforcer les prélèvements, suivre les bulletins INRH"
+     "level": 1,
+     "key": "rise",
+     "ar": "الكلوروفيل أعلى ×1.8 عن المعتاد في هذا الموسم (5.5 mg/m³)",
+     "fr": "Chlorophylle ×1.8 par rapport à la normale de saison (5.5 mg/m³)"
     }
    ],
-   "sst": 20.46,
-   "chl": 14.61,
-   "chl_normal": 3.16,
-   "chl_ratio": 4.62,
+   "sst": 20.54,
+   "chl": 5.47,
+   "chl_normal": 3.06,
+   "chl_ratio": 1.79,
    "s2": {
-    "ndci": -0.051,
-    "ndci_p90": -0.003,
-    "turb": 9.1,
-    "px": 43269
+    "ndci": -0.109,
+    "ndci_p90": -0.079,
+    "turb": 5.9,
+    "px": 43288
    },
    "sst_series": [
-    19.82,
     19.85,
     20.89,
     21.23,
@@ -273,9 +167,10 @@
     21.46,
     20.76,
     20.28,
-    20.27,
-    20.6,
-    20.46
+    20.28,
+    20.34,
+    20.46,
+    20.54
    ],
    "chl_series": [
     4.28,
@@ -285,7 +180,8 @@
     4.1,
     9.12,
     16.28,
-    14.61
+    14.61,
+    5.47
    ]
   },
   {
@@ -300,22 +196,21 @@
     {
      "level": 2,
      "key": "bloom",
-     "ar": "الكلوروفيل ×6.8 عن المعتاد في هذا الموسم (24.1 mg/m³): ازدهار طحالب قوي محتمل. زيدوا أخذ العينات وتابعوا نشرات INRH",
-     "fr": "Chlorophylle ×6.8 par rapport à la normale de saison (24.1 mg/m³) : forte efflorescence possible. Renforcer les prélèvements, suivre les bulletins INRH"
+     "ar": "الكلوروفيل ×6.1 عن المعتاد في هذا الموسم (21.7 mg/m³): ازدهار طحالب قوي محتمل. زيدوا أخذ العينات وتابعوا نشرات INRH",
+     "fr": "Chlorophylle ×6.1 par rapport à la normale de saison (21.7 mg/m³) : forte efflorescence possible. Renforcer les prélèvements, suivre les bulletins INRH"
     }
    ],
-   "sst": 20.31,
-   "chl": 24.05,
+   "sst": 20.39,
+   "chl": 21.73,
    "chl_normal": 3.54,
-   "chl_ratio": 6.79,
+   "chl_ratio": 6.14,
    "s2": {
-    "ndci": -0.009,
-    "ndci_p90": 0.022,
-    "turb": 7.4,
+    "ndci": -0.054,
+    "ndci_p90": -0.014,
+    "turb": 5.0,
     "px": 43272
    },
    "sst_series": [
-    19.78,
     20.07,
     20.87,
     21.25,
@@ -342,9 +237,10 @@
     21.42,
     21.13,
     20.52,
-    20.47,
-    20.54,
-    20.31
+    20.5,
+    20.41,
+    20.32,
+    20.39
    ],
    "chl_series": [
     5.13,
@@ -354,7 +250,8 @@
     11.18,
     8.56,
     13.89,
-    24.05
+    24.05,
+    21.73
    ]
   },
   {
@@ -369,22 +266,27 @@
     {
      "level": 2,
      "key": "bloom",
-     "ar": "الكلوروفيل ×10.8 عن المعتاد في هذا الموسم (36.6 mg/m³): ازدهار طحالب قوي محتمل. زيدوا أخذ العينات وتابعوا نشرات INRH",
-     "fr": "Chlorophylle ×10.8 par rapport à la normale de saison (36.6 mg/m³) : forte efflorescence possible. Renforcer les prélèvements, suivre les bulletins INRH"
+     "ar": "الكلوروفيل ×11.2 عن المعتاد في هذا الموسم (37.8 mg/m³): ازدهار طحالب قوي محتمل. زيدوا أخذ العينات وتابعوا نشرات INRH",
+     "fr": "Chlorophylle ×11.2 par rapport à la normale de saison (37.8 mg/m³) : forte efflorescence possible. Renforcer les prélèvements, suivre les bulletins INRH"
+    },
+    {
+     "level": 1,
+     "key": "s2green",
+     "ar": "صورة Sentinel-2 تُظهر ماء أخضر أكثر من العادة",
+     "fr": "L'image Sentinel-2 montre une eau plus verte que d'habitude"
     }
    ],
-   "sst": 20.4,
-   "chl": 36.59,
-   "chl_normal": 3.4,
-   "chl_ratio": 10.76,
+   "sst": 20.43,
+   "chl": 37.84,
+   "chl_normal": 3.39,
+   "chl_ratio": 11.16,
    "s2": {
-    "ndci": 0.005,
-    "ndci_p90": 0.062,
-    "turb": 7.8,
-    "px": 41995
+    "ndci": -0.048,
+    "ndci_p90": 0.15,
+    "turb": 4.9,
+    "px": 42097
    },
    "sst_series": [
-    19.79,
     20.11,
     20.86,
     21.11,
@@ -411,9 +313,10 @@
     21.49,
     21.34,
     20.82,
-    20.59,
-    20.56,
-    20.4
+    20.6,
+    20.42,
+    20.4,
+    20.43
    ],
    "chl_series": [
     5.89,
@@ -423,11 +326,12 @@
     17.63,
     9.9,
     16.14,
-    36.59
+    36.59,
+    37.84
    ]
   }
  ],
  "level": 2,
- "msg_ar": "🦪 مدار المحار · خليج سينترا · 2026-11-22\n\n🔴 شمال خليج سينترا: 20.5° · كلوروفيل 14.6 — الكلوروفيل ×4.6 عن المعتاد في هذا الموسم (14.6 mg/m³): ازدهار طحالب قوي محتمل. زيدوا أخذ العينات وتابعوا نشرات INRH\n🔴 وسط خليج سينترا: 20.3° · كلوروفيل 24.1 — الكلوروفيل ×6.8 عن المعتاد في هذا الموسم (24.1 mg/m³): ازدهار طحالب قوي محتمل. زيدوا أخذ العينات وتابعوا نشرات INRH\n🔴 جنوب خليج سينترا: 20.4° · كلوروفيل 36.6 — الكلوروفيل ×10.8 عن المعتاد في هذا الموسم (36.6 mg/m³): ازدهار طحالب قوي محتمل. زيدوا أخذ العينات وتابعوا نشرات INRH\n\n💨 الرياح 48 ساعة: حتى 13 عقدة\n\n⚠️ الأقمار لا تقيس السموم. القرار الرسمي للجني والبيع: نشرات INRH وكتابة الدولة المكلفة بالصيد البحري.",
- "msg_fr": "🦪 Madar Huîtres · Baie de Cintra · 2026-11-22\n\n🔴 Cintra nord : 20.5° · chl 14.6 — Chlorophylle ×4.6 par rapport à la normale de saison (14.6 mg/m³) : forte efflorescence possible. Renforcer les prélèvements, suivre les bulletins INRH\n🔴 Cintra centre : 20.3° · chl 24.1 — Chlorophylle ×6.8 par rapport à la normale de saison (24.1 mg/m³) : forte efflorescence possible. Renforcer les prélèvements, suivre les bulletins INRH\n🔴 Cintra sud : 20.4° · chl 36.6 — Chlorophylle ×10.8 par rapport à la normale de saison (36.6 mg/m³) : forte efflorescence possible. Renforcer les prélèvements, suivre les bulletins INRH\n\n💨 Vent 48 h : jusqu'à 13 nœuds\n\n⚠️ Les satellites ne mesurent pas les toxines. Décision officielle de récolte et de vente : bulletins INRH / Pêche maritime."
+ "msg_ar": "🦪 مدار المحار · خليج سينترا · 2026-11-23\n\n🟡 شمال خليج سينترا: 20.5° · كلوروفيل 5.5 — الكلوروفيل أعلى ×1.8 عن المعتاد في هذا الموسم (5.5 mg/m³)\n🔴 وسط خليج سينترا: 20.4° · كلوروفيل 21.7 — الكلوروفيل ×6.1 عن المعتاد في هذا الموسم (21.7 mg/m³): ازدهار طحالب قوي محتمل. زيدوا أخذ العينات وتابعوا نشرات INRH\n🔴 جنوب خليج سينترا: 20.4° · كلوروفيل 37.8 — الكلوروفيل ×11.2 عن المعتاد في هذا الموسم (37.8 mg/m³): ازدهار طحالب قوي محتمل. زيدوا أخذ العينات وتابعوا نشرات INRH\n\n⚠️ الأقمار لا تقيس السموم. القرار الرسمي للجني والبيع: نشرات INRH وكتابة الدولة المكلفة بالصيد البحري.",
+ "msg_fr": "🦪 Madar Huîtres · Baie de Cintra · 2026-11-23\n\n🟡 Cintra nord : 20.5° · chl 5.5 — Chlorophylle ×1.8 par rapport à la normale de saison (5.5 mg/m³)\n🔴 Cintra centre : 20.4° · chl 21.7 — Chlorophylle ×6.1 par rapport à la normale de saison (21.7 mg/m³) : forte efflorescence possible. Renforcer les prélèvements, suivre les bulletins INRH\n🔴 Cintra sud : 20.4° · chl 37.8 — Chlorophylle ×11.2 par rapport à la normale de saison (37.8 mg/m³) : forte efflorescence possible. Renforcer les prélèvements, suivre les bulletins INRH\n\n⚠️ Les satellites ne mesurent pas les toxines. Décision officielle de récolte et de vente : bulletins INRH / Pêche maritime."
 }
