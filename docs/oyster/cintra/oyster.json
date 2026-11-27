@@ -1,6 +1,6 @@
 {
- "day": "2026-11-26",
- "made": "2026-11-26 08:11 UTC",
+ "day": "2026-11-27",
+ "made": "2026-11-27 08:10 UTC",
  "demo": false,
  "box": [
   22.78,
@@ -51,7 +51,6 @@
   }
  ],
  "sst_days": [
-  "2026-10-27",
   "2026-10-28",
   "2026-10-29",
   "2026-10-30",
@@ -80,7 +79,8 @@
   "2026-11-22",
   "2026-11-23",
   "2026-11-24",
-  "2026-11-25"
+  "2026-11-25",
+  "2026-11-26"
  ],
  "chl_days": [
   "2026-11-13",
@@ -94,13 +94,14 @@
   "2026-11-21",
   "2026-11-22",
   "2026-11-23",
-  "2026-11-24"
+  "2026-11-24",
+  "2026-11-25"
  ],
- "sst_day": "2026-11-25",
- "chl_day": "2026-11-24",
+ "sst_day": "2026-11-26",
+ "chl_day": "2026-11-25",
  "s2": {
   "day": "2026-11-25",
-  "age": 1,
+  "age": 2,
   "ids": [
    "S2B_28QCL_20261125_0_L2A"
   ],
@@ -109,12 +110,118 @@
    1114
   ]
  },
- "wind": null,
+ "wind": {
+  "t0": "2026-11-27T08:00",
+  "speed": [
+   10,
+   10,
+   11,
+   11,
+   10,
+   10,
+   10,
+   9,
+   10,
+   12,
+   12,
+   12,
+   12,
+   12,
+   13,
+   13,
+   12,
+   11,
+   10,
+   9,
+   8,
+   9,
+   9,
+   10,
+   8,
+   6,
+   7,
+   7,
+   5,
+   2,
+   5,
+   8,
+   11,
+   10,
+   5,
+   5,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   5,
+   5,
+   5,
+   5,
+   5,
+   4
+  ],
+  "dir": [
+   66,
+   68,
+   65,
+   56,
+   50,
+   47,
+   31,
+   23,
+   12,
+   5,
+   3,
+   10,
+   20,
+   26,
+   32,
+   37,
+   40,
+   51,
+   57,
+   55,
+   54,
+   55,
+   70,
+   78,
+   72,
+   54,
+   39,
+   56,
+   65,
+   16,
+   337,
+   326,
+   332,
+   338,
+   344,
+   349,
+   11,
+   14,
+   34,
+   50,
+   54,
+   74,
+   71,
+   77,
+   76,
+   86,
+   90,
+   92
+  ],
+  "now_kn": 10,
+  "max_kn": 13,
+  "dir_now": 66
+ },
  "sources": {
   "s2": "Sentinel-2 L2A (ESA Copernicus, Earth Search)",
   "sst": "Copernicus OSTIA",
   "chl": "Copernicus Marine ocean colour (L4, 1 km)",
-  "clim": "cmems_obs-oc_atl_bgc-plankton_my_l4-gapfree-multi-1km_P1D (5 ans / سنوات)"
+  "clim": "cmems_obs-oc_atl_bgc-plankton_my_l4-gapfree-multi-1km_P1D (5 ans / سنوات)",
+  "wind": "Open-Meteo"
  },
  "zones": [
   {
@@ -133,10 +240,10 @@
      "fr": "Bonnes conditions de croissance : nourriture suffisante, température adaptée"
     }
    ],
-   "sst": 20.35,
-   "chl": 3.67,
-   "chl_normal": 2.96,
-   "chl_ratio": 1.24,
+   "sst": 20.07,
+   "chl": 4.24,
+   "chl_normal": 2.93,
+   "chl_ratio": 1.45,
    "s2": {
     "ndci": -0.115,
     "ndci_p90": -0.082,
@@ -144,7 +251,6 @@
     "px": 43288
    },
    "sst_series": [
-    20.42,
     20.31,
     20.68,
     20.22,
@@ -173,7 +279,8 @@
     20.52,
     20.36,
     20.48,
-    20.35
+    20.35,
+    20.07
    ],
    "chl_series": [
     4.28,
@@ -187,7 +294,8 @@
     5.47,
     3.64,
     4.73,
-    3.67
+    3.67,
+    4.24
    ]
   },
   {
@@ -206,10 +314,10 @@
      "fr": "Bonnes conditions de croissance : nourriture suffisante, température adaptée"
     }
    ],
-   "sst": 20.5,
-   "chl": 4.65,
-   "chl_normal": 3.32,
-   "chl_ratio": 1.4,
+   "sst": 20.29,
+   "chl": 4.91,
+   "chl_normal": 3.31,
+   "chl_ratio": 1.48,
    "s2": {
     "ndci": -0.123,
     "ndci_p90": -0.084,
@@ -217,7 +325,6 @@
     "px": 43272
    },
    "sst_series": [
-    20.48,
     20.34,
     20.76,
     20.37,
@@ -246,7 +353,8 @@
     20.73,
     20.61,
     20.72,
-    20.5
+    20.5,
+    20.29
    ],
    "chl_series": [
     5.13,
@@ -260,7 +368,8 @@
     21.73,
     12.59,
     10.78,
-    4.65
+    4.65,
+    4.91
    ]
   },
   {
@@ -275,14 +384,14 @@
     {
      "level": 1,
      "key": "rise",
-     "ar": "الكلوروفيل أعلى ×2.3 عن المعتاد في هذا الموسم (7.4 mg/m³)",
-     "fr": "Chlorophylle ×2.3 par rapport à la normale de saison (7.4 mg/m³)"
+     "ar": "الكلوروفيل أعلى ×2.3 عن المعتاد في هذا الموسم (7.5 mg/m³)",
+     "fr": "Chlorophylle ×2.3 par rapport à la normale de saison (7.5 mg/m³)"
     }
    ],
-   "sst": 20.46,
-   "chl": 7.36,
-   "chl_normal": 3.26,
-   "chl_ratio": 2.26,
+   "sst": 20.44,
+   "chl": 7.53,
+   "chl_normal": 3.22,
+   "chl_ratio": 2.34,
    "s2": {
     "ndci": -0.101,
     "ndci_p90": -0.068,
@@ -290,7 +399,6 @@
     "px": 42050
    },
    "sst_series": [
-    20.34,
     20.22,
     20.67,
     20.36,
@@ -319,7 +427,8 @@
     20.81,
     20.61,
     20.68,
-    20.46
+    20.46,
+    20.44
    ],
    "chl_series": [
     5.89,
@@ -333,11 +442,12 @@
     37.84,
     14.74,
     12.22,
-    7.36
+    7.36,
+    7.53
    ]
   }
  ],
  "level": 1,
- "msg_ar": "🦪 مدار المحار · خليج سينترا · 2026-11-26\n\n🟢 شمال خليج سينترا: 20.4° · كلوروفيل 3.7 — ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة\n🟢 وسط خليج سينترا: 20.5° · كلوروفيل 4.7 — ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة\n🟡 جنوب خليج سينترا: 20.5° · كلوروفيل 7.4 — الكلوروفيل أعلى ×2.3 عن المعتاد في هذا الموسم (7.4 mg/m³)\n\n⚠️ الأقمار لا تقيس السموم. القرار الرسمي للجني والبيع: نشرات INRH وكتابة الدولة المكلفة بالصيد البحري.",
- "msg_fr": "🦪 Madar Huîtres · Baie de Cintra · 2026-11-26\n\n🟢 Cintra nord : 20.4° · chl 3.7 — Bonnes conditions de croissance : nourriture suffisante, température adaptée\n🟢 Cintra centre : 20.5° · chl 4.7 — Bonnes conditions de croissance : nourriture suffisante, température adaptée\n🟡 Cintra sud : 20.5° · chl 7.4 — Chlorophylle ×2.3 par rapport à la normale de saison (7.4 mg/m³)\n\n⚠️ Les satellites ne mesurent pas les toxines. Décision officielle de récolte et de vente : bulletins INRH / Pêche maritime."
+ "msg_ar": "🦪 مدار المحار · خليج سينترا · 2026-11-27\n\n🟢 شمال خليج سينترا: 20.1° · كلوروفيل 4.2 — ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة\n🟢 وسط خليج سينترا: 20.3° · كلوروفيل 4.9 — ظروف نمو جيدة: غذاء كافٍ وحرارة مناسبة\n🟡 جنوب خليج سينترا: 20.4° · كلوروفيل 7.5 — الكلوروفيل أعلى ×2.3 عن المعتاد في هذا الموسم (7.5 mg/m³)\n\n💨 الرياح 48 ساعة: حتى 13 عقدة\n\n⚠️ الأقمار لا تقيس السموم. القرار الرسمي للجني والبيع: نشرات INRH وكتابة الدولة المكلفة بالصيد البحري.",
+ "msg_fr": "🦪 Madar Huîtres · Baie de Cintra · 2026-11-27\n\n🟢 Cintra nord : 20.1° · chl 4.2 — Bonnes conditions de croissance : nourriture suffisante, température adaptée\n🟢 Cintra centre : 20.3° · chl 4.9 — Bonnes conditions de croissance : nourriture suffisante, température adaptée\n🟡 Cintra sud : 20.4° · chl 7.5 — Chlorophylle ×2.3 par rapport à la normale de saison (7.5 mg/m³)\n\n💨 Vent 48 h : jusqu'à 13 nœuds\n\n⚠️ Les satellites ne mesurent pas les toxines. Décision officielle de récolte et de vente : bulletins INRH / Pêche maritime."
 }
