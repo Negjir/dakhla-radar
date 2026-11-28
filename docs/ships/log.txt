@@ -1,4 +1,4 @@
-[stac] 8 Sentinel-1 IW scenes 2026-11-23 → 2026-11-27
+[stac] 9 Sentinel-1 IW scenes 2026-11-24 → 2026-11-28
 [land] Copernicus_DSM_COG_10_N20_00_W018_00_DEM
 [land] Copernicus_DSM_COG_10_N20_00_W017_00_DEM
 [land] Copernicus_DSM_COG_10_N20_00_W016_00_DEM
@@ -17,6 +17,5 @@
 [land] Copernicus_DSM_COG_10_N24_00_W015_00_DEM
 [land] Copernicus_DSM_COG_10_N25_00_W015_00_DEM
 [land] Copernicus_DSM_COG_10_N26_00_W015_00_DEM
-[scene] S1D_IW_GRDH_1SDV_20261126T071027_20261126T071050_005635_00ACF5 2026-11-26T07:10: 0 bright objects on the sea · 4 s
-[scene] S1C_IW_GRDH_1SDV_20261126T185608_20261126T185637_010512_015031 2026-11-26T18:56: 0 bright objects on the sea · 3 s
-[done] 82 passes · 622 objects · 598 moving (vessels) · 24 fixed
+[scene] S1C_IW_GRDH_1SDV_20261127T070202_20261127T070233_010519_015072 2026-11-27T07:02: 7 bright objects on the sea · 34 s
+[done] 83 passes · 629 objects · 605 moving (vessels) · 24 fixed
